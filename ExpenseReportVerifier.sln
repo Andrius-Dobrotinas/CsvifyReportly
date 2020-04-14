@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReportVerifier", "ExpenseReportVerifier\ExpenseReportVerifier.csproj", "{73506D46-7642-417E-A1C3-E270782A64F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReportVerifier.Tests", "ExpenseReportVerifier.Tests\ExpenseReportVerifier.Tests.csproj", "{00985E11-F953-4B81-8B68-6A1DA6917B65}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{73506D46-7642-417E-A1C3-E270782A64F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73506D46-7642-417E-A1C3-E270782A64F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73506D46-7642-417E-A1C3-E270782A64F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00985E11-F953-4B81-8B68-6A1DA6917B65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00985E11-F953-4B81-8B68-6A1DA6917B65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00985E11-F953-4B81-8B68-6A1DA6917B65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00985E11-F953-4B81-8B68-6A1DA6917B65}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
