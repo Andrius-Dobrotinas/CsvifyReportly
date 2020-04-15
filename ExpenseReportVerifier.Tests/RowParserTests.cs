@@ -11,7 +11,7 @@ namespace Andy.ExpenseReport.Csv
         [TestCaseSource(nameof(GetTestCases1))]
         public void Should_SplitTheStringUsingTheSpecifiedDelimiter(string input, char delimiter, IList<string> expectedResult)
         {
-            var result = target.Split(input, delimiter);
+            var result = target.Parse(input, delimiter);
 
             Assert.IsTrue(expectedResult.SequenceEqual(result));
         }
@@ -22,7 +22,7 @@ namespace Andy.ExpenseReport.Csv
             char delimiter,
             IList<string> expectedResult)
         {
-            var result = target.Split(input, delimiter);
+            var result = target.Parse(input, delimiter);
 
             Assert.IsTrue(expectedResult.SequenceEqual(result));
         }
@@ -33,7 +33,7 @@ namespace Andy.ExpenseReport.Csv
             char delimiter)
         {
             Assert.Throws<UnexpectedTokenException>(
-                () => target.Split(input, delimiter));
+                () => target.Parse(input, delimiter));
         }
 
         private static IEnumerable<TestCaseData> GetTestCases1()

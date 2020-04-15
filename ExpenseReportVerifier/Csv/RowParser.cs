@@ -8,7 +8,7 @@ namespace Andy.ExpenseReport.Csv
     {
         private const string quotationMark = "\"";
 
-        public string[] Split(string row, char delimiter)
+        public string[] Parse(string row, char delimiter)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
 
