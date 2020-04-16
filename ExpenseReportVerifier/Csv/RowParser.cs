@@ -4,7 +4,13 @@ using System.Linq;
 
 namespace Andy.ExpenseReport.Csv
 {
-    public class RowParser
+    public interface IRowParser
+    {
+        string[] Parse(string row, char delimiter);
+    }
+
+
+    public class RowParser : IRowParser
     {
         private const string quotationMark = "\"";
 
