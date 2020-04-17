@@ -6,300 +6,520 @@ using System.Linq;
 
 namespace Andy.ExpenseReport
 {
+    /* The are non-unit tests. Test cases here define different sets of input with their complete expected sets of output.
+     * Separate test methods test separate scenarios and separate aspects of the results
+     * (ie match, non-matched transcations and non-matched statement entries are all tested by separate methods)
+     * This is so that test results are easier to follow and for the easy/er identification of failures.
+     * 
+     * Test methods have long signatures with unused parameters specifically so that all of them can work on the same test case data.
+     */
+
     public class TransactionAndStatementEntryMatcherTests
     {
-        private TransactionAndStatementEntryMatcher target;
-        private Mock<IMatchingTransactionFinder> matchingTransactionFinder;
+        TransactionAndStatementEntryMatcher target;
+        Mock<ITransactionAndStatementEntryComparer> comparer;
 
         [SetUp]
         public void Setup()
         {
-            matchingTransactionFinder = new Mock<IMatchingTransactionFinder>();
-            target = new TransactionAndStatementEntryMatcher(matchingTransactionFinder.Object);
+            comparer = new Mock<ITransactionAndStatementEntryComparer>();
+            target = new TransactionAndStatementEntryMatcher(comparer.Object);
+
+            // make the comparinator only compare the amounts
+            comparer.Setup(
+                x => x.AreEqual(
+                    It.IsAny<TransactionDetails>(),
+                    It.IsAny<StatementEntry>()))
+                .Returns<TransactionDetails, StatementEntry>(
+                    (trans, stmnt) => trans.Amount == stmnt.Amount);
         }
 
         [TestCaseSource(nameof(GetStatementAndTransactions))]
-        public void Must_LookForAMatchingTransaction_ForEachStatementEntry(
+        public void Should_FindMatchingItems(
             IList<StatementEntry> statementEntries,
-            IList<TransactionDetails> transactions)
-        {
-            Setup_MatchingTransactionFinder_ToReturnFirstItem_EachTime();
-
-            target.CheckForMatches(statementEntries, transactions);
-
-            matchingTransactionFinder.Verify(
-                x => x.GetFirstMatchingTransaction(
-                    It.IsAny<StatementEntry>(),
-                    It.IsAny<IList<TransactionDetails>>()),
-                Times.Exactly(statementEntries.Count),
-                "Must invoke the function the number of times there are statement entries");
-
-            for(int i = 0; i < statementEntries.Count; i++)
-            {
-                var targetEntry = statementEntries[i];
-
-                matchingTransactionFinder.Verify(
-                    x => x.GetFirstMatchingTransaction(
-                        It.Is<StatementEntry>(
-                            arg => arg == targetEntry),
-                        It.IsAny<IList<TransactionDetails>>()),
-                    Times.Once,
-                    $"Must invoke the function for each entry... that means for index {i} too!");
-
-                matchingTransactionFinder.Verify(
-                    x => x.GetFirstMatchingTransaction(
-                        It.Is<StatementEntry>(
-                            arg => arg == targetEntry),
-                        It.Is<IList<TransactionDetails>>(
-                            arg => transactions.SequenceEqual(arg))),
-                    Times.Once,
-                    $"Must pass on the transactions to the function. Doesn't have to be the same instance of collection, though");
-            }
-        }
-
-        [TestCaseSource(nameof(GetTestCases))]
-        public void Must_PickFirstMatchingTransaction_ForEachStatementEntry(
             IList<TransactionDetails> transactions,
-            IList<StatementEntry> statementEntries,
-            IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches)
-        {
-            foreach(var expected in expectedMatches)
-                Setup_MatchingTransactionFinder(expected.Item1, expected.Item2);
-
-            var matches = target.CheckForMatches(statementEntries, transactions)
-                .Matches;
-
-            for (int i = 0; i < expectedMatches.Count; i++)
-            {
-                var expected = expectedMatches[i];
-                var actual = matches.FirstOrDefault(x => x.Item1 == expected.Item1);
-
-                Assert.NotNull(actual, $"Must find a match for statement entry index {i}");
-
-                Assert.NotNull(actual.Item2, $"Must include a match for statement entry index {i}");
-            }
-
-            Assert.AreEqual(expectedMatches.Count, matches.Count);
-        }
-
-        [TestCaseSource(nameof(GetTestCases_ForUnmatchedStatementEntries))]
-        public void When_NoMatchingTransactionIsPresentForAStatementEntry_Must_AddTheStatementEntryToThe_CollectionOfUnmatchedStatements(
-            IList<TransactionDetails> transactions,
-            IList<StatementEntry> statementEntries,
-            IList<StatementEntry> unmatchedStatementEntries)
-        {
-            // make it return something each time except for items i want to have no matches
-            Setup_MatchingTransactionFinder_ToReturnFirstItem_EachTime();
-
-            foreach (var entry in unmatchedStatementEntries)
-                Setup_MatchingTransactionFinder(entry, null);
-
-            var results = target.CheckForMatches(statementEntries, transactions);
-
-            var actualItems = results.UnmatchedStatementEntries;
-
-            for (int i = 0; i < unmatchedStatementEntries.Count; i++)
-            {
-                var expected = unmatchedStatementEntries[i];
-
-                var presentInTheMatchesCollection = results.Matches.Any(x => x.Item1 == expected);
-                Assert.IsFalse(presentInTheMatchesCollection,
-                    $"The item index {i} must not be added to the Matches collection");
-
-                Assert.IsTrue(actualItems.Contains(expected),
-                    $"Must add statement index {i} to the collection of unmatched entries");
-            }
-
-            Assert.AreEqual(unmatchedStatementEntries.Count, actualItems.Count, "The number of unmatched items");
-        }
-
-        [TestCaseSource(nameof(GetTestCases_ForUnmatchedTransactions))]
-        public void WhenATransactionHasNoMatchingStatementEntry_Must_AddTheTransactionToThe_CollectionOfUnmatchedTransactions(
-            IList<TransactionDetails> transactions,
-            IList<StatementEntry> statementEntries,
+            IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches,
+            IList<StatementEntry> unmatchedStatementEntries,
             IList<TransactionDetails> unmatchedTransactions)
         {
-            // make it return something each time except for items i want to have no matches
-            Setup_MatchingTransactionFinder_ToReturnFirstItem_EachTime(unmatchedTransactions);
+            var result = target.CheckForMatches(statementEntries, transactions);
 
-            var results = target.CheckForMatches(statementEntries, transactions);
+            VerifyMatches(expectedMatches, result.Matches);
+        }
 
-            var actualItems = results.UnmatchedTransactions;
+        [TestCaseSource(nameof(GetStatementAndTransactions))]
+        public void Should_FindNonMatching_StatementEntries(
+            IList<StatementEntry> statementEntries,
+            IList<TransactionDetails> transactions,
+            IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches,
+            IList<StatementEntry> unmatchedStatementEntries,
+            IList<TransactionDetails> unmatchedTransactions)
+        {
+            var result = target.CheckForMatches(statementEntries, transactions);
 
-            for (int i = 0; i < unmatchedTransactions.Count; i++)
+            VerifyNonMatchingStatements(unmatchedStatementEntries, result.UnmatchedStatementEntries);
+        }
+
+        [TestCaseSource(nameof(Get_NoMatchingItems))]
+        public void Should_FindNonMatching_Transactions(
+            IList<StatementEntry> statementEntries,
+            IList<TransactionDetails> transactions,
+            IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches,
+            IList<StatementEntry> unmatchedStatementEntries,
+            IList<TransactionDetails> unmatchedTransactions)
+        {
+            var result = target.CheckForMatches(statementEntries, transactions);
+
+            VerifyNonMatchinTransactions(unmatchedTransactions, result.UnmatchedTransactions);
+        }
+
+        [TestCaseSource(nameof(Get_NoMatchingItems))]
+        public void When_TherAreNoMatchingItems_ReturnAnEmptyMatchResult(
+            IList<StatementEntry> statementEntries,
+            IList<TransactionDetails> transactions,
+            IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches,
+            IList<StatementEntry> unmatchedStatementEntries,
+            IList<TransactionDetails> unmatchedTransactions)
+        {
+            var result = target.CheckForMatches(statementEntries, transactions);
+
+            Assert.False(result.Matches.Any());
+        }
+
+        [TestCaseSource(nameof(Get_NoMatchingItems))]
+        public void When_TherAreNoMatchingItems_ReturnAll_StatementEntries_ItemsAsUnmatched(
+            IList<StatementEntry> statementEntries,
+            IList<TransactionDetails> transactions,
+            IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches,
+            IList<StatementEntry> unmatchedStatementEntries,
+            IList<TransactionDetails> unmatchedTransactions)
+        {
+            var result = target.CheckForMatches(statementEntries, transactions);
+
+            VerifyNonMatchingStatements(unmatchedStatementEntries, result.UnmatchedStatementEntries);
+        }
+
+        [TestCaseSource(nameof(Get_NoMatchingItems))]
+        public void When_TherAreNoMatchingItems_ReturnAll_Transactions_AsUnmatched(
+            IList<StatementEntry> statementEntries,
+            IList<TransactionDetails> transactions,
+            IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches,
+            IList<StatementEntry> unmatchedStatementEntries,
+            IList<TransactionDetails> unmatchedTransactions)
+        {
+            var result = target.CheckForMatches(statementEntries, transactions);
+
+            VerifyNonMatchinTransactions(unmatchedTransactions, result.UnmatchedTransactions);
+        }
+
+        [TestCaseSource(nameof(Get_SomeTransactionsDontHaveMatches))]
+        public void When_SomeOfTheTransactionsDontHaveMatchingStatements__Should_FindMatchingItems(
+            IList<StatementEntry> statementEntries,
+            IList<TransactionDetails> transactions,
+            IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches,
+            IList<StatementEntry> unmatchedStatementEntries,
+            IList<TransactionDetails> unmatchedTransactions)
+        {
+            var result = target.CheckForMatches(statementEntries, transactions);
+
+            VerifyMatches(expectedMatches, result.Matches);
+        }
+
+        [TestCaseSource(nameof(Get_SomeTransactionsDontHaveMatches))]
+        public void When_SomeOfTheTransactionsDontHaveMatchingStatements__Should_FindNonMatching_StatementEntries(
+            IList<StatementEntry> statementEntries,
+            IList<TransactionDetails> transactions,
+            IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches,
+            IList<StatementEntry> unmatchedStatementEntries,
+            IList<TransactionDetails> unmatchedTransactions)
+        {
+            var result = target.CheckForMatches(statementEntries, transactions);
+
+            VerifyNonMatchingStatements(unmatchedStatementEntries, result.UnmatchedStatementEntries);
+        }
+
+        [TestCaseSource(nameof(Get_SomeTransactionsDontHaveMatches))]
+        public void When_SomeOfTheTransactionsDontHaveMatchingStatements__Should_FindNonMatching_Transactions(
+            IList<StatementEntry> statementEntries,
+            IList<TransactionDetails> transactions,
+            IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches,
+            IList<StatementEntry> unmatchedStatementEntries,
+            IList<TransactionDetails> unmatchedTransactions)
+        {
+            var result = target.CheckForMatches(statementEntries, transactions);
+
+            VerifyNonMatchinTransactions(unmatchedTransactions, result.UnmatchedTransactions);
+        }
+
+        [TestCaseSource(nameof(Get_SomeStatementsDontHaveMatches))]
+        public void When_SomeOfTheStatementsDontHaveMatchingTransactions__Should_FindMatchingItems(
+            IList<StatementEntry> statementEntries,
+            IList<TransactionDetails> transactions,
+            IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches,
+            IList<StatementEntry> unmatchedStatementEntries,
+            IList<TransactionDetails> unmatchedTransactions)
+        {
+            var result = target.CheckForMatches(statementEntries, transactions);
+
+            VerifyMatches(expectedMatches, result.Matches);
+        }
+
+        [TestCaseSource(nameof(Get_SomeStatementsDontHaveMatches))]
+        public void When_SomeOfTheStatementsDontHaveMatchingTransactions__Should_FindNonMatching_StatementEntries(
+            IList<StatementEntry> statementEntries,
+            IList<TransactionDetails> transactions,
+            IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches,
+            IList<StatementEntry> unmatchedStatementEntries,
+            IList<TransactionDetails> unmatchedTransactions)
+        {
+            var result = target.CheckForMatches(statementEntries, transactions);
+
+            VerifyNonMatchingStatements(unmatchedStatementEntries, result.UnmatchedStatementEntries);
+        }
+
+        [TestCaseSource(nameof(Get_SomeStatementsDontHaveMatches))]
+        public void When_SomeOfTheStatementsDontHaveMatchingTransactions__Should_FindNonMatching_Transactions(
+            IList<StatementEntry> statementEntries,
+            IList<TransactionDetails> transactions,
+            IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches,
+            IList<StatementEntry> unmatchedStatementEntries,
+            IList<TransactionDetails> unmatchedTransactions)
+        {
+            var result = target.CheckForMatches(statementEntries, transactions);
+
+            VerifyNonMatchinTransactions(unmatchedTransactions, result.UnmatchedTransactions);
+        }
+
+        static IEnumerable<TestCaseData> Get_SomeTransactionsDontHaveMatches()
+        {
+            var statement1 = new StatementEntry { Amount = 1, Details = "Statement 1" };
+            var statement2 = new StatementEntry { Amount = 2, Details = "Statement 2" };
+            var statement3 = new StatementEntry { Amount = 3, Details = "Statement 3" };
+
+            var trans1 = new TransactionDetails { Amount = 1, Merchant = "Transaction 1" };
+            var trans2 = new TransactionDetails { Amount = 2, Merchant = "Transaction 2" };
+            var trans3 = new TransactionDetails { Amount = 3, Merchant = "Transaction 3" };
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1 },
+                new TransactionDetails[] { trans1, trans2},
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1)
+                },
+                new StatementEntry[] { },
+                new TransactionDetails[] { trans2 });
+
+            // repeated, with different order
+            yield return new TestCaseData(
+                new StatementEntry[] { statement2 },
+                new TransactionDetails[] { trans1, trans2 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement2, trans2)
+                },
+                new StatementEntry[] { },
+                new TransactionDetails[] { trans1 });
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement2 },
+                new TransactionDetails[] { trans1, trans2, trans3 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement2, trans2)
+                },
+                new StatementEntry[] { },
+                new TransactionDetails[] { trans1, trans3 });
+        }
+
+        static IEnumerable<TestCaseData> Get_SomeStatementsDontHaveMatches()
+        {
+            var statement1 = new StatementEntry { Amount = 1, Details = "Statement 1" };
+            var statement2 = new StatementEntry { Amount = 2, Details = "Statement 2" };
+            var statement3 = new StatementEntry { Amount = 3, Details = "Statement 3" };
+
+            var trans1 = new TransactionDetails { Amount = 1, Merchant = "Transaction 1" };
+            var trans2 = new TransactionDetails { Amount = 2, Merchant = "Transaction 2" };
+            var trans3 = new TransactionDetails { Amount = 3, Merchant = "Transaction 3" };
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1, statement2 },
+                new TransactionDetails[] { trans1 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1)
+                },
+                new StatementEntry[] { statement2 },
+                new TransactionDetails[] { });
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1, statement2, statement3 },
+                new TransactionDetails[] { trans1 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1)
+                },
+                new StatementEntry[] { statement2, statement3 },
+                new TransactionDetails[] { });
+
+            // repeat with matches not in the beginning
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1, statement2, statement3 },
+                new TransactionDetails[] { trans2 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement2, trans2)
+                },
+                new StatementEntry[] { statement1, statement3 },
+                new TransactionDetails[] { });
+                //.SetName("3:1 = 1 match + 2 non-matches. Different values");
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1, statement2, statement3 },
+                new TransactionDetails[] { trans2 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement2, trans2)
+                },
+                new StatementEntry[] { statement1, statement3 },
+                new TransactionDetails[] { });
+        }
+
+        static IEnumerable<TestCaseData> Get_NoMatchingItems()
+        {
+            var statement1 = new StatementEntry { Amount = 1, Details = "Statement 1" };
+            var statement2 = new StatementEntry { Amount = 2, Details = "Statement 2" };
+            var statement3 = new StatementEntry { Amount = 3, Details = "Statement 3" };
+            var statement4 = new StatementEntry { Amount = 4, Details = "Statement 4" };
+
+            var trans1 = new TransactionDetails { Amount = 1, Merchant = "Transaction 1" };
+            var trans2 = new TransactionDetails { Amount = 2, Merchant = "Transaction 2" };
+            var trans3 = new TransactionDetails { Amount = 3, Merchant = "Transaction 3" };
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement2 },
+                new TransactionDetails[] { trans1, trans3 },
+                new List<Tuple<StatementEntry, TransactionDetails>> { },
+                new StatementEntry[] { statement2 },
+                new TransactionDetails[] { trans1, trans3 });
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement2, statement4 },
+                new TransactionDetails[] { trans1, trans3 },
+                new List<Tuple<StatementEntry, TransactionDetails>> { },
+                new StatementEntry[] { statement2, statement4 },
+                new TransactionDetails[] { trans1, trans3 });
+
+            // no transactions at all
+            yield return new TestCaseData(
+                new StatementEntry[] { statement2 },
+                new TransactionDetails[] { },
+                new List<Tuple<StatementEntry, TransactionDetails>> { },
+                new StatementEntry[] { statement2 },
+                new TransactionDetails[] { });
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement2, statement1 },
+                new TransactionDetails[] { },
+                new List<Tuple<StatementEntry, TransactionDetails>> { },
+                new StatementEntry[] { statement2, statement1 },
+                new TransactionDetails[] { });
+
+            // no statements at all
+            yield return new TestCaseData(
+                new StatementEntry[] { },
+                new TransactionDetails[] { trans1 },
+                new List<Tuple<StatementEntry, TransactionDetails>> { },
+                new StatementEntry[] { },
+                new TransactionDetails[] { trans1 });
+
+            yield return new TestCaseData(
+                new StatementEntry[] { },
+                new TransactionDetails[] { trans1, trans2, trans3 },
+                new List<Tuple<StatementEntry, TransactionDetails>> { },
+                new StatementEntry[] { },
+                new TransactionDetails[] { trans1, trans2, trans3 });
+
+            // no data in either collection
+            yield return new TestCaseData(
+                new StatementEntry[] { },
+                new TransactionDetails[] { },
+                new List<Tuple<StatementEntry, TransactionDetails>> { },
+                new StatementEntry[] { },
+                new TransactionDetails[] { });
+        }
+
+        static IEnumerable<TestCaseData> GetStatementAndTransactions()
+        {
+            var statement1 = new StatementEntry { Amount = 1, Details = "Statement 1" };
+            var statement2 = new StatementEntry { Amount = 2, Details = "Statement 2" };
+            var statement3 = new StatementEntry { Amount = 3, Details = "Statement 3" };
+
+            var trans1 = new TransactionDetails { Amount = 1, Merchant = "Transaction 1" };
+            var trans2 = new TransactionDetails { Amount = 2, Merchant = "Transaction 2" };
+            var trans3 = new TransactionDetails { Amount = 3, Merchant = "Transaction 3" };
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1 },
+                new TransactionDetails[] { trans1 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1)
+                },
+                new StatementEntry[] { },
+                new TransactionDetails[] { });
+
+            // repeated with different values
+            yield return new TestCaseData(
+                new StatementEntry[] { statement2 },
+                new TransactionDetails[] { trans2 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement2, trans2)
+                },
+                new StatementEntry[] { },
+                new TransactionDetails[] { });
+
+            // multiple transactions and statements
+            yield return new TestCaseData(
+                new StatementEntry[] { statement2, statement1 },
+                new TransactionDetails[] { trans1, trans2 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement2, trans2),
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1)
+                },
+                new StatementEntry[] { },
+                new TransactionDetails[] { });
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement2, statement1 },
+                new TransactionDetails[] { trans1, trans2, trans3 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement2, trans2),
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1)
+                },
+                new StatementEntry[] { },
+                new TransactionDetails[] { trans3 });
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement2, statement1, statement3 },
+                new TransactionDetails[] { trans1, trans2, trans3 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement2, trans2),
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1),
+                    new Tuple<StatementEntry, TransactionDetails>(statement3, trans3)
+                },
+                new StatementEntry[] { },
+                new TransactionDetails[] { });
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement2, statement1, statement3 },
+                new TransactionDetails[] { trans1, trans2 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement2, trans2),
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1)
+                },
+                new StatementEntry[] { statement3 },
+                new TransactionDetails[] { });
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement2, statement1, statement3 },
+                new TransactionDetails[] { trans3, trans2 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement2, trans2),
+                    new Tuple<StatementEntry, TransactionDetails>(statement3, trans3)
+                },
+                new StatementEntry[] { statement1 },
+                new TransactionDetails[] { });
+        }
+
+        // TODO: cover this. This will require writing modifying the implementation
+        static IEnumerable<TestCaseData> Get_WithDuplicates()
+        {
+            var statement1 = new StatementEntry { Amount = 1, Details = "Statement 1" };
+            var statement2 = new StatementEntry { Amount = 2, Details = "Statement 2" };
+            var statement3 = new StatementEntry { Amount = 3, Details = "Statement 3" };
+
+            var trans1 = new TransactionDetails { Amount = 1, Merchant = "Transaction 1" };
+            var trans2 = new TransactionDetails { Amount = 2, Merchant = "Transaction 2" };
+            var trans3 = new TransactionDetails { Amount = 3, Merchant = "Transaction 3" };
+
+            var trans1Clone = new TransactionDetails { Amount = trans1.Amount, Merchant = trans1.Merchant };
+            var trans2Clone = new TransactionDetails { Amount = trans2.Amount, Merchant = trans2.Merchant };
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1 },
+                new TransactionDetails[] { trans1, trans1Clone },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1),
+                },
+                new StatementEntry[] { },
+                new TransactionDetails[] { trans1Clone });
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1, statement2 },
+                new TransactionDetails[] { trans1, trans1Clone, trans2Clone, trans2 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1),
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans2Clone),
+                },
+                new StatementEntry[] { },
+                new TransactionDetails[] { trans1Clone, trans2 });
+
+            // todo: same for duplicate statement entries
+            // todo: when there's a match for a duplicate statemetn entry, both transactions shoudbe consumed
+
+        }
+
+        private void VerifyMatches(
+            IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches,
+            IList<Tuple<StatementEntry, TransactionDetails>> actualMatches)
+        {
+            foreach (var expectedMatch in expectedMatches)
             {
-                var expected = unmatchedTransactions[i];
+                // Verify matches
+                var match = actualMatches.FirstOrDefault(x => x.Item1 == expectedMatch.Item1);
+                Assert.NotNull(match, $"Statement entry {expectedMatch.Item1.Details} should have a match");
 
-                var presentInTheMatchesCollection = results.Matches.Any(x => x.Item2 == expected);
-                Assert.IsFalse(presentInTheMatchesCollection,
-                    $"The item index {i} must NOT be added to the Matches collection");
-
-                Assert.IsTrue(actualItems.Contains(expected),
-                    $"Must add statement index {i} to the collection of unmatched entries");
+                Assert.AreEqual(expectedMatch.Item2, match.Item2, $"Statement entry {expectedMatch.Item1.Details} should be a match with Transaction {expectedMatch.Item2.Merchant}");
             }
 
-            Assert.AreEqual(unmatchedTransactions.Count, actualItems.Count, "The number of unmatched items");
+            Assert.AreEqual(expectedMatches.Count, actualMatches.Count, "The overall number of matches");
         }
 
-        private static IEnumerable<TestCaseData> GetStatementAndTransactions()
+        private void VerifyNonMatchingStatements(
+            IList<StatementEntry> expectedItems,
+            IList<StatementEntry> actualItems)
         {
-            var entry1 = new TransactionDetails { Amount = 5, Merchant = "Somethin'" };
-            var entry2 = new TransactionDetails { Amount = 2, Merchant = "Nuthin'" };
-            var entry3 = new TransactionDetails { Amount = 7.11m, Merchant = "Se7en 11even" };
+            foreach (var statementEntry in expectedItems)
+            {
+                var contains = actualItems.Contains(statementEntry);
 
-            // Amount values in statement entries are they look different, but they aren't used in the test for anything
-            var statement1 = new StatementEntry { Amount = 1 };
-            var statement2 = new StatementEntry { Amount = 2 };
+                Assert.IsTrue(contains, $"The collection of unmatched Statement entries must contain entry {statementEntry.Details}");
+            }
 
-            yield return new TestCaseData(
-                new StatementEntry[] { statement1 },
-                new TransactionDetails[] { entry1, entry2 });
-
-            yield return new TestCaseData(
-                new StatementEntry[] { statement1 },
-                new TransactionDetails[] { entry2, entry1, entry3 });
-
-            yield return new TestCaseData(
-                new StatementEntry[] { statement1, statement2 },
-                new TransactionDetails[] { entry1 });
-
-            yield return new TestCaseData(
-                new StatementEntry[] { statement1, statement2 },
-                new TransactionDetails[] { entry2, entry1, entry3 });
+            Assert.AreEqual(expectedItems.Count, actualItems.Count, "The number of unmatched Statement entries");
         }
 
-        private static IEnumerable<TestCaseData> GetTestCases()
+        private void VerifyNonMatchinTransactions(
+            IList<TransactionDetails> expectedItems,
+            IList<TransactionDetails> actualItems)
         {
-            var entry1 = new TransactionDetails { Amount = 5, Merchant = "Somethin'" };
-            var entry2 = new TransactionDetails { Amount = 2, Merchant = "Nuthin'" };
-            var entry3 = new TransactionDetails { Amount = 7.11m, Merchant = "Se7en 11even" };
-            var statementEntry1 = new StatementEntry { Amount = 10 };
+            foreach (var transaction in expectedItems)
+            {
+                var contains = actualItems.Contains(transaction);
 
-            yield return new TestCaseData(
-                new TransactionDetails[] { entry2, entry1, entry3 },
-                new StatementEntry[] { statementEntry1 },
-                new Tuple<StatementEntry, TransactionDetails>[]
-                {
-                    new Tuple<StatementEntry, TransactionDetails>(statementEntry1, entry1)
-                });
+                Assert.IsTrue(contains, $"The collection of unmatched Statement entries must contain entry {transaction.Merchant}");
+            }
 
-            var statementEntry2 = new StatementEntry { Amount = 20 };
-
-            yield return new TestCaseData(
-                new TransactionDetails[] { entry2, entry1, entry3 },
-                new StatementEntry[] { statementEntry1, statementEntry2 },
-                new Tuple<StatementEntry, TransactionDetails>[]
-                {
-                    new Tuple<StatementEntry, TransactionDetails>(statementEntry1, entry1),
-                    new Tuple<StatementEntry, TransactionDetails>(statementEntry2, entry2)
-                });
-        }
-
-        private static IEnumerable<TestCaseData> GetTestCases_ForUnmatchedStatementEntries()
-        {
-            var entry1 = new TransactionDetails { Amount = 5, Merchant = "Somethin'" };
-            var entry2 = new TransactionDetails { Amount = 2, Merchant = "Nuthin'" };
-            var entry3 = new TransactionDetails { Amount = 7.11m, Merchant = "Se7en 11even" };
-            var statementEntry1 = new StatementEntry { Amount = 10 };
-
-            // No matching transactions
-            yield return new TestCaseData(
-                new TransactionDetails[] { entry1 },
-                new StatementEntry[] { statementEntry1 },
-                new StatementEntry[] { statementEntry1 });
-
-            yield return new TestCaseData(
-                new TransactionDetails[] { entry2, entry1, entry3 },
-                new StatementEntry[] { statementEntry1 },
-                new StatementEntry[] { statementEntry1 });
-
-            var statementEntry2 = new StatementEntry { Amount = 20 };
-
-            yield return new TestCaseData(
-                new TransactionDetails[] { entry2, entry1, entry3 },
-                new StatementEntry[] { statementEntry2, statementEntry1 },
-                new StatementEntry[] { statementEntry1 });
-
-            yield return new TestCaseData(
-                new TransactionDetails[] { entry2, entry1, entry3 },
-                new StatementEntry[] { statementEntry2, statementEntry1 },
-                new StatementEntry[] { statementEntry1, statementEntry2 });
-
-            // No transactions at all
-            yield return new TestCaseData(
-                new TransactionDetails[] { },
-                new StatementEntry[] { statementEntry1 },
-                new StatementEntry[] { statementEntry1 });
-        }
-
-        private static IEnumerable<TestCaseData> GetTestCases_ForUnmatchedTransactions()
-        {
-            var entry1 = new TransactionDetails { Amount = 5, Merchant = "Somethin'" };
-            var entry2 = new TransactionDetails { Amount = 2, Merchant = "Nuthin'" };
-            var entry3 = new TransactionDetails { Amount = 7.11m, Merchant = "Se7en 11even" };
-            var statementEntry1 = new StatementEntry { Amount = 10 };
-
-            yield return new TestCaseData(
-                new TransactionDetails[] { entry2, entry1 },
-                new StatementEntry[] { statementEntry1 },
-                new TransactionDetails[] { entry1 });
-
-            yield return new TestCaseData(
-                new TransactionDetails[] { entry2, entry1, entry3 },
-                new StatementEntry[] { statementEntry1 },
-                new TransactionDetails[] { entry1, entry2 });
-
-            /* mocking out this scenario is too much work. would have to make sure that all transaction
-             * from the first collection, except those in the second collection, are returned.
-             */
-            //yield return new TestCaseData(
-            //    new TransactionDetails[] { entry2, entry1, entry3 },
-            //    new StatementEntry[] { statementEntry2, statementEntry1 },
-            //    new TransactionDetails[] { entry2 });
-
-            // No statement entries at all
-            yield return new TestCaseData(
-                new TransactionDetails[] { entry2 },
-                new StatementEntry[] { },
-                new TransactionDetails[] { entry2 });
-
-            yield return new TestCaseData(
-                new TransactionDetails[] { entry2, entry1 },
-                new StatementEntry[] { },
-                new TransactionDetails[] { entry2, entry1 });
-        }
-
-        private void Setup_MatchingTransactionFinder_ToReturnFirstItem_EachTime()
-        {
-            matchingTransactionFinder.Setup(
-                x => x.GetFirstMatchingTransaction(
-                    It.IsAny<StatementEntry>(),
-                    It.IsAny<IList<TransactionDetails>>()))
-                .Returns<StatementEntry, IList<TransactionDetails>>(
-                    (stmnt, transes) => transes.First());
-        }
-
-        private void Setup_MatchingTransactionFinder_ToReturnFirstItem_EachTime(IList<TransactionDetails> exceptions)
-        {
-            matchingTransactionFinder.Setup(
-                x => x.GetFirstMatchingTransaction(
-                    It.IsAny<StatementEntry>(),
-                    It.IsAny<IList<TransactionDetails>>()))
-                .Returns<StatementEntry, IList<TransactionDetails>>(
-                    (stmnt, transes) =>
-                    {
-                        return transes.Except(exceptions).FirstOrDefault();
-                        });
-        }
-
-        private void Setup_MatchingTransactionFinder(StatementEntry statement, TransactionDetails returnValue)
-        {
-            matchingTransactionFinder.Setup(
-                x => x.GetFirstMatchingTransaction(
-                    It.Is<StatementEntry>(
-                        arg => arg == statement),
-                    It.IsAny<IList<TransactionDetails>>()))
-                .Returns(returnValue);
+            Assert.AreEqual(expectedItems.Count, actualItems.Count, "The number of unmatched Statement entries");
         }
     }
 }

@@ -5,9 +5,9 @@ namespace Andy.ExpenseReport
 {
     public interface IMatchingTransactionFinder
     {
-        public TransactionDetails GetFirstMatchingTransaction(
-            StatementEntry statementEntry,
-            IList<TransactionDetails> transactions);
+        //public TransactionDetails GetFirstMatchingTransaction(
+        //    StatementEntry statementEntry,
+        //    IList<TransactionDetails> transactions);
     }
 
     public class MatchingTransactionFinder : IMatchingTransactionFinder
@@ -19,9 +19,10 @@ namespace Andy.ExpenseReport
             this.comparer = comparer;
         }
 
-        public TransactionDetails GetFirstMatchingTransaction(
+        public static TransactionDetails GetFirstMatchingTransaction(
             StatementEntry statementEntry,
-            IList<TransactionDetails> transactions)
+            IList<TransactionDetails> transactions,
+            ITransactionAndStatementEntryComparer comparer)
         {
             for (int i = 0; i < transactions.Count; i++)
             {

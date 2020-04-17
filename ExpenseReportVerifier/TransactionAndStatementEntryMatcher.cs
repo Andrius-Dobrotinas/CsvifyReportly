@@ -13,12 +13,12 @@ namespace Andy.ExpenseReport
 
     public class TransactionAndStatementEntryMatcher : ITransactionAndStatementEntryMatcher
     {
-        private readonly IMatchingTransactionFinder matchingTransactionFinder;
+        private readonly ITransactionAndStatementEntryComparer comparer;
 
         public TransactionAndStatementEntryMatcher(
-            IMatchingTransactionFinder matchingTransactionFinder)
+            ITransactionAndStatementEntryComparer comparer)
         {
-            this.matchingTransactionFinder = matchingTransactionFinder;
+            this.comparer = comparer;
         }
 
         public ComparisonResult CheckForMatches(
@@ -30,9 +30,10 @@ namespace Andy.ExpenseReport
 
             foreach (var statementEntry in statement)
             {
-                var transaction = matchingTransactionFinder.GetFirstMatchingTransaction(
+                var transaction = MatchingTransactionFinder.GetFirstMatchingTransaction(
                     statementEntry,
-                    transactions);
+                    transactions,
+                    comparer);
 
                 if (transaction != null)
                     matches.Add(new Tuple<StatementEntry, TransactionDetails>(statementEntry, transaction));
