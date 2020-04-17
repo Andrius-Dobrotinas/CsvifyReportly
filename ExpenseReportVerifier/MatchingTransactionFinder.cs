@@ -12,11 +12,11 @@ namespace Andy.ExpenseReport
 
     public class MatchingTransactionFinder : IMatchingTransactionFinder
     {
-        private IMerchantComparer merchantComparer;
+        private readonly ITransactionAndStatementEntryComparer comparer;
 
-        public MatchingTransactionFinder(IMerchantComparer merchantComparer)
+        public MatchingTransactionFinder(ITransactionAndStatementEntryComparer comparer)
         {
-            this.merchantComparer = merchantComparer;
+            this.comparer = comparer;
         }
 
         public TransactionDetails GetFirstMatchingTransaction(
@@ -29,24 +29,13 @@ namespace Andy.ExpenseReport
 
                 if (transactionDetails == null) continue;
 
-                if (IsAmountEqual(transactionDetails, statementEntry)
-                    && IsMerchantEqual(transactionDetails, statementEntry))
+                if (comparer.AreEqual(transactionDetails, statementEntry))
                 {
                     return transactionDetails;
                 }
             }
 
             return null;
-        }
-
-        private static bool IsAmountEqual(TransactionDetails transactionDetails, StatementEntry statement)
-        {
-            return transactionDetails.Amount == statement.Amount;
-        }
-
-        private bool IsMerchantEqual(TransactionDetails transcation, StatementEntry statement)
-        {
-            return merchantComparer.DoStatementDetailsReferToMerchant(statement.Details, transcation.Merchant, transcation.IsPayPal);
         }
     }
 }

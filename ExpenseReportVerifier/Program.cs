@@ -26,7 +26,8 @@ namespace Andy.ExpenseReport
 
             var matcher = new TransactionAndStatementEntryMatcher(
                 new MatchingTransactionFinder(
-                    new MerchantComparer()));
+                    new TransactionAndStatementEntryComparer(
+                        new MerchantComparer())));
 
             var results = matcher.CheckForMatches(statement, transactions.ToArray());
         }
