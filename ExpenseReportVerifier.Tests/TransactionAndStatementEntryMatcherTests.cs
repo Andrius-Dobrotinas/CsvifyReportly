@@ -6,16 +6,16 @@ using System.Linq;
 
 namespace Andy.ExpenseReport
 {
-    public class TransactionAndStatementEntryComparerTests
+    public class TransactionAndStatementEntryMatcherTests
     {
-        private TransactionAndStatementEntryComparer target;
+        private TransactionAndStatementEntryMatcher target;
         private Mock<IMatchingTransactionFinder> matchingTransactionFinder;
 
         [SetUp]
         public void Setup()
         {
             matchingTransactionFinder = new Mock<IMatchingTransactionFinder>();
-            target = new TransactionAndStatementEntryComparer(matchingTransactionFinder.Object);
+            target = new TransactionAndStatementEntryMatcher(matchingTransactionFinder.Object);
         }
 
         [TestCaseSource(nameof(GetStatementAndTransactions))]
@@ -25,7 +25,7 @@ namespace Andy.ExpenseReport
         {
             Setup_MatchingTransactionFinder_ToReturnFirstItem_EachTime();
 
-            target.Compare(statementEntries, transactions);
+            target.CheckForMatches(statementEntries, transactions);
 
             matchingTransactionFinder.Verify(
                 x => x.GetFirstMatchingTransaction(
@@ -66,7 +66,7 @@ namespace Andy.ExpenseReport
             foreach(var expected in expectedMatches)
                 Setup_MatchingTransactionFinder(expected.Item1, expected.Item2);
 
-            var matches = target.Compare(statementEntries, transactions)
+            var matches = target.CheckForMatches(statementEntries, transactions)
                 .Matches;
 
             for (int i = 0; i < expectedMatches.Count; i++)
@@ -94,7 +94,7 @@ namespace Andy.ExpenseReport
             foreach (var entry in unmatchedStatementEntries)
                 Setup_MatchingTransactionFinder(entry, null);
 
-            var results = target.Compare(statementEntries, transactions);
+            var results = target.CheckForMatches(statementEntries, transactions);
 
             var actualItems = results.UnmatchedStatementEntries;
 
@@ -122,7 +122,7 @@ namespace Andy.ExpenseReport
             // make it return something each time except for items i want to have no matches
             Setup_MatchingTransactionFinder_ToReturnFirstItem_EachTime(unmatchedTransactions);
 
-            var results = target.Compare(statementEntries, transactions);
+            var results = target.CheckForMatches(statementEntries, transactions);
 
             var actualItems = results.UnmatchedTransactions;
 

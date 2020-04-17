@@ -24,11 +24,11 @@ namespace Andy.ExpenseReport
             var transactions = transactionRows.Select(TransactionDetailsParser.Parse);
             var statement = statementRows.Select(StatementEntryParser.Parse);
 
-            var comparer = new TransactionAndStatementEntryComparer(
+            var matcher = new TransactionAndStatementEntryMatcher(
                 new MatchingTransactionFinder(
                     new MerchantComparer()));
 
-            var results = comparer.Compare(statement, transactions.ToArray());
+            var results = matcher.CheckForMatches(statement, transactions.ToArray());
         }
 
         private static string[][] ReadCsv(CsvFileReader csvReader, RowParser parser, FileInfo file, char delimiter)

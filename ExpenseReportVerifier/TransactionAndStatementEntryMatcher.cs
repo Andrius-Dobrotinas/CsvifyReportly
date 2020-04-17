@@ -4,24 +4,24 @@ using System.Linq;
 
 namespace Andy.ExpenseReport
 {
-    public interface ITransactionAndStatementEntryComparer
+    public interface ITransactionAndStatementEntryMatcher
     {
-        public ComparisonResult Compare(
+        public ComparisonResult CheckForMatches(
             IEnumerable<StatementEntry> statement,
             IList<TransactionDetails> transactions);
     }
 
-    public class TransactionAndStatementEntryComparer : ITransactionAndStatementEntryComparer
+    public class TransactionAndStatementEntryMatcher : ITransactionAndStatementEntryMatcher
     {
         private readonly IMatchingTransactionFinder matchingTransactionFinder;
 
-        public TransactionAndStatementEntryComparer(
+        public TransactionAndStatementEntryMatcher(
             IMatchingTransactionFinder matchingTransactionFinder)
         {
             this.matchingTransactionFinder = matchingTransactionFinder;
         }
 
-        public ComparisonResult Compare(
+        public ComparisonResult CheckForMatches(
             IEnumerable<StatementEntry> statement,
             IList<TransactionDetails> transactions)
         {
