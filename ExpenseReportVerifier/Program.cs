@@ -16,7 +16,7 @@ namespace Andy.ExpenseReport
             var reportFile = new FileInfo(args[3]);
 
             var csvRowParser = new Csv.RowParser();
-            var csvFileReader = new Csv.CsvFileReader();
+            var csvFileReader = new Csv.IO.CsvFileReader();
 
             string[][] statementRows = ReadCsvFile(csvFileReader, csvRowParser, statementFile, delimiter);
             string[][] transactionRows = ReadCsvFile(csvFileReader, csvRowParser, expenseReportFile, delimiter);
@@ -64,7 +64,7 @@ namespace Andy.ExpenseReport
             Console.WriteLine("Done");
         }
 
-        private static string[][] ReadCsvFile(Csv.CsvFileReader csvReader, Csv.RowParser parser, FileInfo file, char delimiter)
+        private static string[][] ReadCsvFile(Csv.IO.CsvFileReader csvReader, Csv.RowParser parser, FileInfo file, char delimiter)
         {
             return csvReader.Read(file, line => parser.Parse(line, delimiter));
         }

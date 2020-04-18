@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Andy.ExpenseReport.Csv
+namespace Andy.ExpenseReport.Csv.IO
 {
     public class CsvFileReader
     {
