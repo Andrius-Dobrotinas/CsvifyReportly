@@ -77,13 +77,17 @@ namespace Andy.ExpenseReport
                 throw new DataProcessingException(e.Message);
             }
 
+            var stringyfyer = new Csv.RowStringifier(
+                new Csv.ValueEncoder());
+
             try
             {
                 string[] lines = StringyfyyResults(
                     result,
                     sourceData.StatementColumnCount,
                     sourceData.TransactionColumnCount,
-                    reportCsvDelimiter);
+                    reportCsvDelimiter,
+                    stringyfyer);
 
                 Csv.IO.CsvFileWriter.Write(lines, reportFile);
             }
@@ -134,7 +138,8 @@ namespace Andy.ExpenseReport
             ComparisonResult<StatementEntryWithSourceData, TransactionDetailsWithSourceData> result,
             int statementColumnCount,
             int transactionColumnCount,
-            char csvDelimiter)
+            char csvDelimiter,
+            Csv.IRowStringifier stringyfier)
         {
             var transactionAndStatementSeparatorColumns = new string[] { "" };
             var blankStatementRow = new string[statementColumnCount];
@@ -149,7 +154,7 @@ namespace Andy.ExpenseReport
                 blankTransactionRow);
 
             return allRows
-                .Select(row => Csv.RowStringifier.Stringifififiify(row, csvDelimiter))
+                .Select(row => stringyfier.Stringifififiify(row, csvDelimiter))
                 .ToArray();
         }
 
