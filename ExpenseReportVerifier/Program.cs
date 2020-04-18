@@ -25,7 +25,7 @@ namespace Andy.ExpenseReport
             var statement = statementRows.Select(StatementEntryParser.Parse);
 
             var matcher = new CollectionComparer(
-                new MatcherFinder(
+                new MatchFinder(
                     new ItemComparer(
                         new MerchantComparer())));
 

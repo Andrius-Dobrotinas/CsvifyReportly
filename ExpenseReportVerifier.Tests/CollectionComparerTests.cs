@@ -9,12 +9,12 @@ namespace Andy.ExpenseReport
     public class CollectionComparerTests
     {
         CollectionComparer target;
-        Mock<IMatcherFinder> matcher;
+        Mock<IMatchFinder> matcher;
 
         [SetUp]
         public void Setup()
         {
-            matcher = new Mock<IMatcherFinder>();
+            matcher = new Mock<IMatchFinder>();
             target = new CollectionComparer(matcher.Object);
         }
 

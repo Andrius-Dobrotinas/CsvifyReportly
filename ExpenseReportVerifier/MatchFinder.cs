@@ -4,18 +4,18 @@ using System.Text;
 
 namespace Andy.ExpenseReport
 {
-    public interface IMatcherFinder
+    public interface IMatchFinder
     {
         IList<Tuple<StatementEntry, TransactionDetails>> GetMatches(
             IEnumerable<StatementEntry> statement,
             IList<TransactionDetails> transactions);
     }
 
-    public class MatcherFinder : IMatcherFinder
+    public class MatchFinder : IMatchFinder
     {
         private readonly IItemComparer comparer;
 
-        public MatcherFinder(
+        public MatchFinder(
             IItemComparer comparer)
         {
             this.comparer = comparer;

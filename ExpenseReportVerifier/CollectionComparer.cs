@@ -13,10 +13,10 @@ namespace Andy.ExpenseReport
 
     public class CollectionComparer : ICollectionComparer
     {
-        private readonly IMatcherFinder matcher;
+        private readonly IMatchFinder matcher;
 
         public CollectionComparer(
-            IMatcherFinder matcher)
+            IMatchFinder matcher)
         {
             this.matcher = matcher;
         }

@@ -6,16 +6,16 @@ using System.Linq;
 
 namespace Andy.ExpenseReport
 {
-    public class MatcherFinderTests
+    public class MatchFinderTests
     {
-        MatcherFinder target;
+        MatchFinder target;
         Mock<IItemComparer> comparer;
 
         [SetUp]
         public void Setup()
         {
             comparer = new Mock<IItemComparer>();
-            target = new MatcherFinder(comparer.Object);
+            target = new MatchFinder(comparer.Object);
 
             // make the comparinator only compare the amounts
             comparer.Setup(
