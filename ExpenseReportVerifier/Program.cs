@@ -21,6 +21,18 @@ namespace Andy.ExpenseReport
             string[][] statementRows = ReadCsvFile(csvFileReader, csvRowParser, statementFile, delimiter);
             string[][] transactionRows = ReadCsvFile(csvFileReader, csvRowParser, expenseReportFile, delimiter);
 
+            if (!statementRows.Any()) throw new Exception("Statement file is empty");
+            if (!transactionRows.Any()) throw new Exception("Transactions file is empty");
+
+            // want to make sure all rows have equal number of columns. otherwise, it might get tricky down the line
+            int transactionColumnCount = transactionRows.First().Length;
+            if (!transactionRows.All(row => row.Length == transactionColumnCount))
+                throw new Exception("All transaction rows must have the same number of columns");
+
+            int statementColumnCount = statementRows.First().Length;
+            if (!statementRows.All(row => row.Length == statementColumnCount))
+                throw new Exception("All statement rows must have the same number of columns");
+
             var transactions = transactionRows.Select(TransactionDetailsParser.Parse);
             var statement = statementRows.Select(StatementEntryParser.Parse);
 
