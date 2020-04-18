@@ -13,33 +13,24 @@ namespace Andy.ExpenseReport
 
     public class TransactionAndStatementEntryMatcher : ITransactionAndStatementEntryMatcher
     {
-        private readonly ITransactionAndStatementEntryComparer comparer;
+        private readonly IMatcher matcher;
 
         public TransactionAndStatementEntryMatcher(
-            ITransactionAndStatementEntryComparer comparer)
+            IMatcher matcher)
         {
-            this.comparer = comparer;
+            this.matcher = matcher;
         }
 
         public ComparisonResult CheckForMatches(
             IEnumerable<StatementEntry> statement,
             IList<TransactionDetails> transactions)
         {
-            var matches = new List<Tuple<StatementEntry, TransactionDetails>>();
-            var unmatchedStatementEntries = new List<StatementEntry>();
+            var matches = matcher.GetMatches(statement, transactions);
 
-            foreach (var statementEntry in statement)
-            {
-                var transaction = MatchingTransactionFinder.GetFirstMatchingTransaction(
-                    statementEntry,
-                    transactions,
-                    comparer);
-
-                if (transaction != null)
-                    matches.Add(new Tuple<StatementEntry, TransactionDetails>(statementEntry, transaction));
-                else
-                    unmatchedStatementEntries.Add(statementEntry);
-            }
+            var unmatchedStatementEntries = statement
+                .Except(
+                    matches.Select(x => x.Item1))
+                .ToArray();
 
             var unmatchedTransactions = transactions
                 .Except(
