@@ -24,9 +24,9 @@ namespace Andy.ExpenseReport
             var transactions = transactionRows.Select(TransactionDetailsParser.Parse);
             var statement = statementRows.Select(StatementEntryParser.Parse);
 
-            var matcher = new TransactionAndStatementEntryMatcher(
-                new Matcher(
-                    new TransactionAndStatementEntryComparer(
+            var matcher = new CollectionComparer(
+                new MatcherFinder(
+                    new ItemComparer(
                         new MerchantComparer())));
 
             var results = matcher.CheckForMatches(statement, transactions.ToArray());

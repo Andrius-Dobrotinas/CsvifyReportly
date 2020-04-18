@@ -6,16 +6,16 @@ using System.Linq;
 
 namespace Andy.ExpenseReport
 {
-    public class TransactionAndStatementEntryMatcherTests
+    public class CollectionComparerTests
     {
-        TransactionAndStatementEntryMatcher target;
-        Mock<IMatcher> matcher;
+        CollectionComparer target;
+        Mock<IMatcherFinder> matcher;
 
         [SetUp]
         public void Setup()
         {
-            matcher = new Mock<IMatcher>();
-            target = new TransactionAndStatementEntryMatcher(matcher.Object);
+            matcher = new Mock<IMatcherFinder>();
+            target = new CollectionComparer(matcher.Object);
         }
 
         void Setup_ItemMatcherToReturn(IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches)

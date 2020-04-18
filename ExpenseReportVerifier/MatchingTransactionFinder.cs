@@ -12,9 +12,9 @@ namespace Andy.ExpenseReport
 
     public class MatchingTransactionFinder : IMatchingTransactionFinder
     {
-        private readonly ITransactionAndStatementEntryComparer comparer;
+        private readonly IItemComparer comparer;
 
-        public MatchingTransactionFinder(ITransactionAndStatementEntryComparer comparer)
+        public MatchingTransactionFinder(IItemComparer comparer)
         {
             this.comparer = comparer;
         }
@@ -22,7 +22,7 @@ namespace Andy.ExpenseReport
         public static TransactionDetails GetFirstMatchingTransaction(
             StatementEntry statementEntry,
             IList<TransactionDetails> transactions,
-            ITransactionAndStatementEntryComparer comparer)
+            IItemComparer comparer)
         {
             for (int i = 0; i < transactions.Count; i++)
             {

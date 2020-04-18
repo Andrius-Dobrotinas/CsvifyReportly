@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace Andy.ExpenseReport
 {
-    public interface IMerchantComparer
+    public interface IMerchantStringComparer
     {
         bool DoStatementDetailsReferToMerchant(string statementDetails, string reportMerchant, bool isViaPayPal);
     }
 
-    public class MerchantComparer : IMerchantComparer
+    public class MerchantComparer : IMerchantStringComparer
     {
         // Take this as a constructor parameter
         private const string paypalDescriptionPrefix = "PAYPAL *";

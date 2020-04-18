@@ -6,16 +6,16 @@ using System.Text;
 
 namespace Andy.ExpenseReport
 {
-    class TransactionAndStatementEntryComparerTests
+    class ItemComparerTests
     {
-        TransactionAndStatementEntryComparer target;
-        Mock<IMerchantComparer> merchantComparer;
+        ItemComparer target;
+        Mock<IMerchantStringComparer> merchantComparer;
 
         [SetUp]
         public void Setup()
         {
-            merchantComparer = new Mock<IMerchantComparer>();
-            target = new TransactionAndStatementEntryComparer(merchantComparer.Object);
+            merchantComparer = new Mock<IMerchantStringComparer>();
+            target = new ItemComparer(merchantComparer.Object);
         }
 
         [TestCase(true)]

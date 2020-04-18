@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Andy.ExpenseReport
 {
-    public interface ITransactionAndStatementEntryComparer
+    public interface IItemComparer
     {
         bool AreEqual(TransactionDetails transaction, StatementEntry statementEntry);
     }
 
-    public class TransactionAndStatementEntryComparer : ITransactionAndStatementEntryComparer
+    public class ItemComparer : IItemComparer
     {
-        private readonly IMerchantComparer merchantComparer;
+        private readonly IMerchantStringComparer merchantComparer;
 
-        public TransactionAndStatementEntryComparer(IMerchantComparer merchantComparer)
+        public ItemComparer(IMerchantStringComparer merchantComparer)
         {
             this.merchantComparer = merchantComparer;
         }
