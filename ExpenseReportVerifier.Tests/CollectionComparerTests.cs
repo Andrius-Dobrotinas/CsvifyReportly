@@ -36,7 +36,7 @@ namespace Andy.ExpenseReport
             var statementEntries = new StatementEntry[] { new StatementEntry() };
             var transactions = new TransactionDetails[] { new TransactionDetails() };
 
-            var matches = target.CheckForMatches(statementEntries, transactions)
+            var matches = target.Compare(statementEntries, transactions)
                 .Matches;
 
             Assert.AreSame(expectedMatches, matches);
@@ -51,7 +51,7 @@ namespace Andy.ExpenseReport
         {
             Setup_ItemMatcherToReturn(expectedMatches);
 
-            var actualUnmatchedTransactions = target.CheckForMatches(statementEntries, transactions)
+            var actualUnmatchedTransactions = target.Compare(statementEntries, transactions)
                 .UnmatchedTransactions;
 
             foreach (var transaction in expectedUnmatchedTransactions)
@@ -73,7 +73,7 @@ namespace Andy.ExpenseReport
         {
             Setup_ItemMatcherToReturn(expectedMatches);
 
-            var actualUnmatchedStatementEntries = target.CheckForMatches(statementEntries, transactions)
+            var actualUnmatchedStatementEntries = target.Compare(statementEntries, transactions)
                 .UnmatchedStatementEntries;
 
             foreach (var statementEntry in expectedUnmatchedStatementEntries)
@@ -94,7 +94,7 @@ namespace Andy.ExpenseReport
         {
             Setup_ItemMatcherToReturn(expectedMatches);
 
-            var actualUnmatchedStatementEntries = target.CheckForMatches(statementEntries, transactions)
+            var actualUnmatchedStatementEntries = target.Compare(statementEntries, transactions)
                 .UnmatchedStatementEntries;
 
             Assert.IsFalse(actualUnmatchedStatementEntries.Any());
@@ -108,7 +108,7 @@ namespace Andy.ExpenseReport
         {
             Setup_ItemMatcherToReturn(expectedMatches);
 
-            var actualUnmatchedTransactionEntries = target.CheckForMatches(statementEntries, transactions)
+            var actualUnmatchedTransactionEntries = target.Compare(statementEntries, transactions)
                 .UnmatchedTransactions;
 
             Assert.IsFalse(actualUnmatchedTransactionEntries.Any());

@@ -6,7 +6,7 @@ namespace Andy.ExpenseReport
 {
     public interface ICollectionComparer
     {
-        public ComparisonResult CheckForMatches(
+        public ComparisonResult Compare(
             IEnumerable<StatementEntry> statement,
             IList<TransactionDetails> transactions);
     }
@@ -21,7 +21,7 @@ namespace Andy.ExpenseReport
             this.matcher = matcher;
         }
 
-        public ComparisonResult CheckForMatches(
+        public ComparisonResult Compare(
             IEnumerable<StatementEntry> statement,
             IList<TransactionDetails> transactions)
         {

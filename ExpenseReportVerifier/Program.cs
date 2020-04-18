@@ -29,7 +29,7 @@ namespace Andy.ExpenseReport
                     new ItemComparer(
                         new MerchantComparer())));
 
-            var results = matcher.CheckForMatches(statement, transactions.ToArray());
+            var results = matcher.Compare(statement, transactions.ToArray());
         }
 
         private static string[][] ReadCsv(CsvFileReader csvReader, RowParser parser, FileInfo file, char delimiter)
