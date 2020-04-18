@@ -7,8 +7,6 @@ namespace Andy.ExpenseReport
 {
     class Program
     {
-        private const char csvDelimiter = ',';
-
         static int Main(string[] args)
         {
             Parameters parameters;
