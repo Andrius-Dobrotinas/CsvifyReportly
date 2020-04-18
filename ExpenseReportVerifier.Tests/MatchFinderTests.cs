@@ -70,6 +70,39 @@ namespace Andy.ExpenseReport
             VerifyMatches(expectedMatches, matches);
         }
 
+        [TestCaseSource(nameof(Get_WithDuplicateStatementEntries))]
+        public void When_ThereIsMoreThanOneIdenticalStatementEntry_ButThereAreLessMatchingTransactions__Must_PickFirstItem(
+            IList<StatementEntry> statementEntries,
+            IList<TransactionDetails> transactions,
+            IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches)
+        {
+            var matches = target.GetMatches(statementEntries, transactions);
+
+            VerifyMatches(expectedMatches, matches);
+        }
+
+        [TestCaseSource(nameof(Get_WithEqualNumberOfDuplicateStatementAndTransactionEntries))]
+        public void When_ThereIsMoreThanOneIdenticalStatementEntry_AndThereIsTheSameNumberOfMatchingTransactions_PickThemAll(
+            IList<StatementEntry> statementEntries,
+            IList<TransactionDetails> transactions,
+            IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches)
+        {
+            var matches = target.GetMatches(statementEntries, transactions);
+
+            VerifyMatches(expectedMatches, matches);
+        }
+
+        [TestCaseSource(nameof(Get_DuplicateStatementEntriesWithMoreTransactions))]
+        public void When_ThereIsMoreThanOneIdenticalStatementEntry_AndThereAreEvenMoreMatchingTransactions_PickThemFirstMatchingTransactions(
+            IList<StatementEntry> statementEntries,
+            IList<TransactionDetails> transactions,
+            IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches)
+        {
+            var matches = target.GetMatches(statementEntries, transactions);
+
+            VerifyMatches(expectedMatches, matches);
+        }
+
         [TestCaseSource(nameof(Get_NoMatchingItems))]
         public void When_ThereAreNoMatchingItems_Must_ReturnAnEmptyCollection(
             IList<StatementEntry> statementEntries,
@@ -371,8 +404,7 @@ namespace Andy.ExpenseReport
                     new Tuple<StatementEntry, TransactionDetails>(statement3, trans3)
                 });
         }
-
-        // TODO: cover this. This will require writing modifying the implementation
+        
         static IEnumerable<TestCaseData> Get_WithDuplicateTransactions()
         {
             var statement1 = new StatementEntry { Amount = 1, Details = "Statement 1" };
@@ -420,6 +452,163 @@ namespace Andy.ExpenseReport
                     new Tuple<StatementEntry, TransactionDetails>(statement1, trans1Clone),
                     new Tuple<StatementEntry, TransactionDetails>(statement2, trans2Clone),
                     new Tuple<StatementEntry, TransactionDetails>(statement3, trans3),
+                });
+        }
+
+        static IEnumerable<TestCaseData> Get_WithDuplicateStatementEntries()
+        {
+            var statement1 = new StatementEntry { Amount = 1, Details = "Statement 1", Date = new DateTime(2020, 01, 01) };
+            var statement2 = new StatementEntry { Amount = 2, Details = "Statement 2", Date = new DateTime(2020, 01, 02) };
+            var statement3 = new StatementEntry { Amount = 3, Details = "Statement 3", Date = new DateTime(2020, 01, 03) };
+
+            var statement1Clone = new StatementEntry { Amount = statement1.Amount, Details = $"{statement1.Details} Clone", Date = statement1.Date.AddDays(1) };
+
+            var statement1Clone2 = new StatementEntry { Amount = statement1.Amount, Details = $"{statement1.Details} Clone 2", Date = statement1.Date.AddDays(1) };
+
+            var statement2Clone = new StatementEntry { Amount = statement2.Amount, Details = $"{statement2.Details} Clone", Date = statement2.Date.AddDays(1) };
+
+            var trans1 = new TransactionDetails { Amount = 1, Merchant = "Transaction 1", Date = new DateTime(2020, 01, 01) };
+            var trans2 = new TransactionDetails { Amount = 2, Merchant = "Transaction 2", Date = new DateTime(2020, 01, 02) };
+            var trans3 = new TransactionDetails { Amount = 3, Merchant = "Transaction 3", Date = new DateTime(2020, 01, 02) };
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1, statement1Clone },
+                new TransactionDetails[] { trans1 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1),
+                });
+
+            // statements presented in a different order
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1Clone, statement1 },
+                new TransactionDetails[] { trans1 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement1Clone, trans1),
+                });
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1Clone, statement1, statement2, statement2Clone },
+                new TransactionDetails[] { trans1, trans2 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement1Clone, trans1),
+                    new Tuple<StatementEntry, TransactionDetails>(statement2, trans2),
+                });
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1, statement1Clone, statement2Clone, statement2, statement3 },
+                new TransactionDetails[] { trans1, trans2, trans3 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1),
+                    new Tuple<StatementEntry, TransactionDetails>(statement2Clone, trans2),
+                    new Tuple<StatementEntry, TransactionDetails>(statement3, trans3),
+                });
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1, statement1Clone, statement1Clone2 },
+                new TransactionDetails[] { trans1, trans2, trans3 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1),
+                });
+        }
+
+        static IEnumerable<TestCaseData> Get_WithEqualNumberOfDuplicateStatementAndTransactionEntries()
+        {
+            var statement1 = new StatementEntry { Amount = 1, Details = "Statement 1", Date = new DateTime(2020, 01, 01) };
+            var statement2 = new StatementEntry { Amount = 2, Details = "Statement 2", Date = new DateTime(2020, 01, 02) };
+            var statement3 = new StatementEntry { Amount = 3, Details = "Statement 3", Date = new DateTime(2020, 01, 03) };
+
+            var statement1Clone = new StatementEntry { Amount = statement1.Amount, Details = $"{statement1.Details} Clone", Date = statement1.Date.AddDays(1) };
+
+            var statement1Clone2 = new StatementEntry { Amount = statement1.Amount, Details = $"{statement1.Details} Clone 2", Date = statement1.Date.AddDays(1) };
+
+            var statement2Clone = new StatementEntry { Amount = statement2.Amount, Details = $"{statement2.Details} Clone", Date = statement2.Date.AddDays(1) };
+
+            var trans1 = new TransactionDetails { Amount = 1, Merchant = "Transaction 1", Date = new DateTime(2020, 01, 01) };
+            var trans2 = new TransactionDetails { Amount = 2, Merchant = "Transaction 2", Date = new DateTime(2020, 01, 02) };
+            var trans3 = new TransactionDetails { Amount = 3, Merchant = "Transaction 3", Date = new DateTime(2020, 01, 02) };
+
+            var trans1Clone = new TransactionDetails { Amount = trans1.Amount, Merchant = $"{trans1.Merchant} Clone", Date = trans1.Date.AddDays(1) };
+            var trans2Clone = new TransactionDetails { Amount = trans2.Amount, Merchant = $"{trans2.Merchant} Clone", Date = trans1.Date.AddDays(1) };
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1, statement1Clone },
+                new TransactionDetails[] { trans1, trans1Clone },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1),
+                    new Tuple<StatementEntry, TransactionDetails>(statement1Clone, trans1Clone),
+                });
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1Clone, statement1, statement2, statement2Clone },
+                new TransactionDetails[] { trans1, trans1Clone, trans2, trans2Clone },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement1Clone, trans1),
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1Clone),
+                    new Tuple<StatementEntry, TransactionDetails>(statement2, trans2),
+                    new Tuple<StatementEntry, TransactionDetails>(statement2Clone, trans2Clone),
+                });
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1Clone, statement1, statement3, statement2, statement2Clone },
+                new TransactionDetails[] { trans1, trans1Clone, trans2, trans2Clone },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement1Clone, trans1),
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1Clone),
+                    new Tuple<StatementEntry, TransactionDetails>(statement2, trans2),
+                    new Tuple<StatementEntry, TransactionDetails>(statement2Clone, trans2Clone),
+                });
+        }
+
+        static IEnumerable<TestCaseData> Get_DuplicateStatementEntriesWithMoreTransactions()
+        {
+            var statement1 = new StatementEntry { Amount = 1, Details = "Statement 1", Date = new DateTime(2020, 01, 01) };
+            var statement2 = new StatementEntry { Amount = 2, Details = "Statement 2", Date = new DateTime(2020, 01, 02) };
+            var statement3 = new StatementEntry { Amount = 3, Details = "Statement 3", Date = new DateTime(2020, 01, 03) };
+
+            var statement1Clone = new StatementEntry { Amount = statement1.Amount, Details = $"{statement1.Details} Clone", Date = statement1.Date.AddDays(1) };
+
+            var statement1Clone2 = new StatementEntry { Amount = statement1.Amount, Details = $"{statement1.Details} Clone 2", Date = statement1.Date.AddDays(1) };
+
+            var statement2Clone = new StatementEntry { Amount = statement2.Amount, Details = $"{statement2.Details} Clone", Date = statement2.Date.AddDays(1) };
+
+            var trans1 = new TransactionDetails { Amount = 1, Merchant = "Transaction 1", Date = new DateTime(2020, 01, 01) };
+            var trans2 = new TransactionDetails { Amount = 2, Merchant = "Transaction 2", Date = new DateTime(2020, 01, 02) };
+            var trans3 = new TransactionDetails { Amount = 3, Merchant = "Transaction 3", Date = new DateTime(2020, 01, 02) };
+
+            var trans1Clone = new TransactionDetails { Amount = trans1.Amount, Merchant = $"{trans1.Merchant} Clone", Date = trans1.Date.AddDays(1) };
+
+            var trans1Clone2 = new TransactionDetails { Amount = trans1.Amount, Merchant = $"{trans1.Merchant} Clone 2", Date = trans1.Date.AddDays(1) };
+
+            var trans2Clone = new TransactionDetails { Amount = trans2.Amount, Merchant = $"{trans2.Merchant} Clone", Date = trans1.Date.AddDays(1) };
+
+            var trans2Clone2 = new TransactionDetails { Amount = trans2.Amount, Merchant = $"{trans2.Merchant} Clone 2", Date = trans1.Date.AddDays(1) };
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1, statement1Clone },
+                new TransactionDetails[] { trans1, trans1Clone, trans1Clone2 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1),
+                    new Tuple<StatementEntry, TransactionDetails>(statement1Clone, trans1Clone),
+                });
+
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1, statement1Clone, statement2, statement2Clone },
+                new TransactionDetails[] { trans1, trans1Clone, trans1Clone2, trans2, trans2Clone, trans2Clone2 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1),
+                    new Tuple<StatementEntry, TransactionDetails>(statement1Clone, trans1Clone),
+                    new Tuple<StatementEntry, TransactionDetails>(statement2, trans2),
+                    new Tuple<StatementEntry, TransactionDetails>(statement2Clone, trans2Clone),
                 });
         }
 
