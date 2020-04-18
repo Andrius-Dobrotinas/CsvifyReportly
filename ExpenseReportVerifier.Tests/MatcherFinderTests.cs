@@ -60,7 +60,7 @@ namespace Andy.ExpenseReport
         }
 
         [TestCaseSource(nameof(Get_NoMatchingItems))]
-        public void When_TherAreNoMatchingItems_Must_ReturnAnEmptyCollection(
+        public void When_ThereAreNoMatchingItems_Must_ReturnAnEmptyCollection(
             IList<StatementEntry> statementEntries,
             IList<TransactionDetails> transactions)
         {
@@ -70,7 +70,7 @@ namespace Andy.ExpenseReport
         }
 
         [TestCaseSource(nameof(Get_StatementsWithNoTransactionsAtAll))]
-        public void When_TherAreNoTransactionsAtAll_Must_ReturnAnEmptyCollection(
+        public void When_ThereAreNoTransactionsAtAll_Must_ReturnAnEmptyCollection(
             IList<StatementEntry> statementEntries,
             IList<TransactionDetails> transactions)
         {
@@ -80,7 +80,7 @@ namespace Andy.ExpenseReport
         }
 
         [TestCaseSource(nameof(Get_StatementsWithNoStatementsAtAll))]
-        public void When_TherAreNoStatementsAtAll_Must_ReturnAnEmptyCollection(
+        public void When_ThereAreNoStatementsAtAll_Must_ReturnAnEmptyCollection(
             IList<StatementEntry> statementEntries,
             IList<TransactionDetails> transactions)
         {
