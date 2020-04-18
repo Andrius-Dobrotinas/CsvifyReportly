@@ -6,17 +6,18 @@ namespace Andy.ExpenseReport
 {
     public class TransactionDetailsParser
     {
-        public static TransactionDetails Parse(string[] row)
+        public static TransactionDetailsWithSourceData Parse(string[] csvRow)
         {
             // TODO: error/null value handling
             // take indexes from a settings file
 
-            return new TransactionDetails
+            return new TransactionDetailsWithSourceData
             {
-                Date = DateTime.Parse(row[0]).Date,
-                Amount = decimal.Parse(row[2]),
-                IsPayPal = bool.Parse(row[3]),
-                Merchant = row[5]
+                Date = DateTime.Parse(csvRow[0]).Date,
+                Amount = decimal.Parse(csvRow[2]),
+                IsPayPal = bool.Parse(csvRow[3]),
+                Merchant = csvRow[5],
+                SourceData = csvRow
             };
         }
     }

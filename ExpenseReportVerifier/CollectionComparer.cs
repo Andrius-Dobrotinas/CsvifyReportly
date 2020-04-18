@@ -6,9 +6,11 @@ namespace Andy.ExpenseReport
 {
     public interface ICollectionComparer
     {
-        public ComparisonResult Compare(
-            IEnumerable<StatementEntry> statement,
-            IList<TransactionDetails> transactions);
+        public ComparisonResult<TStatementEntry, TTransactionDetails> Compare<TStatementEntry, TTransactionDetails>(
+            IEnumerable<TStatementEntry> statement,
+            IList<TTransactionDetails> transactions)
+            where TStatementEntry : StatementEntry
+            where TTransactionDetails : TransactionDetails;
     }
 
     public class CollectionComparer : ICollectionComparer
@@ -21,9 +23,11 @@ namespace Andy.ExpenseReport
             this.matcher = matcher;
         }
 
-        public ComparisonResult Compare(
-            IEnumerable<StatementEntry> statement,
-            IList<TransactionDetails> transactions)
+        public ComparisonResult<TStatementEntry, TTransactionDetails> Compare<TStatementEntry, TTransactionDetails>(
+            IEnumerable<TStatementEntry> statement,
+            IList<TTransactionDetails> transactions)
+            where TStatementEntry : StatementEntry
+            where TTransactionDetails : TransactionDetails
         {
             var matches = matcher.GetMatches(statement, transactions);
 
@@ -37,7 +41,7 @@ namespace Andy.ExpenseReport
                     matches.Select(x => x.Item2))
                 .ToArray();
 
-            return new ComparisonResult
+            return new ComparisonResult<TStatementEntry, TTransactionDetails>
             {
                 Matches = matches,
                 UnmatchedStatementEntries = unmatchedStatementEntries,

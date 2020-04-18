@@ -5,9 +5,11 @@ namespace Andy.ExpenseReport
 {
     public interface IMatchFinder
     {
-        IList<Tuple<StatementEntry, TransactionDetails>> GetMatches(
-            IEnumerable<StatementEntry> statement,
-            IList<TransactionDetails> transactions);
+        IList<Tuple<TStatementEntry, TTransactionDetails>> GetMatches<TStatementEntry, TTransactionDetails>(
+            IEnumerable<TStatementEntry> statement,
+            IList<TTransactionDetails> transactions)
+            where TStatementEntry : StatementEntry
+            where TTransactionDetails : TransactionDetails;
     }
 
     public class MatchFinder : IMatchFinder
@@ -20,11 +22,13 @@ namespace Andy.ExpenseReport
             this.comparer = comparer;
         }
 
-        public IList<Tuple<StatementEntry, TransactionDetails>> GetMatches(
-            IEnumerable<StatementEntry> statement,
-            IList<TransactionDetails> transactions)
+        public IList<Tuple<TStatementEntry, TTransactionDetails>> GetMatches<TStatementEntry, TTransactionDetails>(
+            IEnumerable<TStatementEntry> statement,
+            IList<TTransactionDetails> transactions)
+            where TStatementEntry : StatementEntry
+            where TTransactionDetails : TransactionDetails
         {
-            var matches = new List<Tuple<StatementEntry, TransactionDetails>>();
+            var matches = new List<Tuple<TStatementEntry, TTransactionDetails>>();
 
             foreach (var statementEntry in statement)
             {
@@ -33,15 +37,17 @@ namespace Andy.ExpenseReport
                     transactions);
 
                 if (transaction != null)
-                    matches.Add(new Tuple<StatementEntry, TransactionDetails>(statementEntry, transaction));                
+                    matches.Add(new Tuple<TStatementEntry, TTransactionDetails>(statementEntry, transaction));                
             }
 
             return matches;
         }
 
-        private TransactionDetails GetFirstMatchingTransaction(
-            StatementEntry statementEntry,
-            IList<TransactionDetails> transactions)
+        private TTransactionDetails GetFirstMatchingTransaction<TStatementEntry, TTransactionDetails>(
+            TStatementEntry statementEntry,
+            IList<TTransactionDetails> transactions)
+            where TStatementEntry : StatementEntry
+            where TTransactionDetails : TransactionDetails
         {
             for (int i = 0; i < transactions.Count; i++)
             {

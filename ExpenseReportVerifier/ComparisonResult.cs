@@ -3,10 +3,12 @@ using System.Collections.Generic;
 
 namespace Andy.ExpenseReport
 {
-    public class ComparisonResult
+    public class ComparisonResult<TStatementEntry, TTransactionDetails>
+        where TStatementEntry : StatementEntry
+        where TTransactionDetails : TransactionDetails
     {
-        public IList<Tuple<StatementEntry, TransactionDetails>> Matches { get; set; }
-        public IList<TransactionDetails> UnmatchedTransactions { get; set; }
-        public IList<StatementEntry> UnmatchedStatementEntries { get; set; }
+        public IList<Tuple<TStatementEntry, TTransactionDetails>> Matches { get; set; }
+        public IList<TTransactionDetails> UnmatchedTransactions { get; set; }
+        public IList<TStatementEntry> UnmatchedStatementEntries { get; set; }
     }
 }
