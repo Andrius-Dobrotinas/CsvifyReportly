@@ -1,5 +1,4 @@
-﻿using Andy.ExpenseReport.Csv;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,8 +15,8 @@ namespace Andy.ExpenseReport
             var expenseReportFile = new FileInfo(args[2]);
             var reportFile = new FileInfo(args[3]);
 
-            var csvRowParser = new RowParser();
-            var csvFileReader = new CsvFileReader();
+            var csvRowParser = new Csv.RowParser();
+            var csvFileReader = new Csv.CsvFileReader();
 
             string[][] statementRows = ReadCsvFile(csvFileReader, csvRowParser, statementFile, delimiter);
             string[][] transactionRows = ReadCsvFile(csvFileReader, csvRowParser, expenseReportFile, delimiter);
@@ -57,7 +56,7 @@ namespace Andy.ExpenseReport
                 blankTransactionRow);
 
             var lines = allRows
-                .Select(row => RowStringifier.Stringifififiify(row, ','))
+                .Select(row => Csv.RowStringifier.Stringifififiify(row, ','))
                 .ToArray();
 
             Csv.IO.CsvFileWriter.Write(lines, reportFile);
@@ -65,7 +64,7 @@ namespace Andy.ExpenseReport
             Console.WriteLine("Done");
         }
 
-        private static string[][] ReadCsvFile(CsvFileReader csvReader, RowParser parser, FileInfo file, char delimiter)
+        private static string[][] ReadCsvFile(Csv.CsvFileReader csvReader, Csv.RowParser parser, FileInfo file, char delimiter)
         {
             return csvReader.Read(file, line => parser.Parse(line, delimiter));
         }
