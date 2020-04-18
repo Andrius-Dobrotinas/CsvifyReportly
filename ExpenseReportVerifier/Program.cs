@@ -20,7 +20,7 @@ namespace Andy.ExpenseReport
             catch (Exception e)
             {
                 Console.Error.WriteLine(e.Message);
-                return -1;
+                return -2;
             }            
 
             try
@@ -38,6 +38,13 @@ namespace Andy.ExpenseReport
                 Console.Error.WriteLine(e.ExceptionDetails);
 
                 return e.ReturnCode;
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("Unexpected error:");
+                Console.Error.WriteLine(e.Message);
+
+                return -1;
             }
 
             Console.WriteLine("Done");
