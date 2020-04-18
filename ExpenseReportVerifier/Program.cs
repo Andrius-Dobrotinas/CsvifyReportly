@@ -56,10 +56,8 @@ namespace Andy.ExpenseReport
                 blankStatementRow,
                 blankTransactionRow);
 
-            var stringyfyer = new RowStringifier();
-
             var lines = allRows
-                .Select(row => stringyfyer.Stringifififiify(row, ','))
+                .Select(row => RowStringifier.Stringifififiify(row, ','))
                 .ToArray();
 
             Csv.IO.CsvFileWriter.Write(lines, reportFile);
