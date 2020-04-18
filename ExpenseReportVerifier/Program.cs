@@ -44,34 +44,19 @@ namespace Andy.ExpenseReport
 
             var results = matcher.Compare(statement, transactions.ToArray());
 
-            var matchRows = results.Matches.Select(
-                x => new Tuple<string[], string[]>(
-                    x.Item1.SourceData,
-                    x.Item2.SourceData));
-
+            var transactionAndStatementSeparatorColumns = new string[] { "" };
             var blankStatementRow = new string[statementColumnCount];
             var blankTransactionRow = new string[transactionColumnCount];
 
-            var unmatchedStatementRows = results.UnmatchedStatementEntries.Select(
-                row => new Tuple<string[], string[]>(
-                    row.SourceData,
-                    blankTransactionRow));
-
-            var unmatchedTransactionRows = results.UnmatchedTransactions.Select(
-                row => new Tuple<string[], string[]>(
-                    blankStatementRow,
-                    row.SourceData));
-
-            var allRowPairs = matchRows
-                .Concat(unmatchedStatementRows)
-                .Concat(unmatchedTransactionRows);
+            var allRows = DataCombiner.GetDataRows(
+                results.Matches,
+                results.UnmatchedStatementEntries,
+                results.UnmatchedTransactions,
+                transactionAndStatementSeparatorColumns,
+                blankStatementRow,
+                blankTransactionRow);
 
             var stringyfyer = new RowStringifier();
-
-            var singleColumnRow = new string[] { "" };
-
-            var allRows = allRowPairs.Select(pair => JoinTwoRows(pair, singleColumnRow))
-                .ToArray();
 
             var lines = allRows
                 .Select(row => stringyfyer.Stringifififiify(row, ','))
@@ -80,14 +65,6 @@ namespace Andy.ExpenseReport
             Csv.IO.CsvFileWriter.Write(lines, reportFile);
 
             Console.WriteLine("Done");
-        }
-
-        private static string[] JoinTwoRows(Tuple<string[], string[]> rowPair, string[] separator)
-        {
-            return rowPair.Item1
-                .Concat(separator)
-                .Concat(rowPair.Item2)
-                .ToArray();
         }
 
         private static string[][] ReadCsvFile(CsvFileReader csvReader, RowParser parser, FileInfo file, char delimiter)
