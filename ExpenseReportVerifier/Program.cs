@@ -15,11 +15,8 @@ namespace Andy.ExpenseReport
             var expenseReportFile = new FileInfo(args[2]);
             var reportFile = new FileInfo(args[3]);
 
-            var csvRowParser = new Csv.RowParser();
-            var csvFileReader = new Csv.IO.CsvFileReader();
-
-            string[][] statementRows = ReadCsvFile(csvFileReader, csvRowParser, statementFile, delimiter);
-            string[][] transactionRows = ReadCsvFile(csvFileReader, csvRowParser, expenseReportFile, delimiter);
+            string[][] statementRows = ReadCsvFile(statementFile, delimiter);
+            string[][] transactionRows = ReadCsvFile(expenseReportFile, delimiter);
 
             if (!statementRows.Any()) throw new Exception("Statement file is empty");
             if (!transactionRows.Any()) throw new Exception("Transactions file is empty");
@@ -50,9 +47,9 @@ namespace Andy.ExpenseReport
             Console.WriteLine("Done");
         }
 
-        private static string[][] ReadCsvFile(Csv.IO.CsvFileReader csvReader, Csv.RowParser parser, FileInfo file, char delimiter)
+        private static string[][] ReadCsvFile(FileInfo file, char delimiter)
         {
-            return csvReader.Read(file, line => parser.Parse(line, delimiter));
+            return Csv.IO.CsvFileReader.Read(file, line => Csv.RowParser.Parse(line, delimiter));
         }
 
         private static string[] StringyfyyResults(

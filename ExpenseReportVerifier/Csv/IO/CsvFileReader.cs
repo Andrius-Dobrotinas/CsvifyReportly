@@ -5,13 +5,13 @@ using System.Linq;
 
 namespace Andy.ExpenseReport.Csv.IO
 {
-    public class CsvFileReader
+    public static class CsvFileReader
     {
         /// <summary>
         /// Parses the contents of a file while reading it line by line
         /// </summary>
         /// <param name="parseLine">Function that parses a line read from a file</param>
-        public string[][] Read(FileInfo file, Func<string, string[]> parseLine)
+        public static string[][] Read(FileInfo file, Func<string, string[]> parseLine)
         {
             if (file == null) throw new ArgumentNullException(nameof(file));
 
