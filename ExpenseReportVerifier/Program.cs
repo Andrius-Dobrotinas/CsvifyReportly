@@ -9,29 +9,77 @@ namespace Andy.ExpenseReport
     {
         private const char delimiter = ',';
 
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             var statementFile = new FileInfo(args[1]);
             var transactionsFile = new FileInfo(args[2]);
             var reportFile = new FileInfo(args[3]);
-            
-            var sourceData = ReadSourceData(statementFile, transactionsFile, delimiter);
+
+            try
+            {
+                Act(
+                    statementFile,
+                    transactionsFile,
+                    delimiter,
+                    reportFile);
+            }
+            catch (ConsoleApplicationLevelException e)
+            {
+                Console.Error.WriteLine(e.Message);
+                Console.Error.WriteLine(e.ExceptionDetails);
+
+                return e.ReturnCode;
+            }
+
+            Console.WriteLine("Done");
+
+            return 0;
+        }
+
+        private static void Act(
+            FileInfo statementFile,
+            FileInfo transactionsFile,
+            char csvDelimiter,
+            FileInfo reportFile)
+        {
+            SourceData sourceData;
+            try
+            {
+                sourceData = ReadSourceData(statementFile, transactionsFile, csvDelimiter);
+            }
+            catch (Exception e)
+            {
+                throw new SourceDataReadException(e.Message);
+            }
 
             var matcher = new CollectionComparer(
                 new MatchFinder(
                     new ItemComparer(
                         new MerchantComparer())));
 
-            var result = matcher.Compare(sourceData.StatementEntries, sourceData.Transactions.ToArray());
+            ComparisonResult<StatementEntryWithSourceData, TransactionDetailsWithSourceData> result;
+            try
+            {
+                result = matcher.Compare(sourceData.StatementEntries, sourceData.Transactions.ToArray());
+            }
+            catch (Exception e)
+            {
+                throw new DataProcessingException(e.Message);
+            }
 
-            string[] lines = StringyfyyResults(
+            try
+            {
+                string[] lines = StringyfyyResults(
                 result,
                 sourceData.StatementColumnCount,
                 sourceData.TransactionColumnCount);
 
-            Csv.IO.CsvFileWriter.Write(lines, reportFile);
-
-            Console.WriteLine("Done");
+                Csv.IO.CsvFileWriter.Write(lines, reportFile);
+            }
+            catch (Exception e)
+            {
+                throw new ReportFileWriteException(e.Message);
+            }
         }
 
         private static SourceData ReadSourceData(
