@@ -41,23 +41,9 @@ namespace Andy.ExpenseReport
                     new ItemComparer(
                         new MerchantComparer())));
 
-            var results = matcher.Compare(statement, transactions.ToArray());
+            var result = matcher.Compare(statement, transactions.ToArray());
 
-            var transactionAndStatementSeparatorColumns = new string[] { "" };
-            var blankStatementRow = new string[statementColumnCount];
-            var blankTransactionRow = new string[transactionColumnCount];
-
-            var allRows = DataCombiner.GetDataRows(
-                results.Matches,
-                results.UnmatchedStatementEntries,
-                results.UnmatchedTransactions,
-                transactionAndStatementSeparatorColumns,
-                blankStatementRow,
-                blankTransactionRow);
-
-            var lines = allRows
-                .Select(row => Csv.RowStringifier.Stringifififiify(row, ','))
-                .ToArray();
+            string[] lines = StringyfyyResults(result, statementColumnCount, transactionColumnCount);
 
             Csv.IO.CsvFileWriter.Write(lines, reportFile);
 
@@ -67,6 +53,28 @@ namespace Andy.ExpenseReport
         private static string[][] ReadCsvFile(Csv.IO.CsvFileReader csvReader, Csv.RowParser parser, FileInfo file, char delimiter)
         {
             return csvReader.Read(file, line => parser.Parse(line, delimiter));
+        }
+
+        private static string[] StringyfyyResults(
+            ComparisonResult<StatementEntryWithSourceData, TransactionDetailsWithSourceData> result,
+            int statementColumnCount,
+            int transactionColumnCount)
+        {
+            var transactionAndStatementSeparatorColumns = new string[] { "" };
+            var blankStatementRow = new string[statementColumnCount];
+            var blankTransactionRow = new string[transactionColumnCount];
+
+            var allRows = DataCombiner.GetDataRows(
+                result.Matches,
+                result.UnmatchedStatementEntries,
+                result.UnmatchedTransactions,
+                transactionAndStatementSeparatorColumns,
+                blankStatementRow,
+                blankTransactionRow);
+
+            return allRows
+                .Select(row => Csv.RowStringifier.Stringifififiify(row, ','))
+                .ToArray();
         }
     }
 }
