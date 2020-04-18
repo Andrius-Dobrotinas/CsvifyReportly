@@ -7,7 +7,7 @@ namespace Andy.ExpenseReport
 {
     class Program
     {
-        private const char delimiter = ',';
+        private const char csvDelimiter = ',';
 
         static int Main(string[] args)
         {
@@ -20,8 +20,9 @@ namespace Andy.ExpenseReport
                 Act(
                     statementFile,
                     transactionsFile,
-                    delimiter,
-                    reportFile);
+                    csvDelimiter,
+                    reportFile,
+                    csvDelimiter);
             }
             catch (ConsoleApplicationLevelException e)
             {
@@ -40,7 +41,8 @@ namespace Andy.ExpenseReport
             FileInfo statementFile,
             FileInfo transactionsFile,
             char csvDelimiter,
-            FileInfo reportFile)
+            FileInfo reportFile,
+            char reportCsvDelimiter)
         {
             SourceData sourceData;
             try
@@ -70,9 +72,10 @@ namespace Andy.ExpenseReport
             try
             {
                 string[] lines = StringyfyyResults(
-                result,
-                sourceData.StatementColumnCount,
-                sourceData.TransactionColumnCount);
+                    result,
+                    sourceData.StatementColumnCount,
+                    sourceData.TransactionColumnCount,
+                    reportCsvDelimiter);
 
                 Csv.IO.CsvFileWriter.Write(lines, reportFile);
             }
@@ -122,7 +125,8 @@ namespace Andy.ExpenseReport
         private static string[] StringyfyyResults(
             ComparisonResult<StatementEntryWithSourceData, TransactionDetailsWithSourceData> result,
             int statementColumnCount,
-            int transactionColumnCount)
+            int transactionColumnCount,
+            char csvDelimiter)
         {
             var transactionAndStatementSeparatorColumns = new string[] { "" };
             var blankStatementRow = new string[statementColumnCount];
@@ -137,7 +141,7 @@ namespace Andy.ExpenseReport
                 blankTransactionRow);
 
             return allRows
-                .Select(row => Csv.RowStringifier.Stringifififiify(row, ','))
+                .Select(row => Csv.RowStringifier.Stringifififiify(row, csvDelimiter))
                 .ToArray();
         }
     }
