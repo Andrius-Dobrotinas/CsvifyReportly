@@ -11,18 +11,26 @@ namespace Andy.ExpenseReport
 
         static int Main(string[] args)
         {
-            var statementFile = new FileInfo(args[1]);
-            var transactionsFile = new FileInfo(args[2]);
-            var reportFile = new FileInfo(args[3]);
+            Parameters parameters;
+            try
+            {
+                var arguments = ParseArguments(args);
+                parameters = Parameter.GetParametersOrThrow(arguments);
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e.Message);
+                return -1;
+            }            
 
             try
             {
                 Act(
-                    statementFile,
-                    transactionsFile,
-                    csvDelimiter,
-                    reportFile,
-                    csvDelimiter);
+                    parameters.StatementFile,
+                    parameters.TransactionFile,
+                    parameters.InputCsvDelimiter,
+                    parameters.ReportFile,
+                    parameters.OutputCsvDelimiter);
             }
             catch (ConsoleApplicationLevelException e)
             {
@@ -143,6 +151,16 @@ namespace Andy.ExpenseReport
             return allRows
                 .Select(row => Csv.RowStringifier.Stringifififiify(row, csvDelimiter))
                 .ToArray();
+        }
+
+        private static IDictionary<string, string> ParseArguments(string[] args)
+        {
+            var argParser = new CommandLine.ArgumentParser('=');
+
+            return args.Select(argParser.ParseArgument)
+                .ToDictionary(
+                    x => x.Key,
+                    x => x.Value);
         }
     }
 }
