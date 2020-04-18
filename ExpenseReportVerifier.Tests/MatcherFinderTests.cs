@@ -32,9 +32,9 @@ namespace Andy.ExpenseReport
             IList<TransactionDetails> transactions,
             IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches)
         {
-            var result = target.GetMatches(statementEntries, transactions);
+            var matches = target.GetMatches(statementEntries, transactions);
 
-            VerifyMatches(expectedMatches, result);
+            VerifyMatches(expectedMatches, matches);
         }
 
         [TestCaseSource(nameof(Get_MatchesWhereSomeTransactionsDontHaveMatches))]
@@ -54,9 +54,20 @@ namespace Andy.ExpenseReport
             IList<TransactionDetails> transactions,
             IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches)
         {
-            var result = target.GetMatches(statementEntries, transactions);
+            var matches = target.GetMatches(statementEntries, transactions);
 
-            VerifyMatches(expectedMatches, result);
+            VerifyMatches(expectedMatches, matches);
+        }
+
+        [TestCaseSource(nameof(Get_WithDuplicateTransactions))]
+        public void When_ThereIsMoreThanOneMatchingTransactionForAStatementItem__Must_PickFirstItem(
+            IList<StatementEntry> statementEntries,
+            IList<TransactionDetails> transactions,
+            IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches)
+        {
+            var matches = target.GetMatches(statementEntries, transactions);
+
+            VerifyMatches(expectedMatches, matches);
         }
 
         [TestCaseSource(nameof(Get_NoMatchingItems))]
@@ -362,18 +373,18 @@ namespace Andy.ExpenseReport
         }
 
         // TODO: cover this. This will require writing modifying the implementation
-        static IEnumerable<TestCaseData> Get_WithDuplicates()
+        static IEnumerable<TestCaseData> Get_WithDuplicateTransactions()
         {
             var statement1 = new StatementEntry { Amount = 1, Details = "Statement 1" };
             var statement2 = new StatementEntry { Amount = 2, Details = "Statement 2" };
             var statement3 = new StatementEntry { Amount = 3, Details = "Statement 3" };
 
-            var trans1 = new TransactionDetails { Amount = 1, Merchant = "Transaction 1" };
-            var trans2 = new TransactionDetails { Amount = 2, Merchant = "Transaction 2" };
-            var trans3 = new TransactionDetails { Amount = 3, Merchant = "Transaction 3" };
+            var trans1 = new TransactionDetails { Amount = 1, Merchant = "Transaction 1", Date = new DateTime(2020, 01, 01) };
+            var trans2 = new TransactionDetails { Amount = 2, Merchant = "Transaction 2", Date = new DateTime(2020, 01, 02) };
+            var trans3 = new TransactionDetails { Amount = 3, Merchant = "Transaction 3", Date = new DateTime(2020, 01, 02) };
 
-            var trans1Clone = new TransactionDetails { Amount = trans1.Amount, Merchant = trans1.Merchant };
-            var trans2Clone = new TransactionDetails { Amount = trans2.Amount, Merchant = trans2.Merchant };
+            var trans1Clone = new TransactionDetails { Amount = trans1.Amount, Merchant = $"{trans1.Merchant} Clone", Date = trans1.Date.AddDays(1) };
+            var trans2Clone = new TransactionDetails { Amount = trans2.Amount, Merchant = $"{trans2.Merchant} Clone", Date = trans1.Date.AddDays(1) };
 
             yield return new TestCaseData(
                 new StatementEntry[] { statement1 },
@@ -382,22 +393,34 @@ namespace Andy.ExpenseReport
                 {
                     new Tuple<StatementEntry, TransactionDetails>(statement1, trans1),
                 });
-            //new StatementEntry[] { },
-            //new TransactionDetails[] { trans1Clone });
+
+            // transactions presented in a different order
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1 },
+                new TransactionDetails[] { trans1Clone, trans1 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1Clone),
+                });
 
             yield return new TestCaseData(
                 new StatementEntry[] { statement1, statement2 },
-                new TransactionDetails[] { trans1, trans1Clone, trans2Clone, trans2 },
+                new TransactionDetails[] { trans1Clone, trans1, trans2Clone, trans2 },
                 new List<Tuple<StatementEntry, TransactionDetails>>
                 {
-                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1),
-                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans2Clone),
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1Clone),
+                    new Tuple<StatementEntry, TransactionDetails>(statement2, trans2Clone),
                 });
-                //new StatementEntry[] { },
-                //new TransactionDetails[] { trans1Clone, trans2 });
 
-            // todo: same for duplicate statement entries
-            // todo: when there's a match for a duplicate statemetn entry, both transactions shoudbe consumed
+            yield return new TestCaseData(
+                new StatementEntry[] { statement1, statement2, statement3 },
+                new TransactionDetails[] { trans1Clone, trans1, trans2Clone, trans2, trans3 },
+                new List<Tuple<StatementEntry, TransactionDetails>>
+                {
+                    new Tuple<StatementEntry, TransactionDetails>(statement1, trans1Clone),
+                    new Tuple<StatementEntry, TransactionDetails>(statement2, trans2Clone),
+                    new Tuple<StatementEntry, TransactionDetails>(statement3, trans3),
+                });
         }
 
         private void VerifyMatches(
@@ -407,10 +430,10 @@ namespace Andy.ExpenseReport
             foreach (var expectedMatch in expectedMatches)
             {
                 // Verify matches
-                var match = actualMatches.FirstOrDefault(x => x.Item1 == expectedMatch.Item1);
-                Assert.NotNull(match, $"Statement entry {expectedMatch.Item1.Details} should have a match");
+                var actualMatch = actualMatches.FirstOrDefault(x => x.Item1 == expectedMatch.Item1);
+                Assert.NotNull(actualMatch, $"Statement entry {expectedMatch.Item1.Details} should have a match");
 
-                Assert.AreEqual(expectedMatch.Item2, match.Item2, $"Statement entry {expectedMatch.Item1.Details} should be a match with Transaction {expectedMatch.Item2.Merchant}");
+                Assert.AreEqual(expectedMatch.Item2, actualMatch.Item2, $"Statement entry {expectedMatch.Item1.Details} should be a match with Transaction {expectedMatch.Item2.Merchant}, not {actualMatch.Item2.Merchant}");
             }
 
             Assert.AreEqual(expectedMatches.Count, actualMatches.Count, "The overall number of matches");
