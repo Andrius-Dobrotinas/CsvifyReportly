@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Andy.ExpenseReport
 {
-    public static class DataCombiner
+    public static class ResultAggregation
     {
         public static IEnumerable<string[]> GetDataRows(
             IList<Tuple<StatementEntryWithSourceData, TransactionDetailsWithSourceData>> matches,

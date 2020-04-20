@@ -119,7 +119,7 @@ namespace Andy.ExpenseReport.Cmd
             var blankStatementRow = new string[statementColumnCount];
             var blankTransactionRow = new string[transactionColumnCount];
 
-            var allRows = DataCombiner.GetDataRows(
+            var allRows = ResultAggregation.GetDataRows(
                 result.Matches,
                 result.UnmatchedStatementEntries,
                 result.UnmatchedTransactions,
