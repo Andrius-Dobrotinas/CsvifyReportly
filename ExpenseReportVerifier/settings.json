@@ -1,0 +1,20 @@
+{
+  "StatementFile": {
+    "ColumnIndexes": {
+      "Date": 0,
+      "Amount": 1,
+      "Details": 2
+    },
+    "Delimiter": ","
+  },
+  "TransactionsFile": {
+    "ColumnMapping": {
+      "Date": 0,
+      "Amount": 2,
+      "IsPayPal": 3,
+      "Merchant": 5
+    },
+    "Delimiter": ","
+  },
+  "OutputCsvDelimiter":  ","
+}

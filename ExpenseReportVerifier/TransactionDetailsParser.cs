@@ -1,22 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Andy.ExpenseReport
 {
     public class TransactionDetailsParser
     {
-        public static TransactionDetailsWithSourceData Parse(string[] csvRow)
+        private TransactionDetailsColumnIndexes columnMapping;
+
+        public TransactionDetailsParser(TransactionDetailsColumnIndexes columnMapping)
         {
+            this.columnMapping = columnMapping;
+        }
+
+        public TransactionDetailsWithSourceData Parse(string[] csvRow)
+        {
+            if (csvRow == null) throw new ArgumentNullException(nameof(csvRow));
+
             // TODO: error/null value handling
-            // take indexes from a settings file
 
             return new TransactionDetailsWithSourceData
             {
-                Date = DateTime.Parse(csvRow[0]).Date,
-                Amount = decimal.Parse(csvRow[2]),
-                IsPayPal = bool.Parse(csvRow[3]),
-                Merchant = csvRow[5],
+                Date = DateTime.Parse(csvRow[columnMapping.Date]).Date,
+                Amount = decimal.Parse(csvRow[columnMapping.Amount]),
+                IsPayPal = bool.Parse(csvRow[columnMapping.IsPayPal]),
+                Merchant = csvRow[columnMapping.Merchant],
                 SourceData = csvRow
             };
         }

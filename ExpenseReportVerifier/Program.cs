@@ -7,6 +7,8 @@ namespace Andy.ExpenseReport
 {
     class Program
     {
+        private const string settingsFileName = "settings.json";
+
         static int Main(string[] args)
         {
             Parameters parameters;
@@ -17,18 +19,30 @@ namespace Andy.ExpenseReport
             }
             catch (Exception e)
             {
+                Console.Error.WriteLine("There's a problem with command parameters:");
                 Console.Error.WriteLine(e.Message);
                 return -2;
-            }            
+            }
+
+            ApplicationSettings settings;
+            try
+            {
+                settings = ApplicationSettings.ReadSettings(new FileInfo(settingsFileName));
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("There's a problem with a settings file:");
+                Console.Error.WriteLine(e.Message);
+                return -50;
+            }
 
             try
             {
                 Act(
                     parameters.StatementFile,
                     parameters.TransactionFile,
-                    parameters.InputCsvDelimiter,
-                    parameters.ReportFile,
-                    parameters.OutputCsvDelimiter);
+                    parameters.ComparisonReportFile,
+                    settings);
             }
             catch (ConsoleApplicationLevelException e)
             {
@@ -53,14 +67,17 @@ namespace Andy.ExpenseReport
         private static void Act(
             FileInfo statementFile,
             FileInfo transactionsFile,
-            char csvDelimiter,
             FileInfo reportFile,
-            char reportCsvDelimiter)
+            ApplicationSettings settings)
         {
             SourceData sourceData;
             try
             {
-                sourceData = ReadSourceData(statementFile, transactionsFile, csvDelimiter);
+                sourceData = ReadSourceData(
+                    statementFile,
+                    transactionsFile,
+                    settings.StatementCsvFile,
+                    settings.TransactionsCsvFile);
             }
             catch (Exception e)
             {
@@ -91,7 +108,7 @@ namespace Andy.ExpenseReport
                     result,
                     sourceData.StatementColumnCount,
                     sourceData.TransactionColumnCount,
-                    reportCsvDelimiter,
+                    settings.OutputCsvDelimiter,
                     stringyfyer);
 
                 Csv.IO.CsvFileWriter.Write(lines, reportFile);
@@ -105,10 +122,16 @@ namespace Andy.ExpenseReport
         private static SourceData ReadSourceData(
             FileInfo statementFile,
             FileInfo transactionsFile,
-            char csvDelimiter)
+            StatementCsvFileSettings statementFileSettings,
+            TransactionCsvFileSettings transactionDetailsFileSettings)
         {
-            string[][] statementRows = ReadCsvFile(statementFile, csvDelimiter);
-            string[][] transactionRows = ReadCsvFile(transactionsFile, csvDelimiter);
+            string[][] statementRows = ReadCsvFile(
+                statementFile,
+                statementFileSettings.Delimiter);
+
+            string[][] transactionRows = ReadCsvFile(
+                transactionsFile,
+                transactionDetailsFileSettings.Delimiter);
 
             if (!statementRows.Any()) throw new Exception("Statement file is empty");
             if (!transactionRows.Any()) throw new Exception("Transactions file is empty");
@@ -122,8 +145,11 @@ namespace Andy.ExpenseReport
             if (!statementRows.All(row => row.Length == statementColumnCount))
                 throw new Exception("All statement rows must have the same number of columns");
 
-            var transactions = transactionRows.Select(TransactionDetailsParser.Parse);
-            var statementEntries = statementRows.Select(StatementEntryParser.Parse);
+            var transactionRowParser = new TransactionDetailsParser(transactionDetailsFileSettings.ColumnIndexes);
+            var statementRowParser = new StatementEntryParser(statementFileSettings.ColumnIndexes);
+
+            var transactions = transactionRows.Select(transactionRowParser.Parse);
+            var statementEntries = statementRows.Select(statementRowParser.Parse);
 
             return new SourceData
             {
