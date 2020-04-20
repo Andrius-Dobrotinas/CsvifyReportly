@@ -6,6 +6,8 @@
     <IsPackable>false</IsPackable>
 
     <RootNamespace>Andy.ExpenseReport</RootNamespace>
+
+    <AssemblyName>ExpenseReport.Tests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ExpenseReportVerifier\ExpenseReportVerifier.csproj" />
+    <ProjectReference Include="..\ExpenseReport\ExpenseReport.csproj" />
   </ItemGroup>
 
 </Project>

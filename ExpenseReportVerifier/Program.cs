@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Andy.ExpenseReport
+namespace Andy.ExpenseReport.Cmd
 {
     class Program
     {

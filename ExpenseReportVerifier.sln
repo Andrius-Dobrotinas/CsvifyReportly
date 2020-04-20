@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReportVerifier", "ExpenseReportVerifier\ExpenseReportVerifier.csproj", "{73506D46-7642-417E-A1C3-E270782A64F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReportVerifier", "ExpenseReportVerifier\ExpenseReportVerifier.csproj", "{73506D46-7642-417E-A1C3-E270782A64F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReportVerifier.Tests", "ExpenseReportVerifier.Tests\ExpenseReportVerifier.Tests.csproj", "{00985E11-F953-4B81-8B68-6A1DA6917B65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReport.Tests", "ExpenseReportVerifier.Tests\ExpenseReport.Tests.csproj", "{00985E11-F953-4B81-8B68-6A1DA6917B65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReport", "ExpenseReport\ExpenseReport.csproj", "{EF90DCB5-077D-4A58-A5C5-8A27DD8032D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Csv", "Csv\Csv.csproj", "{86AFF9CE-4424-4B77-A306-E180050B47D9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csv.Tests", "Csv.Tests\Csv.Tests.csproj", "{FAE03678-9391-48EF-BB72-FC3CC270DC04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{00985E11-F953-4B81-8B68-6A1DA6917B65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00985E11-F953-4B81-8B68-6A1DA6917B65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00985E11-F953-4B81-8B68-6A1DA6917B65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF90DCB5-077D-4A58-A5C5-8A27DD8032D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF90DCB5-077D-4A58-A5C5-8A27DD8032D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF90DCB5-077D-4A58-A5C5-8A27DD8032D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF90DCB5-077D-4A58-A5C5-8A27DD8032D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86AFF9CE-4424-4B77-A306-E180050B47D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86AFF9CE-4424-4B77-A306-E180050B47D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86AFF9CE-4424-4B77-A306-E180050B47D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86AFF9CE-4424-4B77-A306-E180050B47D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAE03678-9391-48EF-BB72-FC3CC270DC04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAE03678-9391-48EF-BB72-FC3CC270DC04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAE03678-9391-48EF-BB72-FC3CC270DC04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAE03678-9391-48EF-BB72-FC3CC270DC04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

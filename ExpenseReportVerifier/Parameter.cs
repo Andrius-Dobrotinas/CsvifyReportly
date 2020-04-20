@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Andy.ExpenseReport
+namespace Andy.ExpenseReport.Cmd
 {
     public static class Parameter
     {

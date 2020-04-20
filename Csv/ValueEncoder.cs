@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Csv
+namespace Andy.Csv
 {
     public interface IValueEncoder
     {

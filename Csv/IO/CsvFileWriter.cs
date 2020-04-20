@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Andy.ExpenseReport.Csv.IO
+namespace Andy.Csv.IO
 {
     public static class CsvFileWriter
     {

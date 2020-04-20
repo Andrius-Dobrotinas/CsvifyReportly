@@ -1,4 +1,4 @@
-﻿namespace Andy.ExpenseReport
+﻿namespace Andy.ExpenseReport.Cmd
 {
     public class SourceDataReadException : ConsoleApplicationLevelException
     {

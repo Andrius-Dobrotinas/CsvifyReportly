@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Andy.ExpenseReport
+namespace Andy.ExpenseReport.Cmd
 {
     public abstract class ConsoleApplicationLevelException : Exception
     {
