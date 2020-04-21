@@ -68,7 +68,7 @@ namespace Andy.ExpenseReport.Cmd
         {
             if (exception is SourceDataReadException)
                 return -100;
-            if (exception is ReportFileWriteException)
+            if (exception is ReportFileProductionException)
                 return -300;
             if (exception is DataProcessingException)
                 return -200;

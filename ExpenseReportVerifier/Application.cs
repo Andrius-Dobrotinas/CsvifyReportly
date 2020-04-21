@@ -61,7 +61,7 @@ namespace Andy.ExpenseReport.Cmd
             }
             catch (Exception e)
             {
-                throw new ReportFileWriteException(e);
+                throw new ReportFileProductionException(e);
             }
         }
 
