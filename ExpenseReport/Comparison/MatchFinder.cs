@@ -6,7 +6,7 @@ namespace Andy.ExpenseReport.Comparison
     public interface IMatchFinder
     {
         IList<Tuple<TStatementEntry, TTransactionDetails>> GetMatches<TStatementEntry, TTransactionDetails>(
-            IEnumerable<TStatementEntry> statement,
+            IList<TStatementEntry> statement,
             IList<TTransactionDetails> transactions)
             where TStatementEntry : StatementEntry
             where TTransactionDetails : TransactionDetails;
@@ -23,7 +23,7 @@ namespace Andy.ExpenseReport.Comparison
         }
 
         public IList<Tuple<TStatementEntry, TTransactionDetails>> GetMatches<TStatementEntry, TTransactionDetails>(
-            IEnumerable<TStatementEntry> statement,
+            IList<TStatementEntry> statement,
             IList<TTransactionDetails> transactions)
             where TStatementEntry : StatementEntry
             where TTransactionDetails : TransactionDetails

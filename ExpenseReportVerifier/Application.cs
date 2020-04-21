@@ -38,7 +38,7 @@ namespace Andy.ExpenseReport.Cmd
             {
                 result = comparer.Compare(
                     sourceData.StatementEntries,
-                    sourceData.Transactions.ToArray());
+                    sourceData.Transactions);
             }
             catch (Exception e)
             {

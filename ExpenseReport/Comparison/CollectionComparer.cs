@@ -7,7 +7,7 @@ namespace Andy.ExpenseReport.Comparison
     public interface ICollectionComparer
     {
         public ComparisonResult<TStatementEntry, TTransactionDetails> Compare<TStatementEntry, TTransactionDetails>(
-            IEnumerable<TStatementEntry> statement,
+            IList<TStatementEntry> statement,
             IList<TTransactionDetails> transactions)
             where TStatementEntry : StatementEntry
             where TTransactionDetails : TransactionDetails;
@@ -24,7 +24,7 @@ namespace Andy.ExpenseReport.Comparison
         }
 
         public ComparisonResult<TStatementEntry, TTransactionDetails> Compare<TStatementEntry, TTransactionDetails>(
-            IEnumerable<TStatementEntry> statement,
+            IList<TStatementEntry> statement,
             IList<TTransactionDetails> transactions)
             where TStatementEntry : StatementEntry
             where TTransactionDetails : TransactionDetails
