@@ -12,7 +12,7 @@ namespace Andy.ExpenseReport.Verifier
             FileInfo statementFile,
             FileInfo transactionsFile,
             FileInfo reportFile,
-            ApplicationSettings settings)
+            ApplicationParameters settings)
         {
             SourceData sourceData;
             try

@@ -10,8 +10,8 @@ namespace Andy.ExpenseReport.Verifier
         public static SourceData ReadSourceData(
             FileInfo statementFile,
             FileInfo transactionsFile,
-            StatementCsvFileSettings statementFileSettings,
-            TransactionCsvFileSettings transactionDetailsFileSettings)
+            StatementCsvFileParameters statementFileSettings,
+            TransactionCsvFileParameters transactionDetailsFileSettings)
         {
             int statementColumnCount;
             var statementRows = ReadAndValidateRowsFromFile(

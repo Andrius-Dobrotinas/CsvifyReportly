@@ -24,7 +24,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 return -2;
             }
 
-            ApplicationSettings settings;
+            ApplicationParameters settings;
             try
             {
                 settings = SettingsReader.ReadSettings(new FileInfo(settingsFileName));
