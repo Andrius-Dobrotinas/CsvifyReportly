@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Cmd.CommandLine
+namespace Andy.ExpenseReport.Verifier.Cmd
 {
     public class ArgumentParser
     {

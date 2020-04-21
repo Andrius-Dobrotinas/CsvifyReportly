@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Andy.ExpenseReport.Cmd
+namespace Andy.ExpenseReport.Verifier
 {
     public static class ResultAggregation
     {

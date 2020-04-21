@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Andy.ExpenseReport.Cmd
+namespace Andy.ExpenseReport.Verifier.Cmd
 {
     public static class Parameter
     {

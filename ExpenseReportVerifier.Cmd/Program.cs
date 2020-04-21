@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Andy.ExpenseReport.Cmd
+namespace Andy.ExpenseReport.Verifier.Cmd
 {
     class Program
     {
@@ -27,7 +27,7 @@ namespace Andy.ExpenseReport.Cmd
             ApplicationSettings settings;
             try
             {
-                settings = ApplicationSettings.ReadSettings(new FileInfo(settingsFileName));
+                settings = SettingsReader.ReadSettings(new FileInfo(settingsFileName));
             }
             catch (Exception e)
             {
@@ -78,7 +78,7 @@ namespace Andy.ExpenseReport.Cmd
 
         private static IDictionary<string, string> ParseArguments(string[] args)
         {
-            var argParser = new CommandLine.ArgumentParser('=');
+            var argParser = new ArgumentParser('=');
 
             return args.Select(argParser.ParseArgument)
                 .ToDictionary(

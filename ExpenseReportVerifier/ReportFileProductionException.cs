@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Andy.ExpenseReport.Cmd
+namespace Andy.ExpenseReport.Verifier
 {
     public class ReportFileProductionException : MyApplicationException
     {

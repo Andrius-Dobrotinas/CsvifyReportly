@@ -7,11 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReportVerifier", "Ex
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReport.Tests", "ExpenseReportVerifier.Tests\ExpenseReport.Tests.csproj", "{00985E11-F953-4B81-8B68-6A1DA6917B65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseReport", "ExpenseReport\ExpenseReport.csproj", "{EF90DCB5-077D-4A58-A5C5-8A27DD8032D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReport", "ExpenseReport\ExpenseReport.csproj", "{EF90DCB5-077D-4A58-A5C5-8A27DD8032D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Csv", "Csv\Csv.csproj", "{86AFF9CE-4424-4B77-A306-E180050B47D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csv", "Csv\Csv.csproj", "{86AFF9CE-4424-4B77-A306-E180050B47D9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csv.Tests", "Csv.Tests\Csv.Tests.csproj", "{FAE03678-9391-48EF-BB72-FC3CC270DC04}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReportVerifier.Cmd", "ExpenseReportVerifier.Cmd\ExpenseReportVerifier.Cmd.csproj", "{12127906-5B01-4DF6-9801-8F484E3E2DEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{FAE03678-9391-48EF-BB72-FC3CC270DC04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAE03678-9391-48EF-BB72-FC3CC270DC04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAE03678-9391-48EF-BB72-FC3CC270DC04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12127906-5B01-4DF6-9801-8F484E3E2DEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12127906-5B01-4DF6-9801-8F484E3E2DEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12127906-5B01-4DF6-9801-8F484E3E2DEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12127906-5B01-4DF6-9801-8F484E3E2DEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

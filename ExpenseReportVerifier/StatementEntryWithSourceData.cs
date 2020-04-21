@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Cmd
+namespace Andy.ExpenseReport.Verifier
 {
     public class StatementEntryWithSourceData : StatementEntry
     {

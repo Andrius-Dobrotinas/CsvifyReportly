@@ -1,7 +1,7 @@
 ﻿using Andy.ExpenseReport.Comparison;
 using System;
 
-namespace Andy.ExpenseReport.Cmd
+namespace Andy.ExpenseReport.Verifier
 {
     public class TransactionDetailsWithSourceData : TransactionDetails
     {

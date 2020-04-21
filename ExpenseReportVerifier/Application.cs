@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Andy.ExpenseReport.Cmd
+namespace Andy.ExpenseReport.Verifier
 {
     public static class Application
     {
@@ -59,6 +59,6 @@ namespace Andy.ExpenseReport.Cmd
             {
                 throw new ReportFileProductionException(e);
             }
-        }        
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Andy.ExpenseReport.Cmd
+namespace Andy.ExpenseReport.Verifier.Cmd
 {
     public class Parameters
     {
