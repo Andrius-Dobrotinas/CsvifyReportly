@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Andy.ExpenseReport
+namespace Andy.ExpenseReport.Comparison
 {
     class ItemComparerTests
     {

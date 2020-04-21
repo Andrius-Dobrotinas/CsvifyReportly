@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport
+namespace Andy.ExpenseReport.Comparison
 {
     public class ComparisonResult<TStatementEntry, TTransactionDetails>
         where TStatementEntry : StatementEntry
