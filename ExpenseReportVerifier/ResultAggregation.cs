@@ -7,19 +7,19 @@ namespace Andy.ExpenseReport.Cmd
     public static class ResultAggregation
     {
         public static IEnumerable<string[]> GetDataRows(
-            IList<Tuple<StatementEntryWithSourceData, TransactionDetailsWithSourceData>> matches,
-            IList<StatementEntryWithSourceData> unmatchedStatementEntries,
-            IList<TransactionDetailsWithSourceData> unmatchedTransactions,
+            IEnumerable<Tuple<string[], string[]>> matches,
+            IEnumerable<string[]> unmatchedStatementEntries,
+            IEnumerable<string[]> unmatchedTransactions,
             string[] separatorColumns,
-            string[] blankStatementRow,
-            string[] blankTransactionRow)
+            string[] blankStatementColumns,
+            string[] blankTransactionColumns)
         {
             var allRowPairs = GetDataRowPairs(
                 matches,
                 unmatchedStatementEntries,
                 unmatchedTransactions,
-                blankStatementRow,
-                blankTransactionRow);
+                blankStatementColumns,
+                blankTransactionColumns);
 
             return allRowPairs
                 .Select(pair => JoinTwoRows(pair, separatorColumns))
@@ -27,30 +27,43 @@ namespace Andy.ExpenseReport.Cmd
         }
 
         private static IEnumerable<Tuple<string[], string[]>> GetDataRowPairs(
-            IList<Tuple<StatementEntryWithSourceData, TransactionDetailsWithSourceData>> matches,
-            IList<StatementEntryWithSourceData> unmatchedStatementEntries,
-            IList<TransactionDetailsWithSourceData> unmatchedTransactions,
-            string[] blankStatementRow,
-            string[] blankTransactionRow)
+            IEnumerable<Tuple<string[], string[]>> matches,
+            IEnumerable<string[]> unmatchedStatementEntries,
+            IEnumerable<string[]> unmatchedTransactions,
+            string[] blankStatementColumns,
+            string[] blankTransactionColumns)
         {
-            var matchRows = matches.Select(
-                x => new Tuple<string[], string[]>(
-                    x.Item1.SourceData,
-                    x.Item2.SourceData));
+            var unmatchedStatementRows = GetUnmatchedStatementRowPairs(
+                unmatchedStatementEntries,
+                blankTransactionColumns);
 
-            var unmatchedStatementRows = unmatchedStatementEntries.Select(
-                row => new Tuple<string[], string[]>(
-                    row.SourceData,
-                    blankTransactionRow));
+            var unmatchedTransactionRows = GetUnmatchedTransactionRowPairs(
+                unmatchedTransactions,
+                blankStatementColumns);
 
-            var unmatchedTransactionRows = unmatchedTransactions.Select(
-                row => new Tuple<string[], string[]>(
-                    blankStatementRow,
-                    row.SourceData));
-
-            return matchRows
+            return matches
                 .Concat(unmatchedStatementRows)
                 .Concat(unmatchedTransactionRows);
+        }
+
+        private static IEnumerable<Tuple<string[], string[]>> GetUnmatchedStatementRowPairs(
+            IEnumerable<string[]> unmatchedStatementEntries,
+            string[] blankTransactionColumns)
+        {            
+            return unmatchedStatementEntries.Select(
+                row => new Tuple<string[], string[]>(
+                    row,
+                    blankTransactionColumns));
+        }
+
+        private static IEnumerable<Tuple<string[], string[]>> GetUnmatchedTransactionRowPairs(
+            IEnumerable<string[]> unmatchedTransactions,
+            string[] blankStatementColumns)
+        {
+            return unmatchedTransactions.Select(
+                row => new Tuple<string[], string[]>(
+                    blankStatementColumns,
+                    row));
         }
 
         private static string[] JoinTwoRows(Tuple<string[], string[]> rowPair, string[] separatorColumns)

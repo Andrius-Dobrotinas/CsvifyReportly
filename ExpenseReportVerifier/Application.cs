@@ -71,25 +71,17 @@ namespace Andy.ExpenseReport.Cmd
             StatementCsvFileSettings statementFileSettings,
             TransactionCsvFileSettings transactionDetailsFileSettings)
         {
-            string[][] statementRows = ReadCsvFile(
-                statementFile,
-                statementFileSettings.Delimiter);
+            int statementColumnCount;
+            var statementRows = ReadAndValidateRowsFromFile(
+                    statementFile,
+                    statementFileSettings.Delimiter,
+                    out statementColumnCount);
 
-            string[][] transactionRows = ReadCsvFile(
-                transactionsFile,
-                transactionDetailsFileSettings.Delimiter);
-
-            if (!statementRows.Any()) throw new Exception("Statement file is empty");
-            if (!transactionRows.Any()) throw new Exception("Transactions file is empty");
-
-            // want to make sure all rows have equal number of columns. otherwise, it might get tricky down the line
-            int transactionColumnCount = transactionRows.First().Length;
-            if (!transactionRows.All(row => row.Length == transactionColumnCount))
-                throw new Exception("All transaction rows must have the same number of columns");
-
-            int statementColumnCount = statementRows.First().Length;
-            if (!statementRows.All(row => row.Length == statementColumnCount))
-                throw new Exception("All statement rows must have the same number of columns");
+            int transactionColumnCount;
+            var transactionRows = ReadAndValidateRowsFromFile(
+                    transactionsFile,
+                    transactionDetailsFileSettings.Delimiter,
+                    out transactionColumnCount);
 
             var transactionRowParser = new TransactionDetailsParser(transactionDetailsFileSettings.ColumnIndexes);
             var statementRowParser = new StatementEntryParser(statementFileSettings.ColumnIndexes);
@@ -106,7 +98,28 @@ namespace Andy.ExpenseReport.Cmd
             };
         }
 
-        private static string[][] ReadCsvFile(FileInfo file, char delimiter)
+        private static string[][] ReadAndValidateRowsFromFile(
+            FileInfo statementFile,
+            char delimiter,
+            out int columnCount)
+        {
+            string[][] statementRows = ReadRowsFromCsvFile(
+                statementFile,
+                delimiter);
+
+            if (!statementRows.Any()) throw new Exception("The has no CSV content");
+
+            // want to make sure all rows have equal number of columns. otherwise, it could get tricky down the line
+            columnCount = statementRows.First().Length;
+
+            int colCount = columnCount;
+            if (!statementRows.All(row => row.Length == colCount))
+                throw new Exception("All rows in a CSV file must have the same number of columns");
+
+            return statementRows;
+        }
+
+        private static string[][] ReadRowsFromCsvFile(FileInfo file, char delimiter)
         {
             return Csv.IO.CsvFileReader.Read(file, line => Csv.RowParser.Parse(line, delimiter));
         }
@@ -122,10 +135,15 @@ namespace Andy.ExpenseReport.Cmd
             var blankStatementRow = new string[statementColumnCount];
             var blankTransactionRow = new string[transactionColumnCount];
 
+            var matchRows = result.Matches.Select(
+                x => new Tuple<string[], string[]>(
+                    x.Item1.SourceData,
+                    x.Item2.SourceData));
+
             var allRows = ResultAggregation.GetDataRows(
-                result.Matches,
-                result.UnmatchedStatementEntries,
-                result.UnmatchedTransactions,
+                matchRows,
+                result.UnmatchedStatementEntries.Select(x => x.SourceData),
+                result.UnmatchedTransactions.Select(x => x.SourceData),
                 transactionAndStatementSeparatorColumns,
                 blankStatementRow,
                 blankTransactionRow);
