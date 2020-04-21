@@ -1,5 +1,4 @@
-﻿using Andy.ExpenseReport.Comparison;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,17 +27,14 @@ namespace Andy.ExpenseReport.Cmd
                 throw new SourceDataReadException(e);
             }
 
-            var comparer = new CollectionComparer(
-                new MatchFinder(
-                    new ItemComparer(
-                        new MerchantNameComparer())));
-
-            ComparisonResult<StatementEntryWithSourceData, TransactionDetailsWithSourceData> result;
+            ComparisonResult result;
             try
             {
-                result = comparer.Compare(
-                    sourceData.StatementEntries,
-                    sourceData.Transactions);
+                result = Comparer.Compare(
+                    sourceData.Transactions,
+                    sourceData.StatementEntries, 
+                    settings.TransactionsCsvFile.ColumnIndexes, 
+                    settings.StatementCsvFile.ColumnIndexes);
             }
             catch (Exception e)
             {
@@ -46,7 +42,7 @@ namespace Andy.ExpenseReport.Cmd
             }
 
             var stringyfyer = new Csv.RowStringifier(
-                new Csv.ValueEncoder());
+                new Csv.ValueEncoder());            
 
             try
             {
@@ -63,6 +59,6 @@ namespace Andy.ExpenseReport.Cmd
             {
                 throw new ReportFileProductionException(e);
             }
-        }
+        }        
     }
 }

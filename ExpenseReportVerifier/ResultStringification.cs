@@ -1,5 +1,4 @@
-﻿using Andy.ExpenseReport.Comparison;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,7 +7,7 @@ namespace Andy.ExpenseReport.Cmd
     public class ResultStringification
     {
         public static string[] StringyfyyResults(
-            ComparisonResult<StatementEntryWithSourceData, TransactionDetailsWithSourceData> result,
+            ComparisonResult result,
             int statementColumnCount,
             int transactionColumnCount,
             char csvDelimiter,
@@ -18,15 +17,10 @@ namespace Andy.ExpenseReport.Cmd
             var blankStatementRow = new string[statementColumnCount];
             var blankTransactionRow = new string[transactionColumnCount];
 
-            var matchRows = result.Matches.Select(
-                x => new Tuple<string[], string[]>(
-                    x.Item1.SourceData,
-                    x.Item2.SourceData));
-
             var allRows = ResultAggregation.GetDataRows(
-                matchRows,
-                result.UnmatchedStatementEntries.Select(x => x.SourceData),
-                result.UnmatchedTransactions.Select(x => x.SourceData),
+                result.Matches,
+                result.UnmatchedStatementEntries,
+                result.UnmatchedTransactions,
                 transactionAndStatementSeparatorColumns,
                 blankStatementRow,
                 blankTransactionRow);

@@ -23,19 +23,13 @@ namespace Andy.ExpenseReport.Cmd
             var transactionRows = ReadAndValidateRowsFromFile(
                     transactionsFile,
                     transactionDetailsFileSettings.Delimiter,
-                    out transactionColumnCount);
-
-            var transactionRowParser = new TransactionDetailsParser(transactionDetailsFileSettings.ColumnIndexes);
-            var statementRowParser = new StatementEntryParser(statementFileSettings.ColumnIndexes);
-
-            var transactions = transactionRows.Select(transactionRowParser.Parse);
-            var statementEntries = statementRows.Select(statementRowParser.Parse);
+                    out transactionColumnCount);            
 
             return new SourceData
             {
-                Transactions = transactions.ToArray(),
+                Transactions = transactionRows,
                 TransactionColumnCount = transactionColumnCount,
-                StatementEntries = statementEntries.ToArray(),
+                StatementEntries = statementRows,
                 StatementColumnCount = statementColumnCount
             };
         }
