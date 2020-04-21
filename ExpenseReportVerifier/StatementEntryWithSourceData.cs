@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Andy.ExpenseReport.Comparison;
+using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Andy.ExpenseReport
+namespace Andy.ExpenseReport.Cmd
 {
     public class StatementEntryWithSourceData : StatementEntry
     {

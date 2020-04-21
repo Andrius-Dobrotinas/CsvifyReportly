@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Andy.ExpenseReport.Comparison;
+using System;
 
-namespace Andy.ExpenseReport
+namespace Andy.ExpenseReport.Cmd
 {
     public class TransactionDetailsWithSourceData : TransactionDetails
     {

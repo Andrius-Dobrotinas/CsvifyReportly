@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Andy.ExpenseReport
+namespace Andy.ExpenseReport.Comparison
 {
     public class StatementEntry
     {

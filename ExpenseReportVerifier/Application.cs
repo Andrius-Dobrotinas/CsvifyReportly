@@ -28,7 +28,7 @@ namespace Andy.ExpenseReport.Cmd
                 throw new SourceDataReadException(e.Message);
             }
 
-            var matcher = new CollectionComparer(
+            var comparer = new CollectionComparer(
                 new MatchFinder(
                     new ItemComparer(
                         new MerchantNameComparer())));
@@ -36,7 +36,9 @@ namespace Andy.ExpenseReport.Cmd
             ComparisonResult<StatementEntryWithSourceData, TransactionDetailsWithSourceData> result;
             try
             {
-                result = matcher.Compare(sourceData.StatementEntries, sourceData.Transactions.ToArray());
+                result = comparer.Compare(
+                    sourceData.StatementEntries,
+                    sourceData.Transactions.ToArray());
             }
             catch (Exception e)
             {
