@@ -44,12 +44,12 @@ namespace Andy.ExpenseReport.Cmd
                     parameters.ComparisonReportFile,
                     settings);
             }
-            catch (ConsoleApplicationLevelException e)
+            catch (MyApplicationException e)
             {
                 Console.Error.WriteLine(e.Message);
-                Console.Error.WriteLine(e.ExceptionDetails);
-
-                return e.ReturnCode;
+                Console.Error.WriteLine(e.Details);
+                
+                return ResolveReturnCode(e);
             }
             catch (Exception e)
             {
@@ -62,6 +62,18 @@ namespace Andy.ExpenseReport.Cmd
             Console.WriteLine("Done");
 
             return 0;
+        }
+
+        private static int ResolveReturnCode(MyApplicationException exception)
+        {
+            if (exception is SourceDataReadException)
+                return -100;
+            if (exception is ReportFileWriteException)
+                return -300;
+            if (exception is DataProcessingException)
+                return -200;
+
+            return -1;
         }
 
         private static IDictionary<string, string> ParseArguments(string[] args)

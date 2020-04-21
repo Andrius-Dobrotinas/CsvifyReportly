@@ -1,9 +1,11 @@
-﻿namespace Andy.ExpenseReport.Cmd
+﻿using System;
+
+namespace Andy.ExpenseReport.Cmd
 {
-    public class DataProcessingException : ConsoleApplicationLevelException
+    public class DataProcessingException : MyApplicationException
     {
-        public DataProcessingException(string exceptionDetails)
-            : base(-200, "Failed to perform the comparison of data", exceptionDetails)
+        public DataProcessingException(Exception e)
+            : base("Failed to perform the comparison of data", e)
         {
         }
     }

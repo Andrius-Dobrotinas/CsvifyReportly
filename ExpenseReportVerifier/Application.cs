@@ -25,7 +25,7 @@ namespace Andy.ExpenseReport.Cmd
             }
             catch (Exception e)
             {
-                throw new SourceDataReadException(e.Message);
+                throw new SourceDataReadException(e);
             }
 
             var comparer = new CollectionComparer(
@@ -42,7 +42,7 @@ namespace Andy.ExpenseReport.Cmd
             }
             catch (Exception e)
             {
-                throw new DataProcessingException(e.Message);
+                throw new DataProcessingException(e);
             }
 
             var stringyfyer = new Csv.RowStringifier(
@@ -61,7 +61,7 @@ namespace Andy.ExpenseReport.Cmd
             }
             catch (Exception e)
             {
-                throw new ReportFileWriteException(e.Message);
+                throw new ReportFileWriteException(e);
             }
         }
 

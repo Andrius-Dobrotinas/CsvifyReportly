@@ -1,9 +1,11 @@
-﻿namespace Andy.ExpenseReport.Cmd
+﻿using System;
+
+namespace Andy.ExpenseReport.Cmd
 {
-    public class ReportFileWriteException : ConsoleApplicationLevelException
+    public class ReportFileWriteException : MyApplicationException
     {
-        public ReportFileWriteException(string message)
-            : base(-300, "Failed to write the report file", message)
+        public ReportFileWriteException(Exception e)
+            : base("Failed to write the report file", e)
         {
         }
     }
