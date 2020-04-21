@@ -10,11 +10,11 @@ namespace Andy.ExpenseReport.Comparison
 
     public class ItemComparer : IItemComparer
     {
-        private readonly IMerchantStringComparer merchantComparer;
+        private readonly IMerchantNameComparer merchantNameComparer;
 
-        public ItemComparer(IMerchantStringComparer merchantComparer)
+        public ItemComparer(IMerchantNameComparer merchantNameComparer)
         {
-            this.merchantComparer = merchantComparer;
+            this.merchantNameComparer = merchantNameComparer;
         }
 
         public bool AreEqual(TransactionDetails transaction, StatementEntry statementEntry)
@@ -30,7 +30,7 @@ namespace Andy.ExpenseReport.Comparison
 
         private bool IsMerchantEqual(TransactionDetails transcation, StatementEntry statement)
         {
-            return merchantComparer.DoStatementDetailsReferToMerchant(statement.Details, transcation.Merchant, transcation.IsPayPal);
+            return merchantNameComparer.DoStatementDetailsReferToMerchant(statement.Details, transcation.Merchant, transcation.IsPayPal);
         }
     }
 }

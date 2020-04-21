@@ -31,7 +31,7 @@ namespace Andy.ExpenseReport.Cmd
             var matcher = new CollectionComparer(
                 new MatchFinder(
                     new ItemComparer(
-                        new MerchantComparer())));
+                        new MerchantNameComparer())));
 
             ComparisonResult<StatementEntryWithSourceData, TransactionDetailsWithSourceData> result;
             try

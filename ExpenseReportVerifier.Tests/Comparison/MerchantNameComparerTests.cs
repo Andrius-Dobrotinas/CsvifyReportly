@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Andy.ExpenseReport.Comparison
 {
-    public class MerchantComparerTests
+    public class MerchantNameComparerTests
     {
-        private MerchantComparer target = new MerchantComparer();
+        private MerchantNameComparer target = new MerchantNameComparer();
 
         [TestCase("something'", "something'")]
         [TestCase("nuthin'", "NUTHIN'", Description = "Must be case-insensitive")]

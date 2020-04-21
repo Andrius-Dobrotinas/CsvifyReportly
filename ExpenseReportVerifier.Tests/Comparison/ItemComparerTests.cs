@@ -9,12 +9,12 @@ namespace Andy.ExpenseReport.Comparison
     class ItemComparerTests
     {
         ItemComparer target;
-        Mock<IMerchantStringComparer> merchantComparer;
+        Mock<IMerchantNameComparer> merchantComparer;
 
         [SetUp]
         public void Setup()
         {
-            merchantComparer = new Mock<IMerchantStringComparer>();
+            merchantComparer = new Mock<IMerchantNameComparer>();
             target = new ItemComparer(merchantComparer.Object);
         }
 
