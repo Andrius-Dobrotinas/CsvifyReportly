@@ -8,7 +8,7 @@ namespace Andy.ExpenseReport.Verifier
 {
     public static class Application
     {
-        public static void Go(
+        public static void CompareAndWriteReport(
             FileInfo statementFile,
             FileInfo transactionsFile,
             FileInfo reportFile,

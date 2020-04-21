@@ -38,7 +38,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 
             try
             {
-                Application.Go(
+                Application.CompareAndWriteReport(
                     parameters.StatementFile,
                     parameters.TransactionFile,
                     parameters.ComparisonReportFile,
