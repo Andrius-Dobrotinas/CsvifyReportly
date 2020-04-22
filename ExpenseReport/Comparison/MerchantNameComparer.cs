@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Andy.ExpenseReport.Comparison
 {
@@ -13,6 +14,7 @@ namespace Andy.ExpenseReport.Comparison
         // Take this as a constructor parameter
         private const string paypalDescriptionPrefix = "PAYPAL *";
         private static int paypalDescriptionPrefixLength = paypalDescriptionPrefix.Length;
+        private static readonly string[] amazonPrefixes = new string[] { "AMAZON", "AMZNMKTPLACE", "AMZ*AMAZON.CO.UK" };
 
         public bool DoStatementDetailsReferToMerchant(string statementDetails, string merchant, bool isViaPayPal)
         {
@@ -28,10 +30,23 @@ namespace Andy.ExpenseReport.Comparison
                 else
                     return false;
             }
-            else
+            else               
                 statementMerchantDetails = statementDetails;
 
-            return string.Equals(statementMerchantDetails, merchant, StringComparison.InvariantCultureIgnoreCase);
+            if (string.Equals(statementMerchantDetails, merchant, StringComparison.InvariantCultureIgnoreCase))
+                return true;
+            if (IsAmazon(merchant) && IsAmazon(statementMerchantDetails))
+                return true;
+            return false;
+        }
+
+        private static bool IsAmazon(string @string)
+        {
+            return amazonPrefixes
+                    .Any(
+                        amzPrefix => @string.StartsWith(
+                            amzPrefix,
+                            StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }
