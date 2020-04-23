@@ -23,12 +23,12 @@ namespace Andy.ExpenseReport.Verifier.Comparison
             var comparer = new CollectionComparer<
                     StatementEntryWithSourceData,
                     TransactionDetailsWithSourceData>(
-                new MatchFinder<
+                new ExpenseReport.Comparison.Statement.Bank.MatchFinder<
                     StatementEntryWithSourceData,
                     TransactionDetailsWithSourceData>(
-                    new ItemComparer(
-                        new MerchantNameComparer(
-                            new MerchanNameMapComparer(nameMap)))));
+                    new ExpenseReport.Comparison.Statement.Bank.ItemComparer(
+                        new ExpenseReport.Comparison.Statement.Bank.MerchantNameComparer(
+                            new ExpenseReport.Comparison.Statement.Bank.MerchanNameMapComparer(nameMap)))));
 
             var result = comparer.Compare(
                     statementEntries,

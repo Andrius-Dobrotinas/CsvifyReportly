@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Comparison
+namespace Andy.ExpenseReport.Comparison.Statement.Bank
 {
-    public interface IItemComparer<in TItem1, in TItem2>
-    {
-        bool AreEqual(TItem1 transaction, TItem2 statementEntry);
-    }
-
     public class ItemComparer : IItemComparer<TransactionDetails, StatementEntry>
     {
         private readonly IMerchantNameComparer merchantNameComparer;

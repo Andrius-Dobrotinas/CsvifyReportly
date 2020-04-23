@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Andy.ExpenseReport.Comparison
+namespace Andy.ExpenseReport.Comparison.Statement.Bank
 {
     public class TransactionDetails
     {

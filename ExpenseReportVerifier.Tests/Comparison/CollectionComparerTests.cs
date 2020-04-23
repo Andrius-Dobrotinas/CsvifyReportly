@@ -58,7 +58,7 @@ namespace Andy.ExpenseReport.Comparison
             foreach (var transaction in expectedUnmatchedTransactions)
             {
                 Assert.IsTrue(actualUnmatchedTransactions.Contains(transaction),
-                    $"Must pick transaction {transaction.Merchant} as unmatched");
+                    $"Must pick transaction {transaction.Details} as unmatched");
             }
 
             Assert.AreEqual(expectedUnmatchedTransactions.Count, actualUnmatchedTransactions.Count,
@@ -136,10 +136,10 @@ namespace Andy.ExpenseReport.Comparison
             var statement2 = new StatementEntry { Amount = 2, Details = "Statement 2" };
             var statement3 = new StatementEntry { Amount = 3, Details = "Statement 3" };
 
-            var trans1 = new TransactionDetails { Amount = 1, Merchant = "Transaction 1" };
-            var trans2 = new TransactionDetails { Amount = 2, Merchant = "Transaction 2" };
-            var trans3 = new TransactionDetails { Amount = 3, Merchant = "Transaction 3" };
-            var trans4 = new TransactionDetails { Amount = 4, Merchant = "Transaction 4" };
+            var trans1 = new TransactionDetails { Amount = 1, Details = "Transaction 1" };
+            var trans2 = new TransactionDetails { Amount = 2, Details = "Transaction 2" };
+            var trans3 = new TransactionDetails { Amount = 3, Details = "Transaction 3" };
+            var trans4 = new TransactionDetails { Amount = 4, Details = "Transaction 4" };
 
             // simple case with one unmatched item
             yield return new TestCaseData(
@@ -201,10 +201,10 @@ namespace Andy.ExpenseReport.Comparison
             var statement3 = new StatementEntry { Amount = 3, Details = "Statement 3" };
             var statement4 = new StatementEntry { Amount = 4, Details = "Statement 4" };
 
-            var trans1 = new TransactionDetails { Amount = 1, Merchant = "Transaction 1" };
-            var trans2 = new TransactionDetails { Amount = 2, Merchant = "Transaction 2" };
-            var trans3 = new TransactionDetails { Amount = 3, Merchant = "Transaction 3" };
-            var trans4 = new TransactionDetails { Amount = 4, Merchant = "Transaction 4" };
+            var trans1 = new TransactionDetails { Amount = 1, Details = "Transaction 1" };
+            var trans2 = new TransactionDetails { Amount = 2, Details = "Transaction 2" };
+            var trans3 = new TransactionDetails { Amount = 3, Details = "Transaction 3" };
+            var trans4 = new TransactionDetails { Amount = 4, Details = "Transaction 4" };
 
             // simple case with one unmatched item
             yield return new TestCaseData(
@@ -265,9 +265,9 @@ namespace Andy.ExpenseReport.Comparison
             var statement2 = new StatementEntry { Amount = 2, Details = "Statement 2" };
             var statement3 = new StatementEntry { Amount = 3, Details = "Statement 3" };
 
-            var trans1 = new TransactionDetails { Amount = 1, Merchant = "Transaction 1" };
-            var trans2 = new TransactionDetails { Amount = 2, Merchant = "Transaction 2" };
-            var trans3 = new TransactionDetails { Amount = 3, Merchant = "Transaction 3" };
+            var trans1 = new TransactionDetails { Amount = 1, Details = "Transaction 1" };
+            var trans2 = new TransactionDetails { Amount = 2, Details = "Transaction 2" };
+            var trans3 = new TransactionDetails { Amount = 3, Details = "Transaction 3" };
 
             // simple case with one unmatched item
             yield return new TestCaseData(
@@ -296,9 +296,9 @@ namespace Andy.ExpenseReport.Comparison
             var statement2 = new StatementEntry { Amount = 2, Details = "Statement 2" };
             var statement3 = new StatementEntry { Amount = 3, Details = "Statement 3" };
 
-            var trans1 = new TransactionDetails { Amount = 1, Merchant = "Transaction 1" };
-            var trans2 = new TransactionDetails { Amount = 2, Merchant = "Transaction 2" };
-            var trans3 = new TransactionDetails { Amount = 3, Merchant = "Transaction 3" };
+            var trans1 = new TransactionDetails { Amount = 1, Details = "Transaction 1" };
+            var trans2 = new TransactionDetails { Amount = 2, Details = "Transaction 2" };
+            var trans3 = new TransactionDetails { Amount = 3, Details = "Transaction 3" };
 
             // simple case with one unmatched item
             yield return new TestCaseData(
@@ -319,6 +319,12 @@ namespace Andy.ExpenseReport.Comparison
                     new Tuple<StatementEntry, TransactionDetails>(statement2, trans2),
                     new Tuple<StatementEntry, TransactionDetails>(statement3, trans3)
                 });
+        }
+
+        public class TransactionDetails
+        {
+            public decimal Amount { get; set; }
+            public string Details { get; set; }
         }
     }
 }

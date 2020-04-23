@@ -3,7 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Comparison
+namespace Andy.ExpenseReport.Comparison.Statement.Bank
 {
     public class MerchantNameComparerTests
     {

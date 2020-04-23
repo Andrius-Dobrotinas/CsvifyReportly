@@ -2,13 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Andy.ExpenseReport.Comparison
+namespace Andy.ExpenseReport.Comparison.Statement.Bank
 {
-    public interface IMerchantNameComparer
-    {
-        bool DoStatementDetailsReferToMerchant(string statementDetails, string reportMerchant, bool isViaPayPal);
-    }
-
     public class MerchantNameComparer : IMerchantNameComparer
     {
         private readonly IMerchanNameMapComparer nameMapComparer;
