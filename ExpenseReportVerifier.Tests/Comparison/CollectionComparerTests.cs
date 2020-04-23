@@ -8,14 +8,15 @@ namespace Andy.ExpenseReport.Comparison
 {
     public class CollectionComparerTests
     {
-        CollectionComparer target;
-        Mock<IMatchFinder> matcher;
+        // TODO: use made up types
+        CollectionComparer<StatementEntry, TransactionDetails> target;
+        Mock<IMatchFinder<StatementEntry, TransactionDetails>> matcher;
 
         [SetUp]
         public void Setup()
         {
-            matcher = new Mock<IMatchFinder>();
-            target = new CollectionComparer(matcher.Object);
+            matcher = new Mock<IMatchFinder<StatementEntry, TransactionDetails>>();
+            target = new CollectionComparer<StatementEntry, TransactionDetails>(matcher.Object);
         }
 
         void Setup_ItemMatcherToReturn(IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches)

@@ -20,8 +20,12 @@ namespace Andy.ExpenseReport.Verifier.Comparison
             var transactions = transactionRows.Select(transactionRowParser.Parse).ToArray();
             var statementEntries = statementRows.Select(statementRowParser.Parse).ToArray();
 
-            var comparer = new CollectionComparer(
-                new MatchFinder(
+            var comparer = new CollectionComparer<
+                    StatementEntryWithSourceData,
+                    TransactionDetailsWithSourceData>(
+                new MatchFinder<
+                    StatementEntryWithSourceData,
+                    TransactionDetailsWithSourceData>(
                     new ItemComparer(
                         new MerchantNameComparer(
                             new MerchanNameMapComparer(nameMap)))));

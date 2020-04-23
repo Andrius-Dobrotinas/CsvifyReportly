@@ -8,14 +8,14 @@ namespace Andy.ExpenseReport.Comparison
 {
     public class MatchFinderTests
     {
-        MatchFinder target;
-        Mock<IItemComparer> comparer;
+        MatchFinder<StatementEntry, TransactionDetails> target;
+        Mock<IItemComparer<TransactionDetails, StatementEntry>> comparer;
 
         [SetUp]
         public void Setup()
         {
-            comparer = new Mock<IItemComparer>();
-            target = new MatchFinder(comparer.Object);
+            comparer = new Mock<IItemComparer<TransactionDetails, StatementEntry>>();
+            target = new MatchFinder<StatementEntry, TransactionDetails>(comparer.Object);
 
             // make the comparinator only compare the amounts
             comparer.Setup(

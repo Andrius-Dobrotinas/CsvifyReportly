@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace Andy.ExpenseReport.Comparison
 {
-    public interface IItemComparer
+    public interface IItemComparer<in TItem1, in TItem2>
     {
-        bool AreEqual(TransactionDetails transaction, StatementEntry statementEntry);
+        bool AreEqual(TItem1 transaction, TItem2 statementEntry);
     }
 
-    public class ItemComparer : IItemComparer
+    public class ItemComparer : IItemComparer<TransactionDetails, StatementEntry>
     {
         private readonly IMerchantNameComparer merchantNameComparer;
 

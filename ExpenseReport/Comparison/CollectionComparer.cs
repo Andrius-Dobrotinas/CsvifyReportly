@@ -4,30 +4,26 @@ using System.Linq;
 
 namespace Andy.ExpenseReport.Comparison
 {
-    public interface ICollectionComparer
+    public interface ICollectionComparer<TItem1, TItem2>
     {
-        public ComparisonResult<TStatementEntry, TTransactionDetails> Compare<TStatementEntry, TTransactionDetails>(
-            IList<TStatementEntry> statement,
-            IList<TTransactionDetails> transactions)
-            where TStatementEntry : StatementEntry
-            where TTransactionDetails : TransactionDetails;
+        public ComparisonResult<TItem1, TItem2> Compare(
+            IList<TItem1> statement,
+            IList<TItem2> transactions);
     }
 
-    public class CollectionComparer : ICollectionComparer
+    public class CollectionComparer<TItem1, TItem2> : ICollectionComparer<TItem1, TItem2>
     {
-        private readonly IMatchFinder matcher;
+        private readonly IMatchFinder<TItem1, TItem2> matcher;
 
         public CollectionComparer(
-            IMatchFinder matcher)
+            IMatchFinder<TItem1, TItem2> matcher)
         {
             this.matcher = matcher;
         }
 
-        public ComparisonResult<TStatementEntry, TTransactionDetails> Compare<TStatementEntry, TTransactionDetails>(
-            IList<TStatementEntry> statement,
-            IList<TTransactionDetails> transactions)
-            where TStatementEntry : StatementEntry
-            where TTransactionDetails : TransactionDetails
+        public ComparisonResult<TItem1, TItem2> Compare(
+            IList<TItem1> statement,
+            IList<TItem2> transactions)
         {
             var matches = matcher.GetMatches(statement, transactions);
 
@@ -41,7 +37,7 @@ namespace Andy.ExpenseReport.Comparison
                     matches.Select(x => x.Item2))
                 .ToArray();
 
-            return new ComparisonResult<TStatementEntry, TTransactionDetails>
+            return new ComparisonResult<TItem1, TItem2>
             {
                 Matches = matches,
                 UnmatchedStatementEntries = unmatchedStatementEntries,
