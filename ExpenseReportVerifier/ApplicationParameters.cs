@@ -8,6 +8,7 @@ namespace Andy.ExpenseReport.Verifier
         public StatementCsvFileParameters StatementCsvFile { get; set; }
         public TransactionCsvFileParameters TransactionsCsvFile { get; set; }
         public char OutputCsvDelimiter { get; set; }
+        public IDictionary<string, string[]> MerchantNameMap { get; set; }
     }
 
     public class StatementCsvFileParameters

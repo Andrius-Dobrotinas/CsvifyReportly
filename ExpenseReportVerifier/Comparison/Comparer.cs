@@ -11,7 +11,8 @@ namespace Andy.ExpenseReport.Verifier.Comparison
             IList<string[]> transactionRows,
             IList<string[]> statementRows,
             TransactionDetailsColumnIndexes transactionColumnMapping,
-            StatementEntryColumnIndexes statementColumnMapping)
+            StatementEntryColumnIndexes statementColumnMapping,
+            IDictionary<string, string[]> nameMap)
         {
             var transactionRowParser = new TransactionDetailsParser(transactionColumnMapping);
             var statementRowParser = new StatementEntryParser(statementColumnMapping);
@@ -22,7 +23,8 @@ namespace Andy.ExpenseReport.Verifier.Comparison
             var comparer = new CollectionComparer(
                 new MatchFinder(
                     new ItemComparer(
-                        new MerchantNameComparer())));
+                        new MerchantNameComparer(
+                            new MerchanNameMapComparer(nameMap)))));
 
             var result = comparer.Compare(
                     statementEntries,

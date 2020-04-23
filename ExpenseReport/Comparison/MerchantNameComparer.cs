@@ -11,42 +11,42 @@ namespace Andy.ExpenseReport.Comparison
 
     public class MerchantNameComparer : IMerchantNameComparer
     {
+        private readonly IMerchanNameMapComparer nameMapComparer;
+
+        public MerchantNameComparer(IMerchanNameMapComparer nameMapComparer)
+        {
+            this.nameMapComparer = nameMapComparer;
+        }
+
         // Take this as a constructor parameter
         private const string paypalDescriptionPrefix = "PAYPAL *";
         private static int paypalDescriptionPrefixLength = paypalDescriptionPrefix.Length;
-        private static readonly string[] amazonPrefixes = new string[] { "AMAZON", "AMZNMKTPLACE", "AMZ*AMAZON.CO.UK" };
 
         public bool DoStatementDetailsReferToMerchant(string statementDetails, string merchant, bool isViaPayPal)
         {
-            string statementMerchantDetails;
-
             if (isViaPayPal)
             {
-                bool isStatementEntryPayPal = statementDetails != null
-                    && statementDetails.StartsWith(paypalDescriptionPrefix);
-
-                if (isStatementEntryPayPal)
-                    statementMerchantDetails = statementDetails.Substring(paypalDescriptionPrefixLength);
-                else
+                if (!IsPayPalTransaction(statementDetails))
                     return false;
-            }
-            else               
-                statementMerchantDetails = statementDetails;
 
-            if (string.Equals(statementMerchantDetails, merchant, StringComparison.InvariantCultureIgnoreCase))
+                var actualValue = statementDetails.Substring(paypalDescriptionPrefixLength);
+
+                return string.Equals(
+                    actualValue,
+                    merchant,
+                    StringComparison.InvariantCultureIgnoreCase);
+            }
+
+            if (nameMapComparer.IsMatch(merchant, statementDetails))
                 return true;
-            if (IsAmazon(merchant) && IsAmazon(statementMerchantDetails))
-                return true;
-            return false;
+
+            return string.Equals(statementDetails, merchant, StringComparison.InvariantCultureIgnoreCase);
         }
 
-        private static bool IsAmazon(string @string)
+        private static bool IsPayPalTransaction(string details)
         {
-            return amazonPrefixes
-                    .Any(
-                        amzPrefix => @string.StartsWith(
-                            amzPrefix,
-                            StringComparison.InvariantCultureIgnoreCase));
+            return details != null
+                    && details.StartsWith(paypalDescriptionPrefix);
         }
     }
 }

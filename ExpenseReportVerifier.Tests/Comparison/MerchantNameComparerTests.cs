@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Moq;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -6,22 +7,20 @@ namespace Andy.ExpenseReport.Comparison
 {
     public class MerchantNameComparerTests
     {
-        private MerchantNameComparer target = new MerchantNameComparer();
+        private MerchantNameComparer target;
+        private Mock<IMerchanNameMapComparer> nameMapComparer;
 
-        [TestCase("something'", "something'")]
-        [TestCase("nuthin'", "NUTHIN'", Description = "Must be case-insensitive")]
-        public void Must_ReturnTrue_When_TransactionIsNotPayPal_AndBothHaveSameMerchantInfo(
-            string reportMerchant,
-            string statementDetails)
+        [SetUp]
+        public void Setup()
         {
-            var result = target.DoStatementDetailsReferToMerchant(statementDetails, reportMerchant, false);
-
-            Assert.IsTrue(result);
+            nameMapComparer = new Mock<IMerchanNameMapComparer>();
+            target = new MerchantNameComparer(nameMapComparer.Object);
         }
 
         [TestCase("something'", "PAYPAL *something'")]
+        [TestCase("match", "PAYPAL *match")]
         [TestCase("nuthin'", "PAYPAL *NUTHIN'", Description = "Must be case-insensitive")]
-        public void Must_ReturnTrue_When_TransactionIsPayPal_AndTheStatementDetailHaveTheSameMerchantInfoPrefixedWithPayPalPrefix(
+        public void When_TransactionIsPaypal_AndStatementDetailHaveTheSameMerchantInfoAfterPaypalPrefix(
             string reportMerchant,
             string statementDetails)
         {
@@ -30,29 +29,54 @@ namespace Andy.ExpenseReport.Comparison
             Assert.IsTrue(result);
         }
 
-        [TestCase("Amazon", "Amazon")]
-        [TestCase("Amazon", "AMAZON", Description = "Must be case-insensitive")]
-        [TestCase("amazon", "Amazon", Description = "Must be case-insensitive")]
-        [TestCase("Amazon", "AMAZON.CO.UK")]
-        [TestCase("Amazon", "AMAZON.CO.UK*Y31OL8PS6")]
-        [TestCase("Amazon", "AMAZON PRIME")]
-        [TestCase("Amazon", "AMZNMKTPLACE")]
-        [TestCase("Amazon", "AMZ*Amazon.co.uk")]
-        public void Must_ReturnTrue_When_TransactionIsAmazon_AndTheStatementDetailHaveOneOfThePredefinedAmazonPrefixes_AndItsNotAPayPalTransaction(
-            string reportMerchant,
-            string statementDetails)
+        [TestCase("match", "PAYPAL *match")]
+        [TestCase("no match", "PAYPAL *match")]
+        public void When_TransactionIsPaypal__Should_NotCheckTheNameMap(
+            string name,
+            string detailsString)
         {
-            var result = target.DoStatementDetailsReferToMerchant(statementDetails, reportMerchant, false);
+            var result = target.DoStatementDetailsReferToMerchant(name, detailsString, true);
+
+            nameMapComparer
+                .Verify(
+                    x => x.IsMatch(
+                        It.IsAny<string>(),
+                        It.IsAny<string>()),
+                    Times.Never);
+        }
+
+        [Test]
+        public void When_NameMatchIsFoundInTheNameMap__Should_Return_True()
+        {
+            Setup_NameMapComparer(true);
+
+            var result = target.DoStatementDetailsReferToMerchant("somethin' else", "by the Kinks", false);
 
             Assert.IsTrue(result);
         }
 
-        [Test]
-        public void Must_ReturnFalse_When_TransactionIsAmazon_AndTheStatementDetailHaveOneOfThePredefinedAmazonPrefixes_ButItsAPayPalTransaction()
+        [TestCase("something'", "something'", ExpectedResult = true)]
+        [TestCase("nuthin'", "NUTHIN'", ExpectedResult = true, Description = "Must be case-insensitive")]
+        [TestCase("something'", "somethin' else", ExpectedResult = false)]
+        public bool When_NoPaypal_AndNameMapDoesNotContainGivenName__Must_PerformCaseInsensitiveComparison(
+            string reportMerchant,
+            string statementDetails)
         {
-            var result = target.DoStatementDetailsReferToMerchant("Amazon", "Amazon", true);
+            Setup_NameMapComparer(false);
 
-            Assert.IsFalse(result);
+            var result = target.DoStatementDetailsReferToMerchant(statementDetails, reportMerchant, false);
+
+            return result;
+        }
+
+        private void Setup_NameMapComparer(bool returnValue)
+        {
+            nameMapComparer
+                .Setup(
+                    x => x.IsMatch(
+                        It.IsAny<string>(),
+                        It.IsAny<string>()))
+                .Returns(returnValue);
         }
     }
 }

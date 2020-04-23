@@ -16,5 +16,8 @@
     },
     "Delimiter": ","
   },
+  "MerchantNameMap": {
+    "Amazon": [ "Amazon", "AMZNMKTPLACE", "AMZ*AMAZON.CO.UK" ]
+  },
   "OutputCsvDelimiter":  ","
 }

@@ -35,7 +35,8 @@ namespace Andy.ExpenseReport.Verifier
                     sourceData.Transactions,
                     sourceData.StatementEntries, 
                     settings.TransactionsCsvFile.ColumnIndexes, 
-                    settings.StatementCsvFile.ColumnIndexes);
+                    settings.StatementCsvFile.ColumnIndexes,
+                    settings.MerchantNameMap);
             }
             catch (Exception e)
             {
