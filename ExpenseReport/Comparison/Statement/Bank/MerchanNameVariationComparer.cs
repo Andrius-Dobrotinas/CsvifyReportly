@@ -4,16 +4,11 @@ using System.Linq;
 
 namespace Andy.ExpenseReport.Comparison.Statement.Bank
 {
-    public interface IMerchanNameMapComparer
-    {
-        bool IsMatch(string merchantName, string statementDetailsString);
-    }
-
-    public class MerchanNameMapComparer : IMerchanNameMapComparer
+    public class MerchanNameVariationComparer : IMerchanNameVariationComparer
     {
         private readonly IDictionary<string, string[]> nameMap;
 
-        public MerchanNameMapComparer(IDictionary<string, string[]> nameMap)
+        public MerchanNameVariationComparer(IDictionary<string, string[]> nameMap)
         {
             this.nameMap = nameMap;
         }

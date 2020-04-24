@@ -8,12 +8,12 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
     public class MerchantNameComparerTests
     {
         private MerchantNameComparer target;
-        private Mock<IMerchanNameMapComparer> nameMapComparer;
+        private Mock<IMerchanNameVariationComparer> nameMapComparer;
 
         [SetUp]
         public void Setup()
         {
-            nameMapComparer = new Mock<IMerchanNameMapComparer>();
+            nameMapComparer = new Mock<IMerchanNameVariationComparer>();
             target = new MerchantNameComparer(nameMapComparer.Object);
         }
 

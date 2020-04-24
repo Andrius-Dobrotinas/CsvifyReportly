@@ -12,7 +12,7 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
             string merchantName,
             string detailsString)
         {
-            var target = new MerchanNameMapComparer(map);
+            var target = new MerchanNameVariationComparer(map);
 
             var result = target.IsMatch(merchantName, detailsString);
 
@@ -25,7 +25,7 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
             string merchantName,
             string detailsString)
         {
-            var target = new MerchanNameMapComparer(map);
+            var target = new MerchanNameVariationComparer(map);
 
             var result = target.IsMatch(merchantName, detailsString);
 
@@ -38,7 +38,7 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
             string merchantName,
             string detailsString)
         {
-            var target = new MerchanNameMapComparer(map);
+            var target = new MerchanNameVariationComparer(map);
 
             var result = target.IsMatch(merchantName, detailsString);
 
@@ -51,7 +51,7 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
             string merchantName,
             string detailsString)
         {
-            var target = new MerchanNameMapComparer(map);
+            var target = new MerchanNameVariationComparer(map);
 
             var result = target.IsMatch(merchantName, detailsString);
 
@@ -64,7 +64,7 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
             string merchantName,
             string detailsString)
         {
-            var target = new MerchanNameMapComparer(map);
+            var target = new MerchanNameVariationComparer(map);
 
             var result = target.IsMatch(merchantName, detailsString);
 

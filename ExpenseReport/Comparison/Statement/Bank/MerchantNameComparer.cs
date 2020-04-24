@@ -6,9 +6,9 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
 {
     public class MerchantNameComparer : IMerchantNameComparer
     {
-        private readonly IMerchanNameMapComparer nameMapComparer;
+        private readonly IMerchanNameVariationComparer nameMapComparer;
 
-        public MerchantNameComparer(IMerchanNameMapComparer nameMapComparer)
+        public MerchantNameComparer(IMerchanNameVariationComparer nameMapComparer)
         {
             this.nameMapComparer = nameMapComparer;
         }
