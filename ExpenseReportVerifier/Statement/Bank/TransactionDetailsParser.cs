@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Verifier.Comparison
+namespace Andy.ExpenseReport.Verifier.Statement.Bank
 {
-    public class TransactionDetailsParser
+    public class TransactionDetailsParser : ICsvRowParser<TransactionDetailsWithSourceData>
     {
-        private TransactionDetailsColumnIndexes columnMapping;
+        private readonly TransactionDetailsColumnIndexes columnMapping;
 
         public TransactionDetailsParser(TransactionDetailsColumnIndexes columnMapping)
         {

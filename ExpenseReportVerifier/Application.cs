@@ -1,4 +1,4 @@
-﻿using Andy.ExpenseReport.Verifier.Comparison;
+﻿using Andy.ExpenseReport.Verifier.Statement;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,13 +6,20 @@ using System.Linq;
 
 namespace Andy.ExpenseReport.Verifier
 {
-    public static class Application
+    public class Application<TItem1, TItem2>
     {
-        public static void CompareAndWriteReport(
+        private readonly IComparer<TItem1, TItem2> comparer;
+
+        public Application(IComparer<TItem1, TItem2> comparer)
+        {
+            this.comparer = comparer;
+        }
+
+        public void CompareAndWriteReport<TColumnIndexMap1, TColumnIndexMap2>(
             FileInfo statementFile,
             FileInfo transactionsFile,
             FileInfo reportFile,
-            ApplicationParameters settings)
+            ApplicationParameters1<TColumnIndexMap1, TColumnIndexMap2> settings)
         {
             SourceData sourceData;
             try
@@ -31,12 +38,9 @@ namespace Andy.ExpenseReport.Verifier
             ComparisonResult result;
             try
             {
-                result = Comparer.Compare(
+                result = comparer.Compare(
                     sourceData.Transactions,
-                    sourceData.StatementEntries, 
-                    settings.TransactionsCsvFile.ColumnIndexes, 
-                    settings.StatementCsvFile.ColumnIndexes,
-                    settings.MerchantNameMap);
+                    sourceData.StatementEntries);
             }
             catch (Exception e)
             {

@@ -7,11 +7,11 @@ namespace Andy.ExpenseReport.Verifier
 {
     public static class SourceDataReader
     {
-        public static SourceData ReadSourceData(
+        public static SourceData ReadSourceData<TColumnIndexMap1, TColumnIndexMap2>(
             FileInfo statementFile,
             FileInfo transactionsFile,
-            StatementCsvFileParameters statementFileSettings,
-            TransactionCsvFileParameters transactionDetailsFileSettings)
+            CsvFileParameters<TColumnIndexMap1> statementFileSettings,
+            CsvFileParameters<TColumnIndexMap2> transactionDetailsFileSettings)
         {
             int statementColumnCount;
             var statementRows = ReadAndValidateRowsFromFile(

@@ -24,10 +24,11 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 return -2;
             }
 
-            ApplicationParameters settings;
+            ApplicationParameters<StatementEntryColumnIndexes, TransactionDetailsColumnIndexes> settings;
             try
             {
-                settings = SettingsReader.ReadSettings(new FileInfo(settingsFileName));
+                settings = SettingsReader.ReadSettings<
+                    ApplicationParameters<StatementEntryColumnIndexes, TransactionDetailsColumnIndexes>>(new FileInfo(settingsFileName));
             }
             catch (Exception e)
             {
@@ -38,7 +39,32 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 
             try
             {
-                Application.CompareAndWriteReport(
+                var item1Parser = new Statement.Bank.StatementEntryParser(settings.StatementCsvFile.ColumnIndexes);
+                var item2Parser = new Statement.Bank.TransactionDetailsParser(settings.TransactionsCsvFile.ColumnIndexes);  
+
+                var collectionComparer = new ExpenseReport.Comparison.CollectionComparer<
+                    Statement.Bank.StatementEntryWithSourceData,
+                    Statement.Bank.TransactionDetailsWithSourceData>(
+                new ExpenseReport.Comparison.Statement.Bank.MatchFinder<
+                    Statement.Bank.StatementEntryWithSourceData,
+                    Statement.Bank.TransactionDetailsWithSourceData>(
+                    new ExpenseReport.Comparison.Statement.Bank.ItemComparer(
+                        new ExpenseReport.Comparison.Statement.Bank.MerchantNameComparer(
+                            new ExpenseReport.Comparison.Statement.Bank.MerchanNameVariationComparer(
+                                settings.MerchantNameMap)))));
+
+                var comparer = new Statement.Comparer<
+                    Statement.Bank.StatementEntryWithSourceData,
+                    Statement.Bank.TransactionDetailsWithSourceData>(
+                        collectionComparer,
+                        item1Parser,
+                        item2Parser);
+
+                var application = new Application<
+                    Statement.Bank.StatementEntryWithSourceData,
+                    Statement.Bank.TransactionDetailsWithSourceData>(comparer);
+
+                application.CompareAndWriteReport(
                     parameters.StatementFile,
                     parameters.TransactionFile,
                     parameters.ComparisonReportFile,

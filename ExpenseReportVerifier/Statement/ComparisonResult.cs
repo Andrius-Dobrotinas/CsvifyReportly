@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Verifier.Comparison
+namespace Andy.ExpenseReport.Verifier.Statement
 {
     public class ComparisonResult
     {

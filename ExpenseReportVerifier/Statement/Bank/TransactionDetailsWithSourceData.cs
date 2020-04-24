@@ -2,9 +2,9 @@
 using Andy.ExpenseReport.Comparison.Statement.Bank;
 using System;
 
-namespace Andy.ExpenseReport.Verifier.Comparison
+namespace Andy.ExpenseReport.Verifier.Statement.Bank
 {
-    public class TransactionDetailsWithSourceData : TransactionDetails
+    public class TransactionDetailsWithSourceData : TransactionDetails, IComparisonItemWithSourceData
     {
         public string[] SourceData { get; set; }
     }

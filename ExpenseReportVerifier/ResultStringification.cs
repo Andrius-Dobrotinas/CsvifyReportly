@@ -1,4 +1,4 @@
-﻿using Andy.ExpenseReport.Verifier.Comparison;
+﻿using Andy.ExpenseReport.Verifier.Statement;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Verifier.Comparison
+namespace Andy.ExpenseReport.Verifier.Statement.Bank
 {
-    public class StatementEntryParser
+    public class StatementEntryParser : ICsvRowParser<StatementEntryWithSourceData>
     {
         private readonly StatementEntryColumnIndexes columnMapping;
 
