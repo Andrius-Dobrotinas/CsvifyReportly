@@ -83,7 +83,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             catch (CsvStreamComparisonException e)
             {
                 Console.Error.WriteLine(e.Message);
-                Console.Error.WriteLine(e.Details);
+                Console.Error.WriteLine(e.ActualException?.Message);
                 
                 return ResolveReturnCode(e);
             }
