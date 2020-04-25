@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReportVerifier", "ExpenseReportVerifier\ExpenseReportVerifier.csproj", "{73506D46-7642-417E-A1C3-E270782A64F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReport.Comparison.Csv", "ExpenseReport.Comparison.Csv\ExpenseReport.Comparison.Csv.csproj", "{73506D46-7642-417E-A1C3-E270782A64F9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReport.Tests", "ExpenseReportVerifier.Tests\ExpenseReport.Tests.csproj", "{00985E11-F953-4B81-8B68-6A1DA6917B65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReport.Comparison", "ExpenseReport.Comparison\ExpenseReport.Comparison.csproj", "{EF90DCB5-077D-4A58-A5C5-8A27DD8032D0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReport", "ExpenseReport\ExpenseReport.csproj", "{EF90DCB5-077D-4A58-A5C5-8A27DD8032D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReport.Comparison.Tests", "ExpenseReport.Comparison.Tests\ExpenseReport.Comparison.Tests.csproj", "{00985E11-F953-4B81-8B68-6A1DA6917B65}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csv", "Csv\Csv.csproj", "{86AFF9CE-4424-4B77-A306-E180050B47D9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csv.Tests", "Csv.Tests\Csv.Tests.csproj", "{FAE03678-9391-48EF-BB72-FC3CC270DC04}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReportVerifier.Cmd", "ExpenseReportVerifier.Cmd\ExpenseReportVerifier.Cmd.csproj", "{12127906-5B01-4DF6-9801-8F484E3E2DEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReportComparer.Cmd", "ExpenseReportComparer.Cmd\ExpenseReportComparer.Cmd.csproj", "{12127906-5B01-4DF6-9801-8F484E3E2DEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

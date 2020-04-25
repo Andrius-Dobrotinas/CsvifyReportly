@@ -1,16 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Andy.ExpenseReport.Verifier</RootNamespace>
+    <RootNamespace>Andy.ExpenseReport.Comparison.Csv</RootNamespace>
     <ApplicationIcon />
     <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Csv\Csv.csproj" />
-    <ProjectReference Include="..\ExpenseReport\ExpenseReport.csproj" />
+    <ProjectReference Include="..\ExpenseReport.Comparison\ExpenseReport.Comparison.csproj" />
   </ItemGroup>
 
   <ItemGroup>

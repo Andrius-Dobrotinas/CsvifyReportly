@@ -1,13 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
 
-    <RootNamespace>Andy.ExpenseReport</RootNamespace>
+    <RootNamespace>Andy.ExpenseReport.Comparison</RootNamespace>
 
-    <AssemblyName>ExpenseReport.Tests</AssemblyName>
+    <AssemblyName>Andy.ExpenseReport.Comparison.Tests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ExpenseReport\ExpenseReport.csproj" />
+    <ProjectReference Include="..\ExpenseReport.Comparison\ExpenseReport.Comparison.csproj" />
   </ItemGroup>
 
 </Project>
