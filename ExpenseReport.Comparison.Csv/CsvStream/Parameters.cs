@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Comparison.Csv.File
+namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
 {
     public class Parameters<TColumnIndexMap1, TColumnIndexMap2>
     {

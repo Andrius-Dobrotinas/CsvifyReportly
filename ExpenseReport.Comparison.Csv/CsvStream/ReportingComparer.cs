@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Andy.ExpenseReport.Comparison.Csv.File
+namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
 {
     public class ReportingComparer<TItem1, TItem2> : IReportingComparer<TItem1, TItem2>
     {
@@ -42,7 +42,7 @@ namespace Andy.ExpenseReport.Comparison.Csv.File
             }
             catch (Exception e)
             {
-                throw new DataProcessingException(e);
+                throw new DataComparisonException(e);
             }
 
             var stringyfyer = new Andy.Csv.RowStringifier(
@@ -61,7 +61,7 @@ namespace Andy.ExpenseReport.Comparison.Csv.File
             }
             catch (Exception e)
             {
-                throw new ReportFileProductionException(e);
+                throw new ReportProductionException(e);
             }
         }
     }

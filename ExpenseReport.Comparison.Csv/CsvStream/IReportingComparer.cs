@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Andy.ExpenseReport.Comparison.Csv.File
+namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
 {
     public interface IReportingComparer<TItem1, TItem2>
     {

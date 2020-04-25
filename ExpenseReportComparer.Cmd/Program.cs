@@ -1,4 +1,4 @@
-﻿using Andy.ExpenseReport.Comparison.Csv.File;
+﻿using Andy.ExpenseReport.Comparison.Csv.CsvStream;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -69,7 +69,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 var fileComparer = new ReportingFileComparer<
                         ExpenseReport.Comparison.Csv.Bank.StatementEntryWithSourceData,
                         ExpenseReport.Comparison.Csv.Bank.TransactionDetailsWithSourceData>(
-                        new ExpenseReport.Comparison.Csv.File.ReportingComparer<
+                        new ExpenseReport.Comparison.Csv.CsvStream.ReportingComparer<
                             ExpenseReport.Comparison.Csv.Bank.StatementEntryWithSourceData,
                             ExpenseReport.Comparison.Csv.Bank.TransactionDetailsWithSourceData>(
                                 comparer));
@@ -80,7 +80,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                     parameters.ComparisonReportFile,
                     settings);
             }
-            catch (MyApplicationException e)
+            catch (CsvStreamComparisonException e)
             {
                 Console.Error.WriteLine(e.Message);
                 Console.Error.WriteLine(e.Details);
@@ -100,13 +100,13 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             return 0;
         }
 
-        private static int ResolveReturnCode(MyApplicationException exception)
+        private static int ResolveReturnCode(CsvStreamComparisonException exception)
         {
             if (exception is SourceDataReadException)
                 return -100;
-            if (exception is ReportFileProductionException)
+            if (exception is ReportProductionException)
                 return -300;
-            if (exception is DataProcessingException)
+            if (exception is DataComparisonException)
                 return -200;
 
             return -1;

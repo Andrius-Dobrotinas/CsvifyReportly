@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Andy.ExpenseReport.Comparison.Csv.File
+namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
 {
     public static class ResultAggretation
     {

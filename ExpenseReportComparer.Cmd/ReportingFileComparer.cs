@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Andy.ExpenseReport.Comparison.Csv.CsvStream;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
-namespace Andy.ExpenseReport.Comparison.Csv.File
+namespace Andy.ExpenseReport.Verifier.Cmd
 {
     public class ReportingFileComparer<TItem1, TItem2>
     {
