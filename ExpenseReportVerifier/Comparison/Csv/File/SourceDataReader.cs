@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Andy.ExpenseReport.Verifier
+namespace Andy.ExpenseReport.Comparison.Csv.File
 {
     public static class SourceDataReader
     {
@@ -57,7 +57,7 @@ namespace Andy.ExpenseReport.Verifier
 
         private static string[][] ReadRowsFromCsvFile(FileInfo file, char delimiter)
         {
-            return Csv.IO.CsvFileReader.Read(file, line => Csv.RowParser.Parse(line, delimiter));
+            return Andy.Csv.IO.CsvFileReader.Read(file, line => Andy.Csv.RowParser.Parse(line, delimiter));
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Verifier
+namespace Andy.ExpenseReport.Comparison.Csv.File
 {
     public class SourceData
     {

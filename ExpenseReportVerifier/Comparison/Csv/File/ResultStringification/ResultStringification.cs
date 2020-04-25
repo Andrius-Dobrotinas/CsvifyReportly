@@ -1,24 +1,23 @@
-﻿using Andy.ExpenseReport.Verifier.Statement;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Andy.ExpenseReport.Verifier
+namespace Andy.ExpenseReport.Comparison.Csv.File
 {
-    public class ResultStringification
+    public static class ResultStringification
     {
         public static string[] StringyfyyResults(
             ComparisonResult result,
             int statementColumnCount,
             int transactionColumnCount,
             char csvDelimiter,
-            Csv.IRowStringifier stringyfier)
+            Andy.Csv.IRowStringifier stringyfier)
         {
             var transactionAndStatementSeparatorColumns = new string[] { "" };
             var blankStatementRow = new string[statementColumnCount];
             var blankTransactionRow = new string[transactionColumnCount];
 
-            var allRows = ResultAggregation.GetDataRows(
+            var allRows = ResultAggretation.GetDataRows(
                 result.Matches,
                 result.UnmatchedStatementEntries,
                 result.UnmatchedTransactions,

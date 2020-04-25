@@ -1,16 +1,15 @@
-﻿using Andy.ExpenseReport.Verifier.Statement;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Andy.ExpenseReport.Verifier
+namespace Andy.ExpenseReport.Comparison.Csv.File
 {
-    public class Application<TItem1, TItem2>
+    public class ReportingComparer<TItem1, TItem2>
     {
         private readonly IComparer<TItem1, TItem2> comparer;
 
-        public Application(IComparer<TItem1, TItem2> comparer)
+        public ReportingComparer(IComparer<TItem1, TItem2> comparer)
         {
             this.comparer = comparer;
         }
@@ -19,7 +18,7 @@ namespace Andy.ExpenseReport.Verifier
             FileInfo statementFile,
             FileInfo transactionsFile,
             FileInfo reportFile,
-            ApplicationParameters1<TColumnIndexMap1, TColumnIndexMap2> settings)
+            Parameters<TColumnIndexMap1, TColumnIndexMap2> settings)
         {
             SourceData sourceData;
             try
@@ -47,8 +46,8 @@ namespace Andy.ExpenseReport.Verifier
                 throw new DataProcessingException(e);
             }
 
-            var stringyfyer = new Csv.RowStringifier(
-                new Csv.ValueEncoder());            
+            var stringyfyer = new Andy.Csv.RowStringifier(
+                new Andy.Csv.ValueEncoder());            
 
             try
             {
@@ -59,7 +58,7 @@ namespace Andy.ExpenseReport.Verifier
                     settings.OutputCsvDelimiter,
                     stringyfyer);
 
-                Csv.IO.CsvFileWriter.Write(lines, reportFile);
+                Andy.Csv.IO.CsvFileWriter.Write(lines, reportFile);
             }
             catch (Exception e)
             {

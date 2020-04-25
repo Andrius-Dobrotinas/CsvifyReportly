@@ -1,9 +1,8 @@
-﻿using Andy.ExpenseReport.Comparison;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Andy.ExpenseReport.Verifier.Statement
+namespace Andy.ExpenseReport.Comparison.Csv
 {
     public interface IComparer<TItem1, TItem2>
     {

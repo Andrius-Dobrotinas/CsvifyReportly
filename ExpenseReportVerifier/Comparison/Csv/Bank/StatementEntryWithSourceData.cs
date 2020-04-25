@@ -1,8 +1,8 @@
-﻿using Andy.ExpenseReport.Comparison;
+﻿using Andy.ExpenseReport.Comparison.Statement.Bank;
 using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Verifier.Statement.Bank
+namespace Andy.ExpenseReport.Comparison.Csv.Bank
 {
     public class StatementEntryWithSourceData : StatementEntry, IComparisonItemWithSourceData
     {

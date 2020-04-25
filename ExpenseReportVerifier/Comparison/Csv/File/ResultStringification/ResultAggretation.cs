@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Andy.ExpenseReport.Verifier
+namespace Andy.ExpenseReport.Comparison.Csv.File
 {
-    public static class ResultAggregation
+    public static class ResultAggretation
     {
         public static IEnumerable<string[]> GetDataRows(
             IEnumerable<Tuple<string[], string[]>> matches,

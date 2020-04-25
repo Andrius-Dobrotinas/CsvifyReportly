@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Andy.ExpenseReport.Verifier
+namespace Andy.ExpenseReport.Comparison.Csv.File
 {
     public class ReportFileProductionException : MyApplicationException
     {

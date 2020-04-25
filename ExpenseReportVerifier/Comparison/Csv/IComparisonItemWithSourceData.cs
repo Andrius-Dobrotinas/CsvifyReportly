@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Andy.ExpenseReport.Verifier.Statement
+namespace Andy.ExpenseReport.Comparison.Csv
 {
     public interface IComparisonItemWithSourceData
     {

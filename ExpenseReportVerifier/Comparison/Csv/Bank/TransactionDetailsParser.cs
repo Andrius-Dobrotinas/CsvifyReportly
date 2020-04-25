@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Andy.ExpenseReport.Comparison.Csv.Bank;
+using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Verifier.Statement.Bank
+namespace Andy.ExpenseReport.Comparison.Csv.Bank
 {
     public class TransactionDetailsParser : ICsvRowParser<TransactionDetailsWithSourceData>
     {
