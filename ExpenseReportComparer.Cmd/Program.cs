@@ -26,14 +26,14 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             }
 
             Bank.ExpenseReportParameters<
-                ExpenseReport.Comparison.Csv.Bank.StatementEntryColumnIndexes,
-                ExpenseReport.Comparison.Csv.Bank.TransactionDetailsColumnIndexes> settings;
+                Comparison.Csv.Bank.StatementEntryColumnIndexes,
+                Comparison.Csv.Bank.TransactionDetailsColumnIndexes> settings;
             try
             {
                 settings = SettingsReader.ReadSettings<
                     Bank.ExpenseReportParameters<
-                        ExpenseReport.Comparison.Csv.Bank.StatementEntryColumnIndexes,
-                        ExpenseReport.Comparison.Csv.Bank.TransactionDetailsColumnIndexes>>(
+                        Comparison.Csv.Bank.StatementEntryColumnIndexes,
+                        Comparison.Csv.Bank.TransactionDetailsColumnIndexes>>(
                     new FileInfo(settingsFileName));
             }
             catch (Exception e)
@@ -45,33 +45,33 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 
             try
             {
-                var item1Parser = new ExpenseReport.Comparison.Csv.Bank.StatementEntryParser(settings.StatementCsvFile.ColumnIndexes);
-                var item2Parser = new ExpenseReport.Comparison.Csv.Bank.TransactionDetailsParser(settings.TransactionsCsvFile.ColumnIndexes);  
+                var item1Parser = new Comparison.Csv.Bank.StatementEntryParser(settings.StatementCsvFile.ColumnIndexes);
+                var item2Parser = new Comparison.Csv.Bank.TransactionDetailsParser(settings.TransactionsCsvFile.ColumnIndexes);  
 
-                var collectionComparer = new ExpenseReport.Comparison.CollectionComparer<
-                    ExpenseReport.Comparison.Csv.Bank.StatementEntryWithSourceData,
-                    ExpenseReport.Comparison.Csv.Bank.TransactionDetailsWithSourceData>(
-                new ExpenseReport.Comparison.Statement.Bank.MatchFinder<
-                    ExpenseReport.Comparison.Csv.Bank.StatementEntryWithSourceData,
-                    ExpenseReport.Comparison.Csv.Bank.TransactionDetailsWithSourceData>(
-                    new ExpenseReport.Comparison.Statement.Bank.ItemComparer(
-                        new ExpenseReport.Comparison.Statement.Bank.MerchantNameComparer(
-                            new ExpenseReport.Comparison.Statement.Bank.MerchanNameVariationComparer(
+                var collectionComparer = new Comparison.CollectionComparer<
+                    Comparison.Csv.Bank.StatementEntryWithSourceData,
+                    Comparison.Csv.Bank.TransactionDetailsWithSourceData>(
+                new Comparison.Statement.Bank.MatchFinder<
+                    Comparison.Csv.Bank.StatementEntryWithSourceData,
+                    Comparison.Csv.Bank.TransactionDetailsWithSourceData>(
+                    new Comparison.Statement.Bank.ItemComparer(
+                        new Comparison.Statement.Bank.MerchantNameComparer(
+                            new Comparison.Statement.Bank.MerchanNameVariationComparer(
                                 settings.MerchantNameMap)))));
 
-                var comparer = new ExpenseReport.Comparison.Csv.Comparer<
-                    ExpenseReport.Comparison.Csv.Bank.StatementEntryWithSourceData,
-                    ExpenseReport.Comparison.Csv.Bank.TransactionDetailsWithSourceData>(
+                var comparer = new Comparison.Csv.Comparer<
+                    Comparison.Csv.Bank.StatementEntryWithSourceData,
+                    Comparison.Csv.Bank.TransactionDetailsWithSourceData>(
                         collectionComparer,
                         item1Parser,
                         item2Parser);
 
                 var fileComparer = new ReportingFileComparer<
-                        ExpenseReport.Comparison.Csv.Bank.StatementEntryWithSourceData,
-                        ExpenseReport.Comparison.Csv.Bank.TransactionDetailsWithSourceData>(
-                        new ExpenseReport.Comparison.Csv.CsvStream.ReportingComparer<
-                            ExpenseReport.Comparison.Csv.Bank.StatementEntryWithSourceData,
-                            ExpenseReport.Comparison.Csv.Bank.TransactionDetailsWithSourceData>(
+                        Comparison.Csv.Bank.StatementEntryWithSourceData,
+                        Comparison.Csv.Bank.TransactionDetailsWithSourceData>(
+                        new Comparison.Csv.CsvStream.ReportingComparer<
+                            Comparison.Csv.Bank.StatementEntryWithSourceData,
+                            Comparison.Csv.Bank.TransactionDetailsWithSourceData>(
                                 comparer));
 
                 fileComparer.CompareAndWriteReport(
