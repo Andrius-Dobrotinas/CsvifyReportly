@@ -6,20 +6,19 @@ namespace Andy.Csv.IO
 {
     public static class CsvFileWriter
     {
-        public static void Write(string[] rows, FileInfo file)
+        public static Stream Write(string[] rows)
         {
-            if (file == null) throw new ArgumentNullException(nameof(file));
-
-            using (var fs = file.Create())
+            var result = new MemoryStream();
+            
+            using(var writer = new StreamWriter(result))
             {
-                using(var writer = new StreamWriter(fs))
+                foreach(var row in rows)
                 {
-                    foreach(var row in rows)
-                    {
-                        writer.WriteLine(row);
-                    }
+                    writer.WriteLine(row);
                 }
             }
+
+            return result;
         }
     }
 }

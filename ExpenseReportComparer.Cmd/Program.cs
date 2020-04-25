@@ -66,11 +66,15 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                         item1Parser,
                         item2Parser);
 
-                var application = new ExpenseReport.Comparison.Csv.File.ReportingComparer<
-                    ExpenseReport.Comparison.Csv.Bank.StatementEntryWithSourceData,
-                    ExpenseReport.Comparison.Csv.Bank.TransactionDetailsWithSourceData>(comparer);
+                var fileComparer = new ReportingFileComparer<
+                        ExpenseReport.Comparison.Csv.Bank.StatementEntryWithSourceData,
+                        ExpenseReport.Comparison.Csv.Bank.TransactionDetailsWithSourceData>(
+                        new ExpenseReport.Comparison.Csv.File.ReportingComparer<
+                            ExpenseReport.Comparison.Csv.Bank.StatementEntryWithSourceData,
+                            ExpenseReport.Comparison.Csv.Bank.TransactionDetailsWithSourceData>(
+                                comparer));
 
-                application.CompareAndWriteReport(
+                fileComparer.CompareAndWriteReport(
                     parameters.StatementFile,
                     parameters.TransactionFile,
                     parameters.ComparisonReportFile,

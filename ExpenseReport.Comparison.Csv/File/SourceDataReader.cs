@@ -8,21 +8,21 @@ namespace Andy.ExpenseReport.Comparison.Csv.File
     public static class SourceDataReader
     {
         public static SourceData ReadSourceData<TColumnIndexMap1, TColumnIndexMap2>(
-            FileInfo statementFile,
-            FileInfo transactionsFile,
-            CsvFileParameters<TColumnIndexMap1> statementFileSettings,
-            CsvFileParameters<TColumnIndexMap2> transactionDetailsFileSettings)
+            Stream file1,
+            Stream file2,
+            CsvFileParameters<TColumnIndexMap1> csvSettings1,
+            CsvFileParameters<TColumnIndexMap2> csvSettings2)
         {
             int statementColumnCount;
-            var statementRows = ReadAndValidateRowsFromFile(
-                    statementFile,
-                    statementFileSettings.Delimiter,
+            var statementRows = ReadAndValidateRows(
+                    file1,
+                    csvSettings1.Delimiter,
                     out statementColumnCount);
 
             int transactionColumnCount;
-            var transactionRows = ReadAndValidateRowsFromFile(
-                    transactionsFile,
-                    transactionDetailsFileSettings.Delimiter,
+            var transactionRows = ReadAndValidateRows(
+                    file2,
+                    csvSettings2.Delimiter,
                     out transactionColumnCount);            
 
             return new SourceData
@@ -34,30 +34,32 @@ namespace Andy.ExpenseReport.Comparison.Csv.File
             };
         }
 
-        private static string[][] ReadAndValidateRowsFromFile(
-            FileInfo statementFile,
+        private static string[][] ReadAndValidateRows(
+            Stream source,
             char delimiter,
             out int columnCount)
         {
-            string[][] statementRows = ReadRowsFromCsvFile(
-                statementFile,
+            string[][] rows = ReadRowsFromStream(
+                source,
                 delimiter);
 
-            if (!statementRows.Any()) throw new Exception("The has no CSV content");
+            if (!rows.Any()) throw new Exception("The source has no CSV content");
 
-            // want to make sure all rows have equal number of columns. otherwise, it could get tricky down the line
-            columnCount = statementRows.First().Length;
+            // want to make sure all rows have equal number of columns. otherwise, things could get unpredictable down the line
+            columnCount = rows.First().Length;
 
             int colCount = columnCount;
-            if (!statementRows.All(row => row.Length == colCount))
-                throw new Exception("All rows in a CSV file must have the same number of columns");
+            if (!rows.All(row => row.Length == colCount))
+                throw new Exception("All rows in a CSV file must have an equal number of columns");
 
-            return statementRows;
+            return rows;
         }
 
-        private static string[][] ReadRowsFromCsvFile(FileInfo file, char delimiter)
+        private static string[][] ReadRowsFromStream(Stream source, char delimiter)
         {
-            return Andy.Csv.IO.CsvFileReader.Read(file, line => Andy.Csv.RowParser.Parse(line, delimiter));
+            return Andy.Csv.IO.CsvStreamReader.Read(
+                source,
+                line => Andy.Csv.RowParser.Parse(line, delimiter));
         }
     }
 }

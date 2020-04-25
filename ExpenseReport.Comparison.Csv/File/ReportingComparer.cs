@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Andy.ExpenseReport.Comparison.Csv.File
 {
-    public class ReportingComparer<TItem1, TItem2>
+    public class ReportingComparer<TItem1, TItem2> : IReportingComparer<TItem1, TItem2>
     {
         private readonly IComparer<TItem1, TItem2> comparer;
 
@@ -14,18 +14,17 @@ namespace Andy.ExpenseReport.Comparison.Csv.File
             this.comparer = comparer;
         }
 
-        public void CompareAndWriteReport<TColumnIndexMap1, TColumnIndexMap2>(
-            FileInfo statementFile,
-            FileInfo transactionsFile,
-            FileInfo reportFile,
+        public Stream Compare<TColumnIndexMap1, TColumnIndexMap2>(
+            Stream statement,
+            Stream transactions,
             Parameters<TColumnIndexMap1, TColumnIndexMap2> settings)
         {
             SourceData sourceData;
             try
             {
                 sourceData = SourceDataReader.ReadSourceData(
-                    statementFile,
-                    transactionsFile,
+                    statement,
+                    transactions,
                     settings.StatementCsvFile,
                     settings.TransactionsCsvFile);
             }
@@ -58,7 +57,7 @@ namespace Andy.ExpenseReport.Comparison.Csv.File
                     settings.OutputCsvDelimiter,
                     stringyfyer);
 
-                Andy.Csv.IO.CsvFileWriter.Write(lines, reportFile);
+                return Andy.Csv.IO.CsvFileWriter.Write(lines);
             }
             catch (Exception e)
             {
