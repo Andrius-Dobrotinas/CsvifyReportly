@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Comparison.Csv.Bank
+namespace Andy.ExpenseReport.Comparison.Csv.Statement.Bank
 {
     public class StatementEntryColumnIndexes
     {

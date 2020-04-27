@@ -7,30 +7,30 @@ namespace Andy.ExpenseReport.Verifier.Cmd
     public static class ComparerBuilder
     {
         public static Comparison.Csv.Comparer<
-                Comparison.Csv.Bank.StatementEntryWithSourceData,
-                Comparison.Csv.Bank.TransactionDetailsWithSourceData>
+                Comparison.Csv.Statement.Bank.StatementEntryWithSourceData,
+                Comparison.Csv.Statement.Bank.TransactionDetailsWithSourceData>
             BuildBankStatementComparer(
                 Bank.ExpenseReportParameters<
-                    Comparison.Csv.Bank.StatementEntryColumnIndexes,
-                    Comparison.Csv.Bank.TransactionDetailsColumnIndexes> settings)
+                    Comparison.Csv.Statement.Bank.StatementEntryColumnIndexes,
+                    Comparison.Csv.Statement.Bank.TransactionDetailsColumnIndexes> settings)
         {
-            var item1Parser = new Comparison.Csv.Bank.StatementEntryParser(settings.StatementCsvFile.ColumnIndexes);
-            var item2Parser = new Comparison.Csv.Bank.TransactionDetailsParser(settings.TransactionsCsvFile.ColumnIndexes);
+            var item1Parser = new Comparison.Csv.Statement.Bank.StatementEntryParser(settings.StatementCsvFile.ColumnIndexes);
+            var item2Parser = new Comparison.Csv.Statement.Bank.TransactionDetailsParser(settings.TransactionsCsvFile.ColumnIndexes);
 
             var collectionComparer = new Comparison.CollectionComparer<
-                Comparison.Csv.Bank.StatementEntryWithSourceData,
-                Comparison.Csv.Bank.TransactionDetailsWithSourceData>(
+                Comparison.Csv.Statement.Bank.StatementEntryWithSourceData,
+                Comparison.Csv.Statement.Bank.TransactionDetailsWithSourceData>(
                 new Comparison.Statement.Bank.MatchFinder<
-                    Comparison.Csv.Bank.StatementEntryWithSourceData,
-                    Comparison.Csv.Bank.TransactionDetailsWithSourceData>(
+                    Comparison.Csv.Statement.Bank.StatementEntryWithSourceData,
+                    Comparison.Csv.Statement.Bank.TransactionDetailsWithSourceData>(
                     new Comparison.Statement.Bank.ItemComparer(
                         new Comparison.Statement.Bank.MerchantNameComparer(
                             new Comparison.Statement.Bank.MerchanNameVariationComparer(
                                 settings.MerchantNameMap)))));
 
             var comparer = new Comparison.Csv.Comparer<
-                Comparison.Csv.Bank.StatementEntryWithSourceData,
-                Comparison.Csv.Bank.TransactionDetailsWithSourceData>(
+                Comparison.Csv.Statement.Bank.StatementEntryWithSourceData,
+                Comparison.Csv.Statement.Bank.TransactionDetailsWithSourceData>(
                     collectionComparer,
                     item1Parser,
                     item2Parser);
