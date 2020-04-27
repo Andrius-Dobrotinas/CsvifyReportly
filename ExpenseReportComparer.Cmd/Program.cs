@@ -30,7 +30,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 Comparison.Csv.Bank.TransactionDetailsColumnIndexes> settings;
             try
             {
-                settings = SettingsReader.ReadSettings<
+                settings = JasonFileParser.ParseContents<
                     Bank.ExpenseReportParameters<
                         Comparison.Csv.Bank.StatementEntryColumnIndexes,
                         Comparison.Csv.Bank.TransactionDetailsColumnIndexes>>(

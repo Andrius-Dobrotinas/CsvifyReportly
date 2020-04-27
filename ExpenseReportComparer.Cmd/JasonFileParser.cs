@@ -4,11 +4,11 @@ using System.IO;
 
 namespace Andy.ExpenseReport.Verifier.Cmd
 {
-    public static class SettingsReader
+    public static class JasonFileParser
     {
-        public static T ReadSettings<T>(FileInfo settingsFile)
+        public static T ParseContents<T>(FileInfo file)
         {
-            using (var fs = settingsFile.OpenRead())
+            using (var fs = file.OpenRead())
             {
                 using (var reader = new StreamReader(fs))
                 {
