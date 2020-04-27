@@ -1,4 +1,4 @@
-﻿using Andy.ExpenseReport.Comparison.Statement.Bank;
+﻿using Andy.ExpenseReport.Comparison.Statement;
 using Moq;
 using NUnit.Framework;
 using System;

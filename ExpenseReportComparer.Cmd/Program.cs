@@ -26,13 +26,13 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             }
 
             Bank.ExpenseReportParameters<
-                Comparison.Csv.Statement.Bank.StatementEntryColumnIndexes,
+                Comparison.Csv.Statement.StatementEntryColumnIndexes,
                 Comparison.Csv.Statement.Bank.TransactionDetailsColumnIndexes> settings;
             try
             {
                 settings = JasonFileParser.ParseContents<
                     Bank.ExpenseReportParameters<
-                        Comparison.Csv.Statement.Bank.StatementEntryColumnIndexes,
+                        Comparison.Csv.Statement.StatementEntryColumnIndexes,
                         Comparison.Csv.Statement.Bank.TransactionDetailsColumnIndexes>>(
                     new FileInfo(settingsFileName));
             }

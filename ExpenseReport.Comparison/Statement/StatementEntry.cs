@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Comparison.Statement.Bank
+namespace Andy.ExpenseReport.Comparison.Statement
 {
     public class StatementEntry
     {

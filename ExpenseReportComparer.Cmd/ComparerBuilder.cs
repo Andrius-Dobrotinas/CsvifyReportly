@@ -7,21 +7,21 @@ namespace Andy.ExpenseReport.Verifier.Cmd
     public static class ComparerBuilder
     {
         public static Comparison.Csv.Comparer<
-                Comparison.Csv.Statement.Bank.StatementEntryWithSourceData,
+                Comparison.Csv.Statement.StatementEntryWithSourceData,
                 Comparison.Csv.Statement.Bank.TransactionDetailsWithSourceData>
             BuildBankStatementComparer(
                 Bank.ExpenseReportParameters<
-                    Comparison.Csv.Statement.Bank.StatementEntryColumnIndexes,
+                    Comparison.Csv.Statement.StatementEntryColumnIndexes,
                     Comparison.Csv.Statement.Bank.TransactionDetailsColumnIndexes> settings)
         {
-            var item1Parser = new Comparison.Csv.Statement.Bank.StatementEntryParser(settings.StatementCsvFile.ColumnIndexes);
+            var item1Parser = new Comparison.Csv.Statement.StatementEntryParser(settings.StatementCsvFile.ColumnIndexes);
             var item2Parser = new Comparison.Csv.Statement.Bank.TransactionDetailsParser(settings.TransactionsCsvFile.ColumnIndexes);
 
             var collectionComparer = new Comparison.CollectionComparer<
-                Comparison.Csv.Statement.Bank.StatementEntryWithSourceData,
+                Comparison.Csv.Statement.StatementEntryWithSourceData,
                 Comparison.Csv.Statement.Bank.TransactionDetailsWithSourceData>(
                 new Comparison.Statement.Bank.MatchFinder<
-                    Comparison.Csv.Statement.Bank.StatementEntryWithSourceData,
+                    Comparison.Csv.Statement.StatementEntryWithSourceData,
                     Comparison.Csv.Statement.Bank.TransactionDetailsWithSourceData>(
                     new Comparison.Statement.Bank.ItemComparer(
                         new Comparison.Statement.Bank.MerchantNameComparer(
@@ -29,7 +29,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                                 settings.MerchantNameMap)))));
 
             var comparer = new Comparison.Csv.Comparer<
-                Comparison.Csv.Statement.Bank.StatementEntryWithSourceData,
+                Comparison.Csv.Statement.StatementEntryWithSourceData,
                 Comparison.Csv.Statement.Bank.TransactionDetailsWithSourceData>(
                     collectionComparer,
                     item1Parser,
