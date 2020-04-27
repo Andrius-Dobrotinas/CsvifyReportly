@@ -20,7 +20,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             var collectionComparer = new Comparison.CollectionComparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
                 Comparison.Csv.Statement.Bank.TransactionDetailsWithSourceData>(
-                new Comparison.Statement.Bank.MatchFinder<
+                new Comparison.MatchFinder<
                     Comparison.Csv.Statement.StatementEntryWithSourceData,
                     Comparison.Csv.Statement.Bank.TransactionDetailsWithSourceData>(
                     new Comparison.Statement.Bank.ItemComparer(
