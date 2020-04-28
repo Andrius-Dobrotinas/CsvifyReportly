@@ -7,22 +7,22 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
 {
     public static class SourceDataReader
     {
-        public static SourceData ReadSourceData<TColumnIndexMap1, TColumnIndexMap2>(
-            Stream file1,
-            Stream file2,
-            CsvFileParameters<TColumnIndexMap1> csvSettings1,
-            CsvFileParameters<TColumnIndexMap2> csvSettings2)
+        public static SourceData ReadSourceData(
+            Stream source1,
+            Stream source2,
+            char source1ValueDelimiter,
+            char source2ValueDelimiter)
         {
             int statementColumnCount;
             var statementRows = ReadAndValidateRows(
-                    file1,
-                    csvSettings1.Delimiter,
+                    source1,
+                    source1ValueDelimiter,
                     out statementColumnCount);
 
             int transactionColumnCount;
             var transactionRows = ReadAndValidateRows(
-                    file2,
-                    csvSettings2.Delimiter,
+                    source2,
+                    source2ValueDelimiter,
                     out transactionColumnCount);            
 
             return new SourceData

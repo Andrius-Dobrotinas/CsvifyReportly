@@ -25,15 +25,10 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 return -2;
             }
 
-            Bank.ExpenseReportParameters<
-                Comparison.Csv.Statement.StatementEntryColumnIndexes,
-                Comparison.Csv.Statement.Bank.TransactionDetailsColumnIndexes> settings;
+            Settings settings;
             try
             {
-                settings = JasonFileParser.ParseContents<
-                    Bank.ExpenseReportParameters<
-                        Comparison.Csv.Statement.StatementEntryColumnIndexes,
-                        Comparison.Csv.Statement.Bank.TransactionDetailsColumnIndexes>>(
+                settings = JasonFileParser.ParseContents<Settings>(
                     new FileInfo(settingsFileName));
             }
             catch (Exception e)
@@ -52,7 +47,9 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                     parameters.StatementFile,
                     parameters.TransactionFile,
                     parameters.ComparisonReportFile,
-                    settings);
+                    settings.StatementFile.Delimiter,
+                    settings.TransactionsFile.Delimiter,
+                    settings.OutputCsvDelimiter);
             }
             catch (CsvStreamComparisonException e)
             {

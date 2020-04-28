@@ -14,18 +14,22 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             this.comparer = comparer;
         }
 
-        public void CompareAndWriteReport<TColumnIndexMap1, TColumnIndexMap2>(
-            FileInfo statementFile,
-            FileInfo transactionsFile,
+        public void CompareAndWriteReport(
+            FileInfo source1,
+            FileInfo source2,
             FileInfo reportFile,
-            Parameters<TColumnIndexMap1, TColumnIndexMap2> settings)
+            char source1ValueDelimiter,
+            char source2ValueDelimiter,
+            char reportValueDelimiter)
         {
-            using (var statementStream = statementFile.OpenRead())
-            using (var transactionStream = transactionsFile.OpenRead())
+            using (var statementStream = source1.OpenRead())
+            using (var transactionStream = source2.OpenRead())
             using (var reportStream = comparer.Compare(
                 statementStream,
                 transactionStream,
-                settings))
+                source1ValueDelimiter,
+                source2ValueDelimiter,
+                reportValueDelimiter))
             using (var outputStream = reportFile.OpenWrite())
                 reportStream.CopyTo(outputStream);
         }

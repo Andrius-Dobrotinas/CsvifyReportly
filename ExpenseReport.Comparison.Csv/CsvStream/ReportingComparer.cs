@@ -14,19 +14,21 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             this.comparer = comparer;
         }
 
-        public Stream Compare<TColumnIndexMap1, TColumnIndexMap2>(
-            Stream statement,
-            Stream transactions,
-            Parameters<TColumnIndexMap1, TColumnIndexMap2> settings)
+        public Stream Compare(
+            Stream source1,
+            Stream source2,
+            char source1ValueDelimiter,
+            char source2ValueDelimiter,
+            char reportValueDelimiter)
         {
             SourceData sourceData;
             try
             {
                 sourceData = SourceDataReader.ReadSourceData(
-                    statement,
-                    transactions,
-                    settings.StatementCsvFile,
-                    settings.TransactionsCsvFile);
+                    source1,
+                    source2,
+                    source1ValueDelimiter,
+                    source2ValueDelimiter);
             }
             catch (Exception e)
             {
@@ -54,7 +56,7 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
                     result,
                     sourceData.StatementColumnCount,
                     sourceData.TransactionColumnCount,
-                    settings.OutputCsvDelimiter,
+                    reportValueDelimiter,
                     stringyfyer);
 
                 return Andy.Csv.IO.CsvFileWriter.Write(lines);
