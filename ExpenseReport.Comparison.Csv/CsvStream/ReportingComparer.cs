@@ -9,7 +9,8 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
     {
         private readonly IComparer<TItem1, TItem2> comparer;
 
-        public ReportingComparer(IComparer<TItem1, TItem2> comparer)
+        public ReportingComparer(
+            IComparer<TItem1, TItem2> comparer)
         {
             this.comparer = comparer;
         }
@@ -21,14 +22,23 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             char source2ValueDelimiter,
             char reportValueDelimiter)
         {
-            SourceData sourceData;
+            IList<string[]> transactions1;
+            int transactions1ColumnCount;
+
+            IList<string[]> transactions2;
+            int transactions2ColumnCount;
+
             try
             {
-                sourceData = SourceDataReader.ReadSourceData(
+                transactions1 = CsvStreamReader.Read(
                     source1,
-                    source2,
                     source1ValueDelimiter,
-                    source2ValueDelimiter);
+                    out transactions1ColumnCount);
+
+                transactions2 = CsvStreamReader.Read(
+                    source2,
+                    source2ValueDelimiter,
+                    out transactions2ColumnCount);
             }
             catch (Exception e)
             {
@@ -39,8 +49,8 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             try
             {
                 result = comparer.Compare(
-                    sourceData.Transactions,
-                    sourceData.StatementEntries);
+                    transactions1,
+                    transactions2);
             }
             catch (Exception e)
             {
@@ -54,8 +64,8 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             {
                 string[] lines = ResultStringification.StringyfyyResults(
                     result,
-                    sourceData.StatementColumnCount,
-                    sourceData.TransactionColumnCount,
+                    transactions1ColumnCount,
+                    transactions2ColumnCount,
                     reportValueDelimiter,
                     stringyfyer);
 
