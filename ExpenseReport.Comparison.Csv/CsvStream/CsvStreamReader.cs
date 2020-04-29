@@ -12,9 +12,7 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             char delimiter,
             out int columnCount)
         {
-            string[][] rows = ReadRowsFromStream(
-                source,
-                delimiter);
+            string[][] rows = ReadRowsFromStream(source, delimiter);
 
             if (!rows.Any())
             {
@@ -27,7 +25,7 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
 
             int colCount = columnCount;
             if (!rows.All(row => row.Length == colCount))
-                throw new Exception("All rows in a CSV file must have an equal number of columns");
+                throw new CsvValidationException("All rows in a CSV file must have an equal number of columns");
 
             return rows;
         }
