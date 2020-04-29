@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
 {
-    public interface IReportingComparer<TItem1, TItem2>
+    public interface IReportingComparer
     {
         Stream Compare(
             Stream source1,

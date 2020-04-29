@@ -35,10 +35,10 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             return comparer;
         }
 
-        public static ReportingFileComparer<TItem1, TItem2> BuildFileComparer<TItem1, TItem2>(
+        public static ReportingFileComparer BuildFileComparer<TItem1, TItem2>(
              Comparison.Csv.IComparer<TItem1, TItem2> comparer)
         {
-            return new ReportingFileComparer<TItem1, TItem2>(
+            return new ReportingFileComparer(
                     new ReportingComparer<TItem1, TItem2>(
                             comparer));
         }

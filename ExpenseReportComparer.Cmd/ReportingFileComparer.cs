@@ -5,11 +5,11 @@ using System.IO;
 
 namespace Andy.ExpenseReport.Verifier.Cmd
 {
-    public class ReportingFileComparer<TItem1, TItem2>
+    public class ReportingFileComparer
     {
-        private readonly IReportingComparer<TItem1, TItem2> comparer;
+        private readonly IReportingComparer comparer;
 
-        public ReportingFileComparer(IReportingComparer<TItem1, TItem2> comparer)
+        public ReportingFileComparer(IReportingComparer comparer)
         {
             this.comparer = comparer;
         }

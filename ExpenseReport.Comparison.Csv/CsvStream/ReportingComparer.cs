@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
 {
-    public class ReportingComparer<TItem1, TItem2> : IReportingComparer<TItem1, TItem2>
+    public class ReportingComparer<TItem1, TItem2> : IReportingComparer
     {
         private readonly IComparer<TItem1, TItem2> comparer;
 
