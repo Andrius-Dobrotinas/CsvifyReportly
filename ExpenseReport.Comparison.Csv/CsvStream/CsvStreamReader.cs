@@ -16,8 +16,11 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
                 source,
                 delimiter);
 
-            // todo: change this:
-            if (!rows.Any()) throw new Exception("The source has no CSV content");
+            if (!rows.Any())
+            {
+                columnCount = 0;
+                return rows;
+            }
 
             // want to make sure all rows have equal number of columns. otherwise, things could get unpredictable down the line
             columnCount = rows.First().Length;
