@@ -40,8 +40,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 
             try
             {
-                var comparer = ComparerBuilder.BuildBankStatementComparer(settings);
-                var fileComparer = ComparerBuilder.BuildFileComparer(comparer);
+                var fileComparer = ComparerBuilder.BuildFileComparer(parameters.Command, settings);
 
                 fileComparer.CompareAndWriteReport(
                     parameters.StatementFile,

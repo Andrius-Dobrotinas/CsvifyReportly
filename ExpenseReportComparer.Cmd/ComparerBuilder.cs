@@ -6,7 +6,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 {
     public static class ComparerBuilder
     {
-        public static Comparison.Csv.Comparer<
+        private static Comparison.Csv.Comparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
                 Comparison.Csv.Statement.Bank.TransactionDetailsWithSourceData>
             BuildBankStatementComparer(Settings settings)
@@ -35,12 +35,26 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             return comparer;
         }
 
-        public static ReportingFileComparer BuildFileComparer<TItem1, TItem2>(
+        private static ReportingFileComparer BuildFileComparer<TItem1, TItem2>(
              Comparison.Csv.IComparer<TItem1, TItem2> comparer)
         {
             return new ReportingFileComparer(
                     new ReportingComparer<TItem1, TItem2>(
                             comparer));
+        }
+
+        public static ReportingFileComparer BuildFileComparer(Command type, Settings settings)
+        {
+            switch (type)
+            {
+                case Command.Bank:
+                    {
+                        var comparer = BuildBankStatementComparer(settings);
+                        return BuildFileComparer(comparer);
+                    }
+                default:
+                    throw new NotImplementedException($"There's no implementation for command {type.ToString()} yet");
+            }
         }
     }
 }

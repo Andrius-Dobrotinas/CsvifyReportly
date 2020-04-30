@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ExpenseReportComparer.Cmd": {
+      "commandName": "Project",
+      "commandLineArgs": "bank --transactions=\"C:\\soft\\file1.txt\" --statements=\"C:\\soft\\file2.txt\" --output=\"result.csv\""
+    }
+  }
+}
