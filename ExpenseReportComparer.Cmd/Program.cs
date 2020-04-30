@@ -40,14 +40,16 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 
             try
             {
-                var fileComparer = ComparerBuilder.BuildFileComparer(parameters.Command, settings);
+                ReportingFileComparer fileComparer = ComparerBuilder.BuildFileComparer(parameters.Command, settings);
+
+                var delimiters = GetDelimiters(parameters.Command, settings);
 
                 fileComparer.CompareAndWriteReport(
                     parameters.StatementFile,
                     parameters.TransactionFile,
                     parameters.ComparisonReportFile,
-                    settings.StatementFile.Delimiter,
-                    settings.TransactionsFile.Delimiter,
+                    delimiters.Item1,
+                    delimiters.Item2,
                     settings.OutputCsvDelimiter);
             }
             catch (CsvStreamComparisonException e)
@@ -90,6 +92,29 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 .ToDictionary(
                     x => x.Key,
                     x => x.Value);
+        }
+
+        private static Tuple<char, char> GetDelimiters(Command type, Settings settings)
+        {
+            switch (type)
+            {
+                case Command.Bank:
+                    {
+                        return new Tuple<char, char>(
+                            settings.Bank.StatementFile.Delimiter,
+                            settings.Bank.TransactionsFile.Delimiter);
+                    }
+
+                case Command.PayPal:
+                    {
+                        return new Tuple<char, char>(
+                            settings.PayPal.StatementFile.Delimiter,
+                            settings.PayPal.TransactionsFile.Delimiter);
+                    }
+
+                default:
+                    throw new NotImplementedException($"Type {type.ToString()}");
+            }                
         }
     }
 }

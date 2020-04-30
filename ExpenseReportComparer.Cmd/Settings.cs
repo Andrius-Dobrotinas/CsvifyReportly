@@ -7,10 +7,18 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 {
     public class Settings
     {
-        public CsvFileSettings<StatementEntryColumnIndexes> StatementFile { get; set; }
-        public CsvFileSettings<TransactionDetailsColumnIndexes> TransactionsFile { get; set; }
+        public StatementSourceSetting<StatementEntryColumnIndexes, TransactionDetailsColumnIndexes> Bank { get; set; }
+        public StatementSourceSetting<StatementEntryColumnIndexes, StatementEntryColumnIndexes> PayPal { get; set; }
         public char OutputCsvDelimiter { get; set; }
         public IDictionary<string, string[]> MerchantNameMap { get; set; }
+    }
+
+    public class StatementSourceSetting<TStatementColumnIndexMap, TTransactionColumnIndexMap>
+        where TStatementColumnIndexMap : class
+        where TTransactionColumnIndexMap : class
+    {
+        public CsvFileSettings<TStatementColumnIndexMap> StatementFile { get; set; }
+        public CsvFileSettings<TTransactionColumnIndexMap> TransactionsFile { get; set; }
     }
 
     public class CsvFileSettings<TColumnIndexMap>

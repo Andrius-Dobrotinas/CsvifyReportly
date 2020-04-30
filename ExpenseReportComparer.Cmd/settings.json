@@ -1,23 +1,43 @@
 {
-  "StatementFile": {
-    "ColumnIndexes": {
-      "Date": 0,
-      "Amount": 1,
-      "Details": 2
+  "Bank": {
+    "StatementFile": {
+      "ColumnIndexes": {
+        "Date": 0,
+        "Amount": 1,
+        "Details": 2
+      },
+      "Delimiter": ","
     },
-    "Delimiter": ","
+    "TransactionsFile": {
+      "ColumnMapping": {
+        "Date": 0,
+        "Amount": 2,
+        "IsPayPal": 3,
+        "Merchant": 5
+      },
+      "Delimiter": ","
+    }
   },
-  "TransactionsFile": {
-    "ColumnMapping": {
-      "Date": 0,
-      "Amount": 2,
-      "IsPayPal": 3,
-      "Merchant": 5
+  "PayPal": {
+    "StatementFile": {
+      "ColumnIndexes": {
+        "Date": 0,
+        "Amount": 1,
+        "Details": 2
+      },
+      "Delimiter": ","
     },
-    "Delimiter": ","
-  },
+    "TransactionsFile": {
+      "ColumnIndexes": {
+        "Date": 0,
+        "Amount": 1,
+        "Details": 2
+      },
+      "Delimiter": ","
+    }
+  }
   "MerchantNameMap": {
     "Amazon": [ "Amazon", "AMZNMKTPLACE", "AMZ*AMAZON.CO.UK" ]
   },
-  "OutputCsvDelimiter":  ","
+  "OutputCsvDelimiter": ","
 }

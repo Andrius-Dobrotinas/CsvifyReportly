@@ -11,8 +11,8 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 Comparison.Csv.Statement.Bank.TransactionDetailsWithSourceData>
             BuildBankStatementComparer(Settings settings)
         {
-            var item1Parser = new Comparison.Csv.Statement.StatementEntryParser(settings.StatementFile.ColumnIndexes);
-            var item2Parser = new Comparison.Csv.Statement.Bank.TransactionDetailsParser(settings.TransactionsFile.ColumnIndexes);
+            var item1Parser = new Comparison.Csv.Statement.StatementEntryParser(settings.Bank.StatementFile.ColumnIndexes);
+            var item2Parser = new Comparison.Csv.Statement.Bank.TransactionDetailsParser(settings.Bank.TransactionsFile.ColumnIndexes);
 
             var collectionComparer = new Comparison.CollectionComparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
@@ -35,6 +35,31 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             return comparer;
         }
 
+        private static Comparison.Csv.Comparer<
+                Comparison.Csv.Statement.StatementEntryWithSourceData,
+                Comparison.Csv.Statement.StatementEntryWithSourceData>
+            BuildPaypalStatementComparer(Settings settings)
+        {
+            var itemParser = new Comparison.Csv.Statement.StatementEntryParser(settings.PayPal.StatementFile.ColumnIndexes);
+
+            var collectionComparer = new Comparison.CollectionComparer<
+                Comparison.Csv.Statement.StatementEntryWithSourceData,
+                Comparison.Csv.Statement.StatementEntryWithSourceData>(
+                new Comparison.MatchFinder<
+                    Comparison.Csv.Statement.StatementEntryWithSourceData,
+                    Comparison.Csv.Statement.StatementEntryWithSourceData>(
+                        new Comparison.Statement.PayPal.ItemComparer()));
+
+            var comparer = new Comparison.Csv.Comparer<
+                Comparison.Csv.Statement.StatementEntryWithSourceData,
+                Comparison.Csv.Statement.StatementEntryWithSourceData>(
+                    collectionComparer,
+                    itemParser,
+                    itemParser);
+
+            return comparer;
+        }
+
         private static ReportingFileComparer BuildFileComparer<TItem1, TItem2>(
              Comparison.Csv.IComparer<TItem1, TItem2> comparer)
         {
@@ -52,8 +77,13 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                         var comparer = BuildBankStatementComparer(settings);
                         return BuildFileComparer(comparer);
                     }
+                case Command.PayPal:
+                    {
+                        var comparer = BuildPaypalStatementComparer(settings);
+                        return BuildFileComparer(comparer);
+                    }
                 default:
-                    throw new NotImplementedException($"There's no implementation for command {type.ToString()} yet");
+                    throw new NotImplementedException($"There's no implementation for command {type.ToString()}");
             }
         }
     }
