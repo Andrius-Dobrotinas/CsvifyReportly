@@ -8,18 +8,18 @@ namespace Andy.ExpenseReport.Verifier.Cmd
     {
         private static Comparison.Csv.Comparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
-                Comparison.Csv.Statement.Bank.TransactionDetailsWithSourceData>
+                Comparison.Csv.Statement.Bank.ExpenseReportEntryWithSourceData>
             BuildBankStatementComparer(Settings settings)
         {
             var item1Parser = new Comparison.Csv.Statement.StatementEntryParser(settings.Bank.StatementFile.ColumnIndexes);
-            var item2Parser = new Comparison.Csv.Statement.Bank.TransactionDetailsParser(settings.Bank.TransactionsFile.ColumnIndexes);
+            var item2Parser = new Comparison.Csv.Statement.Bank.ExpenseReportEntryParser(settings.Bank.ExpenseReportFile.ColumnIndexes);
 
             var collectionComparer = new Comparison.CollectionComparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
-                Comparison.Csv.Statement.Bank.TransactionDetailsWithSourceData>(
+                Comparison.Csv.Statement.Bank.ExpenseReportEntryWithSourceData>(
                 new Comparison.MatchFinder<
                     Comparison.Csv.Statement.StatementEntryWithSourceData,
-                    Comparison.Csv.Statement.Bank.TransactionDetailsWithSourceData>(
+                    Comparison.Csv.Statement.Bank.ExpenseReportEntryWithSourceData>(
                     new Comparison.Statement.Bank.ItemComparer(
                         new Comparison.Statement.Bank.MerchantNameComparer(
                             new Comparison.Statement.Bank.MerchanNameVariationComparer(
@@ -27,7 +27,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 
             var comparer = new Comparison.Csv.Comparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
-                Comparison.Csv.Statement.Bank.TransactionDetailsWithSourceData>(
+                Comparison.Csv.Statement.Bank.ExpenseReportEntryWithSourceData>(
                     collectionComparer,
                     item1Parser,
                     item2Parser);

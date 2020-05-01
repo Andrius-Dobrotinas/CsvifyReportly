@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Andy.ExpenseReport.Comparison.Statement.Bank
 {
@@ -22,10 +21,10 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
         [TestCase(false)]
         public void When_AmountsMatch__Must_CompareMerchantInfo(bool isPayPal)
         {
-            var transaction = new TransactionDetails { Amount = 0, Merchant = "One", IsPayPal = isPayPal };
+            var reportEntry = new ExpenseReportEntry { Amount = 0, Merchant = "One", IsPayPal = isPayPal };
             var statementEntry = new StatementEntry { Amount = 0, Details = "Deets" };
 
-            target.AreEqual(transaction, statementEntry);
+            target.AreEqual(reportEntry, statementEntry);
 
             merchantComparer.Verify(
                 x => x.DoStatementDetailsReferToMerchant(
@@ -48,17 +47,17 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
                 x => x.DoStatementDetailsReferToMerchant(
                     It.IsAny<string>(),
                     It.Is<string>(
-                        arg => arg == transaction.Merchant),
+                        arg => arg == reportEntry.Merchant),
                     It.IsAny<bool>()),
-                $"Must pass the value of statement {nameof(TransactionDetails.Merchant)} on to the function as the 2nd param");
+                $"Must pass the value of report entry's {nameof(ExpenseReportEntry.Merchant)} on to the function as the 2nd param");
 
             merchantComparer.Verify(
                 x => x.DoStatementDetailsReferToMerchant(
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.Is<bool>(
-                        arg => arg == transaction.IsPayPal)),
-                $"Must pass the value of statement {nameof(TransactionDetails.IsPayPal)} on to the function as the 2nd param");
+                        arg => arg == reportEntry.IsPayPal)),
+                $"Must pass the value of report entry's {nameof(ExpenseReportEntry.IsPayPal)} on to the function as the 2nd param");
         }
 
         [TestCase(0)]
@@ -66,12 +65,12 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
         [TestCase(711)]
         public void Must_Return_True__When_AmountsAndMerchantDeetsMatch(decimal amount)
         {
-            var transaction = new TransactionDetails { Amount = amount };
+            var reportEntry = new ExpenseReportEntry { Amount = amount };
             var statementEntry = new StatementEntry { Amount = amount };
 
             Setup_MerchantComparer(true);
 
-            var result = target.AreEqual(transaction, statementEntry);
+            var result = target.AreEqual(reportEntry, statementEntry);
 
             Assert.AreEqual(true, result);
         }
@@ -81,12 +80,12 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
         [TestCase(7, 11)]
         public void Must_Return_False__When_AmountsDontMatch_RegardlessOfMerchantInfo(decimal transAmt, decimal stmntAmt)
         {
-            var transaction = new TransactionDetails { Amount = transAmt };
+            var reportEntry = new ExpenseReportEntry { Amount = transAmt };
             var statementEntry = new StatementEntry { Amount = stmntAmt };
 
             Setup_MerchantComparer(true);
 
-            var result = target.AreEqual(transaction, statementEntry);
+            var result = target.AreEqual(reportEntry, statementEntry);
 
             Assert.AreEqual(false, result);
         }
@@ -94,12 +93,12 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
         [Test]
         public void Must_Return_False__When_AmountsMatch_ButMerchantDeetsDont()
         {
-            var transaction = new TransactionDetails { Amount = 52 };
+            var reportEntry = new ExpenseReportEntry { Amount = 52 };
             var statementEntry = new StatementEntry { Amount = 52 };
 
             Setup_MerchantComparer(false);
 
-            var result = target.AreEqual(transaction, statementEntry);
+            var result = target.AreEqual(reportEntry, statementEntry);
 
             Assert.AreEqual(false, result);
         }

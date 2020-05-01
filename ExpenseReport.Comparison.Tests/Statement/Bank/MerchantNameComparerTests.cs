@@ -20,7 +20,7 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
         [TestCase("something'", "PAYPAL *something'")]
         [TestCase("match", "PAYPAL *match")]
         [TestCase("nuthin'", "PAYPAL *NUTHIN'", Description = "Must be case-insensitive")]
-        public void When_TransactionIsPaypal_AndStatementDetailHaveTheSameMerchantInfoAfterPaypalPrefix(
+        public void When_ReportEntryIsPaypal_AndStatementDetailHaveTheSameMerchantInfoAfterPaypalPrefix(
             string reportMerchant,
             string statementDetails)
         {
@@ -31,7 +31,7 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
 
         [TestCase("match", "PAYPAL *match")]
         [TestCase("no match", "PAYPAL *match")]
-        public void When_TransactionIsPaypal__Should_NotCheckTheNameMap(
+        public void When_ReportEntryIsPaypal__Should_NotCheckTheNameMap(
             string name,
             string detailsString)
         {

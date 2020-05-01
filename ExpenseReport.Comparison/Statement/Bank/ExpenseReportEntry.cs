@@ -2,7 +2,7 @@
 
 namespace Andy.ExpenseReport.Comparison.Statement.Bank
 {
-    public class TransactionDetails
+    public class ExpenseReportEntry
     {
         public DateTime Date { get; set; }
         public decimal Amount { get; set; }

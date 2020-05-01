@@ -3,22 +3,22 @@ using System.Collections.Generic;
 
 namespace Andy.ExpenseReport.Comparison.Csv.Statement.Bank
 {
-    public class TransactionDetailsParser : ICsvRowParser<TransactionDetailsWithSourceData>
+    public class ExpenseReportEntryParser : ICsvRowParser<ExpenseReportEntryWithSourceData>
     {
-        private readonly TransactionDetailsColumnIndexes columnMapping;
+        private readonly ExpenseReportEntryColumnIndexes columnMapping;
 
-        public TransactionDetailsParser(TransactionDetailsColumnIndexes columnMapping)
+        public ExpenseReportEntryParser(ExpenseReportEntryColumnIndexes columnMapping)
         {
             this.columnMapping = columnMapping;
         }
 
-        public TransactionDetailsWithSourceData Parse(string[] csvRow)
+        public ExpenseReportEntryWithSourceData Parse(string[] csvRow)
         {
             if (csvRow == null) throw new ArgumentNullException(nameof(csvRow));
 
             // TODO: error/null value handling
 
-            return new TransactionDetailsWithSourceData
+            return new ExpenseReportEntryWithSourceData
             {
                 Date = DateTime.Parse(csvRow[columnMapping.Date]).Date,
                 Amount = decimal.Parse(csvRow[columnMapping.Amount]),

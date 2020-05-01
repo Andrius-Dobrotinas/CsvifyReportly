@@ -46,7 +46,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 
                 fileComparer.CompareAndWriteReport(
                     parameters.StatementFile,
-                    parameters.TransactionFile,
+                    parameters.ExpenseReportFile,
                     parameters.ComparisonReportFile,
                     delimiters.Item1,
                     delimiters.Item2,
@@ -102,14 +102,14 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                     {
                         return new Tuple<char, char>(
                             settings.Bank.StatementFile.Delimiter,
-                            settings.Bank.TransactionsFile.Delimiter);
+                            settings.Bank.ExpenseReportFile.Delimiter);
                     }
 
                 case Command.PayPal:
                     {
                         return new Tuple<char, char>(
                             settings.PayPal.StatementFile.Delimiter,
-                            settings.PayPal.TransactionsFile.Delimiter);
+                            settings.PayPal.ExpenseReportFile.Delimiter);
                     }
 
                 default:

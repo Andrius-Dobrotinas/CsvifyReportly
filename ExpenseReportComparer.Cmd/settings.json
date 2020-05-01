@@ -8,7 +8,7 @@
       },
       "Delimiter": ","
     },
-    "TransactionsFile": {
+    "ExpenseReportFile": {
       "ColumnMapping": {
         "Date": 0,
         "Amount": 2,
@@ -27,7 +27,7 @@
       },
       "Delimiter": ","
     },
-    "TransactionsFile": {
+    "ExpenseReportFile": {
       "ColumnIndexes": {
         "Date": 0,
         "Amount": 1,

@@ -6,7 +6,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 {
     public static class Parameter
     {
-        private const string TransactionFileKey = "--transactions";
+        private const string ExpenseReportFileKey = "--expenseReport";
         private const string StatementFileKey = "--statements";
         private const string ReportFileKey = "--output";
         private const string Command_Bank = "bank";
@@ -16,8 +16,8 @@ namespace Andy.ExpenseReport.Verifier.Cmd
         {
             var command = GetCommand(args);
 
-            string transactionFilePath;
-            if (!args.TryGetValue(TransactionFileKey, out transactionFilePath))
+            string expenseReportFilePath;
+            if (!args.TryGetValue(ExpenseReportFileKey, out expenseReportFilePath))
                 throw new Exception("A transactions file must be specified");
 
             string statementFilePath;
@@ -31,7 +31,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             return new Parameters
             {
                 Command = command,
-                TransactionFile = new FileInfo(transactionFilePath),
+                ExpenseReportFile = new FileInfo(expenseReportFilePath),
                 StatementFile = new FileInfo(statementFilePath),
                 ComparisonReportFile = new FileInfo(reportFilePath)
             };

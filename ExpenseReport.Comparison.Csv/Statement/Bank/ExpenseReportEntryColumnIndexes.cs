@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Andy.ExpenseReport.Comparison.Csv.Statement.Bank
 {
-    public class TransactionDetailsColumnIndexes
+    public class ExpenseReportEntryColumnIndexes
     {
         public int Date { get; set; }
         public int Amount { get; set; }

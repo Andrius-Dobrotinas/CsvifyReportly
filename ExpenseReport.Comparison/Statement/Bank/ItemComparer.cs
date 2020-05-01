@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Andy.ExpenseReport.Comparison.Statement.Bank
 {
-    public class ItemComparer : IItemComparer<TransactionDetails, StatementEntry>
+    public class ItemComparer : IItemComparer<ExpenseReportEntry, StatementEntry>
     {
         private readonly IMerchantNameComparer merchantNameComparer;
 
@@ -12,18 +12,18 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
             this.merchantNameComparer = merchantNameComparer;
         }
 
-        public bool AreEqual(TransactionDetails transaction, StatementEntry statementEntry)
+        public bool AreEqual(ExpenseReportEntry transaction, StatementEntry statementEntry)
         {
             return IsAmountEqual(transaction, statementEntry)
                 && IsMerchantEqual(transaction, statementEntry);
         }
 
-        private static bool IsAmountEqual(TransactionDetails transactionDetails, StatementEntry statement)
+        private static bool IsAmountEqual(ExpenseReportEntry transactionDetails, StatementEntry statement)
         {
             return transactionDetails.Amount == statement.Amount;
         }
 
-        private bool IsMerchantEqual(TransactionDetails transcation, StatementEntry statement)
+        private bool IsMerchantEqual(ExpenseReportEntry transcation, StatementEntry statement)
         {
             return merchantNameComparer.DoStatementDetailsReferToMerchant(statement.Details, transcation.Merchant, transcation.IsPayPal);
         }
