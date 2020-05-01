@@ -7,22 +7,22 @@ namespace Andy.ExpenseReport.Comparison.Csv
     public interface IComparer<TItem1, TItem2>
     {
         public ComparisonResult Compare(
-            IList<string[]> transactionRows,
-            IList<string[]> statementRows);
+            IList<string[]> transactionRows1,
+            IList<string[]> transactionRows2);
     }
 
-    public class Comparer<TItem1, TItem2> : IComparer<TItem1, TItem2>
-        where TItem1: IComparisonItemWithSourceData
-        where TItem2: IComparisonItemWithSourceData
+    public class Comparer<TTransaction1, TTransaction2> : IComparer<TTransaction1, TTransaction2>
+        where TTransaction1: IComparisonItemWithSourceData
+        where TTransaction2: IComparisonItemWithSourceData
     {
-        private readonly ICollectionComparer<TItem1, TItem2> comparer;
-        private readonly ICsvRowParser<TItem1> item1Parser;
-        private readonly ICsvRowParser<TItem2> item2Parser;
+        private readonly ICollectionComparer<TTransaction1, TTransaction2> comparer;
+        private readonly ICsvRowParser<TTransaction1> item1Parser;
+        private readonly ICsvRowParser<TTransaction2> item2Parser;
 
         public Comparer(
-            ICollectionComparer<TItem1, TItem2> comparer,
-            ICsvRowParser<TItem1> item1Parser,
-            ICsvRowParser<TItem2> item2Parser)
+            ICollectionComparer<TTransaction1, TTransaction2> comparer,
+            ICsvRowParser<TTransaction1> item1Parser,
+            ICsvRowParser<TTransaction2> item2Parser)
         {
             this.comparer = comparer;
             this.item1Parser = item1Parser;
@@ -30,15 +30,13 @@ namespace Andy.ExpenseReport.Comparison.Csv
         }
 
         public ComparisonResult Compare(
-            IList<string[]> transactionRows,
-            IList<string[]> statementRows)
+            IList<string[]> transactionRows1,
+            IList<string[]> transactionRows2)
         {
-            var transactions = transactionRows.Select(item2Parser.Parse).ToArray();
-            var statementEntries = statementRows.Select(item1Parser.Parse).ToArray();
+            var transactions1 = transactionRows1.Select(item1Parser.Parse).ToArray();
+            var transactions2 = transactionRows2.Select(item2Parser.Parse).ToArray();
 
-            var result = comparer.Compare(
-                    statementEntries,
-                    transactions);
+            var result = comparer.Compare(transactions1, transactions2);
 
             var matchRows = result.Matches
                 .Select(
@@ -47,19 +45,19 @@ namespace Andy.ExpenseReport.Comparison.Csv
                             x.Item2.SourceData))
                 .ToArray();
 
-            var unmatchedStatementEntries = result.UnmatchedStatementEntries
+            var unmatchedTransactions1 = result.UnmatchedTransactions1
                 .Select(x => x.SourceData)
                 .ToArray();
 
-            var unmatchedTransactions = result.UnmatchedTransactions
+            var unmatchedTransactions2 = result.UnmatchedTransactions2
                 .Select(x => x.SourceData)
                 .ToArray();
 
             return new ComparisonResult
             {
                 Matches = matchRows,
-                UnmatchedStatementEntries = unmatchedStatementEntries,
-                UnmatchedTransactions = unmatchedTransactions
+                UnmatchedStatementEntries = unmatchedTransactions1,
+                UnmatchedTransactions = unmatchedTransactions2
             };
         }
     }

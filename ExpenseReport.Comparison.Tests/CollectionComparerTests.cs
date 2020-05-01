@@ -54,7 +54,7 @@ namespace Andy.ExpenseReport.Comparison
             Setup_ItemMatcherToReturn(expectedMatches);
 
             var actualUnmatchedTransactions = target.Compare(statementEntries, transactions)
-                .UnmatchedTransactions;
+                .UnmatchedTransactions2;
 
             foreach (var transaction in expectedUnmatchedTransactions)
             {
@@ -76,7 +76,7 @@ namespace Andy.ExpenseReport.Comparison
             Setup_ItemMatcherToReturn(expectedMatches);
 
             var actualUnmatchedStatementEntries = target.Compare(statementEntries, transactions)
-                .UnmatchedStatementEntries;
+                .UnmatchedTransactions1;
 
             foreach (var statementEntry in expectedUnmatchedStatementEntries)
             {
@@ -97,7 +97,7 @@ namespace Andy.ExpenseReport.Comparison
             Setup_ItemMatcherToReturn(expectedMatches);
 
             var actualUnmatchedStatementEntries = target.Compare(statementEntries, transactions)
-                .UnmatchedStatementEntries;
+                .UnmatchedTransactions1;
 
             Assert.IsFalse(actualUnmatchedStatementEntries.Any());
         }
@@ -111,7 +111,7 @@ namespace Andy.ExpenseReport.Comparison
             Setup_ItemMatcherToReturn(expectedMatches);
 
             var actualUnmatchedTransactionEntries = target.Compare(statementEntries, transactions)
-                .UnmatchedTransactions;
+                .UnmatchedTransactions2;
 
             Assert.IsFalse(actualUnmatchedTransactionEntries.Any());
         }

@@ -3,50 +3,49 @@ using System.Collections.Generic;
 
 namespace Andy.ExpenseReport.Comparison
 {    
-    public class MatchFinder<TItem1, TItem2>
-        : IMatchFinder<TItem1, TItem2>
-        where TItem2 : class
+    public class MatchFinder<TTransaction1, TTransaction2> : IMatchFinder<TTransaction1, TTransaction2>
+        where TTransaction2 : class
     {
-        private readonly IItemComparer<TItem2, TItem1> comparer;
+        private readonly IItemComparer<TTransaction2, TTransaction1> comparer;
 
         public MatchFinder(
-            IItemComparer<TItem2, TItem1> comparer)
+            IItemComparer<TTransaction2, TTransaction1> comparer)
         {
             this.comparer = comparer;
         }
 
-        public IList<Tuple<TItem1, TItem2>> GetMatches(
-            IList<TItem1> statement,
-            IList<TItem2> transactions)
+        public IList<Tuple<TTransaction1, TTransaction2>> GetMatches(
+            IList<TTransaction1> transactions1,
+            IList<TTransaction2> transactions2)
         {
-            var matches = new List<Tuple<TItem1, TItem2>>();
+            var matches = new List<Tuple<TTransaction1, TTransaction2>>();
 
-            foreach (var statementEntry in statement)
+            foreach (var transaction in transactions1)
             {
-                var transaction = GetFirstMatchingTransaction(
-                    statementEntry,
-                    transactions);
+                var matchingTransaction = GetFirstMatchingTransaction(
+                    transaction,
+                    transactions2);
 
-                if (transaction != null)
-                    matches.Add(new Tuple<TItem1, TItem2>(statementEntry, transaction));                
+                if (matchingTransaction != null)
+                    matches.Add(new Tuple<TTransaction1, TTransaction2>(transaction, matchingTransaction));                
             }
 
             return matches;
         }
 
-        private TItem2 GetFirstMatchingTransaction(
-            TItem1 statementEntry,
-            IList<TItem2> transactions)
+        private TTransaction2 GetFirstMatchingTransaction(
+            TTransaction1 targetTransaction,
+            IList<TTransaction2> transactions)
         {
             for (int i = 0; i < transactions.Count; i++)
             {
-                var transactionDetails = transactions[i];
-                if (transactionDetails == null) continue;
+                var transaction = transactions[i];
+                if (transaction == null) continue;
 
-                if (comparer.AreEqual(transactionDetails, statementEntry))
+                if (comparer.AreEqual(transaction, targetTransaction))
                 {
                     transactions[i] = null;
-                    return transactionDetails;
+                    return transaction;
                 }
             }
 

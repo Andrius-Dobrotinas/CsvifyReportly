@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace Andy.ExpenseReport.Comparison.Csv
 {
-    public interface ICsvRowParser<TItem>
+    public interface ICsvRowParser<T>
     {
-        TItem Parse(string[] csvRow);
+        T Parse(string[] csvRow);
     }
 }

@@ -22,11 +22,11 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             char source2ValueDelimiter,
             char reportValueDelimiter)
         {
-            using (var statementStream = source1.OpenRead())
-            using (var transactionStream = source2.OpenRead())
+            using (var source1Stream = source1.OpenRead())
+            using (var source2Stream = source2.OpenRead())
             using (var reportStream = comparer.Compare(
-                statementStream,
-                transactionStream,
+                source1Stream,
+                source2Stream,
                 source1ValueDelimiter,
                 source2ValueDelimiter,
                 reportValueDelimiter))

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Andy.ExpenseReport.Comparison
 {
-    public interface IMatchFinder<TItem1, TItem2>
+    public interface IMatchFinder<TTransaction1, TTransaction2>
     {
-        IList<Tuple<TItem1, TItem2>> GetMatches(
-            IList<TItem1> statement,
-            IList<TItem2> transactions);
+        IList<Tuple<TTransaction1, TTransaction2>> GetMatches(
+            IList<TTransaction1> transactions1,
+            IList<TTransaction2> transactions2);
     }
 }

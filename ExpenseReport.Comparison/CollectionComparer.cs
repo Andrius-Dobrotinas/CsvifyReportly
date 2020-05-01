@@ -4,44 +4,44 @@ using System.Linq;
 
 namespace Andy.ExpenseReport.Comparison
 {
-    public interface ICollectionComparer<TItem1, TItem2>
+    public interface ICollectionComparer<TTransaction1, TTransaction2>
     {
-        public ComparisonResult<TItem1, TItem2> Compare(
-            IList<TItem1> statement,
-            IList<TItem2> transactions);
+        public ComparisonResult<TTransaction1, TTransaction2> Compare(
+            IList<TTransaction1> transactions1,
+            IList<TTransaction2> transactions2);
     }
 
-    public class CollectionComparer<TItem1, TItem2> : ICollectionComparer<TItem1, TItem2>
+    public class CollectionComparer<TTransaction1, TTransaction2> : ICollectionComparer<TTransaction1, TTransaction2>
     {
-        private readonly IMatchFinder<TItem1, TItem2> matcher;
+        private readonly IMatchFinder<TTransaction1, TTransaction2> matcher;
 
         public CollectionComparer(
-            IMatchFinder<TItem1, TItem2> matcher)
+            IMatchFinder<TTransaction1, TTransaction2> matcher)
         {
             this.matcher = matcher;
         }
 
-        public ComparisonResult<TItem1, TItem2> Compare(
-            IList<TItem1> statement,
-            IList<TItem2> transactions)
+        public ComparisonResult<TTransaction1, TTransaction2> Compare(
+            IList<TTransaction1> transactions1,
+            IList<TTransaction2> transactions2)
         {
-            var matches = matcher.GetMatches(statement, transactions);
+            var matches = matcher.GetMatches(transactions1, transactions2);
 
-            var unmatchedStatementEntries = statement
+            var unmatchedTransactions1 = transactions1
                 .Except(
                     matches.Select(x => x.Item1))
                 .ToArray();
 
-            var unmatchedTransactions = transactions
+            var unmatchedTransactions2 = transactions2
                 .Except(
                     matches.Select(x => x.Item2))
                 .ToArray();
 
-            return new ComparisonResult<TItem1, TItem2>
+            return new ComparisonResult<TTransaction1, TTransaction2>
             {
                 Matches = matches,
-                UnmatchedStatementEntries = unmatchedStatementEntries,
-                UnmatchedTransactions = unmatchedTransactions
+                UnmatchedTransactions1 = unmatchedTransactions1,
+                UnmatchedTransactions2 = unmatchedTransactions2
             };
         }
     }
