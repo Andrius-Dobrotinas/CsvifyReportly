@@ -64,7 +64,14 @@ namespace Andy.Csv
                 }
             }
 
-            return segments.ToArray();
+            return segments
+                .Select(StripWrappingQuotationMarks)
+                .ToArray();
+        }
+
+        private static string StripWrappingQuotationMarks(string value)
+        {
+            return value.Trim('"');
         }
     }
 }

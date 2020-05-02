@@ -34,6 +34,20 @@ namespace Andy.Csv
                 () => RowParser.Parse(input, delimiter));
         }
 
+        [TestCaseSource(nameof(GetTestCasesWithQuoatationMarks))]
+        public void When_EntryIsWrappedInQuotationMarks__Should_RemoveThem(
+            string input,
+            IList<string> expectedValues,
+            char delimiter)
+        {
+            var result = RowParser.Parse(input, delimiter);
+
+            foreach (var expected in expectedValues)
+            {
+                Assert.Contains(expected, result);                
+            }
+        }
+
         private static IEnumerable<TestCaseData> GetTestCases1()
         {
             yield return new TestCaseData(
@@ -111,6 +125,24 @@ namespace Andy.Csv
             //    @"""one,one"" two",
             //    ',')
             //    .SetDescription("The entry starts, but doesn't end right after the closing quotation mark");
+        }
+
+        private static IEnumerable<TestCaseData> GetTestCasesWithQuoatationMarks()
+        {
+            yield return new TestCaseData(
+                @"""one""",
+                new List<string> { "one" },
+                ',');
+
+            yield return new TestCaseData(
+                @"""one"",two",
+                new List<string> { "one", "two" },
+                ',');
+
+            yield return new TestCaseData(
+                @"""one,one"",two",
+                new List<string> { "one,one", "two" },
+                ',');
         }
     }
 }
