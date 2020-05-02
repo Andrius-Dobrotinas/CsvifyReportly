@@ -40,7 +40,8 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 Comparison.Csv.Statement.StatementEntryWithSourceData>
             BuildPaypalStatementComparer(Settings settings)
         {
-            var itemParser = new Comparison.Csv.Statement.StatementEntryParser(settings.PayPal.StatementFile.ColumnIndexes);
+            var statementEntryParser = new Comparison.Csv.Statement.StatementEntryParser(settings.PayPal.StatementFile.ColumnIndexes);
+            var reportEntryParser = new Comparison.Csv.Statement.StatementEntryParser(settings.PayPal.ExpenseReportFile.ColumnIndexes);
 
             var collectionComparer = new Comparison.CollectionComparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
@@ -54,8 +55,8 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
                 Comparison.Csv.Statement.StatementEntryWithSourceData>(
                     collectionComparer,
-                    itemParser,
-                    itemParser);
+                    statementEntryParser,
+                    reportEntryParser);
 
             return comparer;
         }
