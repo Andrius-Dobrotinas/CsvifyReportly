@@ -7,8 +7,8 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 {
     public class Settings
     {
-        public StatementSourceSetting<StatementEntryColumnIndexes, ExpenseReportEntryColumnIndexes> Bank { get; set; }
-        public StatementSourceSetting<StatementEntryColumnIndexes, StatementEntryColumnIndexes> PayPal { get; set; }
+        public StatementSourceSetting<StatementEntryColumnIndexes, ExpenseReportEntryColumnIndexes> ExpenseReport { get; set; }
+        public StatementSourceSetting<StatementEntryColumnIndexes, StatementEntryColumnIndexes> Generic { get; set; }
         public char OutputCsvDelimiter { get; set; }
         public IDictionary<string, string[]> MerchantNameMap { get; set; }
     }

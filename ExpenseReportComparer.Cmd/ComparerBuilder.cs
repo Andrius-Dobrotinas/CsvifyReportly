@@ -11,8 +11,8 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 Comparison.Csv.Statement.Bank.ExpenseReportEntryWithSourceData>
             BuildBankStatementComparer(Settings settings)
         {
-            var item1Parser = new Comparison.Csv.Statement.StatementEntryParser(settings.Bank.StatementFile.ColumnIndexes);
-            var item2Parser = new Comparison.Csv.Statement.Bank.ExpenseReportEntryParser(settings.Bank.ExpenseReportFile.ColumnIndexes);
+            var item1Parser = new Comparison.Csv.Statement.StatementEntryParser(settings.ExpenseReport.StatementFile.ColumnIndexes);
+            var item2Parser = new Comparison.Csv.Statement.Bank.ExpenseReportEntryParser(settings.ExpenseReport.ExpenseReportFile.ColumnIndexes);
 
             var collectionComparer = new Comparison.CollectionComparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
@@ -38,10 +38,10 @@ namespace Andy.ExpenseReport.Verifier.Cmd
         private static Comparison.Csv.Comparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
                 Comparison.Csv.Statement.StatementEntryWithSourceData>
-            BuildPaypalStatementComparer(Settings settings)
+            BuildGenericStatementComparer(Settings settings)
         {
-            var statementEntryParser = new Comparison.Csv.Statement.StatementEntryParser(settings.PayPal.StatementFile.ColumnIndexes);
-            var reportEntryParser = new Comparison.Csv.Statement.StatementEntryParser(settings.PayPal.ExpenseReportFile.ColumnIndexes);
+            var statementEntryParser = new Comparison.Csv.Statement.StatementEntryParser(settings.Generic.StatementFile.ColumnIndexes);
+            var reportEntryParser = new Comparison.Csv.Statement.StatementEntryParser(settings.Generic.ExpenseReportFile.ColumnIndexes);
 
             var collectionComparer = new Comparison.CollectionComparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
@@ -49,7 +49,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 new Comparison.MatchFinder<
                     Comparison.Csv.Statement.StatementEntryWithSourceData,
                     Comparison.Csv.Statement.StatementEntryWithSourceData>(
-                        new Comparison.Statement.PayPal.ItemComparer()));
+                        new Comparison.Statement.ItemComparer()));
 
             var comparer = new Comparison.Csv.Comparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
@@ -73,14 +73,14 @@ namespace Andy.ExpenseReport.Verifier.Cmd
         {
             switch (type)
             {
-                case Command.Bank:
+                case Command.ExpenseReport:
                     {
                         var comparer = BuildBankStatementComparer(settings);
                         return BuildFileComparer(comparer);
                     }
-                case Command.PayPal:
+                case Command.Generic:
                     {
-                        var comparer = BuildPaypalStatementComparer(settings);
+                        var comparer = BuildGenericStatementComparer(settings);
                         return BuildFileComparer(comparer);
                     }
                 default:

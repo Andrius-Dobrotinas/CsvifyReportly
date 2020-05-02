@@ -1,5 +1,5 @@
 {
-  "Bank": {
+  "ExpenseReport": {
     "StatementFile": {
       "ColumnIndexes": {
         "Date": 0,
@@ -18,7 +18,7 @@
       "Delimiter": ","
     }
   },
-  "PayPal": {
+  "Generic": {
     "StatementFile": {
       "ColumnIndexes": {
         "Date": 0,
@@ -35,7 +35,7 @@
       },
       "Delimiter": ","
     }
-  }
+  },
   "MerchantNameMap": {
     "Amazon": [ "Amazon", "AMZNMKTPLACE", "AMZ*AMAZON.CO.UK" ]
   },

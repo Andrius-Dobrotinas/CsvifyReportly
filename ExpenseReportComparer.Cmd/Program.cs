@@ -98,18 +98,18 @@ namespace Andy.ExpenseReport.Verifier.Cmd
         {
             switch (type)
             {
-                case Command.Bank:
+                case Command.ExpenseReport:
                     {
                         return new Tuple<char, char>(
-                            settings.Bank.StatementFile.Delimiter,
-                            settings.Bank.ExpenseReportFile.Delimiter);
+                            settings.ExpenseReport.StatementFile.Delimiter,
+                            settings.ExpenseReport.ExpenseReportFile.Delimiter);
                     }
 
-                case Command.PayPal:
+                case Command.Generic:
                     {
                         return new Tuple<char, char>(
-                            settings.PayPal.StatementFile.Delimiter,
-                            settings.PayPal.ExpenseReportFile.Delimiter);
+                            settings.Generic.StatementFile.Delimiter,
+                            settings.Generic.ExpenseReportFile.Delimiter);
                     }
 
                 default:

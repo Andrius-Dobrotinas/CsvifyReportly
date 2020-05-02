@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Comparison.Statement.PayPal
+namespace Andy.ExpenseReport.Comparison.Statement
 {
     public class ItemComparer : IItemComparer<StatementEntry, StatementEntry>
     {

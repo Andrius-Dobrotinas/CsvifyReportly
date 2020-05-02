@@ -2,7 +2,7 @@
   "profiles": {
     "ExpenseReportComparer.Cmd": {
       "commandName": "Project",
-      "commandLineArgs": "bank --expenseReport=\"C:\\soft\\file1.txt\" --statements=\"C:\\soft\\file2.txt\" --output=\"result.csv\""
+      "commandLineArgs": "exp-report --expenseReport=\"C:\\soft\\file1.txt\" --statements=\"C:\\soft\\file2.txt\" --output=\"result.csv\""
     }
   }
 }

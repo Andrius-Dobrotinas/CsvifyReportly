@@ -9,8 +9,8 @@ namespace Andy.ExpenseReport.Verifier.Cmd
         private const string ExpenseReportFileKey = "--expenseReport";
         private const string StatementFileKey = "--statements";
         private const string ReportFileKey = "--output";
-        private const string Command_Bank = "bank";
-        private const string Command_PayPal = "paypal";
+        private const string Command_ExpenseReport = "exp-report";
+        private const string Command_Generic = "generic";
 
         public static Parameters GetParametersOrThrow(IDictionary<string, string> args)
         {
@@ -39,13 +39,13 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 
         private static Command GetCommand(IDictionary<string, string> args)
         {
-            if (args.ContainsKey(Command_Bank))
-                return Command.Bank;
-            if (args.ContainsKey(Command_PayPal))
-                return Command.PayPal;
+            if (args.ContainsKey(Command_ExpenseReport))
+                return Command.ExpenseReport;
+            if (args.ContainsKey(Command_Generic))
+                return Command.Generic;
 
             throw new Exception(
-                $"No suitable command has been specified. It must be one of: {Command_Bank}, {Command_PayPal}");
+                $"No suitable command has been specified. It must be one of: {Command_ExpenseReport}, {Command_Generic}");
         }
     }
 }
