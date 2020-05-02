@@ -9,7 +9,7 @@
       "Delimiter": ","
     },
     "ExpenseReportFile": {
-      "ColumnMapping": {
+      "ColumnIndexes": {
         "Date": 0,
         "Amount": 2,
         "IsPayPal": 3,
