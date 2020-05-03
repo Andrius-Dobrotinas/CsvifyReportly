@@ -6,7 +6,8 @@
         "Amount": 1,
         "Details": 2
       },
-      "Delimiter": ","
+      "Delimiter": ",",
+      "DateFormat": "dd-MM-yyyy"
     },
     "ExpenseReportFile": {
       "ColumnIndexes": {
@@ -15,7 +16,8 @@
         "IsPayPal": 3,
         "Merchant": 5
       },
-      "Delimiter": ","
+      "Delimiter": ",",
+      "DateFormat": "yyyy-MM-dd"
     }
   },
   "Generic": {
@@ -25,7 +27,8 @@
         "Amount": 1,
         "Details": 2
       },
-      "Delimiter": ","
+      "Delimiter": ",",
+      "DateFormat": "dd-MM-yyyy"
     },
     "ExpenseReportFile": {
       "ColumnIndexes": {
@@ -33,7 +36,8 @@
         "Amount": 1,
         "Details": 2
       },
-      "Delimiter": ","
+      "Delimiter": ",",
+      "DateFormat": "dd-MM-yyyy"
     }
   },
   "MerchantNameMap": {

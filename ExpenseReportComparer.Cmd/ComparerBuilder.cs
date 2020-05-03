@@ -11,8 +11,13 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 Comparison.Csv.Statement.Bank.ExpenseReportEntryWithSourceData>
             BuildBankStatementComparer(Settings settings)
         {
-            var item1Parser = new Comparison.Csv.Statement.StatementEntryParser(settings.ExpenseReport.StatementFile.ColumnIndexes);
-            var item2Parser = new Comparison.Csv.Statement.Bank.ExpenseReportEntryParser(settings.ExpenseReport.ExpenseReportFile.ColumnIndexes);
+            var item1Parser = new Comparison.Csv.Statement.StatementEntryParser(
+                settings.ExpenseReport.StatementFile.ColumnIndexes,
+                settings.ExpenseReport.StatementFile.DateFormat);
+
+            var item2Parser = new Comparison.Csv.Statement.Bank.ExpenseReportEntryParser(
+                settings.ExpenseReport.ExpenseReportFile.ColumnIndexes,
+                settings.ExpenseReport.ExpenseReportFile.DateFormat);
 
             var collectionComparer = new Comparison.CollectionComparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
@@ -40,8 +45,13 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 Comparison.Csv.Statement.StatementEntryWithSourceData>
             BuildGenericStatementComparer(Settings settings)
         {
-            var statementEntryParser = new Comparison.Csv.Statement.StatementEntryParser(settings.Generic.StatementFile.ColumnIndexes);
-            var reportEntryParser = new Comparison.Csv.Statement.StatementEntryParser(settings.Generic.ExpenseReportFile.ColumnIndexes);
+            var statementEntryParser = new Comparison.Csv.Statement.StatementEntryParser(
+                settings.Generic.StatementFile.ColumnIndexes,
+                settings.Generic.StatementFile.DateFormat);
+
+            var reportEntryParser = new Comparison.Csv.Statement.StatementEntryParser(
+                settings.Generic.ExpenseReportFile.ColumnIndexes,
+                settings.Generic.ExpenseReportFile.DateFormat);
 
             var collectionComparer = new Comparison.CollectionComparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,

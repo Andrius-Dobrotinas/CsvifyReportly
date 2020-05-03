@@ -26,5 +26,6 @@ namespace Andy.ExpenseReport.Verifier.Cmd
     {
         public TColumnIndexMap ColumnIndexes { get; set; }
         public char Delimiter { get; set; }
+        public string DateFormat { get; set; }
     }
 }

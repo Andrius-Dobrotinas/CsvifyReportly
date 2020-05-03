@@ -6,10 +6,14 @@ namespace Andy.ExpenseReport.Comparison.Csv.Statement
     public class StatementEntryParser : ICsvRowParser<StatementEntryWithSourceData>
     {
         private readonly StatementEntryColumnIndexes columnMapping;
+        private readonly string dateFormat;
 
-        public StatementEntryParser(StatementEntryColumnIndexes columnMapping)
+        public StatementEntryParser(StatementEntryColumnIndexes columnMapping, string dateFormat)
         {
-            this.columnMapping = columnMapping;
+            if (string.IsNullOrEmpty(dateFormat)) throw new ArgumentNullException(nameof(dateFormat));
+
+            this.columnMapping = columnMapping ?? throw new ArgumentNullException(nameof(columnMapping));
+            this.dateFormat = dateFormat;
         }
 
         public StatementEntryWithSourceData Parse(string[] csvRow)
@@ -20,8 +24,8 @@ namespace Andy.ExpenseReport.Comparison.Csv.Statement
 
             return new StatementEntryWithSourceData
             {
-                Date = DateTime.Parse(csvRow[columnMapping.Date]).Date,
-                Amount = decimal.Parse(csvRow[columnMapping.Amount]),
+                Date = CsvValueParser.ParseDateOrThrow(csvRow[columnMapping.Date], dateFormat).Date,
+                Amount = CsvValueParser.ParseDecimalOrThrow(csvRow[columnMapping.Amount]),
                 Details = csvRow[columnMapping.Details],
                 SourceData = csvRow
             };

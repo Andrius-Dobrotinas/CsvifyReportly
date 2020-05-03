@@ -6,10 +6,14 @@ namespace Andy.ExpenseReport.Comparison.Csv.Statement.Bank
     public class ExpenseReportEntryParser : ICsvRowParser<ExpenseReportEntryWithSourceData>
     {
         private readonly ExpenseReportEntryColumnIndexes columnMapping;
+        private readonly string dateFormat;
 
-        public ExpenseReportEntryParser(ExpenseReportEntryColumnIndexes columnMapping)
+        public ExpenseReportEntryParser(ExpenseReportEntryColumnIndexes columnMapping, string dateFormat)
         {
-            this.columnMapping = columnMapping;
+            if (string.IsNullOrEmpty(dateFormat)) throw new ArgumentNullException(nameof(dateFormat));
+
+            this.columnMapping = columnMapping ?? throw new ArgumentNullException(nameof(columnMapping));
+            this.dateFormat = dateFormat;
         }
 
         public ExpenseReportEntryWithSourceData Parse(string[] csvRow)
@@ -20,9 +24,9 @@ namespace Andy.ExpenseReport.Comparison.Csv.Statement.Bank
 
             return new ExpenseReportEntryWithSourceData
             {
-                Date = DateTime.Parse(csvRow[columnMapping.Date]).Date,
-                Amount = decimal.Parse(csvRow[columnMapping.Amount]),
-                IsPayPal = bool.Parse(csvRow[columnMapping.IsPayPal]),
+                Date = CsvValueParser.ParseDateOrThrow(csvRow[columnMapping.Date], dateFormat).Date,
+                Amount = CsvValueParser.ParseDecimalOrThrow(csvRow[columnMapping.Amount]),
+                IsPayPal = CsvValueParser.ParseBoolOrThrow(csvRow[columnMapping.IsPayPal]),
                 Merchant = csvRow[columnMapping.Merchant],
                 SourceData = csvRow
             };
