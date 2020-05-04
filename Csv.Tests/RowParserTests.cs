@@ -11,7 +11,7 @@ namespace Andy.Csv
         {
             var result = RowParser.Parse(input, delimiter);
 
-            Assert.IsTrue(expectedResult.SequenceEqual(result));
+            SequencesAreEqual(expectedResult, result);
         }
 
         [TestCaseSource(nameof(GetTestCases2))]
@@ -22,7 +22,7 @@ namespace Andy.Csv
         {
             var result = RowParser.Parse(input, delimiter);
 
-            Assert.IsTrue(expectedResult.SequenceEqual(result));
+            SequencesAreEqual(expectedResult, result);
         }
 
         [TestCaseSource(nameof(GetTestCases3))]
@@ -46,6 +46,16 @@ namespace Andy.Csv
             {
                 Assert.Contains(expected, result);                
             }
+        }
+
+        private static void SequencesAreEqual(IList<string> expectedResult, IList<string> result)
+        {
+            var minLength = result.Count > expectedResult.Count ? expectedResult.Count : result.Count;
+            for (int i = 0; i < minLength; i++)
+            {
+                Assert.AreEqual(expectedResult[i], result[i], $"Item at position {i}");
+            }
+            Assert.AreEqual(expectedResult.Count, result.Count);
         }
 
         private static IEnumerable<TestCaseData> GetTestCases1()
