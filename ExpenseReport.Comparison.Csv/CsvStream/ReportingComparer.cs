@@ -40,6 +40,10 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
                     source2ValueDelimiter,
                     out transactions2ColumnCount);
             }
+            catch (Andy.Csv.IO.RowReadingException e)
+            {
+                throw new SourceDataReadException(e.Message, e.InnerException);
+            }
             catch (Exception e)
             {
                 throw new SourceDataReadException(e);

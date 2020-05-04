@@ -19,11 +19,22 @@ namespace Andy.Csv.IO
 
             using (var reader = new StreamReader(source))
             {
+                int rowNumber = 0;
+
                 while (reader.EndOfStream == false)
                 {
-                    string line = reader.ReadLine();
+                    rowNumber++;
 
-                    string[] entry = parseLine(line);
+                    string[] entry;
+                    try
+                    {
+                        string line = reader.ReadLine();
+                        entry = parseLine(line);
+                    }
+                    catch(Exception e)
+                    {
+                        throw new RowReadingException(rowNumber, e);
+                    }
 
                     results.Add(entry);
                 }

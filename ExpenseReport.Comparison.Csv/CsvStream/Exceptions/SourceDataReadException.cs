@@ -8,5 +8,10 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             : base("An error occured while reading the source data", e)
         {
         }
+
+        public SourceDataReadException(string message, Exception e)
+            : base(message, e)
+        {
+        }
     }
 }
