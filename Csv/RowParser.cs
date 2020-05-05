@@ -6,8 +6,12 @@ namespace Andy.Csv
 {
     public static class RowParser
     {
-        private const string quotationMark = "\"";
+        private const char quotationMark = '"';
+        private const int negativeIndex = -1;
 
+        /// <summary>
+        /// Escaped quotation marks are not supported at this point
+        /// </summary>
         public static string[] Parse(string row, char delimiter)
         {
             if (row == null) throw new ArgumentNullException(nameof(row));
@@ -16,53 +20,57 @@ namespace Andy.Csv
 
             var segments = new List<string>();
 
-            int currentPosition = 0;
-            int openingQuotationMark = row.IndexOf(quotationMark, currentPosition);
+            int lastCharPosish = row.Length - 1;
+            int currentPosish = 0;
 
-            while (true)
+            while (currentPosish <= lastCharPosish)
             {
-                int delimiterIndex = row.IndexOf(delimiter, currentPosition);
-                
-                if (delimiterIndex == -1) // this is the last segment
+                int delimiterIndex;
+
+                if (row[currentPosish] == quotationMark)
                 {
-                    string segment = row.Substring(currentPosition);
-                    segments.Add(segment);
-                    break;
-                }
+                    int closingQuotationMark = row.IndexOf(quotationMark, currentPosish + 1);
+                    // todo: should check whether the quotation mark is escaped
 
-                // a closing quotation mark is presumed here
-                bool isDelimiterBetweenQuatationMarks = openingQuotationMark > -1 && delimiterIndex > openingQuotationMark;
+                    if (closingQuotationMark == negativeIndex)
+                        throw new MissingTokenException($"Encountered an opening quotation mark at position {currentPosish}, therefore expected to see a closing one at some point, but found none");
 
-                if (isDelimiterBetweenQuatationMarks)
-                {
-                    currentPosition++; // advance current position past the opening quotation mark
-
-                    int closingQuotationMarkIndex = row.IndexOf(quotationMark, openingQuotationMark + 1);
-                    int currentLength = closingQuotationMarkIndex + 1;
-                    delimiterIndex = closingQuotationMarkIndex + 1;
-
-                    if (row.Length > currentLength
-                        && row.ElementAt(delimiterIndex) != delimiter)
-                        throw new UnexpectedTokenException($"Expected to find a delimiter after the closing quotation mark at position {delimiterIndex}");
-
-                    string segment = row.Substring(currentPosition, delimiterIndex - currentPosition - 1); // -1 for the delimiter char
-                    segments.Add(segment);
-
-                    currentPosition = delimiterIndex + 1; // advance current position right past the delimiter
-
-                    if (row.Length > currentPosition - 1)
-                        openingQuotationMark = row.IndexOf(quotationMark, currentPosition); // Get the next opening quotation mark
+                    bool isLastChar = closingQuotationMark == lastCharPosish;
+                    if (isLastChar == true)
+                    {
+                        delimiterIndex = negativeIndex;
+                    }
                     else
-                        break;
+                    {
+                        int nextCharPosish = closingQuotationMark + 1;
+
+                        char nextChar = row[nextCharPosish];
+
+                        if (nextChar != delimiter)
+                            throw new UnexpectedTokenException($"Expected to find a delimiter at position {nextCharPosish} right after a closing quotation mark, but found {nextChar}");
+
+                        delimiterIndex = nextCharPosish;
+                    }
                 }
                 else
                 {
-                    string segment = row.Substring(currentPosition, delimiterIndex - currentPosition);
-                    segments.Add(segment);
-
-                    currentPosition = delimiterIndex + 1; // advance current position right past the delimiter
+                    delimiterIndex = row.IndexOf(delimiter, currentPosish);
                 }
+
+                int currentLastCharPosish = (delimiterIndex == negativeIndex)
+                        ? lastCharPosish
+                        : delimiterIndex - 1;
+
+                string segment = row.Substring(currentPosish, currentLastCharPosish - currentPosish + 1);
+                segments.Add(segment);
+
+                // advance current position: +1 > delimiter, +1 > past current delimiter
+                currentPosish = currentLastCharPosish + 2;
             }
+
+            // if the row ends with a delimiter, that means there's one more blank entry
+            if (row.EndsWith(delimiter))
+                segments.Add("");
 
             return segments
                 .Select(StripWrappingQuotationMarks)

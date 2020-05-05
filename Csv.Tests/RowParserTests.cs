@@ -7,7 +7,23 @@ namespace Andy.Csv
     public class RowParserTests
     {
         [TestCaseSource(nameof(GetTestCases1))]
-        public void Should_SplitTheStringUsingTheSpecifiedDelimiter(string input, char delimiter, IList<string> expectedResult)
+        public void Should_SplitTheStringUsingASpecifiedDelimiter(string input, char delimiter, IList<string> expectedResult)
+        {
+            var result = RowParser.Parse(input, delimiter);
+
+            SequencesAreEqual(expectedResult, result);
+        }
+
+        [TestCaseSource(nameof(GetTestCases_WithEmptyEntries))]
+        public void When_ADelimiterIsFollowedByADelimiter__Should_TreatThatAsAnEmptyEntry(string input, char delimiter, IList<string> expectedResult)
+        {
+            var result = RowParser.Parse(input, delimiter);
+
+            SequencesAreEqual(expectedResult, result);
+        }
+
+        [TestCaseSource(nameof(GetTestCases_EndingWithADelimiter))]
+        public void When_AStringEndsWithADelimiter__Should_AddAnEmptyEntryAtTheEndOfArray(string input, char delimiter, IList<string> expectedResult)
         {
             var result = RowParser.Parse(input, delimiter);
 
@@ -44,7 +60,7 @@ namespace Andy.Csv
 
             foreach (var expected in expectedValues)
             {
-                Assert.Contains(expected, result);                
+                Assert.Contains(expected, result);
             }
         }
 
@@ -61,29 +77,70 @@ namespace Andy.Csv
         private static IEnumerable<TestCaseData> GetTestCases1()
         {
             yield return new TestCaseData(
+                "one,two",
+                ',',
+                new List<string> { "one", "two" });
+
+            yield return new TestCaseData(
                 "one,two,three",
                 ',',
                 new List<string> { "one", "two", "three" });
 
             yield return new TestCaseData(
-                "one,two,,four",
-                ',',
-                new List<string> { "one", "two", "", "four" });
-
-            yield return new TestCaseData(
-                "one,,,four",
-                ',',
-                new List<string> { "one", "", "", "four" });
-
-            yield return new TestCaseData(
-                "one,two,,",
-                ',',
-                new List<string> { "one", "two", "", "" });
-
-            yield return new TestCaseData(
                 ",two,three",
                 ',',
                 new List<string> { "", "two", "three" });
+
+            yield return new TestCaseData(
+                "one,",
+                ',',
+                new List<string> { "one", "" });
+
+            yield return new TestCaseData(
+                ",",
+                ',',
+                new List<string> { "", "" });
+        }
+
+        private static IEnumerable<TestCaseData> GetTestCases_WithEmptyEntries()
+        {
+            yield return new TestCaseData(
+                "one,,two",
+                ',',
+                new List<string> { "one", "", "two" });
+
+            yield return new TestCaseData(
+                "one,,,two",
+                ',',
+                new List<string> { "one", "", "", "two" });
+
+            yield return new TestCaseData(
+                "one,,,,four",
+                ',',
+                new List<string> { "one", "", "", "", "four" });
+
+            yield return new TestCaseData(
+               ",,,four",
+               ',',
+               new List<string> { "", "", "", "four" });
+        }
+
+        private static IEnumerable<TestCaseData> GetTestCases_EndingWithADelimiter()
+        {
+            yield return new TestCaseData(
+                "one,",
+                ',',
+                new List<string> { "one", "" });
+
+            yield return new TestCaseData(
+                "one,two,",
+                ',',
+                new List<string> { "one", "two", "" });
+
+            yield return new TestCaseData(
+               ",",
+               ',',
+               new List<string> { "", "" });
         }
 
         private static IEnumerable<TestCaseData> GetTestCases2()
@@ -130,11 +187,6 @@ namespace Andy.Csv
                 @"""one,one"" two",
                 ',')
                 .SetDescription("The separator is missing, there's a space char instead");
-
-            //yield return new TestCaseData(
-            //    @"""one,one"" two",
-            //    ',')
-            //    .SetDescription("The entry starts, but doesn't end right after the closing quotation mark");
         }
 
         private static IEnumerable<TestCaseData> GetTestCasesWithQuoatationMarks()
