@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Andy.ExpenseReport.Comparison
 {    
@@ -20,11 +21,13 @@ namespace Andy.ExpenseReport.Comparison
         {
             var matches = new List<Tuple<TTransaction1, TTransaction2>>();
 
+            var transactions2Copy = transactions2.ToArray();
+
             foreach (var transaction in transactions1)
             {
                 var matchingTransaction = GetFirstMatchingTransaction(
                     transaction,
-                    transactions2);
+                    transactions2Copy);
 
                 if (matchingTransaction != null)
                     matches.Add(new Tuple<TTransaction1, TTransaction2>(transaction, matchingTransaction));                

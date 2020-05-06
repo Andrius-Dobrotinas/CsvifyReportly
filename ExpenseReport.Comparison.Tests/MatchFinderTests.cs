@@ -133,6 +133,46 @@ namespace Andy.ExpenseReport.Comparison
             Assert.False(matches.Any());
         }
 
+        [Test]
+        public void When_ThereAreMatches__Must_NotAlterTheOriginalCollection1()
+        {
+            var transactions1 = new TransactionType1[]
+            {
+                new TransactionType1 { Amount = 1 }, new TransactionType1 { Amount = 2 }
+            };
+            var transactions2 = new TransactionType2[]
+            {
+                new TransactionType2 { Amount = 1 }, new TransactionType2 { Amount = 2 }
+            };
+
+            var transactions1Copy = transactions1.ToArray();
+
+            target.GetMatches(transactions1, transactions2);
+
+            Assert.AreEqual(transactions1Copy.Length, transactions1.Length);
+            Assert.IsTrue(transactions1Copy.SequenceEqual(transactions1));
+        }
+
+        [Test]
+        public void When_ThereAreMatches__Must_NotAlterTheOriginalCollection2()
+        {
+            var transactions1 = new TransactionType1[]
+            {
+                new TransactionType1 { Amount = 1 }, new TransactionType1 { Amount = 2 }
+            };
+            var transactions2 = new TransactionType2[]
+            { 
+                new TransactionType2 { Amount = 1 }, new TransactionType2 { Amount = 2 }
+            };
+
+            var transactions2Copy = transactions2.ToArray();
+
+            target.GetMatches(transactions1, transactions2);
+
+            Assert.AreEqual(transactions2Copy.Length, transactions2.Length);
+            Assert.IsTrue(transactions2Copy.SequenceEqual(transactions2));
+        }
+
         static IEnumerable<TestCaseData> Get_MatchesWhereSomeTransactionsDontHaveMatches()
         {
             var statement1 = new TransactionType1 { Amount = 1, Details = "Statement 1" };
