@@ -16,8 +16,8 @@ namespace Andy.ExpenseReport.Comparison
         }
 
         public IList<Tuple<TTransaction1, TTransaction2>> GetMatches(
-            IList<TTransaction1> transactions1,
-            IList<TTransaction2> transactions2)
+            IEnumerable<TTransaction1> transactions1,
+            IEnumerable<TTransaction2> transactions2)
         {
             var matches = new List<Tuple<TTransaction1, TTransaction2>>();
 
