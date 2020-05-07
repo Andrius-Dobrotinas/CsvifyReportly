@@ -45,8 +45,8 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 var delimiters = GetDelimiters(parameters.Command, settings);
 
                 fileComparer.CompareAndWriteReport(
-                    parameters.StatementFile,
-                    parameters.ExpenseReportFile,
+                    parameters.Source1File,
+                    parameters.Source2File,
                     parameters.ComparisonReportFile,
                     delimiters.Item1,
                     delimiters.Item2,

@@ -6,46 +6,53 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 {
     public static class Parameter
     {
-        private const string Source1Key = "--source1";
-        private const string Source2Key = "--source2";
-        private const string ReportFileKey = "--output";
-        private const string Command_ExpenseReport = "exp-report";
-        private const string Command_Generic = "generic";
+        private static class Keys
+        {
+            public const string Source1 = "--source1";
+            public const string Source2 = "--source2";
+            public const string ReportFile = "--output";
+
+            internal static class Command
+            {
+                public const string ExpenseReport = "exp-report";
+                public const string Generic = "generic";
+            }
+        }
 
         public static Parameters GetParametersOrThrow(IDictionary<string, string> args)
         {
             var command = GetCommand(args);
 
-            string expenseReportFilePath;
-            if (!args.TryGetValue(Source2Key, out expenseReportFilePath))
-                throw new Exception("A source file 2 must be specified");
-
-            string statementFilePath;
-            if (!args.TryGetValue(Source1Key, out statementFilePath))
+            string source1File;
+            if (!args.TryGetValue(Keys.Source1, out source1File))
                 throw new Exception("A source file 1 must be specified");
 
+            string source2File;
+            if (!args.TryGetValue(Keys.Source2, out source2File))
+                throw new Exception("A source file 2 must be specified");
+
             string reportFilePath;
-            if (!args.TryGetValue(ReportFileKey, out reportFilePath))
+            if (!args.TryGetValue(Keys.ReportFile, out reportFilePath))
                 throw new Exception("A comparison report file must be specified");
 
             return new Parameters
             {
                 Command = command,
-                ExpenseReportFile = new FileInfo(expenseReportFilePath),
-                StatementFile = new FileInfo(statementFilePath),
+                Source1File = new FileInfo(source1File),
+                Source2File = new FileInfo(source2File),
                 ComparisonReportFile = new FileInfo(reportFilePath)
             };
         }
 
         private static Command GetCommand(IDictionary<string, string> args)
         {
-            if (args.ContainsKey(Command_ExpenseReport))
+            if (args.ContainsKey(Keys.Command.ExpenseReport))
                 return Command.ExpenseReport;
-            if (args.ContainsKey(Command_Generic))
+            if (args.ContainsKey(Keys.Command.Generic))
                 return Command.Generic;
 
             throw new Exception(
-                $"No suitable command has been specified. It must be one of: {Command_ExpenseReport}, {Command_Generic}");
+                $"No suitable command has been specified. It must be one of: {Keys.Command.ExpenseReport}, {Keys.Command.Generic}");
         }
     }
 }
