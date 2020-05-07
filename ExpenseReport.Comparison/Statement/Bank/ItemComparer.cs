@@ -20,7 +20,7 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
 
         private static bool IsAmountEqual(ExpenseReportEntry transactionDetails, StatementEntry statement)
         {
-            return transactionDetails.Amount == statement.Amount;
+            return transactionDetails.Amount == statement.Amount * -1;
         }
 
         private bool IsMerchantEqual(ExpenseReportEntry transcation, StatementEntry statement)
