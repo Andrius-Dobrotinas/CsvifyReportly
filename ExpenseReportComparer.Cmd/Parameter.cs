@@ -6,8 +6,8 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 {
     public static class Parameter
     {
-        private const string ExpenseReportFileKey = "--expenseReport";
-        private const string StatementFileKey = "--statements";
+        private const string Source1Key = "--source1";
+        private const string Source2Key = "--source2";
         private const string ReportFileKey = "--output";
         private const string Command_ExpenseReport = "exp-report";
         private const string Command_Generic = "generic";
@@ -17,16 +17,16 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             var command = GetCommand(args);
 
             string expenseReportFilePath;
-            if (!args.TryGetValue(ExpenseReportFileKey, out expenseReportFilePath))
-                throw new Exception("A transactions file must be specified");
+            if (!args.TryGetValue(Source2Key, out expenseReportFilePath))
+                throw new Exception("A source file 2 must be specified");
 
             string statementFilePath;
-            if (!args.TryGetValue(StatementFileKey, out statementFilePath))
-                throw new Exception("A statement file must be specified");
+            if (!args.TryGetValue(Source1Key, out statementFilePath))
+                throw new Exception("A source file 1 must be specified");
 
             string reportFilePath;
             if (!args.TryGetValue(ReportFileKey, out reportFilePath))
-                throw new Exception("A report file must be specified");
+                throw new Exception("A comparison report file must be specified");
 
             return new Parameters
             {
