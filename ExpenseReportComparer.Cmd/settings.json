@@ -21,7 +21,7 @@
     }
   },
   "Generic": {
-    "StatementFile": {
+    "StatementFile1": {
       "ColumnIndexes": {
         "Date": 0,
         "Amount": 1,
@@ -30,7 +30,7 @@
       "Delimiter": ",",
       "DateFormat": "dd-MM-yyyy"
     },
-    "ExpenseReportFile": {
+    "StatementFile2": {
       "ColumnIndexes": {
         "Date": 0,
         "Amount": 1,

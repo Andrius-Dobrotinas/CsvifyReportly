@@ -7,25 +7,29 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 {
     public class Settings
     {
-        public StatementSourceSetting<StatementEntryColumnIndexes, ExpenseReportEntryColumnIndexes> ExpenseReport { get; set; }
-        public StatementSourceSetting<StatementEntryColumnIndexes, StatementEntryColumnIndexes> Generic { get; set; }
+        public ExpenseReportComparisonSettings ExpenseReport { get; set; }
+        public GenericComparisonSettings Generic { get; set; }
         public char OutputCsvDelimiter { get; set; }
         public IDictionary<string, string[]> MerchantNameMap { get; set; }
-    }
 
-    public class StatementSourceSetting<TStatementColumnIndexMap, TExpenseReportColumnIndexMap>
-        where TStatementColumnIndexMap : class
-        where TExpenseReportColumnIndexMap : class
-    {
-        public CsvFileSettings<TStatementColumnIndexMap> StatementFile { get; set; }
-        public CsvFileSettings<TExpenseReportColumnIndexMap> ExpenseReportFile { get; set; }
-    }
+        public class ExpenseReportComparisonSettings
+        {
+            public CsvFileSettings<StatementEntryColumnIndexes> StatementFile { get; set; }
+            public CsvFileSettings<ExpenseReportEntryColumnIndexes> ExpenseReportFile { get; set; }
+        }
 
-    public class CsvFileSettings<TColumnIndexMap>
-        where TColumnIndexMap : class
-    {
-        public TColumnIndexMap ColumnIndexes { get; set; }
-        public char Delimiter { get; set; }
-        public string DateFormat { get; set; }
+        public class GenericComparisonSettings
+        {
+            public CsvFileSettings<StatementEntryColumnIndexes> StatementFile1 { get; set; }
+            public CsvFileSettings<StatementEntryColumnIndexes> StatementFile2 { get; set; }
+        }
+
+        public class CsvFileSettings<TColumnIndexMap>
+            where TColumnIndexMap : class
+        {
+            public TColumnIndexMap ColumnIndexes { get; set; }
+            public char Delimiter { get; set; }
+            public string DateFormat { get; set; }
+        }
     }
 }

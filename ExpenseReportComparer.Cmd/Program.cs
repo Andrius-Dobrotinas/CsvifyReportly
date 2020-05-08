@@ -108,8 +108,8 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 case Command.Generic:
                     {
                         return new Tuple<char, char>(
-                            settings.Generic.StatementFile.Delimiter,
-                            settings.Generic.ExpenseReportFile.Delimiter);
+                            settings.Generic.StatementFile1.Delimiter,
+                            settings.Generic.StatementFile2.Delimiter);
                     }
 
                 default:

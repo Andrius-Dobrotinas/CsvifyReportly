@@ -46,12 +46,12 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             BuildGenericStatementComparer(Settings settings)
         {
             var statementEntryParser = new Comparison.Csv.Statement.StatementEntryParser(
-                settings.Generic.StatementFile.ColumnIndexes,
-                settings.Generic.StatementFile.DateFormat);
+                settings.Generic.StatementFile1.ColumnIndexes,
+                settings.Generic.StatementFile1.DateFormat);
 
             var reportEntryParser = new Comparison.Csv.Statement.StatementEntryParser(
-                settings.Generic.ExpenseReportFile.ColumnIndexes,
-                settings.Generic.ExpenseReportFile.DateFormat);
+                settings.Generic.StatementFile2.ColumnIndexes,
+                settings.Generic.StatementFile2.DateFormat);
 
             var collectionComparer = new Comparison.CollectionComparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
