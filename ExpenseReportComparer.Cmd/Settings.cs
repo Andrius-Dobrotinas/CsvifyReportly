@@ -10,12 +10,12 @@ namespace Andy.ExpenseReport.Verifier.Cmd
         public ExpenseReportComparisonSettings ExpenseReport { get; set; }
         public GenericComparisonSettings Generic { get; set; }
         public char OutputCsvDelimiter { get; set; }
-        public IDictionary<string, string[]> MerchantNameMap { get; set; }
 
         public class ExpenseReportComparisonSettings
         {
             public CsvFileSettings<StatementEntryColumnIndexes> StatementFile { get; set; }
             public CsvFileSettings<ExpenseReportEntryColumnIndexes> ExpenseReportFile { get; set; }
+            public IDictionary<string, string[]> MerchantNameMap { get; set; }
         }
 
         public class GenericComparisonSettings

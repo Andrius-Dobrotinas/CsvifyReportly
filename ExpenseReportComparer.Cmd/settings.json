@@ -18,6 +18,9 @@
       },
       "Delimiter": ",",
       "DateFormat": "yyyy-MM-dd"
+    },
+    "MerchantNameMap": {
+      "Amazon": [ "Amazon", "AMZNMKTPLACE", "AMZ*AMAZON.CO.UK" ]
     }
   },
   "Generic": {
@@ -39,9 +42,6 @@
       "Delimiter": ",",
       "DateFormat": "dd-MM-yyyy"
     }
-  },
-  "MerchantNameMap": {
-    "Amazon": [ "Amazon", "AMZNMKTPLACE", "AMZ*AMAZON.CO.UK" ]
   },
   "OutputCsvDelimiter": ","
 }

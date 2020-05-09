@@ -28,7 +28,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                     new Comparison.Statement.Bank.ItemComparer(
                         new Comparison.Statement.Bank.MerchantNameComparer(
                             new Comparison.Statement.Bank.MerchanNameVariationComparer(
-                                settings.MerchantNameMap)))));
+                                settings.ExpenseReport.MerchantNameMap)))));
 
             var comparer = new Comparison.Csv.Comparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
