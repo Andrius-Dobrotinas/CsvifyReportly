@@ -15,7 +15,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             Parameters parameters;
             try
             {
-                var arguments = ParseArguments(args);
+                var arguments = Andy.Cmd.ArgumentParser.ParseArguments(args);
                 parameters = Parameter.GetParametersOrThrow(arguments);
             }
             catch (Exception e)
@@ -28,7 +28,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             Settings settings;
             try
             {
-                settings = JasonFileParser.ParseContents<Settings>(
+                settings = Andy.Cmd.JasonFileParser.ParseContents<Settings>(
                     new FileInfo(settingsFileName));
             }
             catch (Exception e)
@@ -82,16 +82,6 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 return -200;
 
             return -1;
-        }
-
-        private static IDictionary<string, string> ParseArguments(string[] args)
-        {
-            var argParser = new ArgumentParser('=');
-
-            return args.Select(argParser.ParseArgument)
-                .ToDictionary(
-                    x => x.Key,
-                    x => x.Value);
         }
 
         private static Tuple<char, char> GetDelimiters(Command type, Settings settings)

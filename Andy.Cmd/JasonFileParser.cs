@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Andy.ExpenseReport.Verifier.Cmd
+namespace Andy.Cmd
 {
     public static class JasonFileParser
     {

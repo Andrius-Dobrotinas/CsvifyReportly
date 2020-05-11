@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Verifier.Cmd
+namespace Andy.Cmd
 {
-    public class ArgumentParser
+    public class ArgumentSplitter
     {
         private readonly char separator;
 
-        public ArgumentParser(char separator)
+        public ArgumentSplitter(char separator)
         {
             this.separator = separator;
         }
