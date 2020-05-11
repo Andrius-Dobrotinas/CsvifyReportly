@@ -12,7 +12,7 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             char delimiter,
             out int columnCount)
         {
-            string[][] rows = ReadRowsFromStream(source, delimiter);
+            string[][] rows = Andy.Csv.IO.CsvStreamParser.ReadNParse(source, delimiter);
 
             if (!rows.Any())
             {
@@ -28,13 +28,6 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
                 throw new CsvValidationException("All rows in a CSV file must have an equal number of columns");
 
             return rows;
-        }
-
-        private static string[][] ReadRowsFromStream(Stream source, char delimiter)
-        {
-            return Andy.Csv.IO.CsvStreamReader.Read(
-                source,
-                line => Andy.Csv.RowParser.Parse(line, delimiter));
         }
     }
 }
