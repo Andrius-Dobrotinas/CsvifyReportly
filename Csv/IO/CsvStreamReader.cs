@@ -31,7 +31,7 @@ namespace Andy.Csv.IO
                         string line = reader.ReadLine();
                         entry = parseLine(line);
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         throw new RowReadingException(rowNumber, e);
                     }

@@ -15,7 +15,7 @@ namespace Andy.Csv
             if (value == null) throw new ArgumentNullException(nameof(value));
 
             if (value.Contains('"'))
-                throw new NotImplementedException("Quotation mark escaping");
+                throw new NotImplementedException("Escaping of quotation marks");
 
             if (value.Contains(delimiter))
                 value = $"\"{value}\"";
