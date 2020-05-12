@@ -4,13 +4,13 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
 {
     public class SourceDataReadException : CsvStreamComparisonException
     {
-        public SourceDataReadException(Exception e)
-            : base("An error occured while reading the source data", e)
+        public SourceDataReadException(int sourceNumber, Exception e)
+            : base($"An error occured while reading source {sourceNumber}", e)
         {
         }
 
-        public SourceDataReadException(string message, Exception e)
-            : base(message, e)
+        public SourceDataReadException(string message, int sourceNumber, Exception e)
+            : base($"{message}... in source {sourceNumber}", e)
         {
         }
     }

@@ -28,26 +28,17 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             IList<string[]> transactions2;
             int transactions2ColumnCount;
 
-            try
-            {
-                transactions1 = CsvStreamReader.Read(
+            transactions1 = Read(
+                    1,
                     source1,
                     source1ValueDelimiter,
                     out transactions1ColumnCount);
 
-                transactions2 = CsvStreamReader.Read(
+            transactions2 = Read(
+                    2,
                     source2,
                     source2ValueDelimiter,
                     out transactions2ColumnCount);
-            }
-            catch (Andy.Csv.IO.RowReadingException e)
-            {
-                throw new SourceDataReadException(e.Message, e.InnerException);
-            }
-            catch (Exception e)
-            {
-                throw new SourceDataReadException(e);
-            }
 
             ComparisonResult result;
             try
@@ -78,6 +69,29 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             catch (Exception e)
             {
                 throw new ReportProductionException(e);
+            }
+        }
+
+        private IList<string[]> Read(
+            int sourceNumber,
+            Stream source,
+            char delimiter,
+            out int columnCount)
+        {
+            try
+            {
+                return CsvStreamReader.Read(
+                    source,
+                    delimiter,
+                    out columnCount);
+            }
+            catch (Andy.Csv.IO.RowReadingException e)
+            {
+                throw new SourceDataReadException(e.Message, sourceNumber, e.InnerException);
+            }
+            catch (Exception e)
+            {
+                throw new SourceDataReadException(sourceNumber, e);
             }
         }
     }
