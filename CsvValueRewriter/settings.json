@@ -1,0 +1,6 @@
+{
+  "SourceFormat": "dd/MM/yyyy",
+  "TargetFormat": "dd/MM/yyyy",
+  "CsvDelimiter": ",",
+  "TargetColumnIndex": 0
+}
