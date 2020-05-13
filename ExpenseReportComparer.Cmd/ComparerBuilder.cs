@@ -30,10 +30,14 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                             new Comparison.Statement.Bank.MerchanNameVariationComparer(
                                 settings.ExpenseReport.MerchantNameMap)))));
 
+            var orderedCollectionComparer = new Comparison.Csv.Statement.OrderedCollectionComparer<
+                Comparison.Csv.Statement.StatementEntryWithSourceData,
+                Comparison.Csv.Statement.Bank.ExpenseReportEntryWithSourceData>(collectionComparer);
+
             var comparer = new Comparison.Csv.Comparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
                 Comparison.Csv.Statement.Bank.ExpenseReportEntryWithSourceData>(
-                    collectionComparer,
+                    orderedCollectionComparer,
                     item1Parser,
                     item2Parser);
 
@@ -61,10 +65,14 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                     Comparison.Csv.Statement.StatementEntryWithSourceData>(
                         new Comparison.Statement.ItemComparer()));
 
+            var orderedCollectionComparer = new Comparison.Csv.Statement.OrderedCollectionComparer<
+                Comparison.Csv.Statement.StatementEntryWithSourceData,
+                Comparison.Csv.Statement.StatementEntryWithSourceData>(collectionComparer);
+
             var comparer = new Comparison.Csv.Comparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
                 Comparison.Csv.Statement.StatementEntryWithSourceData>(
-                    collectionComparer,
+                    orderedCollectionComparer,
                     statementEntryParser,
                     reportEntryParser);
 

@@ -3,7 +3,10 @@ using System;
 
 namespace Andy.ExpenseReport.Comparison.Csv.Statement.Bank
 {
-    public class ExpenseReportEntryWithSourceData : ExpenseReportEntry, IComparisonItemWithSourceData
+    public class ExpenseReportEntryWithSourceData :
+        ExpenseReportEntry,
+        IComparisonItemWithSourceData,
+        IHaveDate
     {
         public string[] SourceData { get; set; }
     }

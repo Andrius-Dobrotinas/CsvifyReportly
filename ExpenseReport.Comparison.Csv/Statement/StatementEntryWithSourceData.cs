@@ -4,7 +4,10 @@ using System.Collections.Generic;
 
 namespace Andy.ExpenseReport.Comparison.Csv.Statement
 {
-    public class StatementEntryWithSourceData : StatementEntry, IComparisonItemWithSourceData
+    public class StatementEntryWithSourceData : 
+        StatementEntry,
+        IComparisonItemWithSourceData,
+        IHaveDate
     {
         public string[] SourceData { get; set; }
     }
