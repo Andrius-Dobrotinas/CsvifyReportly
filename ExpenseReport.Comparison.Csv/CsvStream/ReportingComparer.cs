@@ -47,13 +47,17 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
                     transactions1,
                     transactions2);
             }
+            catch (InputParsingException)
+            {
+                throw;
+            }
             catch (Exception e)
             {
                 throw new DataComparisonException(e);
             }
 
             var stringyfyer = new Andy.Csv.RowStringifier(
-                new Andy.Csv.ValueEncoder());            
+                new Andy.Csv.ValueEncoder());
 
             try
             {

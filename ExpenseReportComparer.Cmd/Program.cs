@@ -52,6 +52,13 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                     delimiters.Item2,
                     settings.OutputCsvDelimiter);
             }
+            catch (ExpenseReport.Comparison.Csv.InputParsingException e)
+            {
+                Console.Error.WriteLine(e.Message);
+                Console.Error.WriteLine(e.InnerException?.Message);
+
+                return -667;
+            }
             catch (CsvStreamComparisonException e)
             {
                 Console.Error.WriteLine(e.Message);

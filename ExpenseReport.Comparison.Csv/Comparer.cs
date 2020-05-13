@@ -33,8 +33,31 @@ namespace Andy.ExpenseReport.Comparison.Csv
             IList<string[]> transactionRows1,
             IList<string[]> transactionRows2)
         {
-            var transactions1 = transactionRows1.Select(item1Parser.Parse).ToArray();
-            var transactions2 = transactionRows2.Select(item2Parser.Parse).ToArray();
+            var transactions1 = new TTransaction1[transactionRows1.Count];
+            for (int i = 0; i < transactionRows1.Count; i++)
+            {
+                try
+                {
+                    transactions1[i] = item1Parser.Parse(transactionRows1[i]);
+                }
+                catch (Statement.CsvValueParsingException e)
+                {
+                    throw new InputParsingException(i + 1, 1, e);
+                }
+            }
+
+            var transactions2 = new TTransaction2[transactionRows2.Count];
+            for (int i = 0; i < transactionRows2.Count; i++)
+            {
+                try
+                {
+                    transactions2[i] = item2Parser.Parse(transactionRows2[i]);
+                }
+                catch (Statement.CsvValueParsingException e)
+                {
+                    throw new InputParsingException(i + 1, 2, e);
+                }
+            }
 
             var result = comparer.Compare(transactions1, transactions2);
 
