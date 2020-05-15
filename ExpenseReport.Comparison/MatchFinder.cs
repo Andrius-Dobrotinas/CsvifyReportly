@@ -30,7 +30,7 @@ namespace Andy.ExpenseReport.Comparison
                     transactions2Copy);
 
                 if (matchingTransaction != null)
-                    matches.Add(new Tuple<TTransaction1, TTransaction2>(transaction, matchingTransaction));                
+                    matches.Add(new Tuple<TTransaction1, TTransaction2>(transaction, matchingTransaction));
             }
 
             return matches;

@@ -9,12 +9,15 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
     {
         ItemComparer target;
         Mock<IMerchantNameComparer> merchantComparer;
+        Mock<IDateComparer> dateComparer;
 
         [SetUp]
         public void Setup()
         {
             merchantComparer = new Mock<IMerchantNameComparer>();
-            target = new ItemComparer(merchantComparer.Object);
+            dateComparer = new Mock<IDateComparer>();
+            target = new ItemComparer(merchantComparer.Object, dateComparer.Object);
+            Setup_DateComparer(true);
         }
 
         [TestCase(true)]
@@ -63,12 +66,13 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
         [TestCase(0)]
         [TestCase(5)]
         [TestCase(711)]
-        public void Must_Return_True__When_AmountsAndMerchantDeetsMatch(decimal amount)
+        public void When_Must_Return_True__When_Amounts_MerchantDeets_And_Dates_Match(decimal amount)
         {
             var reportEntry = new ExpenseReportEntry { Amount = amount };
             var statementEntry = new StatementEntry { Amount = amount };
 
             Setup_MerchantComparer(true);
+            Setup_DateComparer(true);
 
             var result = target.AreEqual(reportEntry, statementEntry);
 
@@ -111,6 +115,15 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
                     It.IsAny<string>(),
                     It.IsAny<bool>()))
                 .Returns(returnValue);
+        }
+
+        private void Setup_DateComparer(bool returnValue)
+        {
+            dateComparer
+                .Setup(x => x.AreDatesEqual(
+                    It.IsAny<DateTime>(),
+                    It.IsAny<DateTime>())).
+                Returns(returnValue);
         }
     }
 }

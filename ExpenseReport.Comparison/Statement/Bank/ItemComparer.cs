@@ -6,26 +6,36 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
     public class ItemComparer : IItemComparer<ExpenseReportEntry, StatementEntry>
     {
         private readonly IMerchantNameComparer merchantNameComparer;
+        private readonly IDateComparer dateComparer;
 
-        public ItemComparer(IMerchantNameComparer merchantNameComparer)
+        public ItemComparer(
+            IMerchantNameComparer merchantNameComparer,
+            IDateComparer dateComparer)
         {
             this.merchantNameComparer = merchantNameComparer;
+            this.dateComparer = dateComparer;
         }
 
         public bool AreEqual(ExpenseReportEntry transaction, StatementEntry statementEntry)
         {
-            return IsAmountEqual(transaction, statementEntry)
-                && IsMerchantEqual(transaction, statementEntry);
+            return AreAmountsEqual(transaction, statementEntry)
+                && AreMerchantsEqual(transaction, statementEntry)
+                && AreDatesEqual(transaction, statementEntry);
         }
 
-        private static bool IsAmountEqual(ExpenseReportEntry transactionDetails, StatementEntry statement)
+        private static bool AreAmountsEqual(ExpenseReportEntry transactionDetails, StatementEntry statement)
         {
             return transactionDetails.Amount == statement.Amount * -1;
         }
 
-        private bool IsMerchantEqual(ExpenseReportEntry transcation, StatementEntry statement)
+        private bool AreMerchantsEqual(ExpenseReportEntry transcation, StatementEntry statement)
         {
             return merchantNameComparer.DoStatementDetailsReferToMerchant(statement.Details, transcation.Merchant, transcation.IsPayPal);
+        }
+
+        private bool AreDatesEqual(ExpenseReportEntry transactionDetails, StatementEntry statement)
+        {
+            return dateComparer.AreDatesEqual(transactionDetails.Date, statement.Date);
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             public CsvFileSettings<StatementEntryColumnIndexes> StatementFile { get; set; }
             public CsvFileSettings<ExpenseReportEntryColumnIndexes> ExpenseReportFile { get; set; }
             public IDictionary<string, string[]> MerchantNameMap { get; set; }
+            public int DateTolerance { get; set; }
         }
 
         public class GenericComparisonSettings

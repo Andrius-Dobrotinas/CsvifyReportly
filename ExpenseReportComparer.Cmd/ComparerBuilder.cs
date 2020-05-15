@@ -28,7 +28,9 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                     new Comparison.Statement.Bank.ItemComparer(
                         new Comparison.Statement.Bank.MerchantNameComparer(
                             new Comparison.Statement.Bank.MerchanNameVariationComparer(
-                                settings.ExpenseReport.MerchantNameMap)))));
+                                settings.ExpenseReport.MerchantNameMap)),
+                        new Comparison.Statement.Bank.TolerantDateComparer(
+                            settings.ExpenseReport.DateTolerance))));
 
             var orderedCollectionComparer = new Comparison.Csv.Statement.OrderedCollectionComparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
