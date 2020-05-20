@@ -6,13 +6,16 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
     public class ItemComparer : IItemComparer<ExpenseReportEntry, StatementEntry>
     {
         private readonly IMerchantNameComparer merchantNameComparer;
+        private readonly IAmountComparer amountComparer;
         private readonly IDateComparer dateComparer;
 
         public ItemComparer(
             IMerchantNameComparer merchantNameComparer,
+            IAmountComparer amountComparer,
             IDateComparer dateComparer)
         {
             this.merchantNameComparer = merchantNameComparer;
+            this.amountComparer = amountComparer;
             this.dateComparer = dateComparer;
         }
 
@@ -23,9 +26,9 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
                 && AreDatesEqual(transaction, statementEntry);
         }
 
-        private static bool AreAmountsEqual(ExpenseReportEntry transactionDetails, StatementEntry statement)
+        private bool AreAmountsEqual(ExpenseReportEntry transactionDetails, StatementEntry statement)
         {
-            return transactionDetails.Amount == statement.Amount * -1;
+            return amountComparer.AreEqual(transactionDetails.Amount, statement.Amount);
         }
 
         private bool AreMerchantsEqual(ExpenseReportEntry transcation, StatementEntry statement)
