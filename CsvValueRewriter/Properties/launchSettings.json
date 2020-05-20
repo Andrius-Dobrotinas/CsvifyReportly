@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CsvValueRewriter": {
+      "commandName": "Project",
+      "commandLineArgs": "--source=\"C:\\soft\\hsbc 4-2020.csv\" --output=\"C:\\soft\\hsbc 4-2020-date-corrected.csv\""
+    }
+  }
+}
