@@ -19,6 +19,11 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 settings.ExpenseReport.ExpenseReportFile.ColumnIndexes,
                 settings.ExpenseReport.ExpenseReportFile.DateFormat);
 
+            Comparison.Filtering.IFilter<Comparison.Csv.Statement.StatementEntryWithSourceData> item1Filter = settings.ExpenseReport.IgnorePaypal == true
+                ? new Comparison.Filtering.Statement.Bank.PayPalTransactionFilter<Comparison.Csv.Statement.StatementEntryWithSourceData>(
+                new Comparison.Filtering.Statement.Bank.PaypalTransactionSpotter())
+                : null;
+
             var collectionComparer = new Comparison.CollectionComparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
                 Comparison.Csv.Statement.Bank.ExpenseReportEntryWithSourceData>(
@@ -29,6 +34,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                         new Comparison.Statement.Bank.MerchantNameComparer(
                             new Comparison.Statement.Bank.MerchanNameVariationComparer(
                                 settings.ExpenseReport.MerchantNameMap)),
+                        new Comparison.Statement.Bank.InvertedAmountComparer(),
                         new Comparison.Statement.Bank.TolerantDateComparer(
                             settings.ExpenseReport.DateTolerance))));
 
@@ -41,7 +47,8 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 Comparison.Csv.Statement.Bank.ExpenseReportEntryWithSourceData>(
                     orderedCollectionComparer,
                     item1Parser,
-                    item2Parser);
+                    item2Parser,
+                    item1Filter);
 
             return comparer;
         }
@@ -76,7 +83,8 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 Comparison.Csv.Statement.StatementEntryWithSourceData>(
                     orderedCollectionComparer,
                     statementEntryParser,
-                    reportEntryParser);
+                    reportEntryParser,
+                    null);
 
             return comparer;
         }

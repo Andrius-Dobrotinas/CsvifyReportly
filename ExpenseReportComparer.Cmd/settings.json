@@ -22,7 +22,8 @@
     "MerchantNameMap": {
       "Amazon": [ "Amazon", "AMZNMKTPLACE", "AMZ*AMAZON.CO.UK" ]
     },
-    "DateTolerance": 4
+    "DateTolerance": 4,
+    "IgnorePaypal": true
   },
   "Generic": {
     "StatementFile1": {

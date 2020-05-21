@@ -17,6 +17,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             public CsvFileSettings<ExpenseReportEntryColumnIndexes> ExpenseReportFile { get; set; }
             public IDictionary<string, string[]> MerchantNameMap { get; set; }
             public int DateTolerance { get; set; }
+            public bool IgnorePaypal { get; set; }
         }
 
         public class GenericComparisonSettings
