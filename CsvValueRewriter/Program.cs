@@ -37,12 +37,14 @@ namespace Andy.Csv.Rewrite.Value
 
             try
             {
-                var rewriter = new CsvRewriter(
+                IRowRewriter rowRewriter = new RowSingleValueRewriter(
+                    settings.TargetColumnIndex,
+                    new DateRewriter(settings.SourceFormat, settings.TargetFormat));
+
+                var rewriter = new CsvStreamRewriter(
                     new RowStringifier(
                         new ValueEncoder()),
-                    new CsvRowRewriter(
-                        settings.TargetColumnIndex,
-                        new ValueRewriter(settings.SourceFormat, settings.TargetFormat)));
+                    new CsvRewriter(rowRewriter));
 
                 Go(rewriter,
                     parameters.SourceFile,
@@ -60,7 +62,7 @@ namespace Andy.Csv.Rewrite.Value
             }
         }
 
-        private static void Go(CsvRewriter rewriter, FileInfo inputFile, FileInfo outputFile, char delimiter)
+        private static void Go(CsvStreamRewriter rewriter, FileInfo inputFile, FileInfo outputFile, char delimiter)
         {
             using (var source = inputFile.OpenRead())
             using (var output = outputFile.OpenWrite())

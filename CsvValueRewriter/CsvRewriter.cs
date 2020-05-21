@@ -1,32 +1,19 @@
-﻿using Andy.ExpenseReport.Comparison.Csv.CsvStream;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace Andy.Csv.Rewrite.Value
 {
-    public class CsvRewriter
+    public class CsvRewriter : ICsvRewriter
     {
-        private readonly IRowStringifier stringyfier;
-        private readonly ICsvRowRewriter csvRowRewriter;
+        private readonly IRowRewriter rowRewriter;
 
-        public CsvRewriter(IRowStringifier stringyfier, ICsvRowRewriter csvRowRewriter)
+        public CsvRewriter(IRowRewriter rowRewriter)
         {
-            this.stringyfier = stringyfier;
-            this.csvRowRewriter = csvRowRewriter;
+            this.rowRewriter = rowRewriter;
         }
-
-        public Stream Go(Stream source, char delimiter)
-        {
-            IEnumerable<string[]> rows = CsvStreamParser.ReadRowsFromStream(source, delimiter);
-
-            IEnumerable<string[]> result = csvRowRewriter.Rewrite(rows);
-
-            string[] lines = result.Select(row => stringyfier.Stringifififiify(row, delimiter))
-                .ToArray();
-
-            return IO.CsvFileWriter.Write(lines);
-        }
+        
+        public IEnumerable<string[]> Rewrite(IEnumerable<string[]> sourceRows)
+            => sourceRows.Select(rowRewriter.Rewrite);
     }
 }
