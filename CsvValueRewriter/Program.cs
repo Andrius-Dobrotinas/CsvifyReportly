@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Andy.Csv.Rewrite.Value
+namespace Andy.Csv.Rewrite
 {
     class Program
     {
@@ -39,7 +39,7 @@ namespace Andy.Csv.Rewrite.Value
             {
                 IRowRewriter rowRewriter = new RowSingleValueRewriter(
                     settings.TargetColumnIndex,
-                    new DateRewriter(settings.SourceFormat, settings.TargetFormat));
+                    new Rewriters.DateRewriter(settings.SourceFormat, settings.TargetFormat));
 
                 var rewriter = new CsvStreamRewriter(
                     new RowStringifier(

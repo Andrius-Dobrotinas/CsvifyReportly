@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Andy.Csv.Rewrite.Value
+namespace Andy.Csv.Rewrite
 {
     public static class CsvStreamParser
     {

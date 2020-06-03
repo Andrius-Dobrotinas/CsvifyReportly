@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Andy.Csv.Rewrite.Value
+namespace Andy.Csv.Rewrite
 {
     public class Settings
     {
