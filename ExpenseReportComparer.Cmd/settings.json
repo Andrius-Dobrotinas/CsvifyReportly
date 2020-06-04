@@ -3,24 +3,24 @@
     "StatementFile": {
       "ColumnIndexes": {
         "Date": 0,
-        "Amount": 1,
-        "Details": 2
+        "Amount": 2,
+        "Details": 1
       },
       "Delimiter": ",",
-      "DateFormat": "dd-MM-yyyy"
+      "DateFormat": "yyyy-MM-dd"
     },
     "ExpenseReportFile": {
       "ColumnIndexes": {
         "Date": 0,
-        "Amount": 2,
-        "IsPayPal": 3,
+        "Amount": 3,
+        "IsPayPal": 2,
         "Merchant": 5
       },
       "Delimiter": ",",
       "DateFormat": "yyyy-MM-dd"
     },
     "MerchantNameMap": {
-      "Amazon": [ "Amazon", "AMZNMKTPLACE", "AMZ*AMAZON.CO.UK" ]
+      "Amazon": [ "Amazon", "AMZNMKTPLACE", "AMZ*" ]
     },
     "DateTolerance": 4,
     "IgnorePaypal": true
@@ -29,20 +29,20 @@
     "StatementFile1": {
       "ColumnIndexes": {
         "Date": 0,
-        "Amount": 1,
-        "Details": 2
+        "Amount": 4,
+        "Details": 4
       },
       "Delimiter": ",",
-      "DateFormat": "dd-MM-yyyy"
+      "DateFormat": "dd/MM/yyyy"
     },
     "StatementFile2": {
       "ColumnIndexes": {
         "Date": 0,
-        "Amount": 1,
-        "Details": 2
+        "Amount": 3,
+        "Details": 3
       },
       "Delimiter": ",",
-      "DateFormat": "dd-MM-yyyy"
+      "DateFormat": "yyyy-MM-dd"
     }
   },
   "OutputCsvDelimiter": ","

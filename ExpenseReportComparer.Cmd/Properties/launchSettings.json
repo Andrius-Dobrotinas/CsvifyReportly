@@ -2,7 +2,7 @@
   "profiles": {
     "ExpenseReportComparer.Cmd": {
       "commandName": "Project",
-      "commandLineArgs": "exp-report --source1=\"c:\\soft\\hsbc 4-2020.csv\" --source2=\"c:\\soft\\report 4-2020.csv\" --output=\"c:\\soft\\result.csv\""
+      "commandLineArgs": "exp-report --source1=\"c:\\soft\\hsbc 4-2020.csv\" --source2=\"c:\\soft\\report 4-2020.csv\" --output=\"c:\\soft\\result-4-2020.csv\""
     },
     "General": {
       "commandName": "Project",
