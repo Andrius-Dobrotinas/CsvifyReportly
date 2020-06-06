@@ -4,9 +4,20 @@ namespace Andy.Csv.Rewrite
 {
     public class Settings
     {
-        public string SourceFormat { get; set; }
-        public string TargetFormat { get; set; }
+        
         public char CsvDelimiter { get; set; }
-        public int TargetColumnIndex { get; set; }
+        public RewriterSettings Rewriters { get; set; }
+
+        public class RewriterSettings
+        {
+            public DateRewriterSettings DateRewriter { get; set; }
+
+            public class DateRewriterSettings
+            {
+                public int TargetColumnIndex { get; set; }
+                public string SourceFormat { get; set; }
+                public string TargetFormat { get; set; }
+            }
+        }
     }
 }

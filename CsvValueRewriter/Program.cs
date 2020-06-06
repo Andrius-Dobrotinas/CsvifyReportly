@@ -39,7 +39,7 @@ namespace Andy.Csv.Rewrite
             {
                 var csvRewriters = new ICsvRewriter[]
                     {
-                        GetDateRewriter(settings)
+                        GetDateRewriter(settings.Rewriters.DateRewriter)
                     };
 
                 var rewriter = new CsvStreamRewriter(
@@ -71,7 +71,7 @@ namespace Andy.Csv.Rewrite
                 result.CopyTo(output);
         }
 
-        private static ICsvRewriter GetDateRewriter(Settings settings)
+        private static ICsvRewriter GetDateRewriter(Settings.RewriterSettings.DateRewriterSettings settings)
         {
             IRowRewriter rowRewriter = new RowSingleValueRewriter(
                     settings.TargetColumnIndex,

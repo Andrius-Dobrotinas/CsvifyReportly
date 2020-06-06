@@ -1,6 +1,10 @@
 {
-  "SourceFormat": "dd/MM/yyyy",
-  "TargetFormat": "yyyy-MM-dd",
   "CsvDelimiter": ",",
-  "TargetColumnIndex": 0
+  "Rewriters": {
+    "DateRewriter": {
+      "TargetColumnIndex": 0,
+      "SourceFormat": "dd/MM/yyyy",
+      "TargetFormat": "yyyy-MM-dd"
+    }
+  }
 }
