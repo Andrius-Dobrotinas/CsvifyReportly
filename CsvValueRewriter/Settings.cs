@@ -7,6 +7,7 @@ namespace Andy.Csv.Rewrite
         
         public char CsvDelimiter { get; set; }
         public RewriterSettings Rewriters { get; set; }
+        public string[] RewriterChain { get; set; }
 
         public class RewriterSettings
         {

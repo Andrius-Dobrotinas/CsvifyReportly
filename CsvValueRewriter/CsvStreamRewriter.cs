@@ -26,6 +26,7 @@ namespace Andy.Csv.Rewrite
             return WriteToCsvStream(rows, delimiter);
         }
 
+        // todo: move this to a separate component
         private Stream WriteToCsvStream(IEnumerable<string[]> rows, char delimiter)
         {
             string[] lines = rows.Select(row => stringyfier.Stringifififiify(row, delimiter))

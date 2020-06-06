@@ -6,5 +6,8 @@
       "SourceFormat": "dd/MM/yyyy",
       "TargetFormat": "yyyy-MM-dd"
     }
-  }
+  },
+  "RewriterChain": [
+    "DateRewriter"
+  ]
 }
