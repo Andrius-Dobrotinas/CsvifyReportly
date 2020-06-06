@@ -8,21 +8,27 @@ namespace Andy.Csv.Rewrite
     public class CsvStreamRewriter
     {
         private readonly IRowStringifier stringyfier;
-        private readonly ICsvRewriter rewriter;
+        private readonly IEnumerable<ICsvRewriter> rewriters;
 
-        public CsvStreamRewriter(IRowStringifier stringyfier, ICsvRewriter rewriter)
+        public CsvStreamRewriter(IRowStringifier stringyfier, IEnumerable<ICsvRewriter> rewriters)
         {
             this.stringyfier = stringyfier;
-            this.rewriter = rewriter;
+            this.rewriters = rewriters;
         }
 
         public Stream Go(Stream source, char delimiter)
         {
             IEnumerable<string[]> rows = CsvStreamParser.ReadRowsFromStream(source, delimiter);
 
-            IEnumerable<string[]> result = rewriter.Rewrite(rows);
+            foreach (var rewriter in rewriters)
+                rows = rewriter.Rewrite(rows);
 
-            string[] lines = result.Select(row => stringyfier.Stringifififiify(row, delimiter))
+            return WriteToCsvStream(rows, delimiter);
+        }
+
+        private Stream WriteToCsvStream(IEnumerable<string[]> rows, char delimiter)
+        {
+            string[] lines = rows.Select(row => stringyfier.Stringifififiify(row, delimiter))
                 .ToArray();
 
             return IO.CsvFileWriter.Write(lines);
