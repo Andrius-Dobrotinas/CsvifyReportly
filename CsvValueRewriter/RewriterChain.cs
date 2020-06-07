@@ -7,25 +7,32 @@ namespace Andy.Csv.Rewrite
 {
     public static class RewriterChain
     {
-        private enum RewriterKey
+        private class RewriterKey
         {
-            DateRewriter,
-            TheCurrencyAmountThing
+            internal const string DateRewriter = "DateRewriter";
+            internal const string TheCurrencyAmountThing = "TheCurrencyAmountThing";
         }
 
         public static IList<ICsvRewriter> GetRewriterChain(Settings settings, string chainName)
         {
             var rewriterChain = GetRewriterNames(settings, chainName);
 
-            var csvRewriters = new List<ICsvRewriter>(rewriterChain.Length);
+            return rewriterChain
+                .Select(name => GetRewriter(name, settings.Rewriters))
+                .ToArray();
+        }
 
-            if (rewriterChain.Contains(nameof(RewriterKey.DateRewriter)))
-                csvRewriters.Add(GetDateRewriter(settings.Rewriters.DateRewriter));
-
-            if (rewriterChain.Contains(nameof(RewriterKey.TheCurrencyAmountThing)))
-                csvRewriters.Add(GetTheCurrencyAmountThing(settings.Rewriters.TheCurrencyAmountThing));
-
-            return csvRewriters;
+        private static ICsvRewriter GetRewriter(string name, Settings.RewriterSettings rewriterSettings)
+        {
+            switch (name)
+            {
+                case RewriterKey.DateRewriter:
+                    return GetDateRewriter(rewriterSettings.DateRewriter);
+                case RewriterKey.TheCurrencyAmountThing:
+                    return GetTheCurrencyAmountThing(rewriterSettings.TheCurrencyAmountThing);
+                default:
+                    throw new NotImplementedException($"Value: {name}");
+            }
         }
 
         private static string[] GetRewriterNames(Settings settings, string targetChainName)
