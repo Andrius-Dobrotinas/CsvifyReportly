@@ -5,9 +5,16 @@
       "TargetColumnIndex": 0,
       "SourceFormat": "dd/MM/yyyy",
       "TargetFormat": "yyyy-MM-dd"
+    },
+    "TheCurrencyAmountThing": {
+      "AmountColumnIndex": 3,
+      "CurrencyColumnIndex": 2,
+      "ResultAmountColumnIndex": 4,
+      "TargetCurrency": "GBP"
     }
   },
   "RewriterChain": [
-    "DateRewriter"
+    "DateRewriter",
+    "TheCurrencyAmountThing"
   ]
 }
