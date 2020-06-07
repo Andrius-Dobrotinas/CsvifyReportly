@@ -14,6 +14,7 @@ namespace Andy.Csv.Rewrite
         {
             public DateRewriterSettings DateRewriter { get; set; }
             public CurrencyAmountThingSettings TheCurrencyAmountThing { get; set; }
+            public ColumnReducerSettings ColumnReducer { get; set; }
 
             public class DateRewriterSettings
             {
@@ -28,6 +29,11 @@ namespace Andy.Csv.Rewrite
                 public int CurrencyColumnIndex { get; set; }
                 public int ResultAmountColumnIndex { get; set; }
                 public string TargetCurrency { get; set; }
+            }
+
+            public class ColumnReducerSettings
+            {
+                public int[] TargetColumnIndexes { get; set; }
             }
         }
     }

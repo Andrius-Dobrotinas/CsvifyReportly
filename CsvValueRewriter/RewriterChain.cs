@@ -11,6 +11,7 @@ namespace Andy.Csv.Rewrite
         {
             internal const string DateRewriter = "DateRewriter";
             internal const string TheCurrencyAmountThing = "TheCurrencyAmountThing";
+            internal const string ColumnReducer = "ColumnReducer";
         }
 
         public static IList<ICsvRewriter> GetRewriterChain(Settings settings, string chainName)
@@ -27,9 +28,11 @@ namespace Andy.Csv.Rewrite
             switch (name)
             {
                 case RewriterKey.DateRewriter:
-                    return GetDateRewriter(rewriterSettings.DateRewriter);
+                    return BuildDateRewriter(rewriterSettings.DateRewriter);
                 case RewriterKey.TheCurrencyAmountThing:
-                    return GetTheCurrencyAmountThing(rewriterSettings.TheCurrencyAmountThing);
+                    return BuildTheCurrencyAmountThing(rewriterSettings.TheCurrencyAmountThing);
+                case RewriterKey.ColumnReducer:
+                    return BuildColumnReducer(rewriterSettings.ColumnReducer);
                 default:
                     throw new NotImplementedException($"Value: {name}");
             }
@@ -49,16 +52,16 @@ namespace Andy.Csv.Rewrite
             throw new Exception($"Rewriter chain {targetChainName} does not exist");
         }
 
-        private static ICsvRewriter GetDateRewriter(Settings.RewriterSettings.DateRewriterSettings settings)
+        private static ICsvRewriter BuildDateRewriter(Settings.RewriterSettings.DateRewriterSettings settings)
         {
             IRowRewriter rowRewriter = new RowSingleValueRewriter(
                     settings.TargetColumnIndex,
-                    new Rewriters.DateRewriter(settings.SourceFormat, settings.TargetFormat));
+                    new DateRewriter(settings.SourceFormat, settings.TargetFormat));
 
             return new CsvRewriter(rowRewriter);
         }
 
-        private static ICsvRewriter GetTheCurrencyAmountThing(Settings.RewriterSettings.CurrencyAmountThingSettings settings)
+        private static ICsvRewriter BuildTheCurrencyAmountThing(Settings.RewriterSettings.CurrencyAmountThingSettings settings)
         {
             IRowRewriter rowRewriter = new CurrencyAmount_CantThinkOfName(
                 settings.AmountColumnIndex,
@@ -66,6 +69,13 @@ namespace Andy.Csv.Rewrite
                 settings.ResultAmountColumnIndex,
                 new TargetCurrencyValueSelector(settings.TargetCurrency),
                 new ArrayElementInserter<string>());
+
+            return new CsvRewriter(rowRewriter);
+        }
+
+        private static ICsvRewriter BuildColumnReducer(Settings.RewriterSettings.ColumnReducerSettings settings)
+        {
+            var rowRewriter = new ColumnReducer(settings.TargetColumnIndexes);
 
             return new CsvRewriter(rowRewriter);
         }

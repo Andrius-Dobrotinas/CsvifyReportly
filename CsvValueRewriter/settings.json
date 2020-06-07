@@ -7,14 +7,18 @@
       "TargetFormat": "yyyy-MM-dd"
     },
     "TheCurrencyAmountThing": {
-      "AmountColumnIndex": 3,
-      "CurrencyColumnIndex": 2,
-      "ResultAmountColumnIndex": 4,
+      "AmountColumnIndex": 4,
+      "CurrencyColumnIndex": 3,
+      "ResultAmountColumnIndex": 5,
       "TargetCurrency": "GBP"
+    },
+    "ColumnReducer": {
+      "TargetColumnIndexes": [ 0, 3, 4, 6, 9, 12, 13, 14, 15, 16, 18, 19 ]
     }
   },
   "RewriterChains": {
     "wholenineyards": [
+      "ColumnReducer",
       "DateRewriter",
       "TheCurrencyAmountThing"
     ],
