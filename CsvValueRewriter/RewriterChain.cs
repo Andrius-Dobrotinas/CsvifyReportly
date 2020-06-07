@@ -7,7 +7,7 @@ namespace Andy.Csv.Rewrite
 {
     public static class RewriterChain
     {
-        private enum RewriterKeys
+        private enum RewriterKey
         {
             DateRewriter,
             TheCurrencyAmountThing
@@ -19,10 +19,10 @@ namespace Andy.Csv.Rewrite
 
             var csvRewriters = new List<ICsvRewriter>(rewriterChain.Length);
 
-            if (rewriterChain.Contains(nameof(RewriterKeys.DateRewriter)))
+            if (rewriterChain.Contains(nameof(RewriterKey.DateRewriter)))
                 csvRewriters.Add(GetDateRewriter(settings.Rewriters.DateRewriter));
 
-            if (rewriterChain.Contains(nameof(RewriterKeys.TheCurrencyAmountThing)))
+            if (rewriterChain.Contains(nameof(RewriterKey.TheCurrencyAmountThing)))
                 csvRewriters.Add(GetTheCurrencyAmountThing(settings.Rewriters.TheCurrencyAmountThing));
 
             return csvRewriters;
