@@ -13,8 +13,13 @@
       "TargetCurrency": "GBP"
     }
   },
-  "RewriterChain": [
-    "DateRewriter",
-    "TheCurrencyAmountThing"
-  ]
+  "RewriterChains": {
+    "wholenineyards": [
+      "DateRewriter",
+      "TheCurrencyAmountThing"
+    ],
+    "amount": [
+      "TheCurrencyAmountThing"
+    ]
+  }
 }

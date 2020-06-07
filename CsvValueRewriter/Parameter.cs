@@ -10,6 +10,7 @@ namespace Andy.Csv.Rewrite
         {
             public const string Source = "--source";
             public const string OutputFile = "--output";
+            public const string ProfileName = "--profile";
         }
 
         public static Parameters GetParametersOrThrow(IDictionary<string, string> args)
@@ -22,10 +23,14 @@ namespace Andy.Csv.Rewrite
             if (!args.TryGetValue(Keys.OutputFile, out reportFilePath))
                 throw new Exception("An output file must be specified");
 
+            string profile;
+            args.TryGetValue(Keys.ProfileName, out profile);
+
             return new Parameters
             {
                 SourceFile = new FileInfo(sourceFile),
-                ResultFile = new FileInfo(reportFilePath)
+                ResultFile = new FileInfo(reportFilePath),
+                RewriterChainName = profile
             };
         }
     }

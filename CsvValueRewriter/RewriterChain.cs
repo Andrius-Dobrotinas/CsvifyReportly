@@ -13,17 +13,33 @@ namespace Andy.Csv.Rewrite
             TheCurrencyAmountThing
         }
 
-        public static IList<ICsvRewriter> GetRewriterChain(Settings settings)
+        public static IList<ICsvRewriter> GetRewriterChain(Settings settings, string chainName)
         {
-            var csvRewriters = new List<ICsvRewriter>(settings.RewriterChain.Length);
+            var rewriterChain = GetRewriterNames(settings, chainName);
 
-            if (settings.RewriterChain.Contains(nameof(RewriterKeys.DateRewriter)))
+            var csvRewriters = new List<ICsvRewriter>(rewriterChain.Length);
+
+            if (rewriterChain.Contains(nameof(RewriterKeys.DateRewriter)))
                 csvRewriters.Add(GetDateRewriter(settings.Rewriters.DateRewriter));
 
-            if (settings.RewriterChain.Contains(nameof(RewriterKeys.TheCurrencyAmountThing)))
+            if (rewriterChain.Contains(nameof(RewriterKeys.TheCurrencyAmountThing)))
                 csvRewriters.Add(GetTheCurrencyAmountThing(settings.Rewriters.TheCurrencyAmountThing));
 
             return csvRewriters;
+        }
+
+        private static string[] GetRewriterNames(Settings settings, string targetChainName)
+        {
+            if (settings.RewriterChains.Count == 0) throw new Exception("There are no rewriter chains configured");
+
+            if (string.IsNullOrEmpty(targetChainName))
+                return settings.RewriterChains.FirstOrDefault().Value;
+
+            string[] result;
+            if (settings.RewriterChains.TryGetValue(targetChainName, out result))
+                return result;
+
+            throw new Exception($"Rewriter chain {targetChainName} does not exist");
         }
 
         private static ICsvRewriter GetDateRewriter(Settings.RewriterSettings.DateRewriterSettings settings)

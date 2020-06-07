@@ -37,7 +37,7 @@ namespace Andy.Csv.Rewrite
 
             try
             {
-                var csvRewriters = RewriterChain.GetRewriterChain(settings);
+                var csvRewriters = RewriterChain.GetRewriterChain(settings, parameters.RewriterChainName);
 
                 var rewriter = new CsvStreamRewriter(
                     new RowStringifier(

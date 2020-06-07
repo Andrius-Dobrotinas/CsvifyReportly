@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Andy.Csv.Rewrite
 {
@@ -7,7 +8,7 @@ namespace Andy.Csv.Rewrite
         
         public char CsvDelimiter { get; set; }
         public RewriterSettings Rewriters { get; set; }
-        public string[] RewriterChain { get; set; }
+        public IDictionary<string, string[]> RewriterChains { get; set; }
 
         public class RewriterSettings
         {
