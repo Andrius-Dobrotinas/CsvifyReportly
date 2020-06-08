@@ -7,7 +7,7 @@ namespace Andy.Csv.Rewrite
 {
     public static class RewriterChain
     {
-        private class RewriterKey
+        private class Key
         {
             internal const string DateRewriter = "DateRewriter";
             internal const string TheCurrencyAmountThing = "TheCurrencyAmountThing";
@@ -28,13 +28,13 @@ namespace Andy.Csv.Rewrite
         {
             switch (name)
             {
-                case RewriterKey.DateRewriter:
+                case Key.DateRewriter:
                     return BuildDateRewriter(rewriterSettings.DateRewriter);
-                case RewriterKey.TheCurrencyAmountThing:
+                case Key.TheCurrencyAmountThing:
                     return BuildTheCurrencyAmountThing(rewriterSettings.TheCurrencyAmountThing);
-                case RewriterKey.ColumnReducer:
+                case Key.ColumnReducer:
                     return BuildColumnReducer(rewriterSettings.ColumnReducer);
-                case RewriterKey.ColumnInserter:
+                case Key.ColumnInserter:
                     return BuildColumnInserter(rewriterSettings.ColumnInserter);
                 default:
                     throw new NotImplementedException($"Value: {name}");
