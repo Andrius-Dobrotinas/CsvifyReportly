@@ -13,31 +13,32 @@ namespace Andy.Csv.Rewrite.Rewriters
         private readonly int currencyColumnIndex;
         private readonly int targetColumnIndex;
 
-        private readonly ITargetCurrencyValueSelector gbpValueSelector;
-        private readonly IArrayElementInserter<string> elementInserter;
+        private readonly ITargetCurrencyValueSelector valueSelector;
 
         public CurrencyAmount_CantThinkOfName(
             int amountColumnIndex,
             int currencyColumnIndex,
             int targetColumnIndex,
-            ITargetCurrencyValueSelector gbpValueSelector,
-            IArrayElementInserter<string> elementInserter)
+            ITargetCurrencyValueSelector valueSelector)
         {
             this.amountColumnIndex = amountColumnIndex;
             this.currencyColumnIndex = currencyColumnIndex;
             this.targetColumnIndex = targetColumnIndex;
-            this.gbpValueSelector = gbpValueSelector;
-            this.elementInserter = elementInserter;
+            this.valueSelector = valueSelector;
         }
 
         public string[] Rewrite(string[] source)
         {
-            if (targetColumnIndex > source.Length)
-                throw new Exception($"The row is too short to add an item at a specified position ({targetColumnIndex}");
+            int lastIndex = source.Length - 1;
 
-            var newValue = gbpValueSelector.GetValue(source[currencyColumnIndex], source[amountColumnIndex]);
+            if (targetColumnIndex > lastIndex)
+                throw new Exception($"The row is too short to write a value at a target position (row length: {source.Length}, target index: {targetColumnIndex}");
 
-            return elementInserter.Insert(source, targetColumnIndex, newValue);
+            var newValue = valueSelector.GetValue(source[currencyColumnIndex], source[amountColumnIndex]);
+
+            source[targetColumnIndex] = newValue;
+
+            return source;
         }
     }
 }

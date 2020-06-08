@@ -12,6 +12,7 @@ namespace Andy.Csv.Rewrite
             internal const string DateRewriter = "DateRewriter";
             internal const string TheCurrencyAmountThing = "TheCurrencyAmountThing";
             internal const string ColumnReducer = "ColumnReducer";
+            internal const string ColumnInserter = "ColumnInserter";
         }
 
         public static IList<ICsvRewriter> GetRewriterChain(Settings settings, string chainName)
@@ -33,6 +34,8 @@ namespace Andy.Csv.Rewrite
                     return BuildTheCurrencyAmountThing(rewriterSettings.TheCurrencyAmountThing);
                 case RewriterKey.ColumnReducer:
                     return BuildColumnReducer(rewriterSettings.ColumnReducer);
+                case RewriterKey.ColumnInserter:
+                    return BuildColumnInserter(rewriterSettings.ColumnInserter);
                 default:
                     throw new NotImplementedException($"Value: {name}");
             }
@@ -67,8 +70,7 @@ namespace Andy.Csv.Rewrite
                 settings.AmountColumnIndex,
                 settings.CurrencyColumnIndex,
                 settings.ResultAmountColumnIndex,
-                new TargetCurrencyValueSelector(settings.TargetCurrency),
-                new ArrayElementInserter<string>());
+                new TargetCurrencyValueSelector(settings.TargetCurrency));
 
             return new CsvRewriter(rowRewriter);
         }
@@ -76,6 +78,15 @@ namespace Andy.Csv.Rewrite
         private static ICsvRewriter BuildColumnReducer(Settings.RewriterSettings.ColumnReducerSettings settings)
         {
             var rowRewriter = new ColumnReducer(settings.TargetColumnIndexes);
+
+            return new CsvRewriter(rowRewriter);
+        }
+
+        private static ICsvRewriter BuildColumnInserter(Settings.RewriterSettings.ColumnInserterSettings settings)
+        {
+            var rowRewriter = new ColumnInserter(
+                settings.TargetColumnIndex,
+                new ArrayElementInserter<string>());
 
             return new CsvRewriter(rowRewriter);
         }

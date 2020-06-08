@@ -6,6 +6,9 @@
       "SourceFormat": "dd/MM/yyyy",
       "TargetFormat": "yyyy-MM-dd"
     },
+    "ColumnInserter": {
+      "TargetColumnIndex": 5
+    },
     "TheCurrencyAmountThing": {
       "AmountColumnIndex": 4,
       "CurrencyColumnIndex": 3,
@@ -20,6 +23,7 @@
     "wholenineyards": [
       "ColumnReducer",
       "DateRewriter",
+      "ColumnInserter",
       "TheCurrencyAmountThing"
     ],
     "amount": [
