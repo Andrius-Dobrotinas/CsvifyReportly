@@ -38,11 +38,13 @@ namespace Andy.Csv.Rewrite
             try
             {
                 var csvRewriters = RewriterChain.GetRewriterChain(settings, parameters.RewriterChainName);
+                var rowFilters = FilterChain.GetFilterChain(settings, parameters.FilterChainName);
 
                 var rewriter = new CsvStreamRewriter(
                     new RowStringifier(
                         new ValueEncoder()),
-                    csvRewriters);
+                    csvRewriters,
+                    rowFilters);
 
                 Go(rewriter,
                     parameters.SourceFile,

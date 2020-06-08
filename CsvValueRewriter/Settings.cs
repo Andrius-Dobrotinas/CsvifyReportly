@@ -9,6 +9,8 @@ namespace Andy.Csv.Rewrite
         public char CsvDelimiter { get; set; }
         public RewriterSettings Rewriters { get; set; }
         public IDictionary<string, string[]> RewriterChains { get; set; }
+        public FilterSettings Filters { get; set; }
+        public IDictionary<string, string[]> FilterChains { get; set; }
 
         public class RewriterSettings
         {
@@ -40,6 +42,17 @@ namespace Andy.Csv.Rewrite
             public class ColumnReducerSettings
             {
                 public int[] TargetColumnIndexes { get; set; }
+            }
+        }
+
+        public class FilterSettings
+        {
+            public InvertedSingleRowValueEvaluatorSettings InvertedSingleValue { get; set; }
+
+            public class InvertedSingleRowValueEvaluatorSettings
+            {
+                public int TargetColumnIndex { get; set; }
+                public string TargetValue { get; set; }
             }
         }
     }
