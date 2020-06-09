@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Andy.Csv.Rewrite
 {
@@ -37,14 +39,13 @@ namespace Andy.Csv.Rewrite
 
             try
             {
-                var csvRewriters = RewriterChain.GetRewriterChain(settings, parameters.RewriterChainName);
-                var rowFilters = FilterChain.GetFilterChain(settings, parameters.FilterChainName);
+                var rewritersNFilters = GetRewritersAndFilters(settings, parameters);
 
                 var rewriter = new CsvStreamRewriter(
                     new RowStringifier(
                         new ValueEncoder()),
-                    csvRewriters,
-                    rowFilters);
+                    rewritersNFilters.Item1,
+                    rewritersNFilters.Item2);
 
                 Go(rewriter,
                     parameters.SourceFile,
@@ -68,6 +69,19 @@ namespace Andy.Csv.Rewrite
             using (var output = outputFile.OpenWrite())
             using (var result = rewriter.Go(source, delimiter))
                 result.CopyTo(output);
+        }
+
+        private static Tuple<ICsvRewriter[], Filter.IRowMatchEvaluator[]> GetRewritersAndFilters(
+            Settings settings,
+            Parameters parameters)
+        {
+            var csvRewriters = RewriterChain.GetRewriterChain(settings, parameters.RewriterChainName);
+            var rowFilters = FilterChain.GetFilterChain(settings, parameters.FilterChainName);
+            
+            if (!csvRewriters.Any() && !rowFilters.Any())
+                throw new Exception("No existing rewriter and filters have been specified");
+
+            return new Tuple<ICsvRewriter[], Filter.IRowMatchEvaluator[]>(csvRewriters, rowFilters);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Andy.Csv.Rewrite
             internal const string InvertedSingleValue = "InvertedSingleValue";
         }
 
-        public static IEnumerable<IRowMatchEvaluator> GetFilterChain(Settings settings, string targetChainName)
+        public static IRowMatchEvaluator[] GetFilterChain(Settings settings, string targetChainName)
         {
             var filterNames = GetFilterNames(settings, targetChainName);
 

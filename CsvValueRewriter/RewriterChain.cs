@@ -15,7 +15,7 @@ namespace Andy.Csv.Rewrite
             internal const string ColumnInserter = "ColumnInserter";
         }
 
-        public static IList<ICsvRewriter> GetRewriterChain(Settings settings, string chainName)
+        public static ICsvRewriter[] GetRewriterChain(Settings settings, string chainName)
         {
             var rewriterChain = GetRewriterNames(settings, chainName);
 
@@ -29,13 +29,13 @@ namespace Andy.Csv.Rewrite
             switch (name)
             {
                 case Key.DateRewriter:
-                    return BuildDateRewriter(rewriterSettings.DateRewriter);
+                    return Build_DateRewriter(rewriterSettings.DateRewriter);
                 case Key.TheCurrencyAmountThing:
-                    return BuildTheCurrencyAmountThing(rewriterSettings.TheCurrencyAmountThing);
+                    return Build_TheCurrencyAmountThing(rewriterSettings.TheCurrencyAmountThing);
                 case Key.ColumnReducer:
-                    return BuildColumnReducer(rewriterSettings.ColumnReducer);
+                    return Build_ColumnReducer(rewriterSettings.ColumnReducer);
                 case Key.ColumnInserter:
-                    return BuildColumnInserter(rewriterSettings.ColumnInserter);
+                    return Build_ColumnInserter(rewriterSettings.ColumnInserter);
                 default:
                     throw new NotImplementedException($"Value: {name}");
             }
@@ -43,19 +43,25 @@ namespace Andy.Csv.Rewrite
 
         private static string[] GetRewriterNames(Settings settings, string targetChainName)
         {
-            if (settings.RewriterChains.Count == 0) throw new Exception("There are no rewriter chains configured");
+            if (settings.RewriterChains.Count == 0)
+            {
+                if (string.IsNullOrEmpty(targetChainName))
+                    return new string[0];
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(targetChainName))
+                    return settings.RewriterChains.FirstOrDefault().Value;
 
-            if (string.IsNullOrEmpty(targetChainName))
-                return settings.RewriterChains.FirstOrDefault().Value;
-
-            string[] result;
-            if (settings.RewriterChains.TryGetValue(targetChainName, out result))
-                return result;
+                string[] result;
+                if (settings.RewriterChains.TryGetValue(targetChainName, out result))
+                    return result;
+            }
 
             throw new Exception($"Rewriter chain {targetChainName} does not exist");
         }
 
-        private static ICsvRewriter BuildDateRewriter(Settings.RewriterSettings.DateRewriterSettings settings)
+        private static ICsvRewriter Build_DateRewriter(Settings.RewriterSettings.DateRewriterSettings settings)
         {
             IRowRewriter rowRewriter = new RowSingleValueRewriter(
                     settings.TargetColumnIndex,
@@ -64,7 +70,7 @@ namespace Andy.Csv.Rewrite
             return new CsvRewriter(rowRewriter);
         }
 
-        private static ICsvRewriter BuildTheCurrencyAmountThing(Settings.RewriterSettings.CurrencyAmountThingSettings settings)
+        private static ICsvRewriter Build_TheCurrencyAmountThing(Settings.RewriterSettings.CurrencyAmountThingSettings settings)
         {
             IRowRewriter rowRewriter = new CurrencyAmount_CantThinkOfName(
                 settings.AmountColumnIndex,
@@ -75,14 +81,14 @@ namespace Andy.Csv.Rewrite
             return new CsvRewriter(rowRewriter);
         }
 
-        private static ICsvRewriter BuildColumnReducer(Settings.RewriterSettings.ColumnReducerSettings settings)
+        private static ICsvRewriter Build_ColumnReducer(Settings.RewriterSettings.ColumnReducerSettings settings)
         {
             var rowRewriter = new ColumnReducer(settings.TargetColumnIndexes);
 
             return new CsvRewriter(rowRewriter);
         }
 
-        private static ICsvRewriter BuildColumnInserter(Settings.RewriterSettings.ColumnInserterSettings settings)
+        private static ICsvRewriter Build_ColumnInserter(Settings.RewriterSettings.ColumnInserterSettings settings)
         {
             var rowRewriter = new ColumnInserter(
                 settings.TargetColumnIndex,
