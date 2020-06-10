@@ -1,22 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Andy.Csv.Transformation</RootNamespace>
+    <ApplicationIcon />
+    <StartupObject />
+    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Andy.Cmd\Cmd.csproj" />
-    <ProjectReference Include="..\Csv.Transformation\Csv.Transformation.csproj" />
     <ProjectReference Include="..\Csv\Csv.csproj" />
     <ProjectReference Include="..\ExpenseReport.Comparison.Csv\ExpenseReport.Comparison.Csv.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="settings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

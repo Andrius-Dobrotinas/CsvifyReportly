@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.Csv.Rewrite.Filter
+namespace Andy.Csv.Transformation.Filter
 {
     public interface IRowMatchEvaluator
     {

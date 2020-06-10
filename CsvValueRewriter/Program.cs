@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Andy.Csv.Transformation.Cmd;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Andy.Csv.Rewrite
+namespace Andy.Csv.Transformation.Cmd
 {
     class Program
     {
@@ -14,7 +15,7 @@ namespace Andy.Csv.Rewrite
             Parameters parameters;
             try
             {
-                var arguments = Cmd.ArgumentParser.ParseArguments(args);
+                var arguments = Andy.Cmd.ArgumentParser.ParseArguments(args);
                 parameters = Parameter.GetParametersOrThrow(arguments);
             }
             catch (Exception e)
@@ -27,7 +28,7 @@ namespace Andy.Csv.Rewrite
             Settings settings;
             try
             {
-                settings = Cmd.JasonFileParser.ParseContents<Settings>(
+                settings = Andy.Cmd.JasonFileParser.ParseContents<Settings>(
                     new FileInfo(settingsFileName));
             }
             catch (Exception e)

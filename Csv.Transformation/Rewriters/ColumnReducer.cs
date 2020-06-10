@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Andy.Csv.Rewrite.Rewriters
+namespace Andy.Csv.Transformation.Rewriters
 {
     /// <summary>
     /// Returns specified columns

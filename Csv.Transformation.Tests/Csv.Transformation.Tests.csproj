@@ -5,9 +5,11 @@
 
     <IsPackable>false</IsPackable>
 
-    <RootNamespace>Andy.Csv</RootNamespace>
+    <RootNamespace>Andy.Csv.Transformation</RootNamespace>
 
-    <AssemblyName>Csv.Tests</AssemblyName>
+    <AssemblyName>Transformation.Csv.Tests</AssemblyName>
+
+    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CsvValueRewriter\CsvValueRewriter.csproj" />
+    <ProjectReference Include="..\Csv.Transformation\Csv.Transformation.csproj" />
   </ItemGroup>
 
 </Project>

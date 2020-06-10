@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.Csv.Rewrite.Rewriters
+namespace Andy.Csv.Transformation.Rewriters
 {
     public interface ITargetCurrencyValueSelector
     {

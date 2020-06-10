@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Andy.Csv.Rewrite
+namespace Andy.Csv.Transformation.Cmd
 {
     public class CsvStreamRewriter
     {

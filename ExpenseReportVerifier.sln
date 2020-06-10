@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmd", "Andy.Cmd\Cmd.csproj"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsvValueRewriter", "CsvValueRewriter\CsvValueRewriter.csproj", "{E29687C7-0890-41C7-9AC1-A19C7A87DA59}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsvValueRewriter.Tests", "CsvValueRewriter.Tests\CsvValueRewriter.Tests.csproj", "{93A23C6C-B3F8-4ADE-9B76-DCCA92B5808F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csv.Transformation.Tests", "Csv.Transformation.Tests\Csv.Transformation.Tests.csproj", "{93A23C6C-B3F8-4ADE-9B76-DCCA92B5808F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csv.Transformation", "Csv.Transformation\Csv.Transformation.csproj", "{4DDF751B-CCAB-4C14-BF8C-BE29F0ED922F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{93A23C6C-B3F8-4ADE-9B76-DCCA92B5808F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93A23C6C-B3F8-4ADE-9B76-DCCA92B5808F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93A23C6C-B3F8-4ADE-9B76-DCCA92B5808F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DDF751B-CCAB-4C14-BF8C-BE29F0ED922F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DDF751B-CCAB-4C14-BF8C-BE29F0ED922F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DDF751B-CCAB-4C14-BF8C-BE29F0ED922F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DDF751B-CCAB-4C14-BF8C-BE29F0ED922F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

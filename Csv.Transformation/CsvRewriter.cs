@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Andy.Csv.Rewrite
+namespace Andy.Csv.Transformation
 {
     public class CsvRewriter : ICsvRewriter
     {

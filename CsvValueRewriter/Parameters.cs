@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Andy.Csv.Rewrite
+namespace Andy.Csv.Transformation.Cmd
 {
     public class Parameters
     {

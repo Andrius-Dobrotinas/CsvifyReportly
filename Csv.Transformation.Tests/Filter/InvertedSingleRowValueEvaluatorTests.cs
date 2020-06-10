@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Andy.Csv.Rewrite.Filter
+namespace Andy.Csv.Transformation.Filter
 {
     public class InvertedSingleRowValueEvaluatorTests
     {

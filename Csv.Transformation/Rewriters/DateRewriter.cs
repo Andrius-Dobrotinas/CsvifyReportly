@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.Csv.Rewrite.Rewriters
+namespace Andy.Csv.Transformation.Rewriters
 {
-    class DateRewriter : IValueRewriter
+    public class DateRewriter : IValueRewriter
     {
         private readonly string sourceFormat;
         private readonly string targetFormat;

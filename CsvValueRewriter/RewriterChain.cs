@@ -1,9 +1,9 @@
-﻿using Andy.Csv.Rewrite.Rewriters;
+﻿using Andy.Csv.Transformation.Rewriters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Andy.Csv.Rewrite
+namespace Andy.Csv.Transformation.Cmd
 {
     public static class RewriterChain
     {

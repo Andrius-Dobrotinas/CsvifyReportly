@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Andy.Csv.Rewrite
+namespace Andy.Csv.Transformation.Cmd
 {
     public static class Parameter
     {
