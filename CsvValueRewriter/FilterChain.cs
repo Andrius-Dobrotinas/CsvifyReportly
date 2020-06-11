@@ -1,9 +1,9 @@
-﻿using Andy.Csv.Transformation.Filter;
+﻿using Andy.Csv.Transformation.Row.Filter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Andy.Csv.Transformation.Cmd
+namespace Andy.Csv.Transformation.Row.Document.Cmd
 {
     public static class FilterChain
     {

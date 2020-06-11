@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Andy.Csv.Transformation
+namespace Andy.Csv.Transformation.Row
 {
     // <summary>
     /// Produces an "Amount In Local Currency" value based on Amount and Currency values of a transaction

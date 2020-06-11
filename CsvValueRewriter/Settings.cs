@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.Csv.Transformation.Cmd
+namespace Andy.Csv.Transformation.Row.Document.Cmd
 {
     public class Settings
     {

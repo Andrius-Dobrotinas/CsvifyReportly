@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Andy.Csv.Transformation
+namespace Andy.Csv.Transformation.Row
 {
     public class ColumnInserter : IRowTransformer
     {

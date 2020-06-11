@@ -1,10 +1,9 @@
-﻿using Andy.Csv.Transformation.Cmd;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Andy.Csv.Transformation.Cmd
+namespace Andy.Csv.Transformation.Row.Document.Cmd
 {
     class Program
     {

@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Andy.Csv.Transformation.Rewriters
+namespace Andy.Csv.Transformation.Row
 {
     public class ColumnReducerTests
     {
