@@ -15,7 +15,7 @@ namespace Andy.Csv.Transformation.Cmd
             internal const string ColumnInserter = "ColumnInserter";
         }
 
-        public static ICsvRewriter[] GetRewriterChain(Settings settings, string chainName)
+        public static IDocumentTransformer[] GetRewriterChain(Settings settings, string chainName)
         {
             var rewriterChain = GetRewriterNames(settings, chainName);
 
@@ -24,7 +24,7 @@ namespace Andy.Csv.Transformation.Cmd
                 .ToArray();
         }
 
-        private static ICsvRewriter GetRewriter(string name, Settings.RewriterSettings rewriterSettings)
+        private static IDocumentTransformer GetRewriter(string name, Settings.RewriterSettings rewriterSettings)
         {
             switch (name)
             {
@@ -61,40 +61,40 @@ namespace Andy.Csv.Transformation.Cmd
             throw new Exception($"Rewriter chain {targetChainName} does not exist");
         }
 
-        private static ICsvRewriter Build_DateRewriter(Settings.RewriterSettings.DateRewriterSettings settings)
+        private static IDocumentTransformer Build_DateRewriter(Settings.RewriterSettings.DateRewriterSettings settings)
         {
-            IRowRewriter rowRewriter = new RowSingleValueRewriter(
+            IRowTransformer rowRewriter = new SingleValueTransformer(
                     settings.TargetColumnIndex,
-                    new DateRewriter(settings.SourceFormat, settings.TargetFormat));
+                    new DateTransformer(settings.SourceFormat, settings.TargetFormat));
 
-            return new CsvRewriter(rowRewriter);
+            return new DocumentTransformer(rowRewriter);
         }
 
-        private static ICsvRewriter Build_TheCurrencyAmountThing(Settings.RewriterSettings.CurrencyAmountThingSettings settings)
+        private static IDocumentTransformer Build_TheCurrencyAmountThing(Settings.RewriterSettings.CurrencyAmountThingSettings settings)
         {
-            IRowRewriter rowRewriter = new CurrencyAmount_CantThinkOfName(
+            IRowTransformer rowRewriter = new CurrencyAmount_CantThinkOfName(
                 settings.AmountColumnIndex,
                 settings.CurrencyColumnIndex,
                 settings.ResultAmountColumnIndex,
                 new TargetCurrencyValueSelector(settings.TargetCurrency));
 
-            return new CsvRewriter(rowRewriter);
+            return new DocumentTransformer(rowRewriter);
         }
 
-        private static ICsvRewriter Build_ColumnReducer(Settings.RewriterSettings.ColumnReducerSettings settings)
+        private static IDocumentTransformer Build_ColumnReducer(Settings.RewriterSettings.ColumnReducerSettings settings)
         {
             var rowRewriter = new ColumnReducer(settings.TargetColumnIndexes);
 
-            return new CsvRewriter(rowRewriter);
+            return new DocumentTransformer(rowRewriter);
         }
 
-        private static ICsvRewriter Build_ColumnInserter(Settings.RewriterSettings.ColumnInserterSettings settings)
+        private static IDocumentTransformer Build_ColumnInserter(Settings.RewriterSettings.ColumnInserterSettings settings)
         {
             var rowRewriter = new ColumnInserter(
                 settings.TargetColumnIndex,
                 new ArrayElementInserter<string>());
 
-            return new CsvRewriter(rowRewriter);
+            return new DocumentTransformer(rowRewriter);
         }
     }
 }

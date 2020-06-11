@@ -3,18 +3,18 @@ using System.Collections.Generic;
 
 namespace Andy.Csv.Transformation.Rewriters
 {
-    public class DateRewriter : IValueRewriter
+    public class DateTransformer : IValueTransformer
     {
         private readonly string sourceFormat;
         private readonly string targetFormat;
 
-        public DateRewriter(string sourceFormat, string targetFormat)
+        public DateTransformer(string sourceFormat, string targetFormat)
         {
             this.sourceFormat = sourceFormat;
             this.targetFormat = targetFormat;
         }
 
-        public string Rewrite(string value)
+        public string GetValue(string value)
         {
             DateTimeOffset date;
             if (DateTimeOffset.TryParseExact(value, sourceFormat, null, System.Globalization.DateTimeStyles.None, out date))

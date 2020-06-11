@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Andy.Csv.Transformation.Rewriters
 {
-    public class ColumnInserter : IRowRewriter
+    public class ColumnInserter : IRowTransformer
     {
         private readonly int targetColumnIndex;
         private readonly IArrayElementInserter<string> elementInserter;
@@ -17,7 +17,7 @@ namespace Andy.Csv.Transformation.Rewriters
             this.elementInserter = elementInserter;
         }
 
-        public string[] Rewrite(string[] source)
+        public string[] Tramsform(string[] source)
         {
             int lastIndexPlusOne = source.Length;
 

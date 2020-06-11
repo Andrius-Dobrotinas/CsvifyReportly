@@ -7,7 +7,7 @@ namespace Andy.Csv.Transformation.Rewriters
     /// <summary>
     /// Produces an "Amount In Local Currency" value based on Amount and Currency values of a transaction
     /// </summary>
-    public class CurrencyAmount_CantThinkOfName : IRowRewriter
+    public class CurrencyAmount_CantThinkOfName : IRowTransformer
     {
         private readonly int amountColumnIndex;
         private readonly int currencyColumnIndex;
@@ -27,7 +27,7 @@ namespace Andy.Csv.Transformation.Rewriters
             this.valueSelector = valueSelector;
         }
 
-        public string[] Rewrite(string[] source)
+        public string[] Tramsform(string[] source)
         {
             int lastIndex = source.Length - 1;
 

@@ -42,7 +42,7 @@ namespace Andy.Csv.Transformation.Cmd
             {
                 var rewritersNFilters = GetRewritersAndFilters(settings, parameters);
 
-                var rewriter = new CsvStreamRewriter(
+                var rewriter = new CsvStreamTransformer(
                     new RowStringifier(
                         new ValueEncoder()),
                     rewritersNFilters.Item1,
@@ -64,7 +64,7 @@ namespace Andy.Csv.Transformation.Cmd
             }
         }
 
-        private static void Go(CsvStreamRewriter rewriter, FileInfo inputFile, FileInfo outputFile, char delimiter)
+        private static void Go(CsvStreamTransformer rewriter, FileInfo inputFile, FileInfo outputFile, char delimiter)
         {
             using (var source = inputFile.OpenRead())
             using (var output = outputFile.OpenWrite())
@@ -72,7 +72,7 @@ namespace Andy.Csv.Transformation.Cmd
                 result.CopyTo(output);
         }
 
-        private static Tuple<ICsvRewriter[], Filter.IRowMatchEvaluator[]> GetRewritersAndFilters(
+        private static Tuple<IDocumentTransformer[], Filter.IRowMatchEvaluator[]> GetRewritersAndFilters(
             Settings settings,
             Parameters parameters)
         {
@@ -82,7 +82,7 @@ namespace Andy.Csv.Transformation.Cmd
             if (!csvRewriters.Any() && !rowFilters.Any())
                 throw new Exception("No existing rewriter and filters have been specified");
 
-            return new Tuple<ICsvRewriter[], Filter.IRowMatchEvaluator[]>(csvRewriters, rowFilters);
+            return new Tuple<IDocumentTransformer[], Filter.IRowMatchEvaluator[]>(csvRewriters, rowFilters);
         }
     }
 }

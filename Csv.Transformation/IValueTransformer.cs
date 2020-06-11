@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace Andy.Csv.Transformation
 {
-    public interface IRowRewriter
+    public interface IValueTransformer
     {
-        string[] Rewrite(string[] row);
+        string GetValue(string value);
     }
 }

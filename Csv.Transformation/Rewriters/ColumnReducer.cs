@@ -7,7 +7,7 @@ namespace Andy.Csv.Transformation.Rewriters
     /// <summary>
     /// Returns specified columns
     /// </summary>
-    public class ColumnReducer : IRowRewriter
+    public class ColumnReducer : IRowTransformer
     {
         private readonly int[] targetColumnIndexes;
 
@@ -16,7 +16,7 @@ namespace Andy.Csv.Transformation.Rewriters
             this.targetColumnIndexes = targetColumnIndexes;
         }
 
-        public string[] Rewrite(string[] row)
+        public string[] Tramsform(string[] row)
         {
             int targetRowLength = targetColumnIndexes.Length;
             string[] result = new string[targetRowLength];

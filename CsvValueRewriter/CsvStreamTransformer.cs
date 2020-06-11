@@ -5,15 +5,15 @@ using System.Linq;
 
 namespace Andy.Csv.Transformation.Cmd
 {
-    public class CsvStreamRewriter
+    public class CsvStreamTransformer
     {
         private readonly IRowStringifier stringyfier;
-        private readonly IEnumerable<ICsvRewriter> rewriters;
+        private readonly IEnumerable<IDocumentTransformer> rewriters;
         private readonly IEnumerable<Filter.IRowMatchEvaluator> rowMatchers;
 
-        public CsvStreamRewriter(
+        public CsvStreamTransformer(
             IRowStringifier stringyfier,
-            IEnumerable<ICsvRewriter> rewriters,
+            IEnumerable<IDocumentTransformer> rewriters,
             IEnumerable<Filter.IRowMatchEvaluator> rowMatchers)
         {
             this.stringyfier = stringyfier;
@@ -29,7 +29,7 @@ namespace Andy.Csv.Transformation.Cmd
                 rows = rows.Where(matcher.IsMatch);
 
             foreach (var rewriter in rewriters)
-                rows = rewriter.Rewrite(rows);
+                rows = rewriter.TransformRows(rows);
 
             return WriteToCsvStream(rows, delimiter);
         }

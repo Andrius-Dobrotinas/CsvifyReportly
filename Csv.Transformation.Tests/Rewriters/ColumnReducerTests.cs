@@ -14,7 +14,7 @@ namespace Andy.Csv.Transformation.Rewriters
         {
             var target = new ColumnReducer(targetColumnIndexes.ToArray());
 
-            var result = target.Rewrite(input.ToArray());
+            var result = target.Tramsform(input.ToArray());
 
             Assert.IsTrue(expectedResult.SequenceEqual(result));
         }
