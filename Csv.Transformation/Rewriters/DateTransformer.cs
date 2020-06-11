@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.Csv.Transformation.Rewriters
+namespace Andy.Csv.Transformation
 {
     public class DateTransformer : IValueTransformer
     {

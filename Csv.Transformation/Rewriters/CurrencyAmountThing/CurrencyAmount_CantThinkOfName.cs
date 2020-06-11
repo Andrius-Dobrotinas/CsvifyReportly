@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Andy.Csv.Transformation.Rewriters
+namespace Andy.Csv.Transformation
 {
-    /// <summary>
+    // <summary>
     /// Produces an "Amount In Local Currency" value based on Amount and Currency values of a transaction
     /// </summary>
     public class CurrencyAmount_CantThinkOfName : IRowTransformer

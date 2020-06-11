@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Andy.Csv.Transformation.Rewriters
+namespace Andy.Csv.Transformation
 {
     /// <summary>
-    /// Returns specified columns
+    /// Returns only the specified columns
     /// </summary>
     public class ColumnReducer : IRowTransformer
     {
