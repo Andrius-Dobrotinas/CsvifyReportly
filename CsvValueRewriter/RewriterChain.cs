@@ -66,7 +66,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                     settings.TargetColumnIndex,
                     new DateTransformer(settings.SourceFormat, settings.TargetFormat));
 
-            return new DocumentTransformer(rowRewriter);
+            return new DocumentRowTransformer(rowRewriter);
         }
 
         private static IDocumentTransformer Build_TheCurrencyAmountThing(Settings.RewriterSettings.CurrencyAmountThingSettings settings)
@@ -77,14 +77,14 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                 settings.ResultAmountColumnIndex,
                 new TargetCurrencyValueSelector(settings.TargetCurrency));
 
-            return new DocumentTransformer(rowRewriter);
+            return new DocumentRowTransformer(rowRewriter);
         }
 
         private static IDocumentTransformer Build_ColumnReducer(Settings.RewriterSettings.ColumnReducerSettings settings)
         {
             var rowRewriter = new ColumnReducer(settings.TargetColumnIndexes);
 
-            return new DocumentTransformer(rowRewriter);
+            return new DocumentRowTransformer(rowRewriter);
         }
 
         private static IDocumentTransformer Build_ColumnInserter(Settings.RewriterSettings.ColumnInserterSettings settings)
@@ -93,7 +93,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                 settings.TargetColumnIndex,
                 new ArrayElementInserter<string>());
 
-            return new DocumentTransformer(rowRewriter);
+            return new DocumentRowTransformer(rowRewriter);
         }
     }
 }
