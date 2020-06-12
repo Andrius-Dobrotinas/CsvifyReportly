@@ -5,12 +5,11 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
 {
     public class Settings
     {
-        
         public char CsvDelimiter { get; set; }
-        public RewriterSettings Rewriters { get; set; }
-        public IDictionary<string, string[]> RewriterChains { get; set; }
+        public TransformationSettings Transformers { get; set; }
+        public IDictionary<string, string[]> Profiles { get; set; }
 
-        public class RewriterSettings
+        public class TransformationSettings
         {
             public DateRewriterSettings DateRewriter { get; set; }
             public CurrencyAmountThingSettings TheCurrencyAmountThing { get; set; }

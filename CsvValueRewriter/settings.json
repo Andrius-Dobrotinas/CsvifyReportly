@@ -1,6 +1,6 @@
 {
   "CsvDelimiter": ",",
-  "Rewriters": {
+  "Transformers": {
     "DateRewriter": {
       "TargetColumnIndex": 0,
       "SourceFormat": "dd/MM/yyyy",
@@ -23,7 +23,7 @@
       "TargetValue": "General Credit Card Deposit"
     }
   },
-  "RewriterChains": {
+  "Profiles": {
     "wholenineyards": [
       "InvertedSingleValueFilter",
       "ColumnReducer",

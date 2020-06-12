@@ -23,14 +23,14 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
             if (!args.TryGetValue(Keys.OutputFile, out reportFilePath))
                 throw new Exception("An output file must be specified");
 
-            string profile;
-            args.TryGetValue(Keys.ProfileName, out profile);
+            string profileName;
+            args.TryGetValue(Keys.ProfileName, out profileName);
 
             return new Parameters
             {
                 SourceFile = new FileInfo(sourceFile),
                 ResultFile = new FileInfo(reportFilePath),
-                RewriterChainName = profile
+                ProfileName = profileName
             };
         }
     }

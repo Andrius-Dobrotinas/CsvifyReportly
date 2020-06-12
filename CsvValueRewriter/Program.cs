@@ -39,7 +39,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
 
             try
             {
-                var transformers = RewriterChain.GetTransformers(settings, parameters.RewriterChainName);
+                var transformers = Profile.GetTransformerChain(settings, parameters.ProfileName);
 
                 var rewriter = new CsvStreamTransformer(
                     new RowStringifier(

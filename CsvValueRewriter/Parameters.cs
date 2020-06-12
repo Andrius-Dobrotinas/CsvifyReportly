@@ -7,6 +7,6 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
     {
         public FileInfo SourceFile { get; set; }
         public FileInfo ResultFile { get; set; }
-        public string RewriterChainName { get; set; }
+        public string ProfileName { get; set; }
     }
 }
