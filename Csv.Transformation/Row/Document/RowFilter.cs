@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace Andy.Csv.Transformation.Row.Document
 {
-    public class DocumentRowFilter : IDocumentTransformer
+    public class RowFilter : IDocumentTransformer
     {
         private readonly Filter.IRowMatchEvaluator rowMatchEvaluator;
 
-        public DocumentRowFilter(Filter.IRowMatchEvaluator rowMatchEvaluator)
+        public RowFilter(Filter.IRowMatchEvaluator rowMatchEvaluator)
         {
             this.rowMatchEvaluator = rowMatchEvaluator;
         }

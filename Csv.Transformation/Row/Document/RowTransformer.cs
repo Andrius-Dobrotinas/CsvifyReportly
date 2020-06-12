@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace Andy.Csv.Transformation.Row.Document
 {
-    public class DocumentRowTransformer : IDocumentTransformer
+    public class RowTransformer : IDocumentTransformer
     {
         private readonly IRowTransformer rowRewriter;
 
-        public DocumentRowTransformer(IRowTransformer rowRewriter)
+        public RowTransformer(IRowTransformer rowRewriter)
         {
             this.rowRewriter = rowRewriter;
         }
