@@ -8,27 +8,21 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
     public class CsvStreamTransformer
     {
         private readonly IRowStringifier stringyfier;
-        private readonly IEnumerable<IDocumentTransformer> rewriters;
-        private readonly IEnumerable<Filter.IRowMatchEvaluator> rowMatchers;
+        private readonly IEnumerable<IDocumentTransformer> transformers;
 
         public CsvStreamTransformer(
             IRowStringifier stringyfier,
-            IEnumerable<IDocumentTransformer> rewriters,
-            IEnumerable<Filter.IRowMatchEvaluator> rowMatchers)
+            IEnumerable<IDocumentTransformer> transformers)
         {
             this.stringyfier = stringyfier;
-            this.rewriters = rewriters;
-            this.rowMatchers = rowMatchers;
+            this.transformers = transformers;
         }
 
         public Stream Go(Stream source, char delimiter)
         {
             IEnumerable<string[]> rows = CsvStreamParser.ReadRowsFromStream(source, delimiter);
-
-            foreach (var matcher in rowMatchers)
-                rows = rows.Where(matcher.IsMatch);
-
-            foreach (var rewriter in rewriters)
+            
+            foreach (var rewriter in transformers)
                 rows = rewriter.TransformRows(rows);
 
             return WriteToCsvStream(rows, delimiter);

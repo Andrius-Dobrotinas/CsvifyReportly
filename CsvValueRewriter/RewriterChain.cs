@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Andy.Csv.Transformation.Row.Filter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,9 +13,10 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
             internal const string TheCurrencyAmountThing = "TheCurrencyAmountThing";
             internal const string ColumnReducer = "ColumnReducer";
             internal const string ColumnInserter = "ColumnInserter";
+            internal const string InvertedSingleValueFilter = "InvertedSingleValueFilter";
         }
 
-        public static IDocumentTransformer[] GetRewriterChain(Settings settings, string chainName)
+        public static IDocumentTransformer[] GetTransformers(Settings settings, string chainName)
         {
             var rewriterChain = GetRewriterNames(settings, chainName);
 
@@ -23,7 +25,9 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                 .ToArray();
         }
 
-        private static IDocumentTransformer GetRewriter(string name, Settings.RewriterSettings rewriterSettings)
+        private static IDocumentTransformer GetRewriter(
+            string name,
+            Settings.RewriterSettings rewriterSettings)
         {
             switch (name)
             {
@@ -35,6 +39,8 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                     return Build_ColumnReducer(rewriterSettings.ColumnReducer);
                 case Key.ColumnInserter:
                     return Build_ColumnInserter(rewriterSettings.ColumnInserter);
+                case Key.InvertedSingleValueFilter:
+                    return Build_InvertedSingleRowValueEvaluator(rewriterSettings.InvertedSingleValueFilter);
                 default:
                     throw new NotImplementedException($"Value: {name}");
             }
@@ -42,22 +48,17 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
 
         private static string[] GetRewriterNames(Settings settings, string targetChainName)
         {
-            if (settings.RewriterChains.Count == 0)
-            {
-                if (string.IsNullOrEmpty(targetChainName))
-                    return new string[0];
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(targetChainName))
-                    return settings.RewriterChains.FirstOrDefault().Value;
+            if (!settings.RewriterChains.Any())
+                throw new Exception($"Rewriter chain {targetChainName} does not exist");
 
-                string[] result;
-                if (settings.RewriterChains.TryGetValue(targetChainName, out result))
-                    return result;
-            }
+            if (string.IsNullOrEmpty(targetChainName))
+                return settings.RewriterChains.First().Value;
 
-            throw new Exception($"Rewriter chain {targetChainName} does not exist");
+            string[] result;
+            if (settings.RewriterChains.TryGetValue(targetChainName, out result))
+                return result;
+
+            throw new Exception("Now matching rewriter chain has been found");
         }
 
         private static IDocumentTransformer Build_DateRewriter(Settings.RewriterSettings.DateRewriterSettings settings)
@@ -94,6 +95,15 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                 new ArrayElementInserter<string>());
 
             return new DocumentRowTransformer(rowRewriter);
+        }
+
+        private static IDocumentTransformer Build_InvertedSingleRowValueEvaluator(Settings.RewriterSettings.InvertedSingleRowValueFilterSettings settings)
+        {
+            var matcher = new InvertedSingleRowValueEvaluator(
+                settings.TargetColumnIndex,
+                settings.TargetValue);
+
+            return new DocumentRowFilter(matcher);
         }
     }
 }

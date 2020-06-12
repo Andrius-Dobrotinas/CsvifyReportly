@@ -2,7 +2,7 @@
   "profiles": {
     "DefaultProfile": {
       "commandName": "Project",
-      "commandLineArgs": "--source=\"C:\\soft\\pp 4-2020.csv\" --output=\"C:\\soft\\result.csv\" --profile=\"wholenineyards\" --filterProfile=\"default\""
+      "commandLineArgs": "--source=\"C:\\soft\\pp 4-2020.csv\" --output=\"C:\\soft\\result.csv\" --profile=\"wholenineyards\""
     }
   }
 }

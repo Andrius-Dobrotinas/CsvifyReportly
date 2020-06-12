@@ -9,8 +9,6 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
         public char CsvDelimiter { get; set; }
         public RewriterSettings Rewriters { get; set; }
         public IDictionary<string, string[]> RewriterChains { get; set; }
-        public FilterSettings Filters { get; set; }
-        public IDictionary<string, string[]> FilterChains { get; set; }
 
         public class RewriterSettings
         {
@@ -18,6 +16,13 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
             public CurrencyAmountThingSettings TheCurrencyAmountThing { get; set; }
             public ColumnReducerSettings ColumnReducer { get; set; }
             public ColumnInserterSettings ColumnInserter { get; set; }
+            public InvertedSingleRowValueFilterSettings InvertedSingleValueFilter { get; set; }
+
+            public class InvertedSingleRowValueFilterSettings
+            {
+                public int TargetColumnIndex { get; set; }
+                public string TargetValue { get; set; }
+            }
 
             public class DateRewriterSettings
             {
@@ -42,17 +47,6 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
             public class ColumnReducerSettings
             {
                 public int[] TargetColumnIndexes { get; set; }
-            }
-        }
-
-        public class FilterSettings
-        {
-            public InvertedSingleRowValueEvaluatorSettings InvertedSingleValue { get; set; }
-
-            public class InvertedSingleRowValueEvaluatorSettings
-            {
-                public int TargetColumnIndex { get; set; }
-                public string TargetValue { get; set; }
             }
         }
     }

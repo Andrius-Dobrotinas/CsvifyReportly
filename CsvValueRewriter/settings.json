@@ -1,11 +1,5 @@
 {
   "CsvDelimiter": ",",
-  "Filters": {
-    "InvertedSingleValue": {
-      "TargetColumnIndex": 4,
-      "TargetValue": "General Credit Card Deposit"
-    }
-  },
   "Rewriters": {
     "DateRewriter": {
       "TargetColumnIndex": 0,
@@ -23,13 +17,15 @@
     },
     "ColumnReducer": {
       "TargetColumnIndexes": [ 0, 3, 4, 6, 9, 12, 13, 14, 15, 16, 18, 19 ]
+    },
+    "InvertedSingleValueFilter": {
+      "TargetColumnIndex": 4,
+      "TargetValue": "General Credit Card Deposit"
     }
-  },
-  "FilterChains": {
-    "default": [ "InvertedSingleValue" ]
   },
   "RewriterChains": {
     "wholenineyards": [
+      "InvertedSingleValueFilter",
       "ColumnReducer",
       "DateRewriter",
       "ColumnInserter",

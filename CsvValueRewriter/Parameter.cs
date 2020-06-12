@@ -11,7 +11,6 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
             public const string Source = "--source";
             public const string OutputFile = "--output";
             public const string ProfileName = "--profile";
-            public const string FilterProfileName = "--filterProfile";
         }
 
         public static Parameters GetParametersOrThrow(IDictionary<string, string> args)
@@ -27,15 +26,11 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
             string profile;
             args.TryGetValue(Keys.ProfileName, out profile);
 
-            string filterProfile;
-            args.TryGetValue(Keys.FilterProfileName, out filterProfile);
-
             return new Parameters
             {
                 SourceFile = new FileInfo(sourceFile),
                 ResultFile = new FileInfo(reportFilePath),
-                RewriterChainName = profile,
-                FilterChainName = filterProfile
+                RewriterChainName = profile
             };
         }
     }
