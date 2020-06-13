@@ -10,16 +10,16 @@
       "TargetColumnIndex": 5
     },
     "TheCurrencyAmountThing": {
-      "AmountColumnIndex": 4,
-      "CurrencyColumnIndex": 3,
-      "ResultAmountColumnIndex": 5,
+      "AmountColumnName": "TODO",
+      "CurrencyColumnName": "TODO",
+      "ResultAmountColumnName": "TODO",
       "TargetCurrency": "GBP"
     },
     "ColumnReducer": {
       "TargetColumnIndexes": [ 0, 3, 4, 6, 9, 12, 13, 14, 15, 16, 18, 19 ]
     },
     "InvertedSingleValueFilter": {
-      "TargetColumnIndex": 4,
+      "TargetColumnName": "TODO",
       "TargetValue": "General Credit Card Deposit"
     }
   },
@@ -31,7 +31,8 @@
       "ColumnInserter",
       "TheCurrencyAmountThing"
     ],
-    "amount": [
+    "working": [
+      "DateRewriter",
       "TheCurrencyAmountThing"
     ]
   }

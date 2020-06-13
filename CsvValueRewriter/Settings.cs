@@ -25,16 +25,16 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
 
             public class DateRewriterSettings
             {
-                public int TargetColumnIndex { get; set; }
+                public string TargetColumnName { get; set; }
                 public string SourceFormat { get; set; }
                 public string TargetFormat { get; set; }
             }
 
             public class CurrencyAmountThingSettings
             {
-                public int AmountColumnIndex { get; set; }
-                public int CurrencyColumnIndex { get; set; }
-                public int ResultAmountColumnIndex { get; set; }
+                public string AmountColumnName { get; set; }
+                public string CurrencyColumnName { get; set; }
+                public string ResultAmountColumnName { get; set; }
                 public string TargetCurrency { get; set; }
             }
 

@@ -20,21 +20,30 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
         {
             var rewriterChain = GetRewriterNames(settings, profileName);
 
+            //todo: it's a good time to start using an IOC container
+            var dataTransformerFactory = new CellContentTransformerFactory(
+                new ColumnMapBuilder(),
+                new CellContentTransformationRunner(
+                    new Row.CellContentTransformationRunner()));
+
             return rewriterChain
-                .Select(name => GetRewriter(name, settings.Transformers))
+                .Select(name => GetRewriter(name, settings.Transformers, dataTransformerFactory))
                 .ToArray();
         }
 
         private static IDocumentTransformer GetRewriter(
             string name,
-            Settings.TransformationSettings transformationSettings)
+            Settings.TransformationSettings transformationSettings,
+            CellContentTransformerFactory dataTransformerFactory)
         {
             switch (name)
             {
                 case Key.DateRewriter:
-                    return Build_DateRewriter(transformationSettings.DateRewriter);
+                    return dataTransformerFactory.Build(
+                        CellContentTransformer.Build_DateRewriter(transformationSettings.DateRewriter));
                 case Key.TheCurrencyAmountThing:
-                    return Build_TheCurrencyAmountThing(transformationSettings.TheCurrencyAmountThing);
+                    return dataTransformerFactory.Build(
+                        CellContentTransformer.Build_TheCurrencyAmountThing(transformationSettings.TheCurrencyAmountThing));
                 case Key.ColumnReducer:
                     return Build_ColumnReducer(transformationSettings.ColumnReducer);
                 case Key.ColumnInserter:
@@ -61,40 +70,21 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
             throw new Exception("Now matching transformation profile has been found");
         }
 
-        private static IDocumentTransformer Build_DateRewriter(Settings.TransformationSettings.DateRewriterSettings settings)
-        {
-            IRowTransformer rowRewriter = new SingleValueTransformer(
-                    settings.TargetColumnIndex,
-                    new DateTransformer(settings.SourceFormat, settings.TargetFormat));
-
-            return new RowTransformer(rowRewriter);
-        }
-
-        private static IDocumentTransformer Build_TheCurrencyAmountThing(Settings.TransformationSettings.CurrencyAmountThingSettings settings)
-        {
-            IRowTransformer rowRewriter = new CurrencyAmount_CantThinkOfName(
-                settings.AmountColumnIndex,
-                settings.CurrencyColumnIndex,
-                settings.ResultAmountColumnIndex,
-                new TargetCurrencyValueSelector(settings.TargetCurrency));
-
-            return new RowTransformer(rowRewriter);
-        }
-
         private static IDocumentTransformer Build_ColumnReducer(Settings.TransformationSettings.ColumnReducerSettings settings)
         {
+            throw new NotImplementedException("In progress");
             var rowRewriter = new ColumnReducer(settings.TargetColumnIndexes);
 
-            return new RowTransformer(rowRewriter);
+            //return new RowTransformer(columnMapBuilder);
         }
 
-        private static IDocumentTransformer Build_ColumnInserter(Settings.TransformationSettings.ColumnInserterSettings settings)
+        private static IDocumentTransformer Build_ColumnInserter(
+            Settings.TransformationSettings.ColumnInserterSettings settings)
         {
-            var rowRewriter = new ColumnInserter(
-                settings.TargetColumnIndex,
+            throw new NotImplementedException("In progress");
+            IRowTransformerFactory<IStructureTransformer> transformerFactory = new ColumnInserterFactory(
+                null, //settings.TargetColumnIndex, // todo
                 new ArrayElementInserter<string>());
-
-            return new RowTransformer(rowRewriter);
         }
 
         private static IDocumentTransformer Build_InvertedSingleRowValueEvaluator(Settings.TransformationSettings.InvertedSingleRowValueFilterSettings settings)

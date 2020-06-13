@@ -5,9 +5,9 @@ using System.Linq;
 namespace Andy.Csv.Transformation.Row
 {
     /// <summary>
-    /// Returns only the specified columns
+    /// Forms a new document that only consists of specified columns, all presented in a specified order
     /// </summary>
-    public class ColumnReducer : IRowTransformer
+    public class ColumnReducer : ICellContentTransformer
     {
         private readonly int[] targetColumnIndexes;
 

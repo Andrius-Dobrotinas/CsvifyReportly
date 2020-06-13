@@ -7,7 +7,7 @@ namespace Andy.Csv.Transformation.Row
     // <summary>
     /// Produces an "Amount In Local Currency" value based on Amount and Currency values of a transaction
     /// </summary>
-    public class CurrencyAmount_CantThinkOfName : IRowTransformer
+    public class CurrencyAmount_CantThinkOfName : ICellContentTransformer
     {
         private readonly int amountColumnIndex;
         private readonly int currencyColumnIndex;

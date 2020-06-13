@@ -4,9 +4,13 @@ using System.Linq;
 
 namespace Andy.Csv.Transformation.Row
 {
-    public class ColumnInserter : IRowTransformer
+    /// <summary>
+    /// Inserts new empty columns into a document
+    /// </summary>
+    public class ColumnInserter : IStructureTransformer
     {
         private readonly int targetColumnIndex;
+        private readonly string targetColumnName;// todo
         private readonly IArrayElementInserter<string> elementInserter;
 
         public ColumnInserter(

@@ -20,21 +20,35 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
 
         public Stream Go(Stream source, char delimiter)
         {
-            IEnumerable<string[]> rows = CsvStreamParser.ReadRowsFromStream(source, delimiter);
+            CsvDocument document = CsvStreamParser.ReadCsvDocument(source, delimiter);
             
             foreach (var rewriter in transformers)
-                rows = rewriter.TransformRows(rows);
+                document = rewriter.TransformRows(document);
 
-            return WriteToCsvStream(rows, delimiter);
+            return WriteToCsvStream(document, delimiter);
         }
 
         // todo: move this to a separate component
-        private Stream WriteToCsvStream(IEnumerable<string[]> rows, char delimiter)
+        private Stream WriteToCsvStream(CsvDocument document, char delimiter)
         {
+            // todo: unit-test this
+            var rows = CombineColumnAndDataRows(document);
+
             string[] lines = rows.Select(row => stringyfier.Stringifififiify(row, delimiter))
                 .ToArray();
 
             return IO.CsvFileWriter.Write(lines);
+        }
+
+        private string[][] CombineColumnAndDataRows(CsvDocument document)
+        {
+            var allRows = new string[document.Rows.Length + 1][];
+
+            allRows[0] = document.ColumnNames;
+
+            document.Rows.CopyTo(allRows, 1);            
+
+            return allRows;
         }
     }
 }
