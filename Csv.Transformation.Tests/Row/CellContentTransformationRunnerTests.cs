@@ -54,7 +54,7 @@ namespace Andy.Csv.Transformation.Row
         {
             Setup_TransformerSequence(transformedRows);
 
-            Assert.Throws<Exception>(
+            Assert.Throws<CellCountMismatchException>(
                 () => target.TransformRows(transformer.Object, rows.ToArray()));
         }
 

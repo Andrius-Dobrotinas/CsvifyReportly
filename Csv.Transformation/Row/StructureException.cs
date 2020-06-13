@@ -24,4 +24,15 @@ namespace Andy.Csv.Transformation.Row
 
         }
     }
+
+    /// <summary>
+    /// Indicates that the number of cells was not what it was expected to be at a given point
+    /// </summary>
+    public class CellCountMismatchException : StructureException
+    {
+        public CellCountMismatchException(int expectedCellCount, int actualCellCount, int rowIndex) : base(@$"Expected {expectedCellCount} cells, got {actualCellCount}. Row index: {rowIndex}")
+        {
+
+        }
+    }
 }

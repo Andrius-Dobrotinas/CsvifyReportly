@@ -14,14 +14,14 @@ namespace Andy.Csv.Transformation.Row
             if (!rows.Any()) return rows;
 
             var result = new string[rows.Length][];
-            int targetColumnCount = rows[0].Length;
+            int targetCellCount = rows[0].Length;
 
             for (int i = 0; i < rows.Length; i++)
             {
                 string[] row = transformer.Tramsform(rows[i]);
 
-                if (row.Length != targetColumnCount)
-                    throw new Exception($"Expected row count. Row {i}");
+                if (row.Length != targetCellCount)
+                    throw new CellCountMismatchException(targetCellCount, row.Length, i);
 
                 result[i] = row;
             }
