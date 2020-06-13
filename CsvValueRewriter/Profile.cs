@@ -51,7 +51,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                 case Key.InvertedSingleValueFilter:
                     return Build_InvertedSingleRowValueEvaluator(transformationSettings.InvertedSingleValueFilter);
                 default:
-                    throw new NotImplementedException($"Value: {name}");
+                    throw new NotSupportedException($"Value: {name}");
             }
         }
 
