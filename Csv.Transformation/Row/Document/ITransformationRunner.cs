@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Andy.Csv.Transformation.Row.Document
 {
     /// <summary>
-    /// Runs a transformation on a given document using a given transformer
+    /// Transforms a given document using a given transformer
     /// </summary>
     public interface ITransformationRunner<IRowTransformer>
     {

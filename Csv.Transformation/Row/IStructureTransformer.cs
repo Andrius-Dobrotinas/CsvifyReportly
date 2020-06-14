@@ -8,5 +8,12 @@ namespace Andy.Csv.Transformation.Row
     /// </summary>
     public interface IStructureTransformer : IRowTransformer
     {
+        /// <summary>
+        /// Adds/removes/moves header cells.
+        /// In case of addition of new cells, this method makes sure the new cell's has a value (column name).
+        /// </summary>
+        /// <param name="cells"></param>
+        /// <returns></returns>
+        string[] TransformHeader(string[] cells);
     }
 }

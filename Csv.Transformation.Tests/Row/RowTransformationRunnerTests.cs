@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace Andy.Csv.Transformation.Row
 {
-    public class CellContentTransformationRunnerTests
+    public class RowTransformationRunnerTests
     {
-        CellContentTransformationRunner target = new CellContentTransformationRunner();
+        RowTransformationRunner target = new RowTransformationRunner();
         Mock<ICellContentTransformer> transformer;
 
         [SetUp]
@@ -23,7 +23,7 @@ namespace Andy.Csv.Transformation.Row
         {
             Setup_Transformer_ToReturnTheInput();
 
-            target.TransformRows(transformer.Object, rows.ToArray());
+            target.TransformRows(transformer.Object, rows.ToArray(), rows[0].Length);
 
             for (int i = 0; i < rows.Count; i++)
             {
@@ -42,26 +42,27 @@ namespace Andy.Csv.Transformation.Row
         {
             Setup_Transformer_ToReturnTheInput();
 
-            var result = target.TransformRows(transformer.Object, rows.ToArray());
+            var result = target.TransformRows(transformer.Object, rows.ToArray(), rows[0].Length);
 
             AssertionExtensions.SequencesAreEqual(rows, result);
         }
 
         [TestCaseSource(nameof(GetTestCases_LengthChanged))]
-        public void When_TransformedRowsAreOfDifferentLengthThanTheOriginally__Must_ThrowAnException(
+        public void When_TransformedRowsAreOfDifferentLengthThanExpected__Must_ThrowAnException(
             IList<string[]> rows,
-            IList<string[]> transformedRows)
+            IList<string[]> transformedRows,
+            int expectedRowCount)
         {
             Setup_TransformerSequence(transformedRows);
 
             Assert.Throws<CellCountMismatchException>(
-                () => target.TransformRows(transformer.Object, rows.ToArray()));
+                () => target.TransformRows(transformer.Object, rows.ToArray(), expectedRowCount));
         }
 
         [Test]
         public void When_SourceRowsCollectionIsEmpty__Must_ReturnTheOriginalValue()
         {
-            var result = target.TransformRows(transformer.Object, new string[0][]);
+            var result = target.TransformRows(transformer.Object, new string[0][], 1);
 
             Assert.IsEmpty(result);
         }
@@ -89,7 +90,7 @@ namespace Andy.Csv.Transformation.Row
         private static IEnumerable<TestCaseData> GetTestCases()
         {
             yield return new TestCaseData(
-                new List<string[]> { 
+                new List<string[]> {
                     new string[] { "one" }
                 });
 
@@ -109,7 +110,8 @@ namespace Andy.Csv.Transformation.Row
                 },
                 new List<string[]> {
                     new string[] { "one", "two" }
-                });
+                },
+                1);
 
             yield return new TestCaseData(
                 new List<string[]> {
@@ -117,7 +119,8 @@ namespace Andy.Csv.Transformation.Row
                 },
                 new List<string[]> {
                     new string[] { }
-                });
+                },
+                1);
 
             yield return new TestCaseData(
                 new List<string[]> {
@@ -129,7 +132,8 @@ namespace Andy.Csv.Transformation.Row
                     new string[] { "one", "two" },
                     new string[] { "two", "two three" },
                     new string[] { "three" }
-                });
+                },
+                2);
         }
     }
 }

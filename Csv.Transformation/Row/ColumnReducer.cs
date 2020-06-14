@@ -7,7 +7,7 @@ namespace Andy.Csv.Transformation.Row
     /// <summary>
     /// Forms a new document that only consists of specified columns, all presented in a specified order
     /// </summary>
-    public class ColumnReducer : ICellContentTransformer
+    public class ColumnReducer : IStructureTransformer
     {
         private readonly int[] targetColumnIndexes;
 
@@ -32,6 +32,11 @@ namespace Andy.Csv.Transformation.Row
             }
 
             return result;
+        }
+
+        public string[] TransformHeader(string[] row)
+        {
+            throw new NotImplementedException();
         }
     }
 }

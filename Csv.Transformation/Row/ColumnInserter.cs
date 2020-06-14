@@ -30,5 +30,10 @@ namespace Andy.Csv.Transformation.Row
 
             return elementInserter.Insert(source, targetColumnIndex, null);
         }
+
+        public string[] TransformHeader(string[] row)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

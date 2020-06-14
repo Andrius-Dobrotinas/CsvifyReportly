@@ -21,10 +21,13 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
             var rewriterChain = GetRewriterNames(settings, profileName);
 
             //todo: it's a good time to start using an IOC container
-            var dataTransformerFactory = new CellContentTransformerFactory(
+            var rowTransformer = new RowTransformationRunner();
+            var dataTransformerFactory = new DocumentTransformerFactory(
                 new ColumnMapBuilder(),
                 new CellContentTransformationRunner(
-                    new Row.CellContentTransformationRunner()));
+                    rowTransformer),
+                new StructureTransformationRunner(
+                    rowTransformer));
 
             return rewriterChain
                 .Select(name => GetRewriter(name, settings.Transformers, dataTransformerFactory))
@@ -34,7 +37,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
         private static IDocumentTransformer GetRewriter(
             string name,
             Settings.TransformationSettings transformationSettings,
-            CellContentTransformerFactory dataTransformerFactory)
+            DocumentTransformerFactory dataTransformerFactory)
         {
             switch (name)
             {
@@ -45,7 +48,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                     return dataTransformerFactory.Build(
                         CellContentTransformer.Build_TheCurrencyAmountThing(transformationSettings.TheCurrencyAmountThing));
                 case Key.ColumnReducer:
-                    return Build_ColumnReducer(transformationSettings.ColumnReducer);
+                    return Build_ColumnReducer(transformationSettings.ColumnReducer); StructureTransformer.Build_ColumnReducer(transformationSettings.ColumnReducer));
                 case Key.ColumnInserter:
                     return Build_ColumnInserter(transformationSettings.ColumnInserter);
                 case Key.InvertedSingleValueFilter:

@@ -9,20 +9,66 @@ namespace Andy.Csv.Transformation.Row.Document
     public class CellContentTransformationRunnerTests
     {
         CellContentTransformationRunner target;
-        Mock<Row.IRowTransformationRunner<ICellContentTransformer>> rowTransformationRunner;
+        Mock<IRowTransformationRunner<IRowTransformer>> rowTransformationRunner;
         Mock<ICellContentTransformer> transformer;
 
         [SetUp]
         public void Setup()
         {
-            rowTransformationRunner = new Mock<Row.IRowTransformationRunner<ICellContentTransformer>>();
+            rowTransformationRunner = new Mock<IRowTransformationRunner<IRowTransformer>>();
             target = new CellContentTransformationRunner(rowTransformationRunner.Object);
 
             transformer = new Mock<ICellContentTransformer>();
         }
 
         [TestCaseSource(nameof(Get_Rows))]
-        public void Must_TransformTheRowsOnly_UsingTheSuppliedTransformer(
+        public void Must_InvokeAMethodOn_TransformationRunner_Once_InOrderToTransformDocumentRows(
+            IList<string[]> rows)
+        {
+            var expectedRows = rows.ToArray();
+
+            var document = new CsvDocument
+            {
+                Rows = expectedRows,
+                ColumnNames = new string[0]
+            };
+
+            target.Transform(document, transformer.Object);
+
+            rowTransformationRunner.Verify(
+                x => x.TransformRows(
+                    It.IsAny<ICellContentTransformer>(),
+                    It.IsAny<string[][]>(),
+                    It.IsAny<int>()),
+                Times.Once,
+                "Must use the transformation runner to do its dirty work once");
+        }
+
+        [TestCaseSource(nameof(Get_Rows))]
+        public void Must_PassTheDocumentRows_OnToTheTransformationRunner(
+            IList<string[]> rows)
+        {
+            var expectedRows = rows.ToArray();
+
+            var document = new CsvDocument
+            {
+                Rows = expectedRows,
+                ColumnNames = new string[0]
+            };
+
+            target.Transform(document, transformer.Object);
+
+            rowTransformationRunner.Verify(
+                x => x.TransformRows(
+                    It.IsAny<ICellContentTransformer>(),
+                    It.Is<string[][]>(
+                        arg => arg == expectedRows),
+                    It.IsAny<int>()),
+                "Must pass the document rows on to the transformer");
+        }
+
+        [TestCaseSource(nameof(Get_Rows))]
+        public void Must_PassTheProvidedTransformer_OnToTheTransformationRunner(
             IList<string[]> rows)
         {
             var expectedRows = rows.ToArray();
@@ -39,22 +85,34 @@ namespace Andy.Csv.Transformation.Row.Document
                 x => x.TransformRows(
                     It.Is<ICellContentTransformer>(
                         arg => arg == transformer.Object),
-                    It.IsAny<string[][]>()),
-                    Times.Once,
-                    "Must use the transformation runner and pass the supplied transformer on to it");
-
-            rowTransformationRunner.Verify(
-                x => x.TransformRows(
-                    It.Is<ICellContentTransformer>(
-                        arg => arg == transformer.Object),
-                    It.Is<string[][]>(
-                        arg => arg == expectedRows)),
-                    Times.Once,
-                    "Must pass the CSV rows on to the function");
+                    It.IsAny<string[][]>(),
+                    It.IsAny<int>()));
         }
 
         [TestCaseSource(nameof(Get_Rows))]
-        public void Must_ReturnTheTransformedRows(
+        public void Must_PassThe_TheLengthOfTheFirstRow_AsTheExpectedRowLength(
+            IList<string[]> rows)
+        {
+            var expectedRowLength = rows.First().Length;
+
+            var document = new CsvDocument
+            {
+                Rows = rows.ToArray(),
+                ColumnNames = new string[0]
+            };
+
+            target.Transform(document, transformer.Object);
+
+            rowTransformationRunner.Verify(
+                x => x.TransformRows(
+                    It.IsAny<ICellContentTransformer>(),
+                    It.IsAny<string[][]>(),
+                    It.Is<int>(
+                        arg => arg == expectedRowLength)));
+        }
+
+        [TestCaseSource(nameof(Get_Rows))]
+        public void Must_Return_TheTransformedRows(
             IList<string[]> transfomedRows)
         {
             var expectedRows = transfomedRows.ToArray();
@@ -62,7 +120,7 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var document = new CsvDocument
             {
-                Rows = new string[0][],
+                Rows = new string[][] { new string[] { "cell" } },
                 ColumnNames = new string[0]
             };
 
@@ -71,15 +129,48 @@ namespace Andy.Csv.Transformation.Row.Document
             Assert.AreSame(expectedRows, result.Rows);
         }
 
+        [Test]
+        public void When_TheRowsCollectionIsEmpty__Must_Return_ItRightAway()
+        {
+            var document = new CsvDocument
+            {
+                Rows = new string[0][],
+                ColumnNames = new string[0]
+            };
+
+            var result = target.Transform(document, transformer.Object);
+
+            Assert.IsEmpty(result.Rows);
+        }
+
         [TestCaseSource(nameof(Get_ColumnNames))]
-        public void Must_ReturnTheOriginalColumnsCollection(
+        public void Must_Return_TheOriginalColumnsCollection(
             IList<string> columnNames)
+        {
+            Must_Return_TheOriginalColumnsCollection(
+                columnNames,
+                new string[][]
+                {
+                    new string [] { "geen" }
+                });
+        }
+
+        [TestCaseSource(nameof(Get_ColumnNames))]
+        public void Must_Return_TheOriginalColumnsCollection_WhenTheRowsCollectionIsEmpty(
+            IList<string> columnNames)
+        {
+            Must_Return_TheOriginalColumnsCollection(columnNames, new string[0][]);
+        }
+
+        private void Must_Return_TheOriginalColumnsCollection(
+            IList<string> columnNames,
+            string[][] rows)
         {
             Setup_TransformationRunner(new string[0][]);
 
             var document = new CsvDocument
             {
-                Rows = new string[0][],
+                Rows = rows,
                 ColumnNames = columnNames.ToArray()
             };
 
@@ -98,7 +189,8 @@ namespace Andy.Csv.Transformation.Row.Document
             rowTransformationRunner.Setup(
                 x => x.TransformRows(
                     It.IsAny<ICellContentTransformer>(),
-                    It.IsAny<string[][]>()))
+                    It.IsAny<string[][]>(),
+                    It.IsAny<int>()))
                 .Returns(returnValue);
         }
 
