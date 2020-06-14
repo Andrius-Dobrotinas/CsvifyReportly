@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Andy.Csv.Transformation.Row
 {
-    public class ColumnReducerTests
+    public class CellReducerTests
     {
         [TestCaseSource(nameof(GetTestCases))]
         public void Should_OnlyReturnTargetColumns(
@@ -12,9 +12,9 @@ namespace Andy.Csv.Transformation.Row
             IList<int> targetColumnIndexes,
             IList<string> expectedResult)
         {
-            var target = new ColumnReducer(targetColumnIndexes.ToArray());
+            var target = new CellReducer();
 
-            var result = target.Tramsform(input.ToArray());
+            var result = target.Reduce(input.ToArray(), targetColumnIndexes.ToArray());
 
             Assert.IsTrue(expectedResult.SequenceEqual(result));
         }

@@ -45,7 +45,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
 
             public class ColumnReducerSettings
             {
-                public int[] TargetColumnIndexes { get; set; }
+                public string[] TargetColumnNames { get; set; }
             }
         }
     }

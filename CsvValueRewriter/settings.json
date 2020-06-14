@@ -16,7 +16,7 @@
       "TargetCurrency": "GBP"
     },
     "ColumnReducer": {
-      "TargetColumnIndexes": [ 0, 3, 4, 6, 9, 12, 13, 14, 15, 16, 18, 19 ]
+      "TargetColumnNames": [ "Date", "Amount", "Currency" ]
     },
     "InvertedSingleValueFilter": {
       "TargetColumnName": "TODO",

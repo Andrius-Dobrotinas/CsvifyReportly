@@ -48,7 +48,8 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                     return dataTransformerFactory.Build(
                         CellContentTransformer.Build_TheCurrencyAmountThing(transformationSettings.TheCurrencyAmountThing));
                 case Key.ColumnReducer:
-                    return Build_ColumnReducer(transformationSettings.ColumnReducer); StructureTransformer.Build_ColumnReducer(transformationSettings.ColumnReducer));
+                    return dataTransformerFactory.Build(
+                        StructureTransformer.Build_ColumnReducer(transformationSettings.ColumnReducer));
                 case Key.ColumnInserter:
                     return Build_ColumnInserter(transformationSettings.ColumnInserter);
                 case Key.InvertedSingleValueFilter:
@@ -71,14 +72,6 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                 return result;
 
             throw new Exception("Now matching transformation profile has been found");
-        }
-
-        private static IDocumentTransformer Build_ColumnReducer(Settings.TransformationSettings.ColumnReducerSettings settings)
-        {
-            throw new NotImplementedException("In progress");
-            var rowRewriter = new ColumnReducer(settings.TargetColumnIndexes);
-
-            //return new RowTransformer(columnMapBuilder);
         }
 
         private static IDocumentTransformer Build_ColumnInserter(
