@@ -6,13 +6,13 @@ namespace Andy.Csv.Transformation.Row.Document
     public class CsvDocument
     {
         /// <summary>
-        /// Column names in the order that the data appears in the source
+        /// Column names in the order that the data appears in the source in
         /// </summary>
-        public string[] ColumnNames { get; set; }
+        public string[] HeaderCells { get; set; }
 
         /// <summary>
         /// Actual data rows
         /// </summary>
-        public string[][] Rows { get; set; }
+        public string[][] ContentRows { get; set; }
     }
 }

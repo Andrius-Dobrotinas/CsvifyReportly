@@ -19,14 +19,14 @@ namespace Andy.Csv.Transformation.Row.Document
 
         public CsvDocument Transform(CsvDocument document, ICellContentTransformer transformer)
         {
-            string[][] rows = document.Rows.Any()
-                ? TransformRows(document.Rows, transformer)
-                : document.Rows;
+            string[][] rows = document.ContentRows.Any()
+                ? TransformRows(document.ContentRows, transformer)
+                : document.ContentRows;
 
             return new CsvDocument
             {
-                ColumnNames = document.ColumnNames,
-                Rows = rows
+                HeaderCells = document.HeaderCells,
+                ContentRows = rows
             };
         }
 

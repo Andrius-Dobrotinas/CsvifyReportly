@@ -34,8 +34,8 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var document = new CsvDocument
             {
-                ColumnNames = expectedColumnNameSequence,
-                Rows = new string[0][]
+                HeaderCells = expectedColumnNameSequence,
+                ContentRows = new string[0][]
             };
 
             target.TransformRows(document);
@@ -55,8 +55,8 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var document = new CsvDocument
             {
-                ColumnNames = new string[0],
-                Rows = new string[0][]
+                HeaderCells = new string[0],
+                ContentRows = new string[0][]
             };
 
             target.TransformRows(document);
@@ -74,8 +74,8 @@ namespace Andy.Csv.Transformation.Row.Document
         {
             var document = new CsvDocument
             {
-                ColumnNames = new string[0],
-                Rows = new string[0][]
+                HeaderCells = new string[0],
+                ContentRows = new string[0][]
             };
 
             Setup_ColumnIndexMapBuilder(columnMap);

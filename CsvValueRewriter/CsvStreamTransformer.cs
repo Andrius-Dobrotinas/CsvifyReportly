@@ -42,11 +42,11 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
 
         private string[][] CombineColumnAndDataRows(CsvDocument document)
         {
-            var allRows = new string[document.Rows.Length + 1][];
+            var allRows = new string[document.ContentRows.Length + 1][];
 
-            allRows[0] = document.ColumnNames;
+            allRows[0] = document.HeaderCells;
 
-            document.Rows.CopyTo(allRows, 1);            
+            document.ContentRows.CopyTo(allRows, 1);            
 
             return allRows;
         }

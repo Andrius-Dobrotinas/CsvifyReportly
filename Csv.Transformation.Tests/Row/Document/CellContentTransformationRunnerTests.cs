@@ -29,8 +29,8 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var document = new CsvDocument
             {
-                Rows = expectedRows,
-                ColumnNames = new string[0]
+                ContentRows = expectedRows,
+                HeaderCells = new string[0]
             };
 
             target.Transform(document, transformer.Object);
@@ -52,8 +52,8 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var document = new CsvDocument
             {
-                Rows = expectedRows,
-                ColumnNames = new string[0]
+                ContentRows = expectedRows,
+                HeaderCells = new string[0]
             };
 
             target.Transform(document, transformer.Object);
@@ -75,8 +75,8 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var document = new CsvDocument
             {
-                Rows = expectedRows,
-                ColumnNames = new string[0]
+                ContentRows = expectedRows,
+                HeaderCells = new string[0]
             };
 
             target.Transform(document, transformer.Object);
@@ -97,8 +97,8 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var document = new CsvDocument
             {
-                Rows = rows.ToArray(),
-                ColumnNames = new string[0]
+                ContentRows = rows.ToArray(),
+                HeaderCells = new string[0]
             };
 
             target.Transform(document, transformer.Object);
@@ -120,13 +120,13 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var document = new CsvDocument
             {
-                Rows = new string[][] { new string[] { "cell" } },
-                ColumnNames = new string[0]
+                ContentRows = new string[][] { new string[] { "cell" } },
+                HeaderCells = new string[0]
             };
 
             var result = target.Transform(document, transformer.Object);
 
-            Assert.AreSame(expectedRows, result.Rows);
+            Assert.AreSame(expectedRows, result.ContentRows);
         }
 
         [Test]
@@ -134,13 +134,13 @@ namespace Andy.Csv.Transformation.Row.Document
         {
             var document = new CsvDocument
             {
-                Rows = new string[0][],
-                ColumnNames = new string[0]
+                ContentRows = new string[0][],
+                HeaderCells = new string[0]
             };
 
             var result = target.Transform(document, transformer.Object);
 
-            Assert.IsEmpty(result.Rows);
+            Assert.IsEmpty(result.ContentRows);
         }
 
         [TestCaseSource(nameof(Get_ColumnNames))]
@@ -170,8 +170,8 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var document = new CsvDocument
             {
-                Rows = rows,
-                ColumnNames = columnNames.ToArray()
+                ContentRows = rows,
+                HeaderCells = columnNames.ToArray()
             };
 
             /* a different instance from that in the CsvDocument in order to make sure that if
@@ -181,7 +181,7 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var result = target.Transform(document, transformer.Object);
 
-            Assert.AreEqual(expectedColumns, result.ColumnNames);
+            Assert.AreEqual(expectedColumns, result.HeaderCells);
         }
 
         private void Setup_TransformationRunner(string[][] returnValue)

@@ -19,18 +19,18 @@ namespace Andy.Csv.Transformation.Row.Document
 
         public CsvDocument Transform(CsvDocument document, IStructureTransformer transformer)
         {
-            string[] columns = transformer.TransformHeader(document.ColumnNames);
+            string[] columns = transformer.TransformHeader(document.HeaderCells);
             int expectedCellCount = columns.Length;
 
             string[][] rows = rowTransformationRunner.TransformRows(
                 transformer,
-                document.Rows,
+                document.ContentRows,
                 expectedCellCount);
 
             return new CsvDocument
             {
-                ColumnNames = columns,
-                Rows = rows
+                HeaderCells = columns,
+                ContentRows = rows
             };
         }
     }

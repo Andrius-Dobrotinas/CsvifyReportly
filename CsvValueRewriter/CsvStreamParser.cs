@@ -23,8 +23,8 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
 
             return new CsvDocument
             {
-                ColumnNames = rows.First(),
-                Rows = rows.Skip(1).ToArray()
+                HeaderCells = rows.First(),
+                ContentRows = rows.Skip(1).ToArray()
             };
         }
     }

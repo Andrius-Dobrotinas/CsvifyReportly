@@ -33,8 +33,8 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var document = new CsvDocument
             {
-                Rows = new string[][] { new string[] { "one" } },
-                ColumnNames = columns.ToArray()
+                ContentRows = new string[][] { new string[] { "one" } },
+                HeaderCells = columns.ToArray()
             };
 
             try
@@ -59,8 +59,8 @@ namespace Andy.Csv.Transformation.Row.Document
             var expectedHeaderCells = columns.ToArray();
             var document = new CsvDocument
             {
-                Rows = new string[][] { new string[] { "cell one" } },
-                ColumnNames = expectedHeaderCells
+                ContentRows = new string[][] { new string[] { "cell one" } },
+                HeaderCells = expectedHeaderCells
             };
 
             target.Transform(document, transformer.Object);
@@ -98,8 +98,8 @@ namespace Andy.Csv.Transformation.Row.Document
         {
             var document = new CsvDocument
             {
-                Rows = expectedRows,
-                ColumnNames = new string[0]
+                ContentRows = expectedRows,
+                HeaderCells = new string[0]
             };
 
             target.Transform(document, transformer.Object);
@@ -121,8 +121,8 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var document = new CsvDocument
             {
-                Rows = expectedRows,
-                ColumnNames = new string[0]
+                ContentRows = expectedRows,
+                HeaderCells = new string[0]
             };
 
             target.Transform(document, transformer.Object);
@@ -144,8 +144,8 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var document = new CsvDocument
             {
-                Rows = expectedRows,
-                ColumnNames = new string[0]
+                ContentRows = expectedRows,
+                HeaderCells = new string[0]
             };
 
             target.Transform(document, transformer.Object);
@@ -168,8 +168,8 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var document = new CsvDocument
             {
-                Rows = new string[0][],
-                ColumnNames = new string[0]
+                ContentRows = new string[0][],
+                HeaderCells = new string[0]
             };
 
             target.Transform(document, transformer.Object);
@@ -191,13 +191,13 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var document = new CsvDocument
             {
-                Rows = new string[][] { new string[] { "cell" } },
-                ColumnNames = new string[0]
+                ContentRows = new string[][] { new string[] { "cell" } },
+                HeaderCells = new string[0]
             };
 
             var result = target.Transform(document, transformer.Object);
 
-            Assert.AreSame(expectedRows, result.Rows);
+            Assert.AreSame(expectedRows, result.ContentRows);
         }
 
         [TestCaseSource(nameof(Get_ColumnNames))]
@@ -211,13 +211,13 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var document = new CsvDocument
             {
-                Rows = new string[0][],
-                ColumnNames = new string[0]
+                ContentRows = new string[0][],
+                HeaderCells = new string[0]
             };
 
             var result = target.Transform(document, transformer.Object);
 
-            Assert.AreEqual(expectedColumns, result.ColumnNames);
+            Assert.AreEqual(expectedColumns, result.HeaderCells);
         }
 
         private void Setup_TransformationRunner(string[][] returnValue)
