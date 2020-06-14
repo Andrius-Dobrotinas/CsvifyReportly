@@ -20,7 +20,9 @@ namespace Andy.Csv.Transformation.Row
             string[] result = new string[targetRowLength];
 
             if ((cells.Length - 1) < targetCellIndexes.Max())
-                throw new Exception("At least one of target column indexes is greater than the index of the last cell in the row");
+                throw new ArgumentOutOfRangeException(
+                    "At least one of target column indexes is greater than the index of the last cell in the row",
+                    nameof(targetCellIndexes));
 
             int currentCellIndex = 0;
             for (int i = 0; i < cells.Length; i++)
