@@ -2,7 +2,7 @@
   "CsvDelimiter": ",",
   "Transformers": {
     "DateRewriter": {
-      "TargetColumnIndex": 0,
+      "TargetColumnName": 0,
       "SourceFormat": "dd/MM/yyyy",
       "TargetFormat": "yyyy-MM-dd"
     },
