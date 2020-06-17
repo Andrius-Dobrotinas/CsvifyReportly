@@ -51,7 +51,8 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                     return dataTransformerFactory.Build(
                         StructureTransformer.Build_ColumnReducer(transformationSettings.ColumnReducer));
                 case Key.ColumnInserter:
-                    return Build_ColumnInserter(transformationSettings.ColumnInserter);
+                    return dataTransformerFactory.Build(
+                        StructureTransformer.Build_ColumnInserter(transformationSettings.ColumnInserter));
                 case Key.InvertedSingleValueFilter:
                     return Build_InvertedSingleRowValueEvaluator(transformationSettings.InvertedSingleValueFilter);
                 default:
@@ -72,15 +73,6 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                 return result;
 
             throw new Exception("Now matching transformation profile has been found");
-        }
-
-        private static IDocumentTransformer Build_ColumnInserter(
-            Settings.TransformationSettings.ColumnInserterSettings settings)
-        {
-            throw new NotImplementedException("In progress");
-            IRowTransformerFactory<IStructureTransformer> transformerFactory = new ColumnInserterFactory(
-                null, //settings.TargetColumnIndex, // todo
-                new ArrayElementInserter<string>());
         }
 
         private static IDocumentTransformer Build_InvertedSingleRowValueEvaluator(Settings.TransformationSettings.InvertedSingleRowValueFilterSettings settings)

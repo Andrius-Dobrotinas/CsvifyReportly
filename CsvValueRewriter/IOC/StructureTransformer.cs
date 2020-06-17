@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Andy.Csv.Transformation.Row.Document.Cmd
 {
@@ -9,6 +8,16 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
         internal static IRowTransformerFactory<IStructureTransformer> Build_ColumnReducer(Settings.TransformationSettings.ColumnReducerSettings settings)
         {
             return new ColumnReducerFactory(settings.TargetColumnNames);
+        }
+
+        internal static IRowTransformerFactory<IStructureTransformer> Build_ColumnInserter(
+            Settings.TransformationSettings.ColumnInserterSettings settings)
+        {
+            return new ColumnInserterFactory(
+                settings.TargetColumnIndex,
+                settings.TargetColumnName,
+                new CellInserter<string>(
+                    new ArrayElementInserter<string>()));
         }
     }
 }

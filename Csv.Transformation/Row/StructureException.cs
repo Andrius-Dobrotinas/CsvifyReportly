@@ -6,7 +6,7 @@ namespace Andy.Csv.Transformation.Row
     /// <summary>
     /// Indicates any sort of problem with the structure of a CSV document
     /// </summary>
-    public abstract class StructureException : Exception
+    public class StructureException : Exception
     {
         public StructureException(string msg) : base(msg)
         {

@@ -41,6 +41,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
             public class ColumnInserterSettings
             {
                 public int TargetColumnIndex { get; set; }
+                public string TargetColumnName { get; set; }
             }
 
             public class ColumnReducerSettings
