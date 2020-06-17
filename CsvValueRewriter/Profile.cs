@@ -72,7 +72,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
             if (settings.Profiles.TryGetValue(profileName, out result))
                 return result;
 
-            throw new Exception("Now matching transformation profile has been found");
+            throw new Exception("No matching transformation profile has been found");
         }
 
         private static IDocumentTransformer Build_InvertedSingleRowValueEvaluator(Settings.TransformationSettings.InvertedSingleRowValueFilterSettings settings)
