@@ -151,22 +151,27 @@ namespace Andy.Csv.Transformation.Row.Document
                 columnNames,
                 new string[][]
                 {
-                    new string [] { "geen" }
+                    new string [] { "green" }
+                },
+                new string[][]
+                {
+                    new string [] { "black" }
                 });
         }
 
         [TestCaseSource(nameof(Get_ColumnNames))]
-        public void Must_Return_TheOriginalColumnsCollection_WhenTheRowsCollectionIsEmpty(
+        public void Must_Return_TheOriginalColumnsCollection_WhenTheResultOfRowTransformationIsEmpty(
             IList<string> columnNames)
         {
-            Must_Return_TheOriginalColumnsCollection(columnNames, new string[0][]);
+            Must_Return_TheOriginalColumnsCollection(columnNames, new string[0][], new string[0][]);
         }
 
         private void Must_Return_TheOriginalColumnsCollection(
             IList<string> columnNames,
-            string[][] rows)
+            string[][] rows,
+            string[][] expectedRows)
         {
-            Setup_TransformationRunner(new string[0][]);
+            Setup_TransformationRunner(expectedRows);
 
             var document = new CsvDocument
             {
@@ -197,7 +202,7 @@ namespace Andy.Csv.Transformation.Row.Document
         private static IEnumerable<TestCaseData> Get_Rows()
         {
             yield return new TestCaseData(
-                new List<string[]> { 
+                new List<string[]> {
                     new string[] { "one" }
                 });
 
@@ -208,7 +213,7 @@ namespace Andy.Csv.Transformation.Row.Document
                     new string[] { "three", "three two" }
                 });
         }
-        
+
         private static IEnumerable<TestCaseData> Get_ColumnNames()
         {
             yield return new TestCaseData(
