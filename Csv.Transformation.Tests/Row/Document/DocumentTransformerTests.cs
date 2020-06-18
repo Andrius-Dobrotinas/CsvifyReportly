@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace Andy.Csv.Transformation.Row.Document
 {
-    public class RowTransformerTests
+    public class DocumentTransformerTests
     {
-        RowTransformer<IRowTransformer> target;
+        DocumentTransformer<IRowTransformer> target;
         Mock<IColumnMapBuilder> columnMapBuilder;
         Mock<IRowTransformerFactory<IRowTransformer>> factory;
         Mock<ITransformationRunner<IRowTransformer>> transformerRunner;

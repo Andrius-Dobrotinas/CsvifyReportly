@@ -1,5 +1,4 @@
-﻿using Andy.Csv.Transformation.Row.Filter;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,7 +26,9 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                 new CellContentTransformationRunner(
                     rowTransformer),
                 new StructureTransformationRunner(
-                    rowTransformer));
+                    rowTransformer),
+                new RowFilterRunner(
+                    new Filtering.RowFilter()));
 
             return rewriterChain
                 .Select(name => GetRewriter(name, settings.Transformers, dataTransformerFactory))
@@ -54,7 +55,8 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                     return dataTransformerFactory.Build(
                         StructureTransformer.Build_ColumnInserter(transformationSettings.ColumnInserter));
                 case Key.InvertedSingleValueFilter:
-                    return Build_InvertedSingleRowValueEvaluator(transformationSettings.InvertedSingleValueFilter);
+                    return dataTransformerFactory.Build(
+                        Build_InvertedSingleRowValueEvaluator(transformationSettings.InvertedSingleValueFilter));
                 default:
                     throw new NotSupportedException($"Value: {name}");
             }
@@ -75,13 +77,11 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
             throw new Exception("No matching transformation profile has been found");
         }
 
-        private static IDocumentTransformer Build_InvertedSingleRowValueEvaluator(Settings.TransformationSettings.InvertedSingleRowValueFilterSettings settings)
+        private static IDocumentTransformerFactory<Filtering.IRowMatchEvaluator> Build_InvertedSingleRowValueEvaluator(Settings.TransformationSettings.InvertedSingleRowValueFilterSettings settings)
         {
-            var matcher = new InvertedSingleRowValueEvaluator(
-                settings.TargetColumnIndex,
+            return new Filtering.InvertedSingleRowValueEvaluatorFactory(
+                settings.TargetColumnName,
                 settings.TargetValue);
-
-            return new RowFilter(matcher);
         }
     }
 }

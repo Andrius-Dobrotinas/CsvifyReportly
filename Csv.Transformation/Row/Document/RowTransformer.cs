@@ -8,30 +8,15 @@ namespace Andy.Csv.Transformation.Row.Document
     /// Performs any sort of non-filter transformation on a given document
     /// </summary>
     /// <typeparam name="TRowTransformer">Type of transformation</typeparam>
-    public class RowTransformer<TRowTransformer> : IDocumentTransformer
+    public class RowTransformer<TRowTransformer> : DocumentTransformer<TRowTransformer>
         where TRowTransformer : IRowTransformer
     {
-        private readonly IColumnMapBuilder columnMapBuilder;
-        private readonly IRowTransformerFactory<TRowTransformer> factory;
-        private readonly ITransformationRunner<TRowTransformer> transformerRunner;
-
         public RowTransformer(
             IColumnMapBuilder columnMapBuilder,
             IRowTransformerFactory<TRowTransformer> factory,
             ITransformationRunner<TRowTransformer> transformerRunner)
+            : base(columnMapBuilder, factory, transformerRunner)
         {
-            this.columnMapBuilder = columnMapBuilder;
-            this.factory = factory;
-            this.transformerRunner = transformerRunner;
-        }
-
-        public CsvDocument TransformRows(CsvDocument document)
-        {
-            var columnIndexes = columnMapBuilder.GetColumnIndexMap(document.HeaderCells);
-
-            var actualTransformer = factory.Build(columnIndexes);
-
-            return transformerRunner.Transform(document, actualTransformer);
         }
     }
 }

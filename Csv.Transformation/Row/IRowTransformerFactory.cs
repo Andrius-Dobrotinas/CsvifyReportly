@@ -7,9 +7,8 @@ namespace Andy.Csv.Transformation.Row
     /// Builds pre-configured instances of <see cref="TRowTransformer"/>
     /// </summary>
     /// <typeparam name="TRowTransformer">Type of transformation</typeparam>
-    public interface IRowTransformerFactory<out TRowTransformer>
+    public interface IRowTransformerFactory<out TRowTransformer> : IDocumentTransformerFactory<TRowTransformer>
         where TRowTransformer : IRowTransformer
     {
-        TRowTransformer Build(IDictionary<string, int> columnNameIndexMap);
     }
 }

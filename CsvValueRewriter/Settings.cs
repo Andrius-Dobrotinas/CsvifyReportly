@@ -19,7 +19,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
 
             public class InvertedSingleRowValueFilterSettings
             {
-                public int TargetColumnIndex { get; set; }
+                public string TargetColumnName { get; set; }
                 public string TargetValue { get; set; }
             }
 

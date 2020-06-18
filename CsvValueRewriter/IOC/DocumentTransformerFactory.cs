@@ -12,15 +12,18 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
         private readonly IColumnMapBuilder columnMapBuilder;
         private readonly ITransformationRunner<ICellContentTransformer> cellContentTransformerRunner;
         private readonly ITransformationRunner<IStructureTransformer> structureTransformerRunner;
+        private readonly ITransformationRunner<Filtering.IRowMatchEvaluator> rowFilterRunner;
 
         public DocumentTransformerFactory(
             IColumnMapBuilder columnMapBuilder,
             ITransformationRunner<ICellContentTransformer> transformerRunner,
-            ITransformationRunner<IStructureTransformer> structureTransformerRunner)
+            ITransformationRunner<IStructureTransformer> structureTransformerRunner,
+            ITransformationRunner<Filtering.IRowMatchEvaluator> rowFilterRunner)
         {
             this.columnMapBuilder = columnMapBuilder;
             this.cellContentTransformerRunner = transformerRunner;
             this.structureTransformerRunner = structureTransformerRunner;
+            this.rowFilterRunner = rowFilterRunner;
         }
 
         public RowTransformer<ICellContentTransformer> Build(IRowTransformerFactory<ICellContentTransformer> transformerFactory)
@@ -37,6 +40,14 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                 columnMapBuilder,
                 transformerFactory,
                 structureTransformerRunner);
+        }
+
+        public RowFilterer Build(IDocumentTransformerFactory<Filtering.IRowMatchEvaluator> transformerFactory)
+        {
+            return new RowFilterer(
+                columnMapBuilder,
+                transformerFactory,
+                rowFilterRunner);
         }
     }
 }

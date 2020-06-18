@@ -202,7 +202,7 @@ namespace Andy.Csv.Transformation.Row.Document
         private static IEnumerable<TestCaseData> Get_Rows()
         {
             yield return new TestCaseData(
-                new List<string[]> {
+                new List<string[]> { 
                     new string[] { "one" }
                 });
 
@@ -213,7 +213,7 @@ namespace Andy.Csv.Transformation.Row.Document
                     new string[] { "three", "three two" }
                 });
         }
-
+        
         private static IEnumerable<TestCaseData> Get_ColumnNames()
         {
             yield return new TestCaseData(
