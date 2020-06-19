@@ -25,6 +25,13 @@ namespace Andy.Csv.Transformation.Row
         }
     }
 
+    public class NonUniqueColumnException : StructureException
+    {
+        public NonUniqueColumnException(string columnName) : base(@$"Column ""{columnName}"" is already present in the collection")
+        {
+        }
+    }
+
     /// <summary>
     /// Indicates that the number of cells was not what it was expected to be at a given point
     /// </summary>

@@ -73,6 +73,26 @@ namespace Andy.Csv.Transformation.Row.Document
             Verify_CellInsertion(expectedRow, targetColumnIndex, columnName);
         }
 
+        [TestCase("")]
+        [TestCase(null)]
+        public void Must_RejectAnEmptyColumnName(
+            string columnName)
+        {
+            Assert.Throws<ArgumentException>(
+                () => new ColumnInserter(cellInserter.Object, 1, columnName));
+        }
+
+        [TestCaseSource(nameof(GetTestCases_ColumnNameNotUnique))]
+        public void TransformHeader__When_AColumnNameIsNotUnique__Must_ThrowAnException(
+            IList<string> columnCells,
+            string columnName)
+        {
+            var target = new ColumnInserter(cellInserter.Object, 1, columnName);
+
+            Assert.Throws<NonUniqueColumnException>(
+                () => target.TransformHeader(columnCells.ToArray()));
+        }
+
         private void Verify_AShinyBrandNewCellIsInserted(
             string[] expectedRow,
             int targetColumnIndex)
@@ -142,6 +162,17 @@ namespace Andy.Csv.Transformation.Row.Document
                 new List<string> { "one", "two", "three" },
                 2,
                 "four");
+        }
+
+        private static IEnumerable<TestCaseData> GetTestCases_ColumnNameNotUnique()
+        {
+            yield return new TestCaseData(
+                new string[] { "one" },
+                "one");
+
+            yield return new TestCaseData(
+                new string[] { "one", "two", "three" },
+                "two");
         }
     }
 }

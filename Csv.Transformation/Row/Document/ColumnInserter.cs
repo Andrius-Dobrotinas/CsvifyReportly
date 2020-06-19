@@ -18,8 +18,11 @@ namespace Andy.Csv.Transformation.Row.Document
             int targetColumnIndex,
             string targetColumnName)
         {
-            this.cellInserter = cellInserter;
+            this.cellInserter = cellInserter ?? throw new ArgumentNullException(nameof(cellInserter));
             this.targetColumnIndex = targetColumnIndex;
+
+            if (string.IsNullOrEmpty(targetColumnName)) throw new ArgumentException("Column name cannot be empty", nameof(targetColumnName));
+
             this.targetColumnName = targetColumnName;
         }
 
@@ -28,9 +31,12 @@ namespace Andy.Csv.Transformation.Row.Document
             return cellInserter.Insert(row, targetColumnIndex, null);
         }
 
-        public string[] TransformHeader(string[] row)
+        public string[] TransformHeader(string[] headerCells)
         {
-            return cellInserter.Insert(row, targetColumnIndex, targetColumnName);
+            if (headerCells.Contains(targetColumnName))
+                throw new NonUniqueColumnException(targetColumnName);
+
+            return cellInserter.Insert(headerCells, targetColumnIndex, targetColumnName);
         }
     }
 }
