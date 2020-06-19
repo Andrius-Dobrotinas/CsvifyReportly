@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Andy.Csv.Transformation.Row.Document.Cmd.Conguration;
+using Andy.Csv.Transformation.Row.Document.Cmd.Conguration.Transformer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,20 +8,13 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
 {
     public static class Profile
     {
-        private class Key
+        public static IDocumentTransformer[] GetTransformerChain(
+            Settings settings,
+            string profileName)
         {
-            internal const string DateRewriter = "DateRewriter";
-            internal const string TheCurrencyAmountThing = "TheCurrencyAmountThing";
-            internal const string ColumnReducer = "ColumnReducer";
-            internal const string ColumnInserter = "ColumnInserter";
-            internal const string InvertedSingleValueFilter = "InvertedSingleValueFilter";
-        }
+            IEnumerable<TransformerSettings> transformerSettings = GetTransformerSettingsChain(settings.Profiles, profileName);
 
-        public static IDocumentTransformer[] GetTransformerChain(Settings settings, string profileName)
-        {
-            var rewriterChain = GetRewriterNames(settings, profileName);
-
-            //todo: it's a good time to start using an IOC container
+            //todo: maybe it's time to start using an IOC container?
             var rowTransformer = new RowTransformationRunner();
             var dataTransformerFactory = new DocumentTransformerFactory(
                 new ColumnMapBuilder(),
@@ -30,54 +25,58 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                 new RowFilterRunner(
                     new Filtering.RowFilter()));
 
-            return rewriterChain
-                .Select(name => GetRewriter(name, settings.Transformers, dataTransformerFactory))
+            return transformerSettings
+                .Select(x => GetTransformer(x, dataTransformerFactory))
                 .ToArray();
         }
 
-        private static IDocumentTransformer GetRewriter(
-            string name,
-            Settings.TransformationSettings transformationSettings,
-            DocumentTransformerFactory dataTransformerFactory)
+        private static IEnumerable<TransformerSettings> GetTransformerSettingsChain(
+            IDictionary<string, TransformerSettings[]> profiles,
+            string profileName)
         {
-            switch (name)
-            {
-                case Key.DateRewriter:
-                    return dataTransformerFactory.Build(
-                        CellContentTransformer.Build_DateRewriter(transformationSettings.DateRewriter));
-                case Key.TheCurrencyAmountThing:
-                    return dataTransformerFactory.Build(
-                        CellContentTransformer.Build_TheCurrencyAmountThing(transformationSettings.TheCurrencyAmountThing));
-                case Key.ColumnReducer:
-                    return dataTransformerFactory.Build(
-                        StructureTransformer.Build_ColumnReducer(transformationSettings.ColumnReducer));
-                case Key.ColumnInserter:
-                    return dataTransformerFactory.Build(
-                        StructureTransformer.Build_ColumnInserter(transformationSettings.ColumnInserter));
-                case Key.InvertedSingleValueFilter:
-                    return dataTransformerFactory.Build(
-                        Build_InvertedSingleRowValueEvaluator(transformationSettings.InvertedSingleValueFilter));
-                default:
-                    throw new NotSupportedException($"Value: {name}");
-            }
-        }
-
-        private static string[] GetRewriterNames(Settings settings, string profileName)
-        {
-            if (!settings.Profiles.Any())
-                throw new Exception($"Transformation profile {profileName} does not exist");
+            if (!profiles.Any())
+                throw new Exception("There are no transformation profiles configured");
 
             if (string.IsNullOrEmpty(profileName))
-                return settings.Profiles.First().Value;
+                return profiles.First().Value;
 
-            string[] result;
-            if (settings.Profiles.TryGetValue(profileName, out result))
-                return result;
+            if (profiles.ContainsKey(profileName) == false)
+                throw new Exception("No matching transformation profile has been found");
 
-            throw new Exception("No matching transformation profile has been found");
+            return profiles[profileName];
         }
 
-        private static IDocumentTransformerFactory<Filtering.IRowMatchEvaluator> Build_InvertedSingleRowValueEvaluator(Settings.TransformationSettings.InvertedSingleRowValueFilterSettings settings)
+        private static IDocumentTransformer GetTransformer(
+            TransformerSettings settings,
+            DocumentTransformerFactory transformerFactory)
+        {
+            var type = settings.GetType();
+
+            if (type == typeof(DateRewriterSettings))
+                return transformerFactory.Build(
+                    CellContentTransformer.Build_DateRewriter((DateRewriterSettings)settings));
+
+            if (type == typeof(CurrencyAmountThingSettings))
+                return transformerFactory.Build(
+                    CellContentTransformer.Build_TheCurrencyAmountThing((CurrencyAmountThingSettings)settings));
+
+            if (type == typeof(ColumnReducerSettings))
+                return transformerFactory.Build(
+                    StructureTransformer.Build_ColumnReducer((ColumnReducerSettings)settings));
+
+            if (type == typeof(ColumnInserterSettings))
+                return transformerFactory.Build(
+                    StructureTransformer.Build_ColumnInserter((ColumnInserterSettings)settings));
+
+            if (type == typeof(InvertedSingleRowValueFilterSettings))
+                return transformerFactory.Build(
+                    Build_InvertedSingleRowValueEvaluator((InvertedSingleRowValueFilterSettings)settings));
+
+            throw new NotSupportedException($"Type: {type.FullName}");
+        }
+
+        private static IDocumentTransformerFactory<Filtering.IRowMatchEvaluator> Build_InvertedSingleRowValueEvaluator(
+            InvertedSingleRowValueFilterSettings settings)
         {
             return new Filtering.InvertedSingleRowValueEvaluatorFactory(
                 settings.TargetColumnName,
