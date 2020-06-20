@@ -27,22 +27,18 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             char reportValueDelimiter)
         {
             IList<string[]> transactions1;
-            int transactions1ColumnCount;
 
             IList<string[]> transactions2;
-            int transactions2ColumnCount;
 
             transactions1 = Read(
                     csvStream1Reader,
                     1,
-                    source1,
-                    out transactions1ColumnCount);
+                    source1);
 
             transactions2 = Read(
                     csvStream2Reader,
                     2,
-                    source2,
-                    out transactions2ColumnCount);
+                    source2);
 
             ComparisonResult result;
             try
@@ -67,8 +63,8 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             {
                 string[] lines = ResultStringification.StringyfyyResults(
                     result,
-                    transactions1ColumnCount,
-                    transactions2ColumnCount,
+                    transactions1.Count,
+                    transactions2.Count,
                     reportValueDelimiter,
                     stringyfyer);
 
@@ -83,14 +79,11 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
         private static IList<string[]> Read(
             ICsvStreamReader csvStreamReader,
             int sourceNumber,
-            Stream source,            
-            out int columnCount)
+            Stream source)
         {
             try
             {
-                return csvStreamReader.Read(
-                    source,
-                    out columnCount);
+                return csvStreamReader.Read(source);
             }
             catch (Andy.Csv.IO.RowReadingException e)
             {
