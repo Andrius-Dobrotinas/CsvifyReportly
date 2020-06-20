@@ -1,4 +1,5 @@
-﻿using Andy.Csv.IO;
+﻿using Andy.Csv;
+using Andy.Csv.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,7 +37,7 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             var columnCount = rows.First().Length;
 
             if (!rows.All(row => row.Length == columnCount))
-                throw new CsvValidationException("All rows in a CSV file must have an equal number of cells");
+                throw new StructureException("All rows in a CSV file must have an equal number of cells");
 
             return rows;
         }
