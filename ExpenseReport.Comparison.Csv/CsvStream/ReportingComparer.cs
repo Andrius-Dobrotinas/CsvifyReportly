@@ -8,13 +8,13 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
     public class ReportingComparer<TItem1, TItem2> : IReportingComparer
     {
         private readonly IComparer<TItem1, TItem2> comparer;
-        private readonly ICsvStreamReader csvStream1Reader;
-        private readonly ICsvStreamReader csvStream2Reader;
+        private readonly ISafeCsvStreamReader csvStream1Reader;
+        private readonly ISafeCsvStreamReader csvStream2Reader;
 
         public ReportingComparer(
             IComparer<TItem1, TItem2> comparer,
-            ICsvStreamReader csvStream1Reader,
-            ICsvStreamReader csvStream2Reader)
+            ISafeCsvStreamReader csvStream1Reader,
+            ISafeCsvStreamReader csvStream2Reader)
         {
             this.comparer = comparer;
             this.csvStream1Reader = csvStream1Reader;
@@ -77,7 +77,7 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
         }
 
         private static IList<string[]> Read(
-            ICsvStreamReader csvStreamReader,
+            ISafeCsvStreamReader csvStreamReader,
             int sourceNumber,
             Stream source)
         {

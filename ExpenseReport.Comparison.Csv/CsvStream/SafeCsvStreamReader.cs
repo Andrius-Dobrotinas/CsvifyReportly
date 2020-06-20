@@ -7,18 +7,19 @@ using System.Linq;
 namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
 {
     /// <summary>
-    /// Reads and parses a CSV stream, and makes sure that all rows are of the same length
+    /// Reads a CSV stream and makes sure that all rows are of the same length.
+    /// Throws a <see cref="CsvValidationException"/> if they're not.
     /// </summary>
-    public interface ICsvStreamReader
+    public interface ISafeCsvStreamReader
     {
         string[][] Read(Stream source);
     }
 
-    public class CsvStreamReader : ICsvStreamReader
+    public class SafeCsvStreamReader : ISafeCsvStreamReader
     {
         private readonly ICsvStreamParser csvStreamParser;
 
-        public CsvStreamReader(ICsvStreamParser csvStreamParser)
+        public SafeCsvStreamReader(ICsvStreamParser csvStreamParser)
         {
             this.csvStreamParser = csvStreamParser;
         }
@@ -35,7 +36,7 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             var columnCount = rows.First().Length;
 
             if (!rows.All(row => row.Length == columnCount))
-                throw new CsvValidationException("All rows in a CSV file must have an equal number of columns");
+                throw new CsvValidationException("All rows in a CSV file must have an equal number of cells");
 
             return rows;
         }
