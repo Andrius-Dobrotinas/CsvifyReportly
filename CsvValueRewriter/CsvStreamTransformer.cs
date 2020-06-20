@@ -9,18 +9,21 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
     {
         private readonly IRowStringifier stringyfier;
         private readonly IEnumerable<IDocumentTransformer> transformers;
+        private readonly IO.ICsvDocumentReader streamReader;
 
         public CsvStreamTransformer(
             IRowStringifier stringyfier,
-            IEnumerable<IDocumentTransformer> transformers)
+            IEnumerable<IDocumentTransformer> transformers,
+            IO.ICsvDocumentReader streamReader)
         {
             this.stringyfier = stringyfier;
             this.transformers = transformers;
+            this.streamReader = streamReader;
         }
 
         public Stream Go(Stream source, char delimiter)
         {
-            CsvDocument document = CsvStreamParser.ReadCsvDocument(source, delimiter);
+            CsvDocument document = streamReader.Read(source);
             
             foreach (var rewriter in transformers)
                 document = rewriter.TransformRows(document);

@@ -4,8 +4,20 @@ using System.Linq;
 
 namespace Andy.Csv
 {
-    public static class RowParser
+    public class RowParser : ICsvRowParser
     {
+        private readonly char delimiter;
+
+        public RowParser(char delimiter)
+        {
+            this.delimiter = delimiter;
+        }
+
+        public string[] Parse(string row)
+        {
+            return Parse(row, delimiter);
+        }
+
         private const char quotationMark = '"';
         private const int negativeIndex = -1;
 

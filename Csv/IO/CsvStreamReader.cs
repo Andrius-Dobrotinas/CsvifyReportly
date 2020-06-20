@@ -5,8 +5,25 @@ using System.Linq;
 
 namespace Andy.Csv.IO
 {
-    public static class CsvStreamReader
+    public interface ICsvStreamReader
     {
+        string[][] Read(Stream source);
+    }
+
+    public class CsvStreamReader : ICsvStreamReader
+    {
+        private readonly ICsvRowParser rowParser;
+
+        public CsvStreamReader(ICsvRowParser rowParser)
+        {
+            this.rowParser = rowParser;
+        }
+
+        public string[][] Read(Stream source)
+        {
+            return Read(source, rowParser.Parse);
+        }
+
         /// <summary>
         /// Parses the contents of a file while reading it line by line
         /// </summary>

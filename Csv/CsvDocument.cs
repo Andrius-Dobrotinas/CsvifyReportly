@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.Csv.Transformation.Row.Document
+namespace Andy.Csv
 {
     public class CsvDocument
     {
