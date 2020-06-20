@@ -47,7 +47,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                         new ValueEncoder()),
                     transformers,
                     new IO.CsvDocumentReader(
-                        new IO.CsvStreamReader(
+                        new IO.CsvStreamParser(
                             new RowParser(
                                 settings.CsvDelimiter))));
 

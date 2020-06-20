@@ -1,18 +1,28 @@
-﻿using System;
+﻿using Andy.Csv.IO;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
 {
-    public static class CsvStreamReader
+    public interface ICsvStreamReader
     {
-        public static string[][] Read(
-            Stream source,
-            char delimiter,
-            out int columnCount)
+        string[][] Read(Stream source, out int columnCount);
+    }
+
+    public class CsvStreamReader : ICsvStreamReader
+    {
+        private readonly ICsvStreamParser csvStreamParser;
+
+        public CsvStreamReader(ICsvStreamParser csvStreamParser)
         {
-            string[][] rows = Andy.Csv.IO.CsvStreamParser.ReadNParse(source, delimiter);
+            this.csvStreamParser = csvStreamParser;
+        }
+
+        public string[][] Read(Stream source, out int columnCount)
+        {
+            string[][] rows = csvStreamParser.Read(source);
 
             if (!rows.Any())
             {

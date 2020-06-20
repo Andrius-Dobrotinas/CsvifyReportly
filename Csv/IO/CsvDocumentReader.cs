@@ -12,9 +12,9 @@ namespace Andy.Csv.IO
 
     public class CsvDocumentReader : ICsvDocumentReader
     {
-        private readonly ICsvStreamReader streamReader;
+        private readonly ICsvStreamParser streamReader;
 
-        public CsvDocumentReader(ICsvStreamReader streamReader)
+        public CsvDocumentReader(ICsvStreamParser streamReader)
         {
             this.streamReader = streamReader;
         }

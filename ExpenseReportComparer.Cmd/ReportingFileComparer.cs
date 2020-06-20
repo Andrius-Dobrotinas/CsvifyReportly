@@ -18,8 +18,6 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             FileInfo source1,
             FileInfo source2,
             FileInfo reportFile,
-            char source1ValueDelimiter,
-            char source2ValueDelimiter,
             char reportValueDelimiter)
         {
             using (var source1Stream = source1.OpenRead())
@@ -27,8 +25,6 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             using (var reportStream = comparer.Compare(
                 source1Stream,
                 source2Stream,
-                source1ValueDelimiter,
-                source2ValueDelimiter,
                 reportValueDelimiter))
             using (var outputStream = reportFile.OpenWrite())
                 reportStream.CopyTo(outputStream);

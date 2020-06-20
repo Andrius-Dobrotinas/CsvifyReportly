@@ -9,13 +9,13 @@ namespace Andy.Csv.IO
     public class CsvDocumentReaderTests
     {
         CsvDocumentReader target;
-        Mock<ICsvStreamReader> streamReader;
+        Mock<ICsvStreamParser> streamParser;
 
         [SetUp]
         public void Setup ()
         {
-            streamReader = new Mock<ICsvStreamReader>();
-            target = new CsvDocumentReader(streamReader.Object);
+            streamParser = new Mock<ICsvStreamParser>();
+            target = new CsvDocumentReader(streamParser.Object);
 
             Setup_StreamReader(new string[0][]);
         }
@@ -27,7 +27,7 @@ namespace Andy.Csv.IO
             
             target.Read(stream.Object);
 
-            streamReader.Verify(
+            streamParser.Verify(
                 x => x.Read(
                     It.Is<Stream>(
                         arg => arg == stream.Object)));
@@ -93,7 +93,7 @@ namespace Andy.Csv.IO
 
         private void Setup_StreamReader(string[][] returnValue)
         {
-            streamReader.Setup(
+            streamParser.Setup(
                 x => x.Read(
                     It.IsAny<Stream>()))
                 .Returns(returnValue);

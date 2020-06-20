@@ -8,18 +8,22 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
     public class ReportingComparer<TItem1, TItem2> : IReportingComparer
     {
         private readonly IComparer<TItem1, TItem2> comparer;
+        private readonly ICsvStreamReader csvStream1Reader;
+        private readonly ICsvStreamReader csvStream2Reader;
 
         public ReportingComparer(
-            IComparer<TItem1, TItem2> comparer)
+            IComparer<TItem1, TItem2> comparer,
+            ICsvStreamReader csvStream1Reader,
+            ICsvStreamReader csvStream2Reader)
         {
             this.comparer = comparer;
+            this.csvStream1Reader = csvStream1Reader;
+            this.csvStream2Reader = csvStream2Reader;
         }
 
         public Stream Compare(
             Stream source1,
             Stream source2,
-            char source1ValueDelimiter,
-            char source2ValueDelimiter,
             char reportValueDelimiter)
         {
             IList<string[]> transactions1;
@@ -29,15 +33,15 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             int transactions2ColumnCount;
 
             transactions1 = Read(
+                    csvStream1Reader,
                     1,
                     source1,
-                    source1ValueDelimiter,
                     out transactions1ColumnCount);
 
             transactions2 = Read(
+                    csvStream2Reader,
                     2,
                     source2,
-                    source2ValueDelimiter,
                     out transactions2ColumnCount);
 
             ComparisonResult result;
@@ -76,17 +80,16 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             }
         }
 
-        private IList<string[]> Read(
+        private static IList<string[]> Read(
+            ICsvStreamReader csvStreamReader,
             int sourceNumber,
-            Stream source,
-            char delimiter,
+            Stream source,            
             out int columnCount)
         {
             try
             {
-                return CsvStreamReader.Read(
+                return csvStreamReader.Read(
                     source,
-                    delimiter,
                     out columnCount);
             }
             catch (Andy.Csv.IO.RowReadingException e)
