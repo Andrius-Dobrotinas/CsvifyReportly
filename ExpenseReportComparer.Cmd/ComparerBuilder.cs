@@ -105,7 +105,10 @@ namespace Andy.ExpenseReport.Verifier.Cmd
         {
             return new Csv.IO.SafeCsvStreamReader(
                 new Csv.IO.CsvStreamParser(
-                    new Csv.RowParser(csvDelimiter)));
+                    new Csv.IO.RowReader(
+                        new Csv.RowParser(csvDelimiter)),
+                    new Csv.IO.StreamReaderFactory(),
+                    new Csv.IO.StreamReaderPositionReporter()));
         }
 
         public static ReportingFileComparer BuildFileComparer(

@@ -18,7 +18,7 @@ namespace Andy.Csv
             string[] expectedResult)
         {
             var result = target.Insert(input, targetPosition, value);
-
+            
             AssertionExtensions.SequencesAreEqual(expectedResult, result);
         }
 

@@ -48,8 +48,10 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                     transformers,
                     new IO.CsvDocumentReader(
                         new IO.CsvStreamParser(
-                            new RowParser(
-                                settings.CsvDelimiter))));
+                            new IO.RowReader(
+                                new RowParser(settings.CsvDelimiter)),
+                            new IO.StreamReaderFactory(),
+                            new IO.StreamReaderPositionReporter())));
 
                 Go(rewriter,
                     parameters.SourceFile,
