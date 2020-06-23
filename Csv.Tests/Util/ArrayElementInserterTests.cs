@@ -1,5 +1,6 @@
 using Moq;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,9 +10,8 @@ namespace Andy.Csv
     {
         ArrayElementInserter<string> target = new ArrayElementInserter<string>();
 
-
         [TestCaseSource(nameof(GetTestCases_ElementBetweenExistingElements))]
-        public void Should_InsertAValue_BetweenExistingArrayElements(
+        public void Must_InsertAValue_BetweenExistingArrayElements(
             string[] input,
             int targetPosition,
             string value,
@@ -23,7 +23,7 @@ namespace Andy.Csv
         }
 
         [TestCaseSource(nameof(GetTestCases_ElementIsFirst))]
-        public void Should_InsertAValue_WhenItsTheFirstElementInTheArray(
+        public void Must_InsertAValue_WhenItsTheFirstElementInTheArray(
             string[] input,
             string value,
             string[] expectedResult)
@@ -34,7 +34,7 @@ namespace Andy.Csv
         }
 
         [TestCaseSource(nameof(GetTestCases_ElementIsLast))]
-        public void Should_InsertAValue_AtTheEndOfArray(
+        public void Must_InsertAValue_AtTheEndOfArray(
             string[] input,
             string value,
             string[] expectedResult)
@@ -42,6 +42,15 @@ namespace Andy.Csv
             var result = target.Insert(input, input.Length, value);
 
             AssertionExtensions.SequencesAreEqual(expectedResult, result);
+        }
+
+        [TestCaseSource(nameof(GetTestCases_IndexIsOutsideTheRange))]
+        public void When_TheTargetIndexIsMoreThanOnePositionFartherFromTheIndexOfTheLastElement__Must_ThrowAnException(
+            string[] input,
+            int targetPosition)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(
+                () => target.Insert(input, targetPosition, ""));
         }
 
         private static IEnumerable<TestCaseData> GetTestCases_ElementBetweenExistingElements()
@@ -88,6 +97,25 @@ namespace Andy.Csv
                 new string[] { },
                 "NEW VAL",
                 new string[] { "NEW VAL" });
+        }
+
+        private static IEnumerable<TestCaseData> GetTestCases_IndexIsOutsideTheRange()
+        {
+            yield return new TestCaseData(
+                new string[] { "one" },
+                2);
+
+            yield return new TestCaseData(
+                new string[] { "one" },
+                5);
+
+            yield return new TestCaseData(
+                new string[] { "one", "two", "three" },
+                4);
+
+            yield return new TestCaseData(
+                new string[] { "one", "two", "three" },
+                10);
         }
     }
 }

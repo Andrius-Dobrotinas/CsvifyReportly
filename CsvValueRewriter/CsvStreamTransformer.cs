@@ -9,32 +9,49 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
     {
         private readonly IRowStringifier stringyfier;
         private readonly IEnumerable<IDocumentTransformer> transformers;
+        private readonly IO.ICsvDocumentReader streamReader;
 
         public CsvStreamTransformer(
             IRowStringifier stringyfier,
-            IEnumerable<IDocumentTransformer> transformers)
+            IEnumerable<IDocumentTransformer> transformers,
+            IO.ICsvDocumentReader streamReader)
         {
             this.stringyfier = stringyfier;
             this.transformers = transformers;
+            this.streamReader = streamReader;
         }
 
         public Stream Go(Stream source, char delimiter)
         {
-            IEnumerable<string[]> rows = CsvStreamParser.ReadRowsFromStream(source, delimiter);
+            CsvDocument document = streamReader.Read(source);
             
             foreach (var rewriter in transformers)
-                rows = rewriter.TransformRows(rows);
+                document = rewriter.TransformRows(document);
 
-            return WriteToCsvStream(rows, delimiter);
+            return WriteToCsvStream(document, delimiter);
         }
 
         // todo: move this to a separate component
-        private Stream WriteToCsvStream(IEnumerable<string[]> rows, char delimiter)
+        private Stream WriteToCsvStream(CsvDocument document, char delimiter)
         {
+            // todo: unit-test this
+            var rows = CombineColumnAndDataRows(document);
+
             string[] lines = rows.Select(row => stringyfier.Stringifififiify(row, delimiter))
                 .ToArray();
 
             return IO.CsvFileWriter.Write(lines);
+        }
+
+        private string[][] CombineColumnAndDataRows(CsvDocument document)
+        {
+            var allRows = new string[document.ContentRows.Length + 1][];
+
+            allRows[0] = document.HeaderCells;
+
+            document.ContentRows.CopyTo(allRows, 1);            
+
+            return allRows;
         }
     }
 }

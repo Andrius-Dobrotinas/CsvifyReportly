@@ -1,38 +1,42 @@
 {
   "CsvDelimiter": ",",
-  "Transformers": {
-    "DateRewriter": {
-      "TargetColumnIndex": 0,
-      "SourceFormat": "dd/MM/yyyy",
-      "TargetFormat": "yyyy-MM-dd"
-    },
-    "ColumnInserter": {
-      "TargetColumnIndex": 5
-    },
-    "TheCurrencyAmountThing": {
-      "AmountColumnIndex": 4,
-      "CurrencyColumnIndex": 3,
-      "ResultAmountColumnIndex": 5,
-      "TargetCurrency": "GBP"
-    },
-    "ColumnReducer": {
-      "TargetColumnIndexes": [ 0, 3, 4, 6, 9, 12, 13, 14, 15, 16, 18, 19 ]
-    },
-    "InvertedSingleValueFilter": {
-      "TargetColumnIndex": 4,
-      "TargetValue": "General Credit Card Deposit"
-    }
-  },
   "Profiles": {
     "wholenineyards": [
-      "InvertedSingleValueFilter",
-      "ColumnReducer",
-      "DateRewriter",
-      "ColumnInserter",
-      "TheCurrencyAmountThing"
+      {
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Asd.InvertedSingleRowValueFilterSettings, CsvValueRewriter",
+        "TargetColumnName": "TODO",
+        "TargetValue": "General Credit Card Deposit"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Asd.ColumnReducerSettings, CsvValueRewriter",
+        "TargetColumnNames": [ "Date", "Amount", "Currency" ]
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Asd.DateRewriterSettings, CsvValueRewriter",
+        "TargetColumnName": "0",
+        "SourceFormat": "dd/MM/yyyy",
+        "TargetFormat": "yyyy-MM-dd"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Asd.ColumnInserterSettings, CsvValueRewriter",
+        "TargetColumnIndex": 5,
+        "TargetColumnName": "New Column"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Asd.CurrencyAmountThingSettings, CsvValueRewriter",
+        "AmountColumnName": "TODO",
+        "CurrencyColumnName": "TODO",
+        "ResultAmountColumnName": "TODO",
+        "TargetCurrency": "GBP"
+      }
     ],
-    "amount": [
-      "TheCurrencyAmountThing"
+    "rewriteDates": [
+      {
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Asd.DateRewriterSettings, CsvValueRewriter",
+        "TargetColumnName": "0",
+        "SourceFormat": "dd/MM/yyyy",
+        "TargetFormat": "yyyy-MM-dd"
+      }
     ]
   }
 }

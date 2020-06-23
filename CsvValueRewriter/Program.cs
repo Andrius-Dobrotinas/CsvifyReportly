@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Andy.Csv.Transformation.Row.Document.Cmd.Conguration;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -44,7 +45,13 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                 var rewriter = new CsvStreamTransformer(
                     new RowStringifier(
                         new ValueEncoder()),
-                    transformers);
+                    transformers,
+                    new IO.CsvDocumentReader(
+                        new IO.CsvStreamParser(
+                            new IO.RowReader(
+                                new RowParser(settings.CsvDelimiter)),
+                            new IO.StreamReaderFactory(),
+                            new IO.StreamReaderPositionReporter())));
 
                 Go(rewriter,
                     parameters.SourceFile,

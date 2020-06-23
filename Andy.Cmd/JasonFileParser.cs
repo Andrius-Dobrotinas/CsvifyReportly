@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -8,11 +9,16 @@ namespace Andy.Cmd
     {
         public static T ParseContents<T>(FileInfo file)
         {
+            var settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            };
+
             using (var fs = file.OpenRead())
             {
                 using (var reader = new StreamReader(fs))
                 {
-                    return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(reader.ReadToEnd());
+                    return JsonConvert.DeserializeObject<T>(reader.ReadToEnd(), settings);
                 }
             }
         }

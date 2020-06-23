@@ -9,8 +9,6 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
         Stream Compare(
             Stream source1,
             Stream source2,
-            char stream1CsvDelimiter,
-            char stream2CsvDelimiter,
             char reportValueDelimiter);
     }
 }

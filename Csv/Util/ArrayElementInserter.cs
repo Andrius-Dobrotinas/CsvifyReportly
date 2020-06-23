@@ -15,6 +15,8 @@ namespace Andy.Csv
     {
         public T[] Insert(T[] source, int targetPosition, T value)
         {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
             T[] result = new T[source.Length + 1];
 
             int slice1Length = targetPosition;

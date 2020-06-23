@@ -90,26 +90,49 @@ namespace Andy.ExpenseReport.Verifier.Cmd
         }
 
         private static ReportingFileComparer BuildFileComparer<TItem1, TItem2>(
-             Comparison.Csv.IComparer<TItem1, TItem2> comparer)
+             Comparison.Csv.IComparer<TItem1, TItem2> comparer,
+             char source1CsvDelimiter,
+             char source2CsvDelimiter)
         {
             return new ReportingFileComparer(
                     new ReportingComparer<TItem1, TItem2>(
-                            comparer));
+                            comparer,
+                            Build_CsvStreamReader(source1CsvDelimiter),
+                            Build_CsvStreamReader(source2CsvDelimiter)));
         }
 
-        public static ReportingFileComparer BuildFileComparer(Command type, Settings settings)
+        private static Csv.IO.ISafeCsvStreamReader Build_CsvStreamReader(char csvDelimiter)
+        {
+            return new Csv.IO.SafeCsvStreamReader(
+                new Csv.IO.CsvStreamParser(
+                    new Csv.IO.RowReader(
+                        new Csv.RowParser(csvDelimiter)),
+                    new Csv.IO.StreamReaderFactory(),
+                    new Csv.IO.StreamReaderPositionReporter()));
+        }
+
+        public static ReportingFileComparer BuildFileComparer(
+            Command type,
+            Settings settings,
+            Tuple<char, char> csvDelimiters)
         {
             switch (type)
             {
                 case Command.ExpenseReport:
                     {
                         var comparer = BuildBankStatementComparer(settings);
-                        return BuildFileComparer(comparer);
+                        return BuildFileComparer(
+                            comparer,
+                            csvDelimiters.Item1,
+                            csvDelimiters.Item2);
                     }
                 case Command.Generic:
                     {
                         var comparer = BuildGenericStatementComparer(settings);
-                        return BuildFileComparer(comparer);
+                        return BuildFileComparer(
+                            comparer,
+                            csvDelimiters.Item1,
+                            csvDelimiters.Item2);
                     }
                 default:
                     throw new NotImplementedException($"There's no implementation for command {type.ToString()}");

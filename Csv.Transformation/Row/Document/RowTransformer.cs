@@ -4,16 +4,19 @@ using System.Linq;
 
 namespace Andy.Csv.Transformation.Row.Document
 {
-    public class RowTransformer : IDocumentTransformer
+    /// <summary>
+    /// Performs any sort of non-filter transformation on a given document
+    /// </summary>
+    /// <typeparam name="TRowTransformer">Type of transformation</typeparam>
+    public class RowTransformer<TRowTransformer> : DocumentTransformer<TRowTransformer>
+        where TRowTransformer : IRowTransformer
     {
-        private readonly IRowTransformer rowRewriter;
-
-        public RowTransformer(IRowTransformer rowRewriter)
+        public RowTransformer(
+            IColumnMapBuilder columnMapBuilder,
+            IRowTransformerFactory<TRowTransformer> factory,
+            ITransformationRunner<TRowTransformer> transformerRunner)
+            : base(columnMapBuilder, factory, transformerRunner)
         {
-            this.rowRewriter = rowRewriter;
         }
-        
-        public IEnumerable<string[]> TransformRows(IEnumerable<string[]> rows)
-            => rows.Select(rowRewriter.Tramsform);
     }
 }

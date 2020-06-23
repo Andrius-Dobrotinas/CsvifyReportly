@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.Csv.Transformation.Row.Filter
+namespace Andy.Csv.Transformation.Row.Filtering
 {
     /// <summary>
     /// Returns true for values that don't match a specified value

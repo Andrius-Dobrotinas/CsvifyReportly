@@ -40,16 +40,14 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 
             try
             {
-                ReportingFileComparer fileComparer = ComparerBuilder.BuildFileComparer(parameters.Command, settings);
-
                 var delimiters = GetDelimiters(parameters.Command, settings);
+
+                ReportingFileComparer fileComparer = ComparerBuilder.BuildFileComparer(parameters.Command, settings, delimiters);
 
                 fileComparer.CompareAndWriteReport(
                     parameters.Source1File,
                     parameters.Source2File,
                     parameters.ComparisonReportFile,
-                    delimiters.Item1,
-                    delimiters.Item2,
                     settings.OutputCsvDelimiter);
             }
             catch (ExpenseReport.Comparison.Csv.InputParsingException e)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Andy.Csv.IO;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,37 +9,37 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
     public class ReportingComparer<TItem1, TItem2> : IReportingComparer
     {
         private readonly IComparer<TItem1, TItem2> comparer;
+        private readonly ISafeCsvStreamReader csvStream1Reader;
+        private readonly ISafeCsvStreamReader csvStream2Reader;
 
         public ReportingComparer(
-            IComparer<TItem1, TItem2> comparer)
+            IComparer<TItem1, TItem2> comparer,
+            ISafeCsvStreamReader csvStream1Reader,
+            ISafeCsvStreamReader csvStream2Reader)
         {
             this.comparer = comparer;
+            this.csvStream1Reader = csvStream1Reader;
+            this.csvStream2Reader = csvStream2Reader;
         }
 
         public Stream Compare(
             Stream source1,
             Stream source2,
-            char source1ValueDelimiter,
-            char source2ValueDelimiter,
             char reportValueDelimiter)
         {
             IList<string[]> transactions1;
-            int transactions1ColumnCount;
 
             IList<string[]> transactions2;
-            int transactions2ColumnCount;
 
             transactions1 = Read(
+                    csvStream1Reader,
                     1,
-                    source1,
-                    source1ValueDelimiter,
-                    out transactions1ColumnCount);
+                    source1);
 
             transactions2 = Read(
+                    csvStream2Reader,
                     2,
-                    source2,
-                    source2ValueDelimiter,
-                    out transactions2ColumnCount);
+                    source2);
 
             ComparisonResult result;
             try
@@ -63,8 +64,8 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             {
                 string[] lines = ResultStringification.StringyfyyResults(
                     result,
-                    transactions1ColumnCount,
-                    transactions2ColumnCount,
+                    transactions1.Count,
+                    transactions2.Count,
                     reportValueDelimiter,
                     stringyfyer);
 
@@ -76,18 +77,14 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             }
         }
 
-        private IList<string[]> Read(
+        private static IList<string[]> Read(
+            ISafeCsvStreamReader csvStreamReader,
             int sourceNumber,
-            Stream source,
-            char delimiter,
-            out int columnCount)
+            Stream source)
         {
             try
             {
-                return CsvStreamReader.Read(
-                    source,
-                    delimiter,
-                    out columnCount);
+                return csvStreamReader.Read(source);
             }
             catch (Andy.Csv.IO.RowReadingException e)
             {

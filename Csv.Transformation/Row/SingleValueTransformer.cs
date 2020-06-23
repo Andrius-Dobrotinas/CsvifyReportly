@@ -3,7 +3,10 @@ using System.Collections.Generic;
 
 namespace Andy.Csv.Transformation.Row
 {
-    public class SingleValueTransformer : IRowTransformer
+    /// <summary>
+    /// Transforms a value of a single column
+    /// </summary>
+    public class SingleValueTransformer : ICellContentTransformer
     {
         private readonly int targetColumnIndex;
         private readonly IValueTransformer dateRewriter;
