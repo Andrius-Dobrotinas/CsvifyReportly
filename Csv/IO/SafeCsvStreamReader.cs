@@ -1,11 +1,9 @@
-﻿using Andy.Csv;
-using Andy.Csv.IO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
+namespace Andy.Csv.IO
 {
     /// <summary>
     /// Reads a CSV stream and makes sure that all rows are of the same length.

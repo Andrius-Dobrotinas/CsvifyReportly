@@ -101,9 +101,9 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                             Build_CsvStreamReader(source2CsvDelimiter)));
         }
 
-        private static ISafeCsvStreamReader Build_CsvStreamReader(char csvDelimiter)
+        private static Csv.IO.ISafeCsvStreamReader Build_CsvStreamReader(char csvDelimiter)
         {
-            return new SafeCsvStreamReader(
+            return new Csv.IO.SafeCsvStreamReader(
                 new Csv.IO.CsvStreamParser(
                     new Csv.RowParser(csvDelimiter)));
         }
