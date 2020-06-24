@@ -12,7 +12,7 @@ namespace Andy
             var actualLength = actual.Count();
             for (int i = 0; i < expected.Count(); i++)
             {
-                Assert.IsTrue(i < actualLength, "Actual collection doesn't contain an element at position {i}");
+                Assert.IsTrue(i < actualLength, $"Actual collection doesn't contain an element at position {i}");
 
                 Assert.AreEqual(expected.ElementAt(i), actual.ElementAt(i), $"Element at position {i}");
             }
