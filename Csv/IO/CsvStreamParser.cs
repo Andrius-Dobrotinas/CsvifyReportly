@@ -9,9 +9,10 @@ namespace Andy.Csv.IO
     {
         /// <summary>
         /// Parses the contents of a stream while reading it line by line.
-        /// Returns an array of rows (which are themselves arrays of cells)
+        /// Returns an enumerable structure of CSV rows (which are themselves arrays of cells).
+        /// Implementations are to return enumerables that read the stream only when enumerated
         /// </summary>
-        string[][] Read(Stream source);
+        IEnumerable<string[]> Read(Stream source);
     }
 
     public class CsvStreamParser : ICsvStreamParser
@@ -29,11 +30,9 @@ namespace Andy.Csv.IO
             this.streamPositionReporter = streamPositionReporter;
         }
 
-        public string[][] Read(Stream source)
+        public IEnumerable<string[]> Read(Stream source)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
-
-            var results = new List<string[]>();
 
             using (var reader = streamReaderFactory.Build(source))
             {
@@ -43,20 +42,21 @@ namespace Andy.Csv.IO
                 {
                     rowNumber++;
 
-                    string[] entry;
-                    try
-                    {
-                        entry = rowParser.ReadNextRow(reader);
-                    }
-                    catch (Exception e)
-                    {
-                        throw new RowReadingException(rowNumber, e);
-                    }
-                    results.Add(entry);
+                    yield return ReadNextRow(reader, rowNumber);
                 }
             }
+        }
 
-            return results.ToArray();
+        private string[] ReadNextRow(StreamReader reader, int rowNumber)
+        {
+            try
+            {
+                return rowParser.ReadNextRow(reader);
+            }
+            catch (Exception e)
+            {
+                throw new RowReadingException(rowNumber, e);
+            }
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Andy.Csv.IO
 
         public string[][] Read(Stream source)
         {
-            string[][] rows = csvStreamParser.Read(source);
+            string[][] rows = csvStreamParser.Read(source).ToArray();
 
             if (!rows.Any())
             {

@@ -41,13 +41,59 @@ namespace Andy.Csv.IO
             Setup_StreamReader_NumberOfRows(rowCount);
             Setup_RowParser_ReturnSequence_ThenThrowAnException(GetFakeRows(rowCount));
 
-            target.Read(stream.Object);
+            target.Read(stream.Object)
+                .ToArray();
 
             rowParser.Verify(
                 x => x.ReadNextRow(
                     It.Is<StreamReader>(
                         arg => arg == streamReader.Object)),
                 Times.Exactly(rowCount));
+        }
+
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        public void Must_ReadRows_OnlyWhenEnumerated(int rowCount)
+        {
+            Setup_StreamReader_NumberOfRows(rowCount);
+            Setup_RowParser_ReturnSequence_ThenThrowAnException(GetFakeRows(rowCount));
+
+            var result = target.Read(stream.Object);
+
+            rowParser.Verify(
+                x => x.ReadNextRow(
+                    It.IsAny<StreamReader>()),
+                Times.Never,
+                "Must not interact with the row parser until the result is enumerated");
+
+            int currentIndex = 0;
+            foreach (var item in result)
+            {
+                rowParser.Verify(
+                    x => x.ReadNextRow(
+                        It.Is<StreamReader>(
+                            arg => arg == streamReader.Object)),
+                    Times.Once,
+                    $"Must read each line as requested (current item {currentIndex})");
+
+                //clear the invocation list so i can verify that there's exactly one invocation each iteration
+                rowParser.Invocations.Clear();
+                currentIndex++;
+            }
+        }
+
+        [TestCase(1)]
+        [TestCase(3)]
+        public void On_SubsequentEnumerations_Must_SimplyNotReturnAnything(int rowCount)
+        {
+            Setup_StreamReader_NumberOfRows(rowCount);
+            Setup_RowParser_ReturnSequence_ThenThrowAnException(GetFakeRows(rowCount));
+
+            var result = target.Read(stream.Object);
+            result.ToArray();
+
+            Assert.IsEmpty(result.ToArray());
         }
 
         [TestCaseSource(nameof(Get_Rows))]
@@ -58,7 +104,8 @@ namespace Andy.Csv.IO
             Setup_StreamReader_NumberOfRows(rows.Count);
             Setup_RowParser_ReturnSequence_ThenThrowAnException(rows);
 
-            var result = target.Read(stream.Object);
+            var result = target.Read(stream.Object)
+                .ToArray();
 
             AssertionExtensions.SequencesAreEqual(expectedRows, result);
         }
@@ -68,7 +115,8 @@ namespace Andy.Csv.IO
         {
             Setup_EndOfStream(true);
 
-            var result = target.Read(stream.Object);
+            var result = target.Read(stream.Object)
+                .ToArray();
 
             Assert.IsEmpty(result);
         }
@@ -80,7 +128,7 @@ namespace Andy.Csv.IO
             Setup_RowParser_ReturnSequence_ThenThrowAnException(rows);
 
             Assert.Throws<RowReadingException>(
-                () => target.Read(stream.Object));
+                () => target.Read(stream.Object).ToArray());
         }
 
         private void Setup_StreamReader_NumberOfRows(int rowCount)

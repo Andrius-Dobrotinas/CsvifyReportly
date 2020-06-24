@@ -21,7 +21,7 @@ namespace Andy.Csv.IO
 
         public CsvDocument Read(Stream source)
         {
-            var rows = streamReader.Read(source);
+            var rows = streamReader.Read(source).ToArray();
 
             if (rows.Any() == false) return null;
 
