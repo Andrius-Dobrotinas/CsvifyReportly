@@ -36,9 +36,10 @@ namespace Andy.Csv.IO
 
         [TestCase(1)]
         [TestCase(3)]
-        public void Must_ReadTheRows_AsStrings(int rowCount)
+        public void Must_ReadAllRows_UntilTheEndOfStream(int rowCount)
         {
-            Setup_StreamReader_NumberOfRows(rowCount);            
+            Setup_StreamReader_NumberOfRows(rowCount);
+            Setup_RowParser_ReturnSequence_ThenThrowAnException(GetFakeRows(rowCount));
 
             target.Read(stream.Object);
 
@@ -49,13 +50,13 @@ namespace Andy.Csv.IO
                 Times.Exactly(rowCount));
         }
 
-        [TestCaseSource(nameof(Get_Content))]
+        [TestCaseSource(nameof(Get_Rows))]
         public void Must_ReturnAllRows(IList<string[]> rows)
         {
             var expectedRows = rows.ToArray();
-            
+
             Setup_StreamReader_NumberOfRows(rows.Count);
-            Setup_RowParser_ReturnSequence(rows);
+            Setup_RowParser_ReturnSequence_ThenThrowAnException(rows);
 
             var result = target.Read(stream.Object);
 
@@ -72,11 +73,21 @@ namespace Andy.Csv.IO
             Assert.IsEmpty(result);
         }
 
+        [TestCaseSource(nameof(Get_Rows))]
+        public void When_TheRowReaderThrowsAnException_MustCatchItAndThrow_MyException(IList<string[]> rows)
+        {
+            Setup_StreamReader_NumberOfRows(rows.Count + 1);
+            Setup_RowParser_ReturnSequence_ThenThrowAnException(rows);
+
+            Assert.Throws<RowReadingException>(
+                () => target.Read(stream.Object));
+        }
+
         private void Setup_StreamReader_NumberOfRows(int rowCount)
         {
             var returnValueSequence = Enumerable
                 .Repeat(false, rowCount)
-                .Concat(new bool[] { true });
+                .Concat(Enumerable.Repeat(true, 10)); // just to simulate the behavior where all subsequent calls return true for End Of Stream
 
             Setup_EndOfStream(returnValueSequence);
         }
@@ -107,22 +118,28 @@ namespace Andy.Csv.IO
                 .Returns(returnValue);
         }
 
-        private void Setup_RowParser_ReturnSequence(IEnumerable<string[]> returnValues)
+        private static IEnumerable<string[]> GetFakeRows(int rowCount)
+        {
+            var fakeRow = new[] { "string" };
+            return Enumerable.Repeat(fakeRow, rowCount);
+        }
+
+        private void Setup_RowParser_ReturnSequence_ThenThrowAnException(IEnumerable<string[]> returnValues)
         {
             var setup = rowParser.SetupSequence(
                 x => x.ReadNextRow(
                     It.IsAny<StreamReader>()));
 
-            foreach(var returnValue in returnValues)
+            foreach (var returnValue in returnValues)
                 setup.Returns(returnValue);
 
-            setup.Throws<Exception>();
+            setup.Throws<System.IO.EndOfStreamException>();
         }
 
-        private static IEnumerable<TestCaseData> Get_Content()
+        private static IEnumerable<TestCaseData> Get_Rows()
         {
             yield return new TestCaseData(
-                new List<string[]> { 
+                new List<string[]> {
                     new string[] { "one", "one-2" }
                 });
 
