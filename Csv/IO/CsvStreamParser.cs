@@ -7,6 +7,10 @@ namespace Andy.Csv.IO
 {
     public interface ICsvStreamParser
     {
+        /// <summary>
+        /// Parses the contents of a stream while reading it line by line.
+        /// Returns an array of rows (which are themselves arrays of cells)
+        /// </summary>
         string[][] Read(Stream source);
     }
 
@@ -25,10 +29,6 @@ namespace Andy.Csv.IO
             this.streamPositionReporter = streamPositionReporter;
         }
 
-        /// <summary>
-        /// Parses the contents of a file while reading it line by line
-        /// </summary>
-        /// <param name="parseLine">Function that parses a line read from a file</param>
         public string[][] Read(Stream source)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
