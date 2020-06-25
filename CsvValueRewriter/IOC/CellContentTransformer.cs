@@ -16,7 +16,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
 
         internal static IRowTransformerFactory<ICellContentTransformer> Build_TheCurrencyAmountThing(CurrencyAmountThingSettings settings)
         {
-            return new CurrencyAmount_CantThinkOfNameFactory(
+            return new AmountInLocalCurrencyProducerFactory(
                 settings.AmountColumnName,
                 settings.CurrencyColumnName,
                 settings.ResultAmountColumnName,

@@ -4,10 +4,7 @@ using System.Linq;
 
 namespace Andy.Csv.Transformation.Row
 {
-    // <summary>
-    /// Produces an "Amount In Local Currency" value based on Amount and Currency values of a transaction
-    /// </summary>
-    public class CurrencyAmount_CantThinkOfName : ICellContentTransformer
+    public class AmountInLocalCurrencyProducer : ICellContentTransformer
     {
         private readonly int amountColumnIndex;
         private readonly int currencyColumnIndex;
@@ -15,7 +12,7 @@ namespace Andy.Csv.Transformation.Row
 
         private readonly ITargetCurrencyValueSelector valueSelector;
 
-        public CurrencyAmount_CantThinkOfName(
+        public AmountInLocalCurrencyProducer(
             int amountColumnIndex,
             int currencyColumnIndex,
             int targetColumnIndex,

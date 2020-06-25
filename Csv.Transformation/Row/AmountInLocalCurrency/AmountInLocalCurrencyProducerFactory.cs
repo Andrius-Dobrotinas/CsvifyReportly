@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace Andy.Csv.Transformation.Row
 {
-    public class CurrencyAmount_CantThinkOfNameFactory
-        : IRowTransformerFactory<CurrencyAmount_CantThinkOfName>
+    public class AmountInLocalCurrencyProducerFactory
+        : IRowTransformerFactory<AmountInLocalCurrencyProducer>
     {
         private readonly string amountColumnName;
         private readonly string currencyColumnName;
@@ -12,7 +12,7 @@ namespace Andy.Csv.Transformation.Row
 
         private readonly ITargetCurrencyValueSelector valueSelector;
 
-        public CurrencyAmount_CantThinkOfNameFactory(
+        public AmountInLocalCurrencyProducerFactory(
             string amountColumnName,
             string currencyColumnName,
             string targetColumnName,
@@ -24,13 +24,13 @@ namespace Andy.Csv.Transformation.Row
             this.valueSelector = valueSelector ?? throw new ArgumentNullException(nameof(valueSelector));
         }
 
-        public CurrencyAmount_CantThinkOfName Build(IDictionary<string, int> columnIndexes)
+        public AmountInLocalCurrencyProducer Build(IDictionary<string, int> columnIndexes)
         {
             int amountColumnIndex = Column.GetOrThrow(columnIndexes, amountColumnName);
             int currencyColumnIndex = Column.GetOrThrow(columnIndexes, currencyColumnName);
             int targetColumnIndex = Column.GetOrThrow(columnIndexes, targetColumnName);
 
-            return new CurrencyAmount_CantThinkOfName(
+            return new AmountInLocalCurrencyProducer(
                 amountColumnIndex,
                 currencyColumnIndex,
                 targetColumnIndex,
