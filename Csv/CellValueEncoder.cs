@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace Andy.Csv
 {
-    public interface IValueEncoder
+    public interface ICellValueEncoder
     {
         string Encode(string value, char delimiter);
     }
 
-    public class ValueEncoder : IValueEncoder
+    public class CellValueEncoder : ICellValueEncoder
     {
         public string Encode(string value, char delimiter)
         {

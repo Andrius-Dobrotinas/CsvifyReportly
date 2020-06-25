@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Andy.Csv
 {
-    public class RowParser : ICsvRowParser
+    public class RowParser : IRowParser
     {
         private readonly char delimiter;
 

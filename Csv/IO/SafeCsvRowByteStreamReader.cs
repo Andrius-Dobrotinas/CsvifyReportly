@@ -9,23 +9,23 @@ namespace Andy.Csv.IO
     /// Reads a CSV stream and makes sure that all rows are of the same length.
     /// Throws a <see cref="CsvValidationException"/> if they're not.
     /// </summary>
-    public interface ISafeCsvStreamReader
+    public interface ISafeCsvRowByteStreamReader
     {
         string[][] Read(Stream source);
     }
 
-    public class SafeCsvStreamReader : ISafeCsvStreamReader
+    public class SafeCsvRowByteStreamReader : ISafeCsvRowByteStreamReader
     {
-        private readonly ICsvStreamParser csvStreamParser;
+        private readonly ICsvRowByteStreamReader csvReader;
 
-        public SafeCsvStreamReader(ICsvStreamParser csvStreamParser)
+        public SafeCsvRowByteStreamReader(ICsvRowByteStreamReader csvReader)
         {
-            this.csvStreamParser = csvStreamParser;
+            this.csvReader = csvReader;
         }
 
         public string[][] Read(Stream source)
         {
-            string[][] rows = csvStreamParser.Read(source).ToArray();
+            string[][] rows = csvReader.ReadRows(source).ToArray();
 
             if (!rows.Any())
             {

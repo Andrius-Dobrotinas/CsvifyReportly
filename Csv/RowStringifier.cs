@@ -11,9 +11,9 @@ namespace Andy.Csv
 
     public class RowStringifier : IRowStringifier
     {
-        private readonly IValueEncoder encoder;
+        private readonly ICellValueEncoder encoder;
 
-        public RowStringifier(IValueEncoder encoder)
+        public RowStringifier(ICellValueEncoder encoder)
         {
             this.encoder = encoder;
         }

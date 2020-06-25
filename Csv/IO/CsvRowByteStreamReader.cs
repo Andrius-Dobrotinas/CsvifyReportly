@@ -5,32 +5,32 @@ using System.Linq;
 
 namespace Andy.Csv.IO
 {
-    public interface ICsvStreamParser
+    public interface ICsvRowByteStreamReader
     {
         /// <summary>
         /// Parses the contents of a stream while reading it line by line.
         /// Returns an enumerable structure of CSV rows (which are themselves arrays of cells).
-        /// Implementations are to return enumerables that read the stream only when enumerated
+        /// Implementations return enumerables that read the stream only when enumerated.
         /// </summary>
-        IEnumerable<string[]> Read(Stream source);
+        IEnumerable<string[]> ReadRows(Stream source);
     }
 
-    public class CsvStreamParser : ICsvStreamParser
+    public class CsvRowByteStreamReader : ICsvRowByteStreamReader
     {
-        private readonly IRowReader rowParser;
+        private readonly ICellByteStreamReader rowReader;
         private readonly IStreamReaderFactory streamReaderFactory;
         private readonly IStreamReaderPositionReporter streamPositionReporter;
 
-        public CsvStreamParser(IRowReader rowParser,
+        public CsvRowByteStreamReader(ICellByteStreamReader rowReader,
             IStreamReaderFactory streamReaderFactory,
             IStreamReaderPositionReporter streamPositionReporter)
         {
-            this.rowParser = rowParser;
+            this.rowReader = rowReader;
             this.streamReaderFactory = streamReaderFactory;
             this.streamPositionReporter = streamPositionReporter;
         }
 
-        public IEnumerable<string[]> Read(Stream source)
+        public IEnumerable<string[]> ReadRows(Stream source)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
@@ -51,7 +51,7 @@ namespace Andy.Csv.IO
         {
             try
             {
-                return rowParser.ReadNextRow(reader);
+                return rowReader.ReadNextRow(reader);
             }
             catch (Exception e)
             {

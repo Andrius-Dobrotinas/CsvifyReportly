@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Andy.Csv
 {
-    public interface ICsvRowParser
+    public interface IRowParser
     {
         string[] Parse(string line);
     }

@@ -8,12 +8,12 @@ namespace Andy.Csv
     public class RowStringifierTests
     {
         RowStringifier target;
-        Mock<IValueEncoder> encoder;
+        Mock<ICellValueEncoder> encoder;
 
         [SetUp]
         public void Setup()
         {
-            encoder = new Mock<IValueEncoder>();
+            encoder = new Mock<ICellValueEncoder>();
             target = new RowStringifier(encoder.Object);
 
             encoder

@@ -5,23 +5,23 @@ using System.Linq;
 
 namespace Andy.Csv.IO
 {
-    public interface ICsvDocumentReader
+    public interface ICsvDocumentByteStreamReader
     {
         CsvDocument Read(Stream source);
     }
 
-    public class CsvDocumentReader : ICsvDocumentReader
+    public class CsvDocumentByteStreamReader : ICsvDocumentByteStreamReader
     {
-        private readonly ICsvStreamParser streamReader;
+        private readonly ICsvRowByteStreamReader streamReader;
 
-        public CsvDocumentReader(ICsvStreamParser streamReader)
+        public CsvDocumentByteStreamReader(ICsvRowByteStreamReader streamReader)
         {
             this.streamReader = streamReader;
         }
 
         public CsvDocument Read(Stream source)
         {
-            var rows = streamReader.Read(source).ToArray();
+            var rows = streamReader.ReadRows(source).ToArray();
 
             if (rows.Any() == false) return null;
 

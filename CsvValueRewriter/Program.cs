@@ -44,11 +44,11 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
 
                 var rewriter = new CsvStreamTransformer(
                     new RowStringifier(
-                        new ValueEncoder()),
+                        new CellValueEncoder()),
                     transformers,
-                    new IO.CsvDocumentReader(
-                        new IO.CsvStreamParser(
-                            new IO.RowReader(
+                    new IO.CsvDocumentByteStreamReader(
+                        new IO.CsvRowByteStreamReader(
+                            new IO.CellByteStreamReader(
                                 new RowParser(settings.CsvDelimiter)),
                             new IO.StreamReaderFactory(),
                             new IO.StreamReaderPositionReporter())));

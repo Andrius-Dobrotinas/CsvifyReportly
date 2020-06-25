@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace Andy.Csv
 {
-    public class ValueEncoderTests
+    public class CellValueEncoderTests
     {
-        readonly ValueEncoder target = new ValueEncoder();
+        readonly CellValueEncoder target = new CellValueEncoder();
 
         [TestCase("some, value", ',', ExpectedResult = "\"some, value\"")]
         [TestCase("some value,", ',', ExpectedResult = "\"some value,\"")]

@@ -9,12 +9,12 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
     {
         private readonly IRowStringifier stringyfier;
         private readonly IEnumerable<IDocumentTransformer> transformers;
-        private readonly IO.ICsvDocumentReader streamReader;
+        private readonly IO.ICsvDocumentByteStreamReader streamReader;
 
         public CsvStreamTransformer(
             IRowStringifier stringyfier,
             IEnumerable<IDocumentTransformer> transformers,
-            IO.ICsvDocumentReader streamReader)
+            IO.ICsvDocumentByteStreamReader streamReader)
         {
             this.stringyfier = stringyfier;
             this.transformers = transformers;

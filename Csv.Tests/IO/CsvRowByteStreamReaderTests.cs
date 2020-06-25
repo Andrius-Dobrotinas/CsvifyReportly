@@ -7,10 +7,10 @@ using System.Linq;
 
 namespace Andy.Csv.IO
 {
-    public class CsvStreamParserTests
+    public class CsvRowByteStreamReaderTests
     {
-        CsvStreamParser target;
-        Mock<IRowReader> rowParser;
+        CsvRowByteStreamReader target;
+        Mock<ICellByteStreamReader> rowParser;
         Mock<IStreamReaderFactory> streamReaderFactory;
         Mock<IStreamReaderPositionReporter> streamPositionReporter;
         Mock<Stream> stream;
@@ -19,10 +19,10 @@ namespace Andy.Csv.IO
         [SetUp]
         public void Setup()
         {
-            rowParser = new Mock<IRowReader>();
+            rowParser = new Mock<ICellByteStreamReader>();
             streamReaderFactory = new Mock<IStreamReaderFactory>();
             streamPositionReporter = new Mock<IStreamReaderPositionReporter>();
-            target = new CsvStreamParser(
+            target = new CsvRowByteStreamReader(
                 rowParser.Object,
                 streamReaderFactory.Object,
                 streamPositionReporter.Object);
@@ -33,15 +33,15 @@ namespace Andy.Csv.IO
             streamReader = new Mock<StreamReader>(stream.Object);
             Setup_StreamReaderFactory(streamReader.Object);
         }
-
+        
         [TestCase(1)]
         [TestCase(3)]
         public void Must_ReadAllRows_UntilTheEndOfStream(int rowCount)
         {
-            Setup_StreamReader_NumberOfRows(rowCount);
+            Setup_StreamReader_NumberOfRows(rowCount);            
             Setup_RowParser_ReturnSequence_ThenThrowAnException(GetFakeRows(rowCount));
 
-            target.Read(stream.Object)
+            target.ReadRows(stream.Object)
                 .ToArray();
 
             rowParser.Verify(
@@ -59,7 +59,7 @@ namespace Andy.Csv.IO
             Setup_StreamReader_NumberOfRows(rowCount);
             Setup_RowParser_ReturnSequence_ThenThrowAnException(GetFakeRows(rowCount));
 
-            var result = target.Read(stream.Object);
+            var result = target.ReadRows(stream.Object);
 
             rowParser.Verify(
                 x => x.ReadNextRow(
@@ -68,7 +68,7 @@ namespace Andy.Csv.IO
                 "Must not interact with the row parser until the result is enumerated");
 
             int currentIndex = 0;
-            foreach (var item in result)
+            foreach(var item in result)
             {
                 rowParser.Verify(
                     x => x.ReadNextRow(
@@ -90,7 +90,7 @@ namespace Andy.Csv.IO
             Setup_StreamReader_NumberOfRows(rowCount);
             Setup_RowParser_ReturnSequence_ThenThrowAnException(GetFakeRows(rowCount));
 
-            var result = target.Read(stream.Object);
+            var result = target.ReadRows(stream.Object);
             result.ToArray();
 
             Assert.IsEmpty(result.ToArray());
@@ -100,11 +100,11 @@ namespace Andy.Csv.IO
         public void Must_ReturnAllRows(IList<string[]> rows)
         {
             var expectedRows = rows.ToArray();
-
+            
             Setup_StreamReader_NumberOfRows(rows.Count);
             Setup_RowParser_ReturnSequence_ThenThrowAnException(rows);
 
-            var result = target.Read(stream.Object)
+            var result = target.ReadRows(stream.Object)
                 .ToArray();
 
             AssertionExtensions.SequencesAreEqual(expectedRows, result);
@@ -115,7 +115,7 @@ namespace Andy.Csv.IO
         {
             Setup_EndOfStream(true);
 
-            var result = target.Read(stream.Object)
+            var result = target.ReadRows(stream.Object)
                 .ToArray();
 
             Assert.IsEmpty(result);
@@ -128,7 +128,7 @@ namespace Andy.Csv.IO
             Setup_RowParser_ReturnSequence_ThenThrowAnException(rows);
 
             Assert.Throws<RowReadingException>(
-                () => target.Read(stream.Object).ToArray());
+                () => target.ReadRows(stream.Object).ToArray());
         }
 
         private void Setup_StreamReader_NumberOfRows(int rowCount)
@@ -178,7 +178,7 @@ namespace Andy.Csv.IO
                 x => x.ReadNextRow(
                     It.IsAny<StreamReader>()));
 
-            foreach (var returnValue in returnValues)
+            foreach(var returnValue in returnValues)
                 setup.Returns(returnValue);
 
             setup.Throws<System.IO.EndOfStreamException>();
@@ -187,7 +187,7 @@ namespace Andy.Csv.IO
         private static IEnumerable<TestCaseData> Get_Rows()
         {
             yield return new TestCaseData(
-                new List<string[]> {
+                new List<string[]> { 
                     new string[] { "one", "one-2" }
                 });
 

@@ -6,16 +6,16 @@ using System.Linq;
 
 namespace Andy.Csv.IO
 {
-    public class CsvDocumentReaderTests
+    public class CsvDocumentByteStreamReaderTests
     {
-        CsvDocumentReader target;
-        Mock<ICsvStreamParser> streamParser;
+        CsvDocumentByteStreamReader target;
+        Mock<ICsvRowByteStreamReader> streamParser;
 
         [SetUp]
         public void Setup ()
         {
-            streamParser = new Mock<ICsvStreamParser>();
-            target = new CsvDocumentReader(streamParser.Object);
+            streamParser = new Mock<ICsvRowByteStreamReader>();
+            target = new CsvDocumentByteStreamReader(streamParser.Object);
 
             Setup_StreamReader(new string[0][]);
         }
@@ -28,7 +28,7 @@ namespace Andy.Csv.IO
             target.Read(stream.Object);
 
             streamParser.Verify(
-                x => x.Read(
+                x => x.ReadRows(
                     It.Is<Stream>(
                         arg => arg == stream.Object)));
         }
@@ -94,7 +94,7 @@ namespace Andy.Csv.IO
         private void Setup_StreamReader(string[][] returnValue)
         {
             streamParser.Setup(
-                x => x.Read(
+                x => x.ReadRows(
                     It.IsAny<Stream>()))
                 .Returns(returnValue);
         }
