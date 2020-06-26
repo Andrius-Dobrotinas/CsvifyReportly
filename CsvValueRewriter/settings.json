@@ -3,27 +3,27 @@
   "Profiles": {
     "wholenineyards": [
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Asd.InvertedSingleRowValueFilterSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.InvertedSingleRowValueFilterSettings, CsvValueRewriter",
         "TargetColumnName": "TODO",
         "TargetValue": "General Credit Card Deposit"
       },
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Asd.ColumnReducerSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.ColumnReducerSettings, CsvValueRewriter",
         "TargetColumnNames": [ "Date", "Amount", "Currency" ]
       },
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Asd.DateRewriterSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.DateRewriterSettings, CsvValueRewriter",
         "TargetColumnName": "0",
         "SourceFormat": "dd/MM/yyyy",
         "TargetFormat": "yyyy-MM-dd"
       },
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Asd.ColumnInserterSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.ColumnInserterSettings, CsvValueRewriter",
         "TargetColumnIndex": 5,
         "TargetColumnName": "New Column"
       },
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Asd.CurrencyAmountThingSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.CurrencyAmountThingSettings, CsvValueRewriter",
         "AmountColumnName": "TODO",
         "CurrencyColumnName": "TODO",
         "ResultAmountColumnName": "TODO",
@@ -32,7 +32,7 @@
     ],
     "rewriteDates": [
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Asd.DateRewriterSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.DateRewriterSettings, CsvValueRewriter",
         "TargetColumnName": "0",
         "SourceFormat": "dd/MM/yyyy",
         "TargetFormat": "yyyy-MM-dd"
