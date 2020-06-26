@@ -1,5 +1,5 @@
-﻿using Andy.Csv.Transformation.Row.Document.Cmd.Conguration;
-using Andy.Csv.Transformation.Row.Document.Cmd.Conguration.Transformer;
+﻿using Andy.Csv.Transformation.Row.Document.Cmd.Configuration;
+using Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
