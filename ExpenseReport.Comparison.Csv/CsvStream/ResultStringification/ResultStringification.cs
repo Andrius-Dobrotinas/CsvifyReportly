@@ -11,7 +11,7 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             int statementColumnCount,
             int transactionColumnCount,
             char csvDelimiter,
-            Andy.Csv.IRowStringifier stringyfier)
+            Andy.Csv.Serialization.IRowStringifier stringyfier)
         {
             var transactionAndStatementSeparatorColumns = new string[] { "" };
             var blankStatementRow = new string[statementColumnCount];

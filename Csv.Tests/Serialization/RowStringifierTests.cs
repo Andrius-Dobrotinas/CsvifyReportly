@@ -3,7 +3,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Andy.Csv
+namespace Andy.Csv.Serialization
 {
     public class RowStringifierTests
     {

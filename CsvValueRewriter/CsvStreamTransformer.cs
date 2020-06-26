@@ -7,12 +7,12 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
 {
     public class CsvStreamTransformer
     {
-        private readonly IRowStringifier stringyfier;
+        private readonly Serialization.IRowStringifier stringyfier;
         private readonly IEnumerable<IDocumentTransformer> transformers;
         private readonly IO.ICsvDocumentByteStreamReader streamReader;
 
         public CsvStreamTransformer(
-            IRowStringifier stringyfier,
+            Serialization.IRowStringifier stringyfier,
             IEnumerable<IDocumentTransformer> transformers,
             IO.ICsvDocumentByteStreamReader streamReader)
         {

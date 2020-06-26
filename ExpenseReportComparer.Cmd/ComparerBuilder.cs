@@ -106,7 +106,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             return new Csv.IO.SafeCsvRowByteStreamReader(
                 new Csv.IO.CsvRowByteStreamReader(
                     new Csv.IO.CellByteStreamReader(
-                        new Csv.RowParser(csvDelimiter)),
+                        new Csv.Serialization.RowParser(csvDelimiter)),
                     new Csv.IO.StreamReaderFactory(),
                     new Csv.IO.StreamReaderPositionReporter()));
         }

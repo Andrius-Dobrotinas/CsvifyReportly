@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Andy.Csv
+namespace Andy.Csv.Serialization
 {
     /// <summary>
     /// Means that a certain token was expected at a certain point but was not found

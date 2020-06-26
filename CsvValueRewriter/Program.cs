@@ -43,13 +43,13 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                 var transformers = Profile.GetTransformerChain(settings, parameters.ProfileName);
 
                 var rewriter = new CsvStreamTransformer(
-                    new RowStringifier(
-                        new CellValueEncoder()),
+                    new Serialization.RowStringifier(
+                        new Serialization.CellValueEncoder()),
                     transformers,
                     new IO.CsvDocumentByteStreamReader(
                         new IO.CsvRowByteStreamReader(
                             new IO.CellByteStreamReader(
-                                new RowParser(settings.CsvDelimiter)),
+                                new Serialization.RowParser(settings.CsvDelimiter)),
                             new IO.StreamReaderFactory(),
                             new IO.StreamReaderPositionReporter())));
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Andy.Csv
+namespace Andy.Csv.Serialization
 {
     public class UnexpectedTokenException : Exception
     {

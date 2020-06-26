@@ -57,8 +57,8 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
                 throw new DataComparisonException(e);
             }
 
-            var stringyfyer = new Andy.Csv.RowStringifier(
-                new Andy.Csv.CellValueEncoder());
+            var stringyfyer = new Andy.Csv.Serialization.RowStringifier(
+                new Andy.Csv.Serialization.CellValueEncoder());
 
             try
             {
