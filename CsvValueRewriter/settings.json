@@ -4,38 +4,30 @@
     "wholenineyards": [
       {
         "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.InvertedSingleRowValueFilterSettings, CsvValueRewriter",
-        "TargetColumnName": "TODO",
+        "TargetColumnName": "Type",
         "TargetValue": "General Credit Card Deposit"
       },
       {
         "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.ColumnReducerSettings, CsvValueRewriter",
-        "TargetColumnNames": [ "Date", "Amount", "Currency" ]
+        "TargetColumnNames": [ "Date", "Net", "Currency", "Transaction ID", "Item Title", "Item ID", "Reference Txn ID", "Invoice Number", "Note", "Funding Source" ]
       },
       {
         "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.DateRewriterSettings, CsvValueRewriter",
-        "TargetColumnName": "0",
+        "TargetColumnName": "Date",
         "SourceFormat": "dd/MM/yyyy",
         "TargetFormat": "yyyy-MM-dd"
       },
       {
         "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.ColumnInserterSettings, CsvValueRewriter",
-        "TargetColumnIndex": 5,
-        "TargetColumnName": "New Column"
+        "TargetColumnIndex": 3,
+        "TargetColumnName": "Amount GBP"
       },
       {
         "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.CurrencyAmountThingSettings, CsvValueRewriter",
-        "AmountColumnName": "TODO",
-        "CurrencyColumnName": "TODO",
-        "ResultAmountColumnName": "TODO",
+        "AmountColumnName": "Net",
+        "CurrencyColumnName": "Currency",
+        "ResultAmountColumnName": "Amount GBP",
         "TargetCurrency": "GBP"
-      }
-    ],
-    "rewriteDates": [
-      {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.DateRewriterSettings, CsvValueRewriter",
-        "TargetColumnName": "0",
-        "SourceFormat": "dd/MM/yyyy",
-        "TargetFormat": "yyyy-MM-dd"
       }
     ]
   }
