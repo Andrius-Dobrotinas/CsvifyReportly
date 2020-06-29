@@ -8,6 +8,11 @@
         "TargetValue": "General Credit Card Deposit"
       },
       {
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.InvertedSingleRowValueFilterSettings, CsvValueRewriter",
+        "TargetColumnName": "Type",
+        "TargetValue": "General Credit Card Withdrawal"
+      },
+      {
         "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.ColumnReducerSettings, CsvValueRewriter",
         "TargetColumnNames": [ "Date", "Net", "Currency", "Transaction ID", "Item Title", "Item ID", "Reference Txn ID", "Invoice Number", "Note", "Funding Source" ]
       },
@@ -35,6 +40,11 @@
         "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.InvertedSingleRowValueFilterSettings, CsvValueRewriter",
         "TargetColumnName": "Type",
         "TargetValue": "General Credit Card Deposit"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.InvertedSingleRowValueFilterSettings, CsvValueRewriter",
+        "TargetColumnName": "Type",
+        "TargetValue": "General Credit Card Withdrawal"
       },
       {
         "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.ColumnReducerSettings, CsvValueRewriter",
