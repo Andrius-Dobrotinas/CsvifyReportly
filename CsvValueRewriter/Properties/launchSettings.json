@@ -1,6 +1,10 @@
 {
   "profiles": {
-    "DefaultProfile": {
+    "SampleFile": {
+      "commandName": "Project",
+      "commandLineArgs": "--source=\"..\\..\\..\\..\\TestData\\rewrite.csv\" --output=\"result.csv\" --profile=\"debug\""
+    },
+    "RealFile": {
       "commandName": "Project",
       "commandLineArgs": "--source=\"C:\\soft\\pp 4-2020.csv\" --output=\"C:\\soft\\result.csv\" --profile=\"wholenineyards\""
     }

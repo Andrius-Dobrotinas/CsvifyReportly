@@ -29,6 +29,35 @@
         "ResultAmountColumnName": "Amount GBP",
         "TargetCurrency": "GBP"
       }
+    ],
+    "debug": [
+      {
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.InvertedSingleRowValueFilterSettings, CsvValueRewriter",
+        "TargetColumnName": "Type",
+        "TargetValue": "General Credit Card Deposit"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.ColumnReducerSettings, CsvValueRewriter",
+        "TargetColumnNames": [ "Date", "Net", "Currency", "Type", "Transaction ID", "Item Title", "Item ID", "Reference Txn ID", "Invoice Number", "Note", "Funding Source" ]
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.DateRewriterSettings, CsvValueRewriter",
+        "TargetColumnName": "Date",
+        "SourceFormat": "dd/MM/yyyy",
+        "TargetFormat": "yyyy-MM-dd"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.ColumnInserterSettings, CsvValueRewriter",
+        "TargetColumnIndex": 3,
+        "TargetColumnName": "Amount GBP"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.CurrencyAmountThingSettings, CsvValueRewriter",
+        "AmountColumnName": "Net",
+        "CurrencyColumnName": "Currency",
+        "ResultAmountColumnName": "Amount GBP",
+        "TargetCurrency": "GBP"
+      }
     ]
   }
 }

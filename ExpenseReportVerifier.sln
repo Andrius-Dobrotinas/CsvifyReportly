@@ -23,6 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csv.Transformation.Tests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csv.Transformation", "Csv.Transformation\Csv.Transformation.csproj", "{4DDF751B-CCAB-4C14-BF8C-BE29F0ED922F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{40D4A780-8981-4A01-A98D-FC5BB9AB9E2B}"
+	ProjectSection(SolutionItems) = preProject
+		TestData\rewrite.csv = TestData\rewrite.csv
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
