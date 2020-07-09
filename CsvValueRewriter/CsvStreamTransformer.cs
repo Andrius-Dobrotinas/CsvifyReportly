@@ -9,22 +9,22 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
     {
         private readonly Serialization.IRowStringifier stringyfier;
         private readonly IEnumerable<IDocumentTransformer> transformers;
-        private readonly IO.ICsvDocumentByteStreamReader streamReader;
+        private readonly IO.ICsvDocumentByteStreamReader csvReader;
 
         public CsvStreamTransformer(
             Serialization.IRowStringifier stringyfier,
             IEnumerable<IDocumentTransformer> transformers,
-            IO.ICsvDocumentByteStreamReader streamReader)
+            IO.ICsvDocumentByteStreamReader csvReader)
         {
             this.stringyfier = stringyfier;
             this.transformers = transformers;
-            this.streamReader = streamReader;
+            this.csvReader = csvReader;
         }
 
         public Stream Go(Stream source, char delimiter)
         {
-            CsvDocument document = streamReader.Read(source);
-            
+            CsvDocument document = csvReader.Read(source);
+
             foreach (var rewriter in transformers)
                 document = rewriter.TransformRows(document);
 
@@ -49,7 +49,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
 
             allRows[0] = document.HeaderCells;
 
-            document.ContentRows.CopyTo(allRows, 1);            
+            document.ContentRows.CopyTo(allRows, 1);
 
             return allRows;
         }
