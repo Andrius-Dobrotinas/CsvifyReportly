@@ -13,7 +13,7 @@ namespace Andy.ExpenseReport.Comparison.Csv.Statement
             }
             catch (FormatException e)
             {
-                throw new CsvValueParsingException(value, typeof(DateTime), e);
+                throw new CellValueParsingException(value, typeof(DateTime), e);
             }
         }
 
@@ -25,7 +25,7 @@ namespace Andy.ExpenseReport.Comparison.Csv.Statement
             }
             catch (FormatException e)
             {
-                throw new CsvValueParsingException(value, typeof(decimal), e);
+                throw new CellValueParsingException(value, typeof(decimal), e);
             }
         }
 
@@ -37,7 +37,7 @@ namespace Andy.ExpenseReport.Comparison.Csv.Statement
             }
             catch (FormatException e)
             {
-                throw new CsvValueParsingException(value, typeof(decimal), e);
+                throw new CellValueParsingException(value, typeof(decimal), e);
             }
         }
     }

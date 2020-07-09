@@ -43,7 +43,7 @@ namespace Andy.ExpenseReport.Comparison.Csv
                 {
                     transactions1[i] = item1Parser.Parse(transactionRows1[i]);
                 }
-                catch (Statement.CsvValueParsingException e)
+                catch (Statement.CellValueParsingException e)
                 {
                     throw new InputParsingException(i + 1, 1, e);
                 }
@@ -56,7 +56,7 @@ namespace Andy.ExpenseReport.Comparison.Csv
                 {
                     transactions2[i] = item2Parser.Parse(transactionRows2[i]);
                 }
-                catch (Statement.CsvValueParsingException e)
+                catch (Statement.CellValueParsingException e)
                 {
                     throw new InputParsingException(i + 1, 2, e);
                 }
