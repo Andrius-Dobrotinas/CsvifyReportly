@@ -51,7 +51,8 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                             new IO.CellByteStreamReader(
                                 new Serialization.RowParser(settings.CsvDelimiter)),
                             new IO.StreamReaderFactory(),
-                            new IO.StreamReaderPositionReporter())));
+                            new IO.StreamReaderPositionReporter()),
+                        new ArrayValueUniquenessChecker()));
 
                 Go(rewriter,
                     parameters.SourceFile,

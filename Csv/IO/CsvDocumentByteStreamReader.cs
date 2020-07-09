@@ -13,10 +13,14 @@ namespace Andy.Csv.IO
     public class CsvDocumentByteStreamReader : ICsvDocumentByteStreamReader
     {
         private readonly ICsvRowByteStreamReader streamReader;
+        private readonly IArrayValueUniquenessChecker arrayValueUniquenessChecker;
 
-        public CsvDocumentByteStreamReader(ICsvRowByteStreamReader streamReader)
+        public CsvDocumentByteStreamReader(
+            ICsvRowByteStreamReader streamReader,
+            IArrayValueUniquenessChecker arrayValueUniquenessChecker)
         {
             this.streamReader = streamReader;
+            this.arrayValueUniquenessChecker = arrayValueUniquenessChecker;
         }
 
         public CsvDocument Read(Stream source)
@@ -25,9 +29,13 @@ namespace Andy.Csv.IO
 
             if (rows.Any() == false) return null;
 
+            var headerCells = rows.First();
+            if (arrayValueUniquenessChecker.HasDuplicates(headerCells))
+                throw new StructureException("Column names are not unique");
+
             return new CsvDocument
             {
-                HeaderCells = rows.First(),
+                HeaderCells = headerCells,
                 ContentRows = rows.Skip(1).ToArray()
             };
         }

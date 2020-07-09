@@ -1,5 +1,6 @@
 using Moq;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,12 +11,16 @@ namespace Andy.Csv.IO
     {
         CsvDocumentByteStreamReader target;
         Mock<ICsvRowByteStreamReader> streamParser;
+        Mock<IArrayValueUniquenessChecker> arrayValueUniquenessChecker;
 
         [SetUp]
-        public void Setup ()
+        public void Setup()
         {
             streamParser = new Mock<ICsvRowByteStreamReader>();
-            target = new CsvDocumentByteStreamReader(streamParser.Object);
+            arrayValueUniquenessChecker = new Mock<IArrayValueUniquenessChecker>();
+            target = new CsvDocumentByteStreamReader(
+                streamParser.Object,
+                arrayValueUniquenessChecker.Object);
 
             Setup_StreamReader(new string[0][]);
         }
@@ -43,6 +48,40 @@ namespace Andy.Csv.IO
             var result = target.Read(stream.Object);
 
             Assert.IsNull(result);
+        }
+
+        [TestCaseSource(nameof(Get_Content))]
+        public void Must_Check_WhetherColumnsHaveUniqueNames(
+            IList<string> headerCells,
+            IList<string[]> contentRows)
+        {
+            var input = Combine(headerCells, contentRows);
+            Setup_StreamReader(input);
+
+            var stream = new Mock<Stream>();
+
+            target.Read(stream.Object);
+
+            arrayValueUniquenessChecker.Verify(
+                x => x.HasDuplicates(
+                    It.Is<string[]>(
+                        arg => arg.SequenceEqual(headerCells))));
+        }
+
+        [Test]
+        public void When_ColumnNamesAreNotUnique_Must_ThrowAnException()
+        {
+            Setup_StreamReader(new string[][] {
+                new string[] {"colum name" },
+                new string[] {"data cell" }
+            });
+
+            var stream = new Mock<Stream>();
+
+            Setup_ColumnsHaveNonUniqueNames(true);
+
+            Assert.Throws<StructureException>(
+                () => target.Read(stream.Object));
         }
 
         [TestCaseSource(nameof(Get_Content))]
@@ -96,6 +135,14 @@ namespace Andy.Csv.IO
             streamParser.Setup(
                 x => x.ReadRows(
                     It.IsAny<Stream>()))
+                .Returns(returnValue);
+        }
+
+        private void Setup_ColumnsHaveNonUniqueNames(bool returnValue)
+        {
+            arrayValueUniquenessChecker.Setup(
+                x => x.HasDuplicates(
+                    It.IsAny<IEnumerable<string>>()))
                 .Returns(returnValue);
         }
 
