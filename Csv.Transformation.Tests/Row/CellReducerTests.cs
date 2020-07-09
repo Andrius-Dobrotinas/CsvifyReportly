@@ -10,7 +10,7 @@ namespace Andy.Csv.Transformation.Row
         CellReducer target = new CellReducer();
 
         [TestCaseSource(nameof(GetTestCases))]
-        public void Should_OnlyReturnTargetColumns(
+        public void Should_OnlyReturnTargetColumns_InTheOrderTheyAreSpecified(
             IList<string> input,
             IList<int> targetColumnIndexes,
             IList<string> expectedResult)
@@ -43,13 +43,13 @@ namespace Andy.Csv.Transformation.Row
 
             yield return new TestCaseData(
                 new List<string> { "one", "two", "three", "four" },
-                new List<int> { 0 },
-                new List<string> { "one" });
+                new List<int> { 1 },
+                new List<string> { "two" });
 
             yield return new TestCaseData(
                 new List<string> { "one", "two", "three", "four" },
-                new List<int> { 0, 1 },
-                new List<string> { "one", "two" });
+                new List<int> { 1, 3 },
+                new List<string> { "two", "four" });
 
             yield return new TestCaseData(
                 new List<string> { "one", "two", "three", "four" },
@@ -65,6 +65,16 @@ namespace Andy.Csv.Transformation.Row
                 new List<string> { "one", "two", "three", "four" },
                 new List<int> { 1, 2 },
                 new List<string> { "two", "three" });
+
+            yield return new TestCaseData(
+                new List<string> { "one", "two", "three", "four" },
+                new List<int> { 2, 0 },
+                new List<string> { "three", "one" });
+
+            yield return new TestCaseData(
+                new List<string> { "one", "two", "three", "four", "five" },
+                new List<int> { 3, 2, 0, 4 },
+                new List<string> { "four", "three", "one", "five" });
         }
 
         private static IEnumerable<TestCaseData> GetTestCases_TargetIndexOutOfBounds()

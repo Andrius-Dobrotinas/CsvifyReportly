@@ -25,11 +25,8 @@ namespace Andy.Csv.Transformation.Row
                     nameof(targetCellIndexes));
 
             int currentCellIndex = 0;
-            for (int i = 0; i < cells.Length; i++)
-            {
-                if (targetCellIndexes.Contains(i))
-                    result[currentCellIndex++] = cells[i];
-            }
+            foreach (var index in targetCellIndexes)
+                result[currentCellIndex++] = cells[index];
 
             return result;
         }
