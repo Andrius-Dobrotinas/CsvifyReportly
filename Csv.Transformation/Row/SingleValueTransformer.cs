@@ -3,23 +3,27 @@ using System.Collections.Generic;
 
 namespace Andy.Csv.Transformation.Row
 {
+    public interface ISingleValueTransformer : ICellContentTransformer
+    {
+    }
+
     /// <summary>
     /// Transforms a value of a single column
     /// </summary>
-    public class SingleValueTransformer : ICellContentTransformer
+    public class SingleValueTransformer : ISingleValueTransformer
     {
         private readonly int targetColumnIndex;
-        private readonly IValueTransformer dateRewriter;
+        private readonly IValueTransformer valueTransformer;
 
-        public SingleValueTransformer(int targetColumnIndex, IValueTransformer dateRewriter)
+        public SingleValueTransformer(int targetColumnIndex, IValueTransformer valueTransformer)
         {
             this.targetColumnIndex = targetColumnIndex;
-            this.dateRewriter = dateRewriter;
+            this.valueTransformer = valueTransformer;
         }
 
         public string[] Tramsform(string[] row)
         {
-            row[targetColumnIndex] = dateRewriter.GetValue(row[targetColumnIndex]);
+            row[targetColumnIndex] = valueTransformer.GetValue(row[targetColumnIndex]);
 
             return row;
         }

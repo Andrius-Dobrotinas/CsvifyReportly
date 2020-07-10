@@ -3,24 +3,24 @@ using System.Collections.Generic;
 
 namespace Andy.Csv.Transformation.Row
 {
-    public class SingleValueTransformerFactory : IRowTransformerFactory<SingleValueTransformer>
+    public class SingleValueTransformerFactory : IRowTransformerFactory<ISingleValueTransformer>
     {
         private readonly string targetColumnName;
-        private readonly IValueTransformer dateRewriter;
+        private readonly IValueTransformer valueTransformer;
 
         public SingleValueTransformerFactory(
             string targetColumnName,
-            IValueTransformer dateRewriter)
+            IValueTransformer valueTransformer)
         {
             this.targetColumnName = targetColumnName;
-            this.dateRewriter = dateRewriter;
+            this.valueTransformer = valueTransformer;
         }
 
-        public SingleValueTransformer Build(IDictionary<string, int> columnIndexes)
+        public ISingleValueTransformer Build(IDictionary<string, int> columnIndexes)
         {
             int targetColumnIndex = Column.GetOrThrow(columnIndexes, targetColumnName);
 
-            return new SingleValueTransformer(targetColumnIndex, dateRewriter);
+            return new SingleValueTransformer(targetColumnIndex, valueTransformer);
         }
     }
 }

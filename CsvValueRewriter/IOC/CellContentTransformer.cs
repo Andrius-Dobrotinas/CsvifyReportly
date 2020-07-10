@@ -6,7 +6,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
 {
     internal static class CellContentTransformer
     {
-        internal static IRowTransformerFactory<ICellContentTransformer> Build_DateRewriter(
+        internal static IRowTransformerFactory<ISingleValueTransformer> Build_DateRewriter(
             DateRewriterSettings settings)
         {
             return new SingleValueTransformerFactory(
