@@ -56,6 +56,10 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                 return transformerFactory.Build(
                     CellContentTransformer.Build_DateRewriter((DateRewriterSettings)settings));
 
+            if (type == typeof(AmountInverterSettings))
+                return transformerFactory.Build(
+                    CellContentTransformer.Build_AmountInverter((AmountInverterSettings)settings));
+
             if (type == typeof(CurrencyAmountThingSettings))
                 return transformerFactory.Build(
                     CellContentTransformer.Build_TheCurrencyAmountThing((CurrencyAmountThingSettings)settings));

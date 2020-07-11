@@ -14,6 +14,14 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                     new DateTransformer(settings.SourceFormat, settings.TargetFormat));
         }
 
+        internal static IRowTransformerFactory<ISingleValueTransformer> Build_AmountInverter(
+            AmountInverterSettings settings)
+        {
+            return new SingleValueTransformerFactory(
+                settings.TargetColumnName,
+                    new AmountInverter());
+        }
+
         internal static IRowTransformerFactory<ICellContentTransformer> Build_TheCurrencyAmountThing(CurrencyAmountThingSettings settings)
         {
             return new AmountInLocalCurrencyProducerFactory(

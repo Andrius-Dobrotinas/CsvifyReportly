@@ -23,6 +23,10 @@
         "TargetFormat": "yyyy-MM-dd"
       },
       {
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.AmountInverterSettings, CsvValueRewriter",
+        "TargetColumnName": "Net"
+      },
+      {
         "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.ColumnInserterSettings, CsvValueRewriter",
         "TargetColumnIndex": 3,
         "TargetColumnName": "Amount GBP"

@@ -28,6 +28,11 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd.Configuration
             public string TargetFormat { get; set; }
         }
 
+        public class AmountInverterSettings : TransformerSettings
+        {
+            public string TargetColumnName { get; set; }
+        }
+
         public class CurrencyAmountThingSettings : TransformerSettings
         {
             public string AmountColumnName { get; set; }
