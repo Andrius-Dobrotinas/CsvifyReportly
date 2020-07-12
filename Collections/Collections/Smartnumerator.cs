@@ -21,7 +21,7 @@ namespace Andy.Collections
     /// initial few enumerations would happen faster due to not having to wait for the
     /// whole thing to get enumerated with ToList/ToArray first.
     /// </summary>
-    public class Smartnumerator<T> : IEnumerator<T> where T : class
+    public class Smartnumerator<T> : IEnumerator<T>
     {
         private readonly EnumerableCopyManager<T> copyManager;
         private readonly IEnumerator<T> source;
