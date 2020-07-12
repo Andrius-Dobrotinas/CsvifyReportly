@@ -10,40 +10,44 @@ namespace Andy.Collections
     public class SmartnumeratorTests
     {
         Smartnumerator<string> target;
-        Mock<IEnumerable<string>> mockEnumerable;
-        Mock<IEnumerable<string>> fake;
+
+        private IEnumerable<string> CreateOneTimeEnumerable(IEnumerable<string> sourceEnumerable)
+        {
+            return new OneTimeEnumerableSource<string>(sourceEnumerable)
+                .GetEnumerable();
+        }
 
         private IEnumerable<string> BuildEnumerableWithSmartnumerator(IEnumerable<string> sourceEnumerable)
         {
-            mockEnumerable = new Mock<IEnumerable<string>>();
-            mockEnumerable.SetupSequence(x => x.GetEnumerator())
-                .Returns(sourceEnumerable.GetEnumerator())
-                .Throws<Exception>();
-
             target = new Smartnumerator<string>(sourceEnumerable.GetEnumerator());
-            fake = new Mock<IEnumerable<string>>();
+            var fake = new Mock<IEnumerable<string>>();
             fake.Setup(x => x.GetEnumerator()).Returns(target);
 
             return fake.Object;
         }
 
         [Test]
-        public void PreTest_MakeSureMySourceEnumerableDoesNotSupportMultipleEnumerations()
+        public void PreTest_MakeSure_MyTestEnumerable_DoesNotSupportMultipleEnumerations()
         {
-            BuildEnumerableWithSmartnumerator(new string[] { null });
-            
-            mockEnumerable.Object.ToArray();
+            var originalEnumerable = CreateOneTimeEnumerable(new string[] { null });
 
-            Assert.Throws<Exception>(() => mockEnumerable.Object.ToArray(),
-                "Must making sure that the original enumerable doesn't support multiple enumerations");
+            originalEnumerable.ToArray();
+
+            for (int i = 0; i < 3; i++)
+            {
+                Assert.Throws<MultipleEnumerationNotSupportedException>(
+                    () => originalEnumerable.ToArray(),
+                    "Must making sure that the original enumerable doesn't support multiple enumerations");
+            }
         }
 
         [TestCaseSource(nameof(GetSource))]
         public void OnFirstEnumeration_Must_SuccessfullyEnumerateTheSourceCollection(IEnumerable<string> sourceEnumerable)
         {
-            var enumerable = BuildEnumerableWithSmartnumerator(sourceEnumerable);
+            var originalEnumerable = CreateOneTimeEnumerable(sourceEnumerable);
+            var smartnumerable = BuildEnumerableWithSmartnumerator(originalEnumerable);
 
-            var result1 = enumerable.ToArray();
+            var result1 = smartnumerable.ToArray();
 
             AssertionExtensions.SequencesAreEqual(sourceEnumerable, result1);
         }
@@ -61,10 +65,10 @@ namespace Andy.Collections
         public void OnSubsequentEnumerations_Must_ReturnAllTheValuesWithoutTalkingToTheOriginalCollection(int subsequentEnumerationCount)
         {
             var sourceEnumerable = new string[] { "ein", null, "drei" };
-            
-OnSubsequentEnumerations_Must_ReturnAllTheValuesWithoutTalkingToTheOriginalCollection(
-    sourceEnumerable,
-    subsequentEnumerationCount);
+
+            OnSubsequentEnumerations_Must_ReturnAllTheValuesWithoutTalkingToTheOriginalCollection(
+                sourceEnumerable,
+                subsequentEnumerationCount);
         }
 
         [TestCase(1)]
@@ -83,7 +87,8 @@ OnSubsequentEnumerations_Must_ReturnAllTheValuesWithoutTalkingToTheOriginalColle
             IEnumerable<string> sourceEnumerable,
             int subsequentEnumerationCount)
         {
-            var enumerable = BuildEnumerableWithSmartnumerator(sourceEnumerable);
+            var originalEnumerable = CreateOneTimeEnumerable(sourceEnumerable);
+            var enumerable = BuildEnumerableWithSmartnumerator(originalEnumerable);
 
             enumerable.ToArray();
 
@@ -105,6 +110,34 @@ OnSubsequentEnumerations_Must_ReturnAllTheValuesWithoutTalkingToTheOriginalColle
 
             yield return new TestCaseData(
                 new List<string> { "ein", "zwei", "drei", "vier", "funf" });
+        }
+    }
+
+    public class OneTimeEnumerableSource<T>
+    {
+        private int enumrationCount = 0;
+        private readonly IEnumerable<T> source;
+
+        public OneTimeEnumerableSource(IEnumerable<T> source)
+        {
+            this.source = source;
+        }
+
+        public IEnumerable<T> GetEnumerable()
+        {
+            if (++enumrationCount > 1)
+                throw new MultipleEnumerationNotSupportedException();
+
+            foreach (var item in source)
+                yield return item;
+        }
+    }
+
+    public class MultipleEnumerationNotSupportedException : Exception
+    {
+        public MultipleEnumerationNotSupportedException()
+            : base("Can't enumerate more than once!")
+        {
         }
     }
 }
