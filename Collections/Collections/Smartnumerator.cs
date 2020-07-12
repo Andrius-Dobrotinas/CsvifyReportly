@@ -39,7 +39,6 @@ namespace Andy.Collections
 
         public void Dispose()
         {
-            source.Dispose();
             copyManager.Reset();
         }
 
@@ -54,7 +53,10 @@ namespace Andy.Collections
                 if (hasAny)
                     copyManager.Add(source.Current);
                 else
+                {
                     isEndOfTheLine = true;
+                    source.Dispose();
+                }
 
                 return hasAny;
             }

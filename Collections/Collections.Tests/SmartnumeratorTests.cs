@@ -27,7 +27,7 @@ namespace Andy.Collections
         }
 
         [Test]
-        public void PreTest_MakeSure_MyTestEnumerable_DoesNotSupportMultipleEnumerations()
+        public void PreTest_MakeSureMyTestEnumerableDoesNotSupportMultipleEnumerations()
         {
             var originalEnumerable = CreateOneTimeEnumerable(new string[] { null });
 
@@ -41,7 +41,7 @@ namespace Andy.Collections
             }
         }
 
-        [TestCaseSource(nameof(GetSource))]
+        [TestCaseSource(nameof(GetEnumerables))]
         public void OnFirstEnumeration_Must_SuccessfullyEnumerateTheSourceCollection(IEnumerable<string> sourceEnumerable)
         {
             var originalEnumerable = CreateOneTimeEnumerable(sourceEnumerable);
@@ -53,7 +53,7 @@ namespace Andy.Collections
         }
 
         [Test]
-        public void When_SourceIsEmpty__OnFirstEnumeration_Must_DoTheSameAsWhenItsNotEmpty()
+        public void OnFirstEnumeration_When_SourceIsEmpty_Must_DoTheSameAsWhenItsNotEmpty()
         {
             var source = new List<string>(0);
             OnFirstEnumeration_Must_SuccessfullyEnumerateTheSourceCollection(source);
@@ -62,11 +62,11 @@ namespace Andy.Collections
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(5)]
-        public void OnSubsequentEnumerations_Must_ReturnAllTheValuesWithoutTalkingToTheOriginalCollection(int subsequentEnumerationCount)
+        public void AfterFirstCompleteEnumeration_OnSubsequentEnumerations_Must_ReturnAllTheValuesWithoutTalkingToTheOriginalCollection(int subsequentEnumerationCount)
         {
             var sourceEnumerable = new string[] { "ein", null, "drei" };
 
-            OnSubsequentEnumerations_Must_ReturnAllTheValuesWithoutTalkingToTheOriginalCollection(
+            AfterFirstCompleteEnumeration_OnSubsequentEnumerations_Must_ReturnAllTheValuesWithoutTalkingToTheOriginalCollection(
                 sourceEnumerable,
                 subsequentEnumerationCount);
         }
@@ -74,16 +74,16 @@ namespace Andy.Collections
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(5)]
-        public void When_SourceIsEmpty_OnSubsequentEnumerations__Must_DoTheSameAsWhenItsNotEmpty(
+        public void AfterFirstCompleteEnumeration_OnSubsequentEnumerations_When_SourceIsEmpty__Must_DoTheSameAsWhenItsNotEmpty(
             int subsequentEnumerationCount)
         {
             var source = new List<string>(0);
-            OnSubsequentEnumerations_Must_ReturnAllTheValuesWithoutTalkingToTheOriginalCollection(
+            AfterFirstCompleteEnumeration_OnSubsequentEnumerations_Must_ReturnAllTheValuesWithoutTalkingToTheOriginalCollection(
                 source,
                 subsequentEnumerationCount);
         }
 
-        private void OnSubsequentEnumerations_Must_ReturnAllTheValuesWithoutTalkingToTheOriginalCollection(
+        private void AfterFirstCompleteEnumeration_OnSubsequentEnumerations_Must_ReturnAllTheValuesWithoutTalkingToTheOriginalCollection(
             IEnumerable<string> sourceEnumerable,
             int subsequentEnumerationCount)
         {
@@ -100,7 +100,57 @@ namespace Andy.Collections
             }
         }
 
-        private static IEnumerable<TestCaseData> GetSource()
+        [TestCaseSource(nameof(Get_Enumerables_ForIncompleteEnumerations_ThatDontGoFarthterThanThe1stOne))]
+        public void WhenFirstEnumerationIs_NotCompleted_OnSubsequentEnumerations_Must_ReturnCachedValuesFromTheCopy(
+            IEnumerable<string> sourceEnumerable,
+            int itemsToTakeFirstTime,
+            int[] itemsToTakeOnSubsequentEnumerations)
+        {
+            if (itemsToTakeOnSubsequentEnumerations.Max() > itemsToTakeFirstTime)
+                throw new ArgumentException();
+            RunMultipleEnumerations_ExpectToGetSameResultsThatTheEnumerationOfTheTestSourceEnumerableYields(
+                sourceEnumerable,
+                itemsToTakeFirstTime,
+                itemsToTakeOnSubsequentEnumerations);
+        }
+
+        [TestCaseSource(nameof(Get_EnumerablesFor_IncompleteEnumerations_WhereSubsequentOneGoesFartherThanThe1stOne))]
+        public void WhenFirstEnumerationIs_NotCompleted_OnSubsequentEnumerationsThatGoFarther_Must_ReturnCachedValuesFromTheCopy_AndThenGetTheRemainingValuesFromTheSourceEnumerable(
+            IEnumerable<string> sourceEnumerable,
+            int itemsToTakeFirstTime,
+            int[] itemsToTakeOnSubsequentEnumerations)
+        {
+            RunMultipleEnumerations_ExpectToGetSameResultsThatTheEnumerationOfTheTestSourceEnumerableYields(
+                sourceEnumerable,
+                itemsToTakeFirstTime,
+                itemsToTakeOnSubsequentEnumerations);
+        }
+
+        private void RunMultipleEnumerations_ExpectToGetSameResultsThatTheEnumerationOfTheTestSourceEnumerableYields(
+            IEnumerable<string> sourceEnumerable,
+            int itemsToTakeFirstTime,
+            int[] itemsToTakeOnSubsequentEnumerations)
+        {
+            var originalEnumerable = CreateOneTimeEnumerable(sourceEnumerable);
+            var enumerable = BuildEnumerableWithSmartnumerator(originalEnumerable);
+
+            //incomplete first enumeration
+            enumerable.Take(itemsToTakeFirstTime).ToList();
+
+            //subsequent enumerations
+            for (int i = 0; i < itemsToTakeOnSubsequentEnumerations.Length; i++)
+            {
+                int itemsToTakeOnSubsequentEnumeration = itemsToTakeOnSubsequentEnumerations[i];
+
+                var expectedCollection = sourceEnumerable.Take(itemsToTakeOnSubsequentEnumeration).ToList();
+
+                var result = enumerable.Take(itemsToTakeOnSubsequentEnumeration).ToList();
+
+                AssertionExtensions.SequencesAreEqual(expectedCollection, result, $"Enumeration {i}");
+            }
+        }
+
+        private static IEnumerable<TestCaseData> GetEnumerables()
         {
             yield return new TestCaseData(
                 new List<string> { "one" });
@@ -110,6 +160,102 @@ namespace Andy.Collections
 
             yield return new TestCaseData(
                 new List<string> { "ein", "zwei", "drei", "vier", "funf" });
+        }
+
+        private static IEnumerable<TestCaseData> Get_Enumerables_ForIncompleteEnumerations_ThatDontGoFarthterThanThe1stOne()
+        {
+            yield return new TestCaseData(
+                new List<string> { "one", "two" },
+                1,
+                new[] { 1 });
+
+            yield return new TestCaseData(
+                new List<string> { "one", "two" },
+                1,
+                new[] { 1, 1 });
+
+            yield return new TestCaseData(
+                new List<string> { "one", "two", "three" },
+                2,
+                new int[] { 2 });
+
+            yield return new TestCaseData(
+                new List<string> { "one", "two", "three" },
+                2,
+                new int[] { 2, 2 });
+
+            yield return new TestCaseData(
+                new List<string> { "one", "two", "three" },
+                2,
+                new int[] { 2, 1 });
+
+            yield return new TestCaseData(
+                new List<string> { "one", "two", "three" },
+                2,
+                new int[] { 2, 1, 2 });
+
+            yield return new TestCaseData(
+                new List<string> { "one", "two", "three" },
+                2,
+                new int[] { 2, 1, 2, 1, 2 });
+
+            yield return new TestCaseData(
+                new List<string> { "one", "two", "three", "ein", "zwei" },
+                3,
+                new int[] { 3 });
+
+            yield return new TestCaseData(
+                new List<string> { "one", "two", "three", "ein", "zwei" },
+                3,
+                new int[] { 3, 2, 1, 3 });
+        }
+
+        private static IEnumerable<TestCaseData> Get_EnumerablesFor_IncompleteEnumerations_WhereSubsequentOneGoesFartherThanThe1stOne()
+        {
+            yield return new TestCaseData(
+                new List<string> { "one", "two" },
+                1,
+                new int[] { 2 });
+
+            yield return new TestCaseData(
+                new List<string> { "one", "two" },
+                1,
+                new int[] { 2, 2 });
+
+            yield return new TestCaseData(
+                new List<string> { "one", "two" },
+                1,
+                new int[] { 2, 1, 2 });
+
+            yield return new TestCaseData(
+                new List<string> { "one", "two", "three" },
+                2,
+                new int[] { 3 });
+
+            yield return new TestCaseData(
+                new List<string> { "one", "two", "three" },
+                2,
+                new int[] { 1, 2, 3 });
+
+            yield return new TestCaseData(
+                new List<string> { "one", "two", "three", "ein", "zwei" },
+                2,
+                new int[] { 4 });
+
+            yield return new TestCaseData(
+                new List<string> { "one", "two", "three", "ein", "zwei" },
+                2,
+                new int[] { 3, 4, 5 });
+
+            yield return new TestCaseData(
+                new List<string> { "one", "two", "three", "ein", "zwei" },
+                2,
+                new int[] { 5 });
+
+            yield return new TestCaseData(
+                new List<string> { "one", "two", "three", "ein", "zwei" },
+                2,
+                new int[] { 5, 2, 4, 5 });
         }
     }
 
