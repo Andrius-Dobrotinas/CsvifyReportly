@@ -16,7 +16,7 @@ namespace Andy.Collections
         {
             this.store = store ?? throw new ArgumentNullException(nameof(store));
 
-            if (store.Count > 0) throw new ArgumentException("The storage collection must be empty");
+            sizeZeroBased = store.Count - 1;
         }
 
         /* Both size and position are zero-based so they can be easily compared to each
