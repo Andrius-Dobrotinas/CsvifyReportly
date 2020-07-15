@@ -23,7 +23,7 @@ namespace Andy.Collections
     /// </summary>
     public class Smartnumerator<T> : IEnumerator<T>
     {
-        private readonly EnumerableCopyManager<T> copyManager;
+        private readonly WritingEnumerator<T> copyManager;
         private readonly IEnumerator<T> source;
 
         private bool isEndOfTheLine = false;
@@ -31,7 +31,7 @@ namespace Andy.Collections
         public Smartnumerator(IEnumerator<T> source)
         {
             this.source = source;
-            this.copyManager = new EnumerableCopyManager<T>(new List<T>());
+            this.copyManager = new WritingEnumerator<T>(new List<T>());
         }
 
         public T Current => copyManager.Current;

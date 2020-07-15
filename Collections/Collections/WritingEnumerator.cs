@@ -3,13 +3,16 @@ using System.Collections.Generic;
 
 namespace Andy.Collections
 {
-    public class EnumerableCopyManager<TValue>
+    /// <summary>
+    /// A facility for iterating over a collection and adding new items at the end.
+    /// </summary>
+    public class WritingEnumerator<TValue>
     {
         private const int initialPosition = -1;
 
         private readonly IList<TValue> store;
 
-        public EnumerableCopyManager(IList<TValue> store)
+        public WritingEnumerator(IList<TValue> store)
         {
             this.store = store ?? throw new ArgumentNullException(nameof(store));
 
