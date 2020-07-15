@@ -39,7 +39,7 @@ namespace Andy.Collections
 
         public void Dispose()
         {
-            copyManager.Reset();
+            copyManager.ResetPosition();
         }
 
         public bool MoveNext()

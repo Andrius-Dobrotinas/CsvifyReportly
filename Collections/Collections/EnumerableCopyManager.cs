@@ -3,27 +3,31 @@ using System.Collections.Generic;
 
 namespace Andy.Collections
 {
-    public class EnumerableCopyManager<T>
+    public class EnumerableCopyManager<TValue>
     {
-        private const int defaultPosition = -1;
+        private const int initialPosition = -1;
 
-        private readonly IList<T> store;
+        private readonly IList<TValue> store;
 
-        /* Both size and position are zero-based so they can be easily compared to each
-         * other without having to add or subtract a number each time.
-         * Keeping a track of size like that (instead of getting it from the store)
-         * for performance considerations */
-        private int currentPoseesh = defaultPosition;
-        private int sizeZeroBased = defaultPosition;
-
-        public EnumerableCopyManager(IList<T> store)
+        public EnumerableCopyManager(IList<TValue> store)
         {
             this.store = store ?? throw new ArgumentNullException(nameof(store));
 
             if (store.Count > 0) throw new ArgumentException("The storage collection must be empty");
         }
 
-        public T Current => store[currentPoseesh];
+        /* Both size and position are zero-based so they can be easily compared to each
+         * other without having to add or subtract a number each time.
+         * Keeping a track of size like that (instead of getting it from the store)
+         * for performance considerations */
+        private int currentPoseesh = initialPosition;
+        private int sizeZeroBased = initialPosition;
+
+        public TValue Current => store[currentPoseesh];
+
+        /// <summary>
+        /// Indicates whether there are any more items after the current one in this collection
+        /// </summary>
         public bool IsEndOfTheLine => currentPoseesh == sizeZeroBased;
 
         public void AdvancePosition()
@@ -31,12 +35,16 @@ namespace Andy.Collections
             currentPoseesh++;
         }
 
-        public void Reset()
+        public void ResetPosition()
         {
-            currentPoseesh = defaultPosition;
+            currentPoseesh = initialPosition;
         }
 
-        public void Add(T value)
+        /// <summary>
+        /// Adds an item and advanced the current position so that the newly-added item is the current item
+        /// </summary>
+        /// <param name="value"></param>
+        public void Add(TValue value)
         {
             currentPoseesh++;
             sizeZeroBased++;
@@ -44,4 +52,3 @@ namespace Andy.Collections
         }
     }
 }
-
