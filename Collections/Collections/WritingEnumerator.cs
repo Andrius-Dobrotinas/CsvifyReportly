@@ -15,6 +15,7 @@ namespace Andy.Collections
         public WritingEnumerator(IList<TValue> store)
         {
             this.store = store ?? throw new ArgumentNullException(nameof(store));
+            if (store.IsReadOnly) throw new ArgumentException("The collection cannot be read-only", nameof(store));
 
             sizeZeroBased = store.Count - 1;
         }
