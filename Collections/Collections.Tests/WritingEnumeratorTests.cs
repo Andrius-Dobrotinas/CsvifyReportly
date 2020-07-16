@@ -1,4 +1,4 @@
-﻿using Moq;
+using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -54,7 +54,7 @@ namespace Andy.Collections
 
             foreach (var value in values)
             {
-                target.AdvancePosition();
+                target.MoveNext();
                 Assert.AreEqual(value, target.Current);
             }
         }
@@ -81,7 +81,7 @@ namespace Andy.Collections
 
             foreach (var value in values)
             {
-                target.AdvancePosition();
+                target.MoveNext();
                 Assert.AreEqual(value, target.Current);
             }
         }
@@ -101,7 +101,7 @@ namespace Andy.Collections
 
             foreach (var value in values)
             {
-                target.AdvancePosition();
+                target.MoveNext();
                 Assert.AreEqual(value, target.Current);
             }
         }
@@ -122,7 +122,7 @@ namespace Andy.Collections
 
             foreach (var value in expectedCollection)
             {
-                target.AdvancePosition();
+                target.MoveNext();
                 Assert.AreEqual(value, target.Current);
             }
         }

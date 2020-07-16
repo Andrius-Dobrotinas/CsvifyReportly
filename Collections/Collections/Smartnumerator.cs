@@ -62,7 +62,10 @@ namespace Andy.Collections
             }
             else
             {
-                copyManager.AdvancePosition();
+                /* the return value must be ignored and "true" returned because the presence of
+                 * of an item will be checked on next invocation of the current method. 
+                 * if there isn't any, it will attempt to read it from the source enumerable */
+                copyManager.MoveNext();
                 return true;
             }
         }

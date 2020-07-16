@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Andy.Collections
@@ -6,7 +7,7 @@ namespace Andy.Collections
     /// <summary>
     /// A facility for iterating over a collection and adding new items at the end.
     /// </summary>
-    public class WritingEnumerator<TValue>
+    public class WritingEnumerator<TValue> : IEnumerator<TValue>
     {
         private const int initialPosition = -1;
 
@@ -15,7 +16,7 @@ namespace Andy.Collections
         public WritingEnumerator(IList<TValue> store)
         {
             this.store = store ?? throw new ArgumentNullException(nameof(store));
-            if (store.IsReadOnly) throw new ArgumentException("The collection cannot be read-only", nameof(store));
+            if (store.IsReadOnly == true) throw new ArgumentException("The collection cannot be read-only", nameof(store));
 
             sizeZeroBased = store.Count - 1;
         }
@@ -28,15 +29,17 @@ namespace Andy.Collections
         private int sizeZeroBased = initialPosition;
 
         public TValue Current => store[currentPoseesh];
+        object IEnumerator.Current => Current;
 
         /// <summary>
         /// Indicates whether there are any more items after the current one in this collection
         /// </summary>
         public bool IsEndOfTheLine => currentPoseesh == sizeZeroBased;
 
-        public void AdvancePosition()
+        public bool MoveNext()
         {
             currentPoseesh++;
+            return IsEndOfTheLine;
         }
 
         public void ResetPosition()
@@ -53,6 +56,17 @@ namespace Andy.Collections
             currentPoseesh++;
             sizeZeroBased++;
             store.Add(value);
+        }
+
+        public void Dispose()
+        {
+            ResetPosition();
+        }
+
+        public void Reset()
+        {
+            //from the documentation, it's unclear what's this supposed to do
+            throw new InvalidOperationException();
         }
     }
 }
