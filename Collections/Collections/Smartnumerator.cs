@@ -21,20 +21,20 @@ namespace Andy.Collections
     /// initial few enumerations would happen faster due to not having to wait for the
     /// whole thing to get enumerated with ToList/ToArray first.
     /// </summary>
-    public class Smartnumerator<T> : IEnumerator<T>
+    public class Smartnumerator<TValue> : IEnumerator<TValue>
     {
-        private readonly WritingEnumerator<T> copyManager;
-        private readonly IEnumerator<T> source;
+        private readonly WritingEnumerator<TValue> copyManager;
+        private readonly IEnumerator<TValue> source;
 
         private bool isEndOfTheLine = false;
 
-        public Smartnumerator(IEnumerator<T> source)
+        public Smartnumerator(IEnumerator<TValue> source)
         {
             this.source = source;
-            this.copyManager = new WritingEnumerator<T>(new List<T>());
+            this.copyManager = new WritingEnumerator<TValue>(new List<TValue>());
         }
 
-        public T Current => copyManager.Current;
+        public TValue Current => copyManager.Current;
         object IEnumerator.Current => Current;
 
         public void Dispose()
