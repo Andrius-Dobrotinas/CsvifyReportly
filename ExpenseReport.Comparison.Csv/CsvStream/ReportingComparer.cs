@@ -84,7 +84,7 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
         {
             try
             {
-                return csvStreamReader.Read(source);
+                return csvStreamReader.Read(source).ToArray();
             }
             catch (Andy.Csv.IO.RowReadingException e)
             {

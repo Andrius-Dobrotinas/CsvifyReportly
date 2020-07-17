@@ -104,11 +104,12 @@ namespace Andy.ExpenseReport.Verifier.Cmd
         private static Csv.IO.ISafeCsvRowByteStreamReader Build_CsvStreamReader(char csvDelimiter)
         {
             return new Csv.IO.SafeCsvRowByteStreamReader(
-                new Csv.IO.CsvRowByteStreamReader(
-                    new Csv.IO.CellByteStreamReader(
-                        new Csv.Serialization.RowParser(csvDelimiter)),
-                    new Csv.IO.StreamReaderFactory(),
-                    new Csv.IO.StreamReaderPositionReporter()));
+                new Csv.IO.CsvReenumerableRowByteStreamReader(
+                    new Csv.IO.CsvRowByteStreamReader(
+                        new Csv.IO.CellByteStreamReader(
+                            new Csv.Serialization.RowParser(csvDelimiter)),
+                        new Csv.IO.StreamReaderFactory(),
+                        new Csv.IO.StreamReaderPositionReporter())));
         }
 
         public static ReportingFileComparer BuildFileComparer(

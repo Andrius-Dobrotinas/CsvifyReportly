@@ -11,7 +11,7 @@ namespace Andy.Csv.IO
     /// </summary>
     public interface ISafeCsvRowByteStreamReader
     {
-        string[][] Read(Stream source);
+        IEnumerable<string[]> Read(Stream source);
     }
 
     public class SafeCsvRowByteStreamReader : ISafeCsvRowByteStreamReader
@@ -23,9 +23,9 @@ namespace Andy.Csv.IO
             this.csvReader = csvReader;
         }
 
-        public string[][] Read(Stream source)
+        public IEnumerable<string[]> Read(Stream source)
         {
-            string[][] rows = csvReader.ReadRows(source).ToArray();
+            IEnumerable<string[]> rows = csvReader.ReadRows(source);
 
             if (!rows.Any())
             {
@@ -34,10 +34,15 @@ namespace Andy.Csv.IO
 
             var columnCount = rows.First().Length;
 
-            if (!rows.All(row => row.Length == columnCount))
-                throw new StructureException("All rows in a CSV file must have an equal number of cells");
+            return rows.Select(
+                row => GetRowOrThrowIfBadLength(row, columnCount));
+        }
 
-            return rows;
+        private static string[] GetRowOrThrowIfBadLength(string[] cells, int expectedLength)
+        {
+            return cells.Length == expectedLength 
+                ? cells
+                : throw new StructureException($"All rows in a CSV file must have an equal number of cells. Expected number of cells (based on the first row): {expectedLength}");
         }
     }
 }

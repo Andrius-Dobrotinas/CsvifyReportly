@@ -1,4 +1,4 @@
-﻿using Moq;
+using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ namespace Andy.Csv.IO
             csvReader = new Mock<ICsvRowByteStreamReader>();
             target = new SafeCsvRowByteStreamReader(csvReader.Object);
         }
-
+        
         [Test]
         public void Must_ReadAllRows_FromTheSuppliedStream()
         {
@@ -38,7 +38,7 @@ namespace Andy.Csv.IO
             Setup_TheReader(rows);
 
             Assert.Throws<StructureException>(
-                () => target.Read(new Mock<Stream>().Object));
+                () => target.Read(new Mock<Stream>().Object).ToArray());
         }
 
         [TestCaseSource(nameof(GetGoodRows))]
@@ -48,7 +48,7 @@ namespace Andy.Csv.IO
 
             Setup_TheReader(rows);
 
-            var result = target.Read(new Mock<Stream>().Object);
+            var result = target.Read(new Mock<Stream>().Object).ToArray();
 
             AssertionExtensions.SequencesAreEqual(expectedCollection, result);
         }
@@ -58,7 +58,7 @@ namespace Andy.Csv.IO
         {
             Setup_TheReader(new string[0][]);
 
-            var result = target.Read(new Mock<Stream>().Object);
+            var result = target.Read(new Mock<Stream>().Object).ToArray();
 
             Assert.IsEmpty(result);
         }
@@ -74,7 +74,7 @@ namespace Andy.Csv.IO
         private static IEnumerable<TestCaseData> Get_BadRows()
         {
             yield return new TestCaseData(
-                new List<string[]> {
+                new List<string[]> { 
                     new string[] { "one" },
                     new string[] { "one", "one-2" }
                 });
