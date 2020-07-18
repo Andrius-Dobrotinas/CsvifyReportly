@@ -9,16 +9,16 @@ namespace Andy.Csv.IO
     /// Reads a CSV stream and makes sure that all rows are of the same length.
     /// Throws a <see cref="CsvValidationException"/> if they're not.
     /// </summary>
-    public interface ISafeCsvRowByteStreamReader
+    public interface IRowLengthValidatingCsvRowByteStreamReader
     {
         IEnumerable<string[]> Read(Stream source);
     }
 
-    public class SafeCsvRowByteStreamReader : ISafeCsvRowByteStreamReader
+    public class RowLengthValidatingCsvRowByteStreamReader : IRowLengthValidatingCsvRowByteStreamReader
     {
         private readonly ICsvRowByteStreamReader csvReader;
 
-        public SafeCsvRowByteStreamReader(ICsvRowByteStreamReader csvReader)
+        public RowLengthValidatingCsvRowByteStreamReader(ICsvRowByteStreamReader csvReader)
         {
             this.csvReader = csvReader;
         }

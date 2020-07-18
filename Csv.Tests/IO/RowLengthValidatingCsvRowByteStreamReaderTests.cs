@@ -7,16 +7,16 @@ using System.Linq;
 
 namespace Andy.Csv.IO
 {
-    public class SafeCsvRowByteStreamReaderTests
+    public class RowLengthValidatingCsvRowByteStreamReaderTests
     {
-        SafeCsvRowByteStreamReader target;
+        RowLengthValidatingCsvRowByteStreamReader target;
         Mock<ICsvRowByteStreamReader> csvReader;
 
         [SetUp]
         public void Setup()
         {
             csvReader = new Mock<ICsvRowByteStreamReader>();
-            target = new SafeCsvRowByteStreamReader(csvReader.Object);
+            target = new RowLengthValidatingCsvRowByteStreamReader(csvReader.Object);
         }
         
         [Test]
