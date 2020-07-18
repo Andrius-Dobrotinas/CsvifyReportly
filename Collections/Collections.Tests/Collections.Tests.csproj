@@ -5,9 +5,11 @@
 
     <IsPackable>false</IsPackable>
 
-    <RootNamespace>Andy.Csv</RootNamespace>
+    <RootNamespace>Andy.Collections</RootNamespace>
 
-    <AssemblyName>Csv.Tests</AssemblyName>
+    <AssemblyName>Andy.Collections.Tests</AssemblyName>
+
+    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,8 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Csv\Csv.csproj" />
-    <ProjectReference Include="..\TestUtils\TestUtils.csproj" />
+    <ProjectReference Include="..\..\TestUtils\TestUtils.csproj" />
+    <ProjectReference Include="..\Collections\Collections.csproj" />
   </ItemGroup>
 
 </Project>
