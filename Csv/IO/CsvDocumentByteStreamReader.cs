@@ -12,11 +12,11 @@ namespace Andy.Csv.IO
 
     public class CsvDocumentByteStreamReader : ICsvDocumentByteStreamReader
     {
-        private readonly ICsvRowByteStreamReader streamReader;
+        private readonly IRowLengthValidatingCsvRowByteStreamReader streamReader;
         private readonly IArrayValueUniquenessChecker arrayValueUniquenessChecker;
 
         public CsvDocumentByteStreamReader(
-            ICsvRowByteStreamReader streamReader,
+            IRowLengthValidatingCsvRowByteStreamReader streamReader,
             IArrayValueUniquenessChecker arrayValueUniquenessChecker)
         {
             this.streamReader = streamReader;
@@ -25,7 +25,7 @@ namespace Andy.Csv.IO
 
         public CsvDocument Read(Stream source)
         {
-            var rows = streamReader.ReadRows(source).ToArray();
+            var rows = streamReader.Read(source);
 
             if (rows.Any() == false) return null;
 

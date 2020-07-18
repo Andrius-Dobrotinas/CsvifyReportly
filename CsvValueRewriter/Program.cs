@@ -47,11 +47,13 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                         new Serialization.CellValueEncoder()),
                     transformers,
                     new IO.CsvDocumentByteStreamReader(
-                        new IO.CsvRowByteStreamReader(
-                            new IO.CellByteStreamReader(
-                                new Serialization.RowParser(settings.CsvDelimiter)),
-                            new IO.StreamReaderFactory(),
-                            new IO.StreamReaderPositionReporter()),
+                        new IO.RowLengthValidatingCsvRowByteStreamReader(
+                            new IO.CsvReenumerableRowByteStreamReader(
+                                new IO.CsvRowByteStreamReader(
+                                    new IO.CellByteStreamReader(
+                                        new Serialization.RowParser(settings.CsvDelimiter)),
+                                    new IO.StreamReaderFactory(),
+                                    new IO.StreamReaderPositionReporter()))),
                         new ArrayValueUniquenessChecker()));
 
                 Go(rewriter,

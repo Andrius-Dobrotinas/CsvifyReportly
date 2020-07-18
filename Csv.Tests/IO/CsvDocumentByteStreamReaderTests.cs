@@ -10,13 +10,13 @@ namespace Andy.Csv.IO
     public class CsvDocumentByteStreamReaderTests
     {
         CsvDocumentByteStreamReader target;
-        Mock<ICsvRowByteStreamReader> streamParser;
+        Mock<IRowLengthValidatingCsvRowByteStreamReader> streamParser;
         Mock<IArrayValueUniquenessChecker> arrayValueUniquenessChecker;
 
         [SetUp]
         public void Setup()
         {
-            streamParser = new Mock<ICsvRowByteStreamReader>();
+            streamParser = new Mock<IRowLengthValidatingCsvRowByteStreamReader>();
             arrayValueUniquenessChecker = new Mock<IArrayValueUniquenessChecker>();
             target = new CsvDocumentByteStreamReader(
                 streamParser.Object,
@@ -29,11 +29,11 @@ namespace Andy.Csv.IO
         public void Must_ReadTheRows_AsStrings()
         {
             var stream = new Mock<Stream>();
-            
+
             target.Read(stream.Object);
 
             streamParser.Verify(
-                x => x.ReadRows(
+                x => x.Read(
                     It.Is<Stream>(
                         arg => arg == stream.Object)));
         }
@@ -115,7 +115,7 @@ namespace Andy.Csv.IO
 
             var result = target.Read(stream.Object);
 
-            for(int i = 0; i < expected.Length; i++)
+            for (int i = 0; i < expected.Length; i++)
             {
                 Assert.AreNotEqual(i, result.ContentRows.Length, "The resulting collection can't be smaller than the expected one");
 
@@ -133,7 +133,7 @@ namespace Andy.Csv.IO
         private void Setup_StreamReader(string[][] returnValue)
         {
             streamParser.Setup(
-                x => x.ReadRows(
+                x => x.Read(
                     It.IsAny<Stream>()))
                 .Returns(returnValue);
         }
@@ -158,7 +158,7 @@ namespace Andy.Csv.IO
 
             yield return new TestCaseData(
                 new List<string> { "one" },
-                new List<string[]> { 
+                new List<string[]> {
                     new string[] {"row1" }
                 });
 
