@@ -21,10 +21,10 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             ICsvDocumentByteStreamReader csvStream2Reader,
             IMultiTransformer transformer1)
         {
-            this.comparer = comparer;
-            this.csvStream1Reader = csvStream1Reader;
-            this.csvStream2Reader = csvStream2Reader;
-            this.transformer1 = transformer1;
+            this.comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
+            this.csvStream1Reader = csvStream1Reader ?? throw new ArgumentNullException(nameof(csvStream1Reader));
+            this.csvStream2Reader = csvStream2Reader ?? throw new ArgumentNullException(nameof(csvStream2Reader));
+            this.transformer1 = transformer1 ?? throw new ArgumentNullException(nameof(transformer1));
         }
 
         public Stream Compare(
