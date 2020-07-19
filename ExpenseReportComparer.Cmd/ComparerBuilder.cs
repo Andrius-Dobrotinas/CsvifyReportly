@@ -19,11 +19,6 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 settings.ExpenseReport.ExpenseReportFile.ColumnIndexes,
                 settings.ExpenseReport.ExpenseReportFile.DateFormat);
 
-            Comparison.Filtering.IFilter<Comparison.Csv.Statement.StatementEntryWithSourceData> item1Filter = settings.ExpenseReport.IgnorePaypal == true
-                ? new Comparison.Filtering.Statement.Bank.PayPalTransactionFilter<Comparison.Csv.Statement.StatementEntryWithSourceData>(
-                new Comparison.Filtering.Statement.Bank.PaypalTransactionSpotter())
-                : null;
-
             var collectionComparer = new Comparison.CollectionComparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
                 Comparison.Csv.Statement.Bank.ExpenseReportEntryWithSourceData>(
@@ -47,8 +42,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 Comparison.Csv.Statement.Bank.ExpenseReportEntryWithSourceData>(
                     orderedCollectionComparer,
                     item1Parser,
-                    item2Parser,
-                    item1Filter);
+                    item2Parser);
 
             return comparer;
         }
@@ -83,8 +77,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 Comparison.Csv.Statement.StatementEntryWithSourceData>(
                     orderedCollectionComparer,
                     statementEntryParser,
-                    reportEntryParser,
-                    null);
+                    reportEntryParser);
 
             return comparer;
         }
@@ -92,24 +85,30 @@ namespace Andy.ExpenseReport.Verifier.Cmd
         private static ReportingFileComparer BuildFileComparer<TItem1, TItem2>(
              Comparison.Csv.IComparer<TItem1, TItem2> comparer,
              char source1CsvDelimiter,
-             char source2CsvDelimiter)
+             char source2CsvDelimiter,
+             IEnumerable<Csv.Transformation.Row.Document.IDocumentTransformer> doc1Transformers)
         {
             return new ReportingFileComparer(
                     new ReportingComparer<TItem1, TItem2>(
                             comparer,
                             Build_CsvStreamReader(source1CsvDelimiter),
-                            Build_CsvStreamReader(source2CsvDelimiter)));
+                            Build_CsvStreamReader(source2CsvDelimiter),
+                            new Csv.Transformation.Row.Document.MultiTransformer(doc1Transformers)));
         }
 
-        private static Csv.IO.IRowLengthValidatingCsvRowByteStreamReader Build_CsvStreamReader(char csvDelimiter)
+        private static Csv.IO.ICsvDocumentByteStreamReader Build_CsvStreamReader(char csvDelimiter)
         {
-            return new Csv.IO.RowLengthValidatingCsvRowByteStreamReader(
-                new Csv.IO.CsvReenumerableRowByteStreamReader(
-                    new Csv.IO.CsvRowByteStreamReader(
-                        new Csv.IO.CellByteStreamReader(
-                            new Csv.Serialization.RowParser(csvDelimiter)),
-                        new Csv.IO.StreamReaderFactory(),
-                        new Csv.IO.StreamReaderPositionReporter())));
+            // todo: i want to reuse some of these instances with the other reader
+
+            return new Csv.IO.CsvDocumentByteStreamReader(
+                new Csv.IO.RowLengthValidatingCsvRowByteStreamReader(
+                    new Csv.IO.CsvReenumerableRowByteStreamReader(
+                        new Csv.IO.CsvRowByteStreamReader(
+                            new Csv.IO.CellByteStreamReader(
+                                new Csv.Serialization.RowParser(csvDelimiter)),
+                            new Csv.IO.StreamReaderFactory(),
+                            new Csv.IO.StreamReaderPositionReporter()))),
+                new Csv.ArrayValueUniquenessChecker());
         }
 
         public static ReportingFileComparer BuildFileComparer(
@@ -122,22 +121,45 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 case Command.ExpenseReport:
                     {
                         var comparer = BuildBankStatementComparer(settings);
+                        var multiTransformers1 = GetMultiTransformer(settings.ExpenseReport);
+
                         return BuildFileComparer(
                             comparer,
                             csvDelimiters.Item1,
-                            csvDelimiters.Item2);
+                            csvDelimiters.Item2,
+                            multiTransformers1);
                     }
                 case Command.Generic:
                     {
                         var comparer = BuildGenericStatementComparer(settings);
+                        var multiTransformers1 = new Csv.Transformation.Row.Document.IDocumentTransformer[0];
+
                         return BuildFileComparer(
                             comparer,
                             csvDelimiters.Item1,
-                            csvDelimiters.Item2);
+                            csvDelimiters.Item2,
+                            multiTransformers1);
                     }
                 default:
                     throw new NotImplementedException($"There's no implementation for command {type.ToString()}");
             }
+        }
+
+        private static IEnumerable<Csv.Transformation.Row.Document.IDocumentTransformer> GetMultiTransformer(Settings.ExpenseReportComparisonSettings settings)
+        {
+            return settings.IgnorePaypal == true
+                ? new Csv.Transformation.Row.Document.IDocumentTransformer[]
+                {
+                    new Csv.Transformation.Row.Document.RowFilterer(
+                        new Csv.Transformation.Row.Document.ColumnMapBuilder(),
+                        new Comparison.Filtering.Statement.Bank.NonPaypalRowValueEvaluatorFactory(
+                            settings.StatementFile.ColumnIndexes.Details,
+                            new Comparison.Filtering.Statement.Bank.PaypalTransactionSpotter()),
+
+                        new Csv.Transformation.Row.Document.RowFilterRunner(
+                            new Csv.Transformation.Row.Filtering.RowFilter()))
+                }
+                : new Csv.Transformation.Row.Document.IDocumentTransformer[0];
         }
     }
 }

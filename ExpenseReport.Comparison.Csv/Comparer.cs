@@ -18,18 +18,15 @@ namespace Andy.ExpenseReport.Comparison.Csv
         private readonly ICollectionComparer<TTransaction1, TTransaction2> comparer;
         private readonly ICsvRowParser<TTransaction1> item1Parser;
         private readonly ICsvRowParser<TTransaction2> item2Parser;
-        private readonly Filtering.IFilter<TTransaction1> item1Filter;
 
         public Comparer(
             ICollectionComparer<TTransaction1, TTransaction2> comparer,
             ICsvRowParser<TTransaction1> item1Parser,
-            ICsvRowParser<TTransaction2> item2Parser,
-            Filtering.IFilter<TTransaction1> item1Filter)
+            ICsvRowParser<TTransaction2> item2Parser)
         {
             this.comparer = comparer;
             this.item1Parser = item1Parser;
             this.item2Parser = item2Parser;
-            this.item1Filter = item1Filter;
         }
 
         public ComparisonResult Compare(
@@ -61,11 +58,6 @@ namespace Andy.ExpenseReport.Comparison.Csv
                     throw new InputParsingException(i + 1, 2, e);
                 }
             }
-
-            if (item1Filter != null)
-                transactions1 = item1Filter
-                    .FilterOut(transactions1)
-                    .ToArray();
 
             var result = comparer.Compare(transactions1, transactions2);
 

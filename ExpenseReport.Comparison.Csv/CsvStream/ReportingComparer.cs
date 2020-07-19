@@ -1,4 +1,6 @@
-﻿using Andy.Csv.IO;
+﻿using Andy.Csv;
+using Andy.Csv.IO;
+using Andy.Csv.Transformation.Row.Document;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,17 +11,20 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
     public class ReportingComparer<TItem1, TItem2> : IReportingComparer
     {
         private readonly IComparer<TItem1, TItem2> comparer;
-        private readonly IRowLengthValidatingCsvRowByteStreamReader csvStream1Reader;
-        private readonly IRowLengthValidatingCsvRowByteStreamReader csvStream2Reader;
+        private readonly ICsvDocumentByteStreamReader csvStream1Reader;
+        private readonly ICsvDocumentByteStreamReader csvStream2Reader;
+        private readonly IMultiTransformer transformer1;
 
         public ReportingComparer(
             IComparer<TItem1, TItem2> comparer,
-            IRowLengthValidatingCsvRowByteStreamReader csvStream1Reader,
-            IRowLengthValidatingCsvRowByteStreamReader csvStream2Reader)
+            ICsvDocumentByteStreamReader csvStream1Reader,
+            ICsvDocumentByteStreamReader csvStream2Reader,
+            IMultiTransformer transformer1)
         {
             this.comparer = comparer;
             this.csvStream1Reader = csvStream1Reader;
             this.csvStream2Reader = csvStream2Reader;
+            this.transformer1 = transformer1;
         }
 
         public Stream Compare(
@@ -27,26 +32,24 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             Stream source2,
             char reportValueDelimiter)
         {
-            IList<string[]> transactions1;
-
-            IList<string[]> transactions2;
-
-            transactions1 = Read(
+            CsvDocument transactions1 = Read(
                     csvStream1Reader,
                     1,
                     source1);
 
-            transactions2 = Read(
+            CsvDocument transactions2 = Read(
                     csvStream2Reader,
                     2,
                     source2);
+
+            var transactionRows1 = transformer1.Transform(transactions1).ContentRows;
 
             ComparisonResult result;
             try
             {
                 result = comparer.Compare(
-                    transactions1,
-                    transactions2);
+                    transactionRows1,
+                    transactions2.ContentRows);
             }
             catch (InputParsingException)
             {
@@ -64,12 +67,12 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             {
                 string[] lines = ResultStringification.StringyfyyResults(
                     result,
-                    transactions1.Count,
-                    transactions2.Count,
+                    transactions1.ContentRows.Length,
+                    transactions2.ContentRows.Length,
                     reportValueDelimiter,
                     stringyfyer);
 
-                return Andy.Csv.IO.CsvFileWriter.Write(lines);
+                return CsvFileWriter.Write(lines);
             }
             catch (Exception e)
             {
@@ -77,16 +80,16 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             }
         }
 
-        private static IList<string[]> Read(
-            IRowLengthValidatingCsvRowByteStreamReader csvStreamReader,
+        private static CsvDocument Read(
+            ICsvDocumentByteStreamReader csvStreamReader,
             int sourceNumber,
             Stream source)
         {
             try
             {
-                return csvStreamReader.Read(source).ToArray();
+                return csvStreamReader.Read(source);
             }
-            catch (Andy.Csv.IO.RowReadingException e)
+            catch (RowReadingException e)
             {
                 throw new SourceDataReadException(e.Message, sourceNumber, e.InnerException);
             }
