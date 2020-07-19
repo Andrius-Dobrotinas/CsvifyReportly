@@ -8,16 +8,16 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
     public class CsvStreamTransformer
     {
         private readonly Serialization.IRowStringifier stringyfier;
-        private readonly IEnumerable<IDocumentTransformer> transformers;
+        private readonly IMultiTransformer transformer;
         private readonly IO.ICsvDocumentByteStreamReader csvReader;
 
         public CsvStreamTransformer(
             Serialization.IRowStringifier stringyfier,
-            IEnumerable<IDocumentTransformer> transformers,
+            IMultiTransformer transformer,
             IO.ICsvDocumentByteStreamReader csvReader)
         {
             this.stringyfier = stringyfier;
-            this.transformers = transformers;
+            this.transformer = transformer;
             this.csvReader = csvReader;
         }
 
@@ -25,10 +25,9 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
         {
             CsvDocument document = csvReader.Read(source);
 
-            foreach (var rewriter in transformers)
-                document = rewriter.Transform(document);
+            CsvDocument result = transformer.Transform(document);
 
-            return WriteToCsvStream(document, delimiter);
+            return WriteToCsvStream(result, delimiter);
         }
 
         // todo: move this to a separate component

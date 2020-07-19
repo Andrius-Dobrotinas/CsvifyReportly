@@ -45,7 +45,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                 var rewriter = new CsvStreamTransformer(
                     new Serialization.RowStringifier(
                         new Serialization.CellValueEncoder()),
-                    transformers,
+                    new MultiTransformer(transformers),
                     new IO.CsvDocumentByteStreamReader(
                         new IO.RowLengthValidatingCsvRowByteStreamReader(
                             new IO.CsvReenumerableRowByteStreamReader(
