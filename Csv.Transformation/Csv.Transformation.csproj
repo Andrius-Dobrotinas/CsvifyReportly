@@ -12,7 +12,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Andy.Cmd\Cmd.csproj" />
     <ProjectReference Include="..\Csv\Csv.csproj" />
-    <ProjectReference Include="..\ExpenseReport.Comparison.Csv\ExpenseReport.Comparison.Csv.csproj" />
   </ItemGroup>
 
   <ItemGroup>
