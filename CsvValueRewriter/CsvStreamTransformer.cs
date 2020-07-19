@@ -26,7 +26,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
             CsvDocument document = csvReader.Read(source);
 
             foreach (var rewriter in transformers)
-                document = rewriter.TransformRows(document);
+                document = rewriter.Transform(document);
 
             return WriteToCsvStream(document, delimiter);
         }

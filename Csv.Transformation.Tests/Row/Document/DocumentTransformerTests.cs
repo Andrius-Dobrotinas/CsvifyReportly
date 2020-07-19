@@ -38,7 +38,7 @@ namespace Andy.Csv.Transformation.Row.Document
                 ContentRows = new string[0][]
             };
 
-            target.TransformRows(document);
+            target.Transform(document);
 
             columnMapBuilder.Verify(
                 x => x.GetColumnIndexMap(
@@ -59,7 +59,7 @@ namespace Andy.Csv.Transformation.Row.Document
                 ContentRows = new string[0][]
             };
 
-            target.TransformRows(document);
+            target.Transform(document);
 
             factory.Verify(
                 x => x.Build(
@@ -83,7 +83,7 @@ namespace Andy.Csv.Transformation.Row.Document
             IRowTransformer rowTransformer = new Mock<IRowTransformer>().Object;
             Setup_TransformerFactory(rowTransformer);
 
-            target.TransformRows(document);
+            target.Transform(document);
 
             transformerRunner.Verify(
                 x => x.Transform(

@@ -8,6 +8,6 @@ namespace Andy.Csv.Transformation.Row.Document
     /// </summary>
     public interface IDocumentTransformer
     {
-        CsvDocument TransformRows(CsvDocument document);
+        CsvDocument Transform(CsvDocument document);
     }
 }

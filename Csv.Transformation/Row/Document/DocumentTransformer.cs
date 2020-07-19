@@ -24,7 +24,7 @@ namespace Andy.Csv.Transformation.Row.Document
             this.transformerRunner = transformerRunner;
         }
 
-        public CsvDocument TransformRows(CsvDocument document)
+        public CsvDocument Transform(CsvDocument document)
         {
             var columnIndexes = columnMapBuilder.GetColumnIndexMap(document.HeaderCells);
 
