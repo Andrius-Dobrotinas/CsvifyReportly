@@ -30,7 +30,8 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                 .ToArray();
         }
 
-        private static IEnumerable<TransformerSettings> GetTransformerSettingsChain(
+        //todo: move this to a new project because it's used by another Cmd project
+        public static IEnumerable<TransformerSettings> GetTransformerSettingsChain(
             IDictionary<string, TransformerSettings[]> profiles,
             string profileName)
         {

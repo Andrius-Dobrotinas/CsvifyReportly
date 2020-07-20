@@ -48,7 +48,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
 
             allRows[0] = document.HeaderCells;
 
-            document.ContentRows.CopyTo(allRows, 1);
+            document.ContentRows.CopyTo(allRows, 1);            
 
             return allRows;
         }

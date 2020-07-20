@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Andy.Cmd\Cmd.csproj" />
+    <ProjectReference Include="..\CsvValueRewriter\CsvValueRewriter.csproj" />
     <ProjectReference Include="..\ExpenseReport.Comparison.Csv\ExpenseReport.Comparison.Csv.csproj" />
   </ItemGroup>
 

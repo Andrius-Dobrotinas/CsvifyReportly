@@ -1,6 +1,7 @@
 ﻿using Andy.ExpenseReport.Comparison.Csv.CsvStream;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Andy.ExpenseReport.Verifier.Cmd
 {
@@ -120,8 +121,9 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             {
                 case Command.ExpenseReport:
                     {
+                        var multiTransformers1 = GetTransformerChain(settings);
+
                         var comparer = BuildBankStatementComparer(settings);
-                        var multiTransformers1 = GetMultiTransformer(settings.ExpenseReport);
 
                         return BuildFileComparer(
                             comparer,
@@ -145,21 +147,17 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             }
         }
 
-        private static IEnumerable<Csv.Transformation.Row.Document.IDocumentTransformer> GetMultiTransformer(Settings.ExpenseReportComparisonSettings settings)
+        private static IEnumerable<Csv.Transformation.Row.Document.IDocumentTransformer> GetTransformerChain(Settings settings)
         {
-            return settings.IgnorePaypal == true
-                ? new Csv.Transformation.Row.Document.IDocumentTransformer[]
-                {
-                    new Csv.Transformation.Row.Document.RowFilterer(
-                        new Csv.Transformation.Row.Document.ColumnMapBuilder(),
-                        new Comparison.Filtering.Statement.Bank.NonPaypalRowValueEvaluatorFactory(
-                            settings.StatementFile.ColumnIndexes.Details,
-                            new Comparison.Filtering.Statement.Bank.PaypalTransactionSpotter()),
+            var transformerSettings = Csv.Transformation.Row.Document.Cmd.Profile.GetTransformerSettingsChain(
+                settings.TransformationProfiles,
+                settings.ExpenseReport.StatementFileTransformationProfileName);
 
-                        new Csv.Transformation.Row.Document.RowFilterRunner(
-                            new Csv.Transformation.Row.Filtering.RowFilter()))
-                }
-                : new Csv.Transformation.Row.Document.IDocumentTransformer[0];
+            var transformers = transformerSettings
+                .Select(Comparer.Cmd.TransformationProfile.Build)
+                .ToArray();
+
+            return transformers;
         }
     }
 }

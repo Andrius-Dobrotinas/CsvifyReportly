@@ -23,7 +23,7 @@
       "Amazon": [ "Amazon", "AMZNMKTPLACE", "AMZ*" ]
     },
     "DateTolerance": 4,
-    "IgnorePaypal": true
+    "StatementFileTransformationProfileName": "noPaypal"
   },
   "Generic": {
     "StatementFile1": {
@@ -45,5 +45,14 @@
       "DateFormat": "yyyy-MM-dd"
     }
   },
-  "OutputCsvDelimiter": ","
+  "OutputCsvDelimiter": ",",
+  "TransformationProfiles": {
+    "noPaypal": [
+      {
+        "$type": "Andy.ExpenseReport.Verifier.Cmd.NonPaypalRowValueEvaluatorSettings, ExpenseReportComparer.Cmd",
+        "TargetColumnIndex": 1
+      }
+    ],
+    "no": []
+  }
 }
