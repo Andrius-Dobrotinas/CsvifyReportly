@@ -66,7 +66,7 @@
         "TargetColumnName": "Amount GBP"
       },
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Transformer.CurrencyAmountThingSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Transformer.AmountInLocalCurrencyProducerSettings, CsvValueRewriter",
         "AmountColumnName": "Net",
         "CurrencyColumnName": "Currency",
         "ResultAmountColumnName": "Amount GBP",

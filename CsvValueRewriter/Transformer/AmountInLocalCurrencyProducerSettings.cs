@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Andy.Csv.Transformation.Row.Document.Cmd.Transformer
 {
-    public class CurrencyAmountThingSettings : TransformerSettings
+    public class AmountInLocalCurrencyProducerSettings : TransformerSettings
     {
         public string AmountColumnName { get; set; }
         public string CurrencyColumnName { get; set; }
