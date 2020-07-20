@@ -23,7 +23,7 @@ namespace Andy.Csv.Transformation.Row
                 throw new ArgumentOutOfRangeException(
                     "At least one of target column indexes is greater than the index of the last cell in the row",
                     nameof(targetCellIndexes));
-
+            
             int currentCellIndex = 0;
             foreach (var index in targetCellIndexes)
                 result[currentCellIndex++] = cells[index];

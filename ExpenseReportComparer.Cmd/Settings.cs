@@ -10,7 +10,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
         public ExpenseReportComparisonSettings ExpenseReport { get; set; }
         public GenericComparisonSettings Generic { get; set; }
         public char OutputCsvDelimiter { get; set; }
-        public IDictionary<string, Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.TransformerSettings[]> TransformationProfiles { get; set; }
+        public IDictionary<string, Csv.Transformation.Row.Document.Cmd.Transformer.TransformerSettings[]> TransformationProfiles { get; set; }
 
         public class ExpenseReportComparisonSettings
         {
@@ -34,10 +34,5 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             public char Delimiter { get; set; }
             public string DateFormat { get; set; }
         }
-    }
-
-    public class NonPaypalRowValueEvaluatorSettings : Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.TransformerSettings
-    {
-        public int TargetColumnIndex { get; set; }
     }
 }

@@ -3,36 +3,36 @@
   "Profiles": {
     "wholenineyards": [
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.InvertedSingleRowValueFilterSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Transformer.InvertedSingleRowValueFilterSettings, CsvValueRewriter",
         "TargetColumnName": "Type",
         "TargetValue": "General Credit Card Deposit"
       },
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.InvertedSingleRowValueFilterSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Transformer.InvertedSingleRowValueFilterSettings, CsvValueRewriter",
         "TargetColumnName": "Type",
         "TargetValue": "General Credit Card Withdrawal"
       },
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.ColumnReducerSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Transformer.ColumnReducerSettings, CsvValueRewriter",
         "TargetColumnNames": [ "Date", "Net", "Currency", "Transaction ID", "Item Title", "Item ID", "Reference Txn ID", "Invoice Number", "Note", "Funding Source" ]
       },
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.DateRewriterSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Transformer.DateRewriterSettings, CsvValueRewriter",
         "TargetColumnName": "Date",
         "SourceFormat": "dd/MM/yyyy",
         "TargetFormat": "yyyy-MM-dd"
       },
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.AmountInverterSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Transformer.AmountInverterSettings, CsvValueRewriter",
         "TargetColumnName": "Net"
       },
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.ColumnInserterSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Transformer.ColumnInserterSettings, CsvValueRewriter",
         "TargetColumnIndex": 3,
         "TargetColumnName": "Amount GBP"
       },
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.CurrencyAmountThingSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Transformer.CurrencyAmountThingSettings, CsvValueRewriter",
         "AmountColumnName": "Net",
         "CurrencyColumnName": "Currency",
         "ResultAmountColumnName": "Amount GBP",
@@ -41,32 +41,32 @@
     ],
     "debug": [
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.InvertedSingleRowValueFilterSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Transformer.InvertedSingleRowValueFilterSettings, CsvValueRewriter",
         "TargetColumnName": "Type",
         "TargetValue": "General Credit Card Deposit"
       },
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.InvertedSingleRowValueFilterSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Transformer.InvertedSingleRowValueFilterSettings, CsvValueRewriter",
         "TargetColumnName": "Type",
         "TargetValue": "General Credit Card Withdrawal"
       },
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.ColumnReducerSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Transformer.ColumnReducerSettings, CsvValueRewriter",
         "TargetColumnNames": [ "Date", "Net", "Currency", "Type", "Transaction ID", "Item Title", "Item ID", "Reference Txn ID", "Invoice Number", "Note", "Funding Source" ]
       },
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.DateRewriterSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Transformer.DateRewriterSettings, CsvValueRewriter",
         "TargetColumnName": "Date",
         "SourceFormat": "dd/MM/yyyy",
         "TargetFormat": "yyyy-MM-dd"
       },
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.ColumnInserterSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Transformer.ColumnInserterSettings, CsvValueRewriter",
         "TargetColumnIndex": 3,
         "TargetColumnName": "Amount GBP"
       },
       {
-        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Configuration.Transformer.CurrencyAmountThingSettings, CsvValueRewriter",
+        "$type": "Andy.Csv.Transformation.Row.Document.Cmd.Transformer.CurrencyAmountThingSettings, CsvValueRewriter",
         "AmountColumnName": "Net",
         "CurrencyColumnName": "Currency",
         "ResultAmountColumnName": "Amount GBP",

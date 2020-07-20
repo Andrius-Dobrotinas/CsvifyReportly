@@ -49,7 +49,7 @@
   "TransformationProfiles": {
     "noPaypal": [
       {
-        "$type": "Andy.ExpenseReport.Verifier.Cmd.NonPaypalRowValueEvaluatorSettings, ExpenseReportComparer.Cmd",
+        "$type": "Andy.ExpenseReport.Comparer.Cmd.Transformer.NonPaypalRowValueEvaluatorSettings, ExpenseReportComparer.Cmd",
         "TargetColumnIndex": 1
       }
     ],

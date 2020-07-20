@@ -1,32 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.Csv.Transformation.Row.Document.Cmd
+namespace Andy.Csv.Transformation.Row.Document.Cmd.Transformer.IOC
 {
     /// <summary>
-    /// Builds new instances of non-filter transformers while reusing
-    /// the instances of other dependencies
+    /// Supposed to build new instances of transformers reusing dependencies
     /// </summary>
-    public class DocumentTransformerFactory
+    public interface IDocumentTransformerFactoryBuilder
+    {
+        RowTransformer<ICellContentTransformer> BuildCellContentTransformerFactory(IRowTransformerFactory<ICellContentTransformer> transformerFactory);
+        RowTransformer<IStructureTransformer> BuildStructureTransformerFactory(IRowTransformerFactory<IStructureTransformer> transformerFactory);
+        RowFilterer BuildRowFiltererFactory(IDocumentTransformerFactory<Filtering.IRowMatchEvaluator> transformerFactory);
+    }
+
+    /// <inheritdoc/>
+    public class DocumentTransformerFactoryBuilder : IDocumentTransformerFactoryBuilder
     {
         private readonly IColumnMapBuilder columnMapBuilder;
         private readonly ITransformationRunner<ICellContentTransformer> cellContentTransformerRunner;
         private readonly ITransformationRunner<IStructureTransformer> structureTransformerRunner;
         private readonly ITransformationRunner<Filtering.IRowMatchEvaluator> rowFilterRunner;
 
-        public DocumentTransformerFactory(
+        public DocumentTransformerFactoryBuilder(
             IColumnMapBuilder columnMapBuilder,
-            ITransformationRunner<ICellContentTransformer> transformerRunner,
+            ITransformationRunner<ICellContentTransformer> cellContentTransformerRunner,
             ITransformationRunner<IStructureTransformer> structureTransformerRunner,
             ITransformationRunner<Filtering.IRowMatchEvaluator> rowFilterRunner)
         {
             this.columnMapBuilder = columnMapBuilder;
-            this.cellContentTransformerRunner = transformerRunner;
+            this.cellContentTransformerRunner = cellContentTransformerRunner;
             this.structureTransformerRunner = structureTransformerRunner;
             this.rowFilterRunner = rowFilterRunner;
         }
 
-        public RowTransformer<ICellContentTransformer> Build(IRowTransformerFactory<ICellContentTransformer> transformerFactory)
+        public RowTransformer<ICellContentTransformer> BuildCellContentTransformerFactory(IRowTransformerFactory<ICellContentTransformer> transformerFactory)
         {
             return new RowTransformer<ICellContentTransformer>(
                 columnMapBuilder,
@@ -34,7 +41,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                 cellContentTransformerRunner);
         }
 
-        public RowTransformer<IStructureTransformer> Build(IRowTransformerFactory<IStructureTransformer> transformerFactory)
+        public RowTransformer<IStructureTransformer> BuildStructureTransformerFactory(IRowTransformerFactory<IStructureTransformer> transformerFactory)
         {
             return new RowTransformer<IStructureTransformer>(
                 columnMapBuilder,
@@ -42,7 +49,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                 structureTransformerRunner);
         }
 
-        public RowFilterer Build(IDocumentTransformerFactory<Filtering.IRowMatchEvaluator> transformerFactory)
+        public RowFilterer BuildRowFiltererFactory(IDocumentTransformerFactory<Filtering.IRowMatchEvaluator> transformerFactory)
         {
             return new RowFilterer(
                 columnMapBuilder,
