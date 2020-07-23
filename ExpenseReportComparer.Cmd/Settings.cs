@@ -10,7 +10,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
         public ExpenseReportComparisonSettings ExpenseReport { get; set; }
         public GenericComparisonSettings Generic { get; set; }
         public char OutputCsvDelimiter { get; set; }
-        public IDictionary<string, Csv.Transformation.Row.Document.Cmd.Transformer.TransformerSettings[]> TransformationProfiles { get; set; }
+        public IDictionary<string, Csv.Transformation.Row.Document.Setup.TransformerSettings[]> TransformationProfiles { get; set; }
 
         public class ExpenseReportComparisonSettings
         {

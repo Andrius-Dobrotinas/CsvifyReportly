@@ -1,9 +1,7 @@
-﻿using Andy.Csv.Transformation.Row.Document.Cmd.Transformer;
-using Andy.Csv.Transformation.Row.Document.Cmd.Transformer.Setup;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.Csv.Transformation.Row.Document.Cmd
+namespace Andy.Csv.Transformation.Row.Document.Setup
 {
     public static class Profile
     {

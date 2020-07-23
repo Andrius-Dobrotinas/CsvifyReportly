@@ -1,25 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Andy.Csv.Transformation.Row.Document.Cmd</RootNamespace>
-    <AssemblyName>transform</AssemblyName>
+    <RootNamespace>Andy.Csv.Transformation.Row.Document.Setup</RootNamespace>
+    <AssemblyName>CsvTransformer.Setup</AssemblyName>
+    <ApplicationIcon />
+    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Andy.Cmd\Cmd.csproj" />
     <ProjectReference Include="..\Csv.Transformation.Transformers.Core\Csv.Transformation.Transformers.Core.csproj" />
     <ProjectReference Include="..\Csv.Transformation.Transformers.Custom\Csv.Transformation.Transformers.Custom.csproj" />
-    <ProjectReference Include="..\CsvTransformer.Setup\CsvTransformer.Setup.csproj" />
     <ProjectReference Include="..\Csv\Csv.csproj" />
     <ProjectReference Include="..\ExpenseReport.Comparison.Csv\ExpenseReport.Comparison.Csv.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="settings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

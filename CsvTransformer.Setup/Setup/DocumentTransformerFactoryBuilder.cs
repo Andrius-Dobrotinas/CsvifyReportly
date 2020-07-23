@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.Csv.Transformation.Row.Document.Cmd.Transformer.Setup
+namespace Andy.Csv.Transformation.Row.Document.Setup
 {
     /// <summary>
     /// Supposed to build new instances of transformers reusing dependencies

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Andy.Csv.Transformation.Row.Document.Cmd.Transformer.Setup
+namespace Andy.Csv.Transformation.Row.Document.Setup
 {
     public static class TransformerChain
     {

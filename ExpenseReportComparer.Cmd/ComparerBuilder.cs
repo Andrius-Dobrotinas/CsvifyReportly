@@ -149,7 +149,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 
         private static IEnumerable<Csv.Transformation.Row.Document.IDocumentTransformer> GetTransformerChain(Settings settings)
         {
-            return Csv.Transformation.Row.Document.Cmd.Profile.GetTransformerChain(settings.TransformationProfiles, settings.ExpenseReport.StatementFileTransformationProfileName);
+            return Csv.Transformation.Row.Document.Setup.Profile.GetTransformerChain(settings.TransformationProfiles, settings.ExpenseReport.StatementFileTransformationProfileName);
         }
     }
 }

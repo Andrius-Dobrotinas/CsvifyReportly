@@ -39,6 +39,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csv.Transformation.Transfor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csv.Transformation.Transformers.Custom.Tests", "Csv.Transformation.Transformers.Custom.Tests\Csv.Transformation.Transformers.Custom.Tests.csproj", "{004E0024-129E-46E2-A35F-B654977A94F8}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsvTransformer.Setup", "CsvTransformer.Setup\CsvTransformer.Setup.csproj", "{0CAA765B-1624-40B0-B5BC-F9456D54EC14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,10 @@ Global
 		{004E0024-129E-46E2-A35F-B654977A94F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{004E0024-129E-46E2-A35F-B654977A94F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{004E0024-129E-46E2-A35F-B654977A94F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CAA765B-1624-40B0-B5BC-F9456D54EC14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CAA765B-1624-40B0-B5BC-F9456D54EC14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CAA765B-1624-40B0-B5BC-F9456D54EC14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CAA765B-1624-40B0-B5BC-F9456D54EC14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
