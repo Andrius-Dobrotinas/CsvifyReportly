@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Andy.Csv.Transformation.Row.Document.Cmd</RootNamespace>
+    <AssemblyName>transform</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReportComparer.Cmd",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cmd", "Andy.Cmd\Cmd.csproj", "{DA8C551D-E4DB-472E-B206-97DE1E4FD617}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsvValueRewriter", "CsvValueRewriter\CsvValueRewriter.csproj", "{E29687C7-0890-41C7-9AC1-A19C7A87DA59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsvTransformer", "CsvTransformer\CsvTransformer.csproj", "{E29687C7-0890-41C7-9AC1-A19C7A87DA59}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csv.Transformation.Tests", "Csv.Transformation.Tests\Csv.Transformation.Tests.csproj", "{93A23C6C-B3F8-4ADE-9B76-DCCA92B5808F}"
 EndProject
