@@ -1,5 +1,4 @@
-﻿using Andy.Csv.Transformation.Row.Document.Cmd.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
