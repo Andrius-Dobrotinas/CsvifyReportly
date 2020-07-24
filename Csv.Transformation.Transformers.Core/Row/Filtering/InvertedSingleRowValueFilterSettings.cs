@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Andy.Csv.Transformation.Row.Document.Setup
+namespace Andy.Csv.Transformation.Row.Filtering
 {
     public class InvertedSingleRowValueFilterSettings : TransformerSettings
     {
@@ -9,7 +9,7 @@ namespace Andy.Csv.Transformation.Row.Document.Setup
 
         public override IDocumentTransformerFactory BuildFactory()
         {
-            return new Filtering.InvertedSingleRowValueEvaluatorFactory(
+            return new InvertedSingleRowValueEvaluatorFactory(
                 TargetColumnName,
                 TargetValue);
         }

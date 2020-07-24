@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Andy.Csv.Transformation.Row.Document.Setup
+namespace Andy.Csv.Transformation.Row
 {
     /// <summary>
     /// Defines settings for a transformer, and builds instances of a factory for said transformer using these settings

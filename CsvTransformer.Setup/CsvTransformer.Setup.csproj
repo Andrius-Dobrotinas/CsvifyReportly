@@ -10,11 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Andy.Cmd\Cmd.csproj" />
-    <ProjectReference Include="..\Csv.Transformation.Transformers.Core\Csv.Transformation.Transformers.Core.csproj" />
-    <ProjectReference Include="..\Csv.Transformation.Transformers.Custom\Csv.Transformation.Transformers.Custom.csproj" />
-    <ProjectReference Include="..\Csv\Csv.csproj" />
-    <ProjectReference Include="..\ExpenseReport.Comparison.Csv\ExpenseReport.Comparison.Csv.csproj" />
+    <ProjectReference Include="..\Csv.Transformation\Csv.Transformation.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Andy.Csv.Transformation.Row.Document.Setup
+namespace Andy.Csv.Transformation.Row.Document
 {
     public class ColumnReducerSettings : TransformerSettings
     {

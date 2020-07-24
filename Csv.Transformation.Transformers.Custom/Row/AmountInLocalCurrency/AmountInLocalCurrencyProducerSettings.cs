@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Andy.Csv.Transformation.Row.Document.Setup
+namespace Andy.Csv.Transformation.Row
 {
     public class AmountInLocalCurrencyProducerSettings : TransformerSettings
     {
