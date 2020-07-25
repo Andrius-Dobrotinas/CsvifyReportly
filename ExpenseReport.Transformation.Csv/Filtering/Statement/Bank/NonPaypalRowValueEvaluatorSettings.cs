@@ -1,10 +1,8 @@
 ﻿using Andy.Csv.Transformation.Row;
-using Andy.Csv.Transformation.Row.Document.Setup;
-using Andy.ExpenseReport.Comparison.Filtering.Statement.Bank;
 using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Comparer.Cmd.Transformer
+namespace Andy.ExpenseReport.Comparison.Filtering.Statement.Bank
 {
     public class NonPaypalRowValueEvaluatorSettings : TransformerSettings
     {

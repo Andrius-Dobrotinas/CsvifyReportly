@@ -41,6 +41,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csv.Transformation.Transfor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csv.Transformation.Transformers.Setup", "Csv.Transformation.Transformers.Setup\Csv.Transformation.Transformers.Setup.csproj", "{0CAA765B-1624-40B0-B5BC-F9456D54EC14}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReport.Transformation.Csv", "ExpenseReport.Transformation.Csv\ExpenseReport.Transformation.Csv.csproj", "{9DAA56C6-E458-46B7-9175-B7222D97AB17}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseReport.Transformation.Csv.Tests", "ExpenseReport.Transformation.Csv.Tests\ExpenseReport.Transformation.Csv.Tests.csproj", "{F18FCBA7-8B6A-4018-9F2E-18C41C7ADF6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +123,14 @@ Global
 		{0CAA765B-1624-40B0-B5BC-F9456D54EC14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CAA765B-1624-40B0-B5BC-F9456D54EC14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CAA765B-1624-40B0-B5BC-F9456D54EC14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DAA56C6-E458-46B7-9175-B7222D97AB17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DAA56C6-E458-46B7-9175-B7222D97AB17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DAA56C6-E458-46B7-9175-B7222D97AB17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DAA56C6-E458-46B7-9175-B7222D97AB17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F18FCBA7-8B6A-4018-9F2E-18C41C7ADF6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F18FCBA7-8B6A-4018-9F2E-18C41C7ADF6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F18FCBA7-8B6A-4018-9F2E-18C41C7ADF6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F18FCBA7-8B6A-4018-9F2E-18C41C7ADF6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

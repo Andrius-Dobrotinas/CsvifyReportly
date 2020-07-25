@@ -5,8 +5,4 @@
     <RootNamespace>Andy.ExpenseReport.Comparison</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Csv.Transformation\Csv.Transformation.csproj" />
-  </ItemGroup>
-
 </Project>
