@@ -3,8 +3,8 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Andy.Csv.Transformation.Row.Document.Setup</RootNamespace>
-    <AssemblyName>CsvTransformer.Setup</AssemblyName>
+    <RootNamespace>Andy.Csv.Transformation.Row.Document</RootNamespace>
+    <AssemblyName>Csv.Transformation.Transformers.Setup</AssemblyName>
     <ApplicationIcon />
     <StartupObject />
   </PropertyGroup>

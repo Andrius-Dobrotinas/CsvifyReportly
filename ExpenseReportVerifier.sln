@@ -39,7 +39,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csv.Transformation.Transfor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csv.Transformation.Transformers.Custom.Tests", "Csv.Transformation.Transformers.Custom.Tests\Csv.Transformation.Transformers.Custom.Tests.csproj", "{004E0024-129E-46E2-A35F-B654977A94F8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsvTransformer.Setup", "CsvTransformer.Setup\CsvTransformer.Setup.csproj", "{0CAA765B-1624-40B0-B5BC-F9456D54EC14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csv.Transformation.Transformers.Setup", "Csv.Transformation.Transformers.Setup\Csv.Transformation.Transformers.Setup.csproj", "{0CAA765B-1624-40B0-B5BC-F9456D54EC14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

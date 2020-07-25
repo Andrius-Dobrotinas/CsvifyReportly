@@ -11,7 +11,7 @@
     <ProjectReference Include="..\Andy.Cmd\Cmd.csproj" />
     <ProjectReference Include="..\Csv.Transformation.Transformers.Core\Csv.Transformation.Transformers.Core.csproj" />
     <ProjectReference Include="..\Csv.Transformation.Transformers.Custom\Csv.Transformation.Transformers.Custom.csproj" />
-    <ProjectReference Include="..\CsvTransformer.Setup\CsvTransformer.Setup.csproj" />
+    <ProjectReference Include="..\Csv.Transformation.Transformers.Setup\Csv.Transformation.Transformers.Setup.csproj" />
     <ProjectReference Include="..\Csv\Csv.csproj" />
     <ProjectReference Include="..\ExpenseReport.Comparison.Csv\ExpenseReport.Comparison.Csv.csproj" />
   </ItemGroup>
