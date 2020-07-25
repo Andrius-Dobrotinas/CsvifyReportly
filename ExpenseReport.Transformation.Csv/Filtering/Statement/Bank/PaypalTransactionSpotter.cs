@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Andy.ExpenseReport.Comparison.Filtering.Statement.Bank
+namespace Andy.ExpenseReport.Transformation.Csv.Filtering.Statement.Bank
 {
     public interface IPaypalTransactionSpotter
     {

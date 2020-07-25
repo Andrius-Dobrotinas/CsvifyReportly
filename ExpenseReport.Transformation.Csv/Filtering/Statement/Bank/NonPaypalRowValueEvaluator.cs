@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Comparison.Filtering.Statement.Bank
+namespace Andy.ExpenseReport.Transformation.Csv.Filtering.Statement.Bank
 {
     /// <summary>
     /// Returns true for values that don't match a specified value

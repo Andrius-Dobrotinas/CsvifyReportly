@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Comparison.Filtering.Statement.Bank
+namespace Andy.ExpenseReport.Transformation.Csv.Filtering.Statement.Bank
 {
     public class NonPaypalRowValueEvaluatorSettings : TransformerSettings
     {

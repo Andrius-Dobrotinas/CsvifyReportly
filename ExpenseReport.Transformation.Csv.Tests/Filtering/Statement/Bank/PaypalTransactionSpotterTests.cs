@@ -3,7 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Comparison.Filtering.Statement.Bank
+namespace Andy.ExpenseReport.Transformation.Csv.Filtering.Statement.Bank
 {
     class PaypalTransactionSpotterTests
     {
