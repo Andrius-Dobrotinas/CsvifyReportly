@@ -55,25 +55,16 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
                     source2);
 
             var doc1 = transformer1.Transform(transactions1);
-            var transactionRows1 = doc1.ContentRows;
-
             var doc2 = transformer2.Transform(transactions2);
-            var transactionRows2 = doc2.ContentRows;
 
-            var columnIndexes1 = columnMapBuilder.GetColumnIndexMap(doc1.HeaderCells);
-            var item1Parser = item1ParserFactory.Build(columnIndexes1);
-
-            var columnIndexes2 = columnMapBuilder.GetColumnIndexMap(transactions2.HeaderCells);
-            var item2Parser = item2ParserFactory.Build(columnIndexes2);
-
-            var comparer = comparerFactory.Build(item1Parser, item2Parser);
+            var comparer = BuildComparer(doc1.HeaderCells, doc2.HeaderCells);
 
             ComparisonResult result;
             try
             {
                 result = comparer.Compare(
-                    transactionRows1,
-                    transactionRows2);
+                    doc1.ContentRows,
+                    doc2.ContentRows);
             }
             catch (InputParsingException)
             {
@@ -102,6 +93,17 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             {
                 throw new ReportProductionException(e);
             }
+        }
+
+        private IComparer<TItem1, TItem2> BuildComparer(string[] headerCells1, string[] headerCells2)
+        {
+            var columnIndexes1 = columnMapBuilder.GetColumnIndexMap(headerCells1);
+            var item1Parser = item1ParserFactory.Build(columnIndexes1);
+
+            var columnIndexes2 = columnMapBuilder.GetColumnIndexMap(headerCells2);
+            var item2Parser = item2ParserFactory.Build(columnIndexes2);
+
+            return comparerFactory.Build(item1Parser, item2Parser);
         }
 
         private static CsvDocument Read(
