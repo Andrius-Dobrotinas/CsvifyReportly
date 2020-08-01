@@ -10,9 +10,10 @@ namespace Andy.ExpenseReport.Comparison.Csv.Statement
 
         public StatementEntryParser(StatementEntryColumnIndexes columnMapping, string dateFormat)
         {
+            this.columnMapping = columnMapping ?? throw new ArgumentNullException(nameof(columnMapping));
+
             if (string.IsNullOrEmpty(dateFormat)) throw new ArgumentNullException(nameof(dateFormat));
 
-            this.columnMapping = columnMapping ?? throw new ArgumentNullException(nameof(columnMapping));
             this.dateFormat = dateFormat;
         }
 

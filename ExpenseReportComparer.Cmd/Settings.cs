@@ -14,25 +14,25 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 
         public class ExpenseReportComparisonSettings
         {
-            public CsvFileSettings<StatementEntryColumnIndexes> StatementFile { get; set; }
-            public CsvFileSettings<ExpenseReportEntryColumnIndexes> ExpenseReportFile { get; set; }
+            public CsvFileSettings<StatementEntryColumnNames> StatementFile { get; set; }
+            public CsvFileSettings<ExpenseReportEntryColumnNames> ExpenseReportFile { get; set; }
             public IDictionary<string, string[]> MerchantNameMap { get; set; }
             public int DateTolerance { get; set; }
-            public string StatementFileTransformationProfileName { get; set; }
         }
 
         public class GenericComparisonSettings
         {
-            public CsvFileSettings<StatementEntryColumnIndexes> StatementFile1 { get; set; }
-            public CsvFileSettings<StatementEntryColumnIndexes> StatementFile2 { get; set; }
+            public CsvFileSettings<StatementEntryColumnNames> StatementFile1 { get; set; }
+            public CsvFileSettings<StatementEntryColumnNames> StatementFile2 { get; set; }
         }
 
-        public class CsvFileSettings<TColumnIndexMap>
-            where TColumnIndexMap : class
+        public class CsvFileSettings<TColumnNameMap>
+            where TColumnNameMap : class
         {
-            public TColumnIndexMap ColumnIndexes { get; set; }
+            public TColumnNameMap ColumnNames { get; set; }
             public char Delimiter { get; set; }
             public string DateFormat { get; set; }
+            public string TransformationProfileName { get; set; }
         }
     }
 }

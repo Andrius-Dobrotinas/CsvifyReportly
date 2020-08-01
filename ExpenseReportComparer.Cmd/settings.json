@@ -1,56 +1,59 @@
 {
   "ExpenseReport": {
     "StatementFile": {
-      "ColumnIndexes": {
-        "Date": 0,
-        "Amount": 2,
-        "Details": 1
+      "ColumnNames": {
+        "Date": "Date",
+        "Amount": "Amount",
+        "Details": "Details"
       },
       "Delimiter": ",",
-      "DateFormat": "yyyy-MM-dd"
+      "DateFormat": "yyyy-MM-dd",
+      "TransformationProfileName": "noPayPal"
     },
     "ExpenseReportFile": {
-      "ColumnIndexes": {
-        "Date": 0,
-        "Amount": 3,
-        "IsPayPal": 2,
-        "Merchant": 5
+      "ColumnNames": {
+        "Date": "Date",
+        "Amount": "Amount",
+        "IsPayPal": "IsPayPal",
+        "Merchant": "Merchant"
       },
       "Delimiter": ",",
-      "DateFormat": "yyyy-MM-dd"
+      "DateFormat": "yyyy-MM-dd",
+      "TransformationProfileName": "no"
     },
     "MerchantNameMap": {
       "Amazon": [ "Amazon", "AMZNMKTPLACE", "AMZ*" ]
     },
-    "DateTolerance": 4,
-    "StatementFileTransformationProfileName": "noPaypal"
+    "DateTolerance": 4
   },
   "Generic": {
     "StatementFile1": {
-      "ColumnIndexes": {
-        "Date": 0,
-        "Amount": 4,
-        "Details": 4
+      "ColumnNames": {
+        "Date": "Date",
+        "Amount": "Amount",
+        "Details": "Details"
       },
       "Delimiter": ",",
-      "DateFormat": "dd/MM/yyyy"
+      "DateFormat": "dd/MM/yyyy",
+      "TransformationProfileName": "no"
     },
     "StatementFile2": {
-      "ColumnIndexes": {
-        "Date": 0,
-        "Amount": 3,
-        "Details": 3
+      "ColumnNames": {
+        "Date": "Date",
+        "Amount": "Amount",
+        "Details": "Details"
       },
       "Delimiter": ",",
-      "DateFormat": "yyyy-MM-dd"
+      "DateFormat": "yyyy-MM-dd",
+      "TransformationProfileName": "no"
     }
   },
   "OutputCsvDelimiter": ",",
   "TransformationProfiles": {
-    "noPaypal": [
+    "noPayPal": [
       {
         "$type": "Andy.ExpenseReport.Transformation.Csv.Filtering.Statement.Bank.NonPaypalRowValueEvaluatorSettings, ExpenseReport.Transformation.Csv",
-        "TargetColumnIndex": 1
+        "TargetColumnName": "Details"
       }
     ],
     "no": []

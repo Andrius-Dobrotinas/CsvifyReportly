@@ -10,21 +10,33 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
 {
     public class ReportingComparer<TItem1, TItem2> : IReportingComparer
     {
-        private readonly IComparer<TItem1, TItem2> comparer;
         private readonly ICsvDocumentByteStreamReader csvStream1Reader;
         private readonly ICsvDocumentByteStreamReader csvStream2Reader;
         private readonly IMultiTransformer transformer1;
+        private readonly IMultiTransformer transformer2;
+        private readonly Statement.IStatementEntryParserFactory<TItem1> item1ParserFactory;
+        private readonly Statement.IStatementEntryParserFactory<TItem2> item2ParserFactory;
+        private readonly IComparerFactory<TItem1, TItem2> comparerFactory;
+        private readonly IColumnMapBuilder columnMapBuilder;
 
         public ReportingComparer(
-            IComparer<TItem1, TItem2> comparer,
             ICsvDocumentByteStreamReader csvStream1Reader,
             ICsvDocumentByteStreamReader csvStream2Reader,
-            IMultiTransformer transformer1)
+            IMultiTransformer transformer1,
+            IMultiTransformer transformer2,
+            Statement.IStatementEntryParserFactory<TItem1> item1ParserFactory,
+            Statement.IStatementEntryParserFactory<TItem2> item2ParserFactory,
+            IComparerFactory<TItem1, TItem2> comparerFactory,
+            IColumnMapBuilder columnMapBuilder)
         {
-            this.comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
             this.csvStream1Reader = csvStream1Reader ?? throw new ArgumentNullException(nameof(csvStream1Reader));
             this.csvStream2Reader = csvStream2Reader ?? throw new ArgumentNullException(nameof(csvStream2Reader));
             this.transformer1 = transformer1 ?? throw new ArgumentNullException(nameof(transformer1));
+            this.transformer2 = transformer2 ?? throw new ArgumentNullException(nameof(transformer2));
+            this.comparerFactory = comparerFactory ?? throw new ArgumentNullException(nameof(comparerFactory));
+            this.columnMapBuilder = columnMapBuilder ?? throw new ArgumentNullException(nameof(columnMapBuilder));
+            this.item1ParserFactory = item1ParserFactory ?? throw new ArgumentNullException(nameof(item1ParserFactory));
+            this.item2ParserFactory = item2ParserFactory ?? throw new ArgumentNullException(nameof(item2ParserFactory));
         }
 
         public Stream Compare(
@@ -42,14 +54,26 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
                     2,
                     source2);
 
-            var transactionRows1 = transformer1.Transform(transactions1).ContentRows;
+            var doc1 = transformer1.Transform(transactions1);
+            var transactionRows1 = doc1.ContentRows;
+
+            var doc2 = transformer2.Transform(transactions2);
+            var transactionRows2 = doc2.ContentRows;
+
+            var columnIndexes1 = columnMapBuilder.GetColumnIndexMap(doc1.HeaderCells);
+            var item1Parser = item1ParserFactory.Build(columnIndexes1);
+
+            var columnIndexes2 = columnMapBuilder.GetColumnIndexMap(transactions2.HeaderCells);
+            var item2Parser = item2ParserFactory.Build(columnIndexes2);
+
+            var comparer = comparerFactory.Build(item1Parser, item2Parser);
 
             ComparisonResult result;
             try
             {
                 result = comparer.Compare(
                     transactionRows1,
-                    transactions2.ContentRows);
+                    transactionRows2);
             }
             catch (InputParsingException)
             {

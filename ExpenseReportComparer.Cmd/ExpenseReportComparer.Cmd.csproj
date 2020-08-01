@@ -12,6 +12,7 @@
     <ProjectReference Include="..\Andy.Cmd\Cmd.csproj" />
     <ProjectReference Include="..\Csv.Transformation.Transformers.Setup\Csv.Transformation.Transformers.Setup.csproj" />
     <ProjectReference Include="..\ExpenseReport.Comparison.Csv\ExpenseReport.Comparison.Csv.csproj" />
+    <ProjectReference Include="..\ExpenseReport.Transformation.Csv\ExpenseReport.Transformation.Csv.csproj" />
   </ItemGroup>
 
   <ItemGroup>
