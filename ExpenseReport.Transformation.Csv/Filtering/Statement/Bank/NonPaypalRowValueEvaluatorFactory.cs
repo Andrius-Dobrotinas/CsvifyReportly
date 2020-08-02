@@ -1,4 +1,5 @@
 ﻿using Andy.Csv.Transformation.Row;
+using Andy.Csv.Transformation.Row.Filtering;
 using Andy.ExpenseReport.Transformation.Csv.Filtering.Statement.Bank;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ namespace Andy.ExpenseReport.Comparison.Filtering.Statement.Bank
 
 {
     public class NonPaypalRowValueEvaluatorFactory
-        : IDocumentTransformerFactory<NonPaypalRowValueEvaluator>
+        : IDocumentTransformerFactory<SingleCellValueEvaluator>
     {
         private readonly string targetColumnName;
         private readonly IPaypalTransactionSpotter paypalTransactionSpotter;
@@ -20,13 +21,13 @@ namespace Andy.ExpenseReport.Comparison.Filtering.Statement.Bank
             this.paypalTransactionSpotter = paypalTransactionSpotter;
         }
 
-        public NonPaypalRowValueEvaluator Build(IDictionary<string, int> columnIndexes)
+        public SingleCellValueEvaluator Build(IDictionary<string, int> columnIndexes)
         {
             int targetColumnIndex = Column.GetOrThrow(columnIndexes, targetColumnName);
 
-            return new NonPaypalRowValueEvaluator(
+            return new SingleCellValueEvaluator(
                 targetColumnIndex,
-                paypalTransactionSpotter);
+                new InvertedValueComparer(paypalTransactionSpotter));
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 namespace Andy.Csv.Transformation.Row.Filtering
 {
     public class InvertedSingleCellValueEvaluatorFactory
-        : IDocumentTransformerFactory<InvertedSingleCellValueEvaluator>
+        : IDocumentTransformerFactory<SingleCellValueEvaluator>
     {
         private readonly string targetColumnName;
         private readonly string targetValue;
@@ -18,13 +18,14 @@ namespace Andy.Csv.Transformation.Row.Filtering
             this.targetValue = targetValue;
         }
 
-        public InvertedSingleCellValueEvaluator Build(IDictionary<string, int> columnIndexes)
+        public SingleCellValueEvaluator Build(IDictionary<string, int> columnIndexes)
         {
             int targetColumnIndex = Column.GetOrThrow(columnIndexes, targetColumnName);
 
-            return new InvertedSingleCellValueEvaluator(
+            return new SingleCellValueEvaluator(
                 targetColumnIndex,
-                targetValue);
+                new InvertedValueComparer(
+                    new StraightforwardValueComparer(targetValue)));
         }
     }
 }

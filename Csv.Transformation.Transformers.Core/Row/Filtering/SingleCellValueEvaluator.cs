@@ -4,26 +4,26 @@ using System.Collections.Generic;
 namespace Andy.Csv.Transformation.Row.Filtering
 {
     /// <summary>
-    /// Returns true for values that don't match a specified value
+    /// Returns true for values that match a specified value
     /// </summary>
-    public class InvertedSingleCellValueEvaluator : IRowMatchEvaluator
+    public class SingleCellValueEvaluator : IRowMatchEvaluator
     {
         private readonly int targetColumnIndex;
-        private readonly string targetValue;
+        private readonly IValueComparer valueComparer;
 
-        public InvertedSingleCellValueEvaluator(
+        public SingleCellValueEvaluator(
             int targetColumnIndex,
-            string targetValue)
+            IValueComparer valueComparer)
         {
             this.targetColumnIndex = targetColumnIndex;
-            this.targetValue = targetValue;
+            this.valueComparer = valueComparer;
         }
 
         public bool IsMatch(string[] row)
         {
             var sourceValue = row[targetColumnIndex];
 
-            return sourceValue != targetValue;
+            return valueComparer.IsMatch(sourceValue);
         }
     }
 }

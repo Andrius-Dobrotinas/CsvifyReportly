@@ -17,7 +17,7 @@ namespace Andy.ExpenseReport.Transformation.Csv.Filtering.Statement.Bank
         [TestCase("paypal *WHATEVER")]
         public void Must_Return_True__When_InputStartsWithASpecialString_CaseInsensitive(string detailsString)
         {
-            var result = target.IsPaypalTransaction(detailsString);
+            var result = target.IsMatch(detailsString);
 
             Assert.True(result);
         }
@@ -28,7 +28,7 @@ namespace Andy.ExpenseReport.Transformation.Csv.Filtering.Statement.Bank
         [TestCase("PAYPAL*WHATEVER")]
         public void Must_Return_False__When_InputStartsWithWord_PayPal_ButDoesNotMatchTheSpecialString(string detailsString)
         {
-            var result = target.IsPaypalTransaction(detailsString);
+            var result = target.IsMatch(detailsString);
 
             Assert.IsFalse(result);
         }
@@ -41,7 +41,7 @@ namespace Andy.ExpenseReport.Transformation.Csv.Filtering.Statement.Bank
         [TestCase("WHATEVER PAYPAL *")]
         public void Must_Return_False__ForAllOtherSortsOfInput(string detailsString)
         {
-            var result = target.IsPaypalTransaction(detailsString);
+            var result = target.IsMatch(detailsString);
 
             Assert.IsFalse(result);
         }
