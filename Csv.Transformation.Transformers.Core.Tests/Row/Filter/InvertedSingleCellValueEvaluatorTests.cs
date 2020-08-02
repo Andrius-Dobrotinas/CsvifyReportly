@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Andy.Csv.Transformation.Row.Filtering
 {
-    public class InvertedSingleRowValueEvaluatorTests
+    public class InvertedSingleCellValueEvaluatorTests
     {
         [TestCaseSource(nameof(GetTestCases_Positive))]
         public void Should_Return_True_ForValuesThatDontMatchTheTargetValue(
@@ -12,7 +12,7 @@ namespace Andy.Csv.Transformation.Row.Filtering
             int targetColumnIndex,
             string targetValue)
         {
-            var target = new InvertedSingleRowValueEvaluator(targetColumnIndex, targetValue);
+            var target = new InvertedSingleCellValueEvaluator(targetColumnIndex, targetValue);
 
             var result = target.IsMatch(row.ToArray());
 
@@ -25,7 +25,7 @@ namespace Andy.Csv.Transformation.Row.Filtering
             int targetColumnIndex,
             string targetValue)
         {
-            var target = new InvertedSingleRowValueEvaluator(targetColumnIndex, targetValue);
+            var target = new InvertedSingleCellValueEvaluator(targetColumnIndex, targetValue);
 
             var result = target.IsMatch(row.ToArray());
 
@@ -38,7 +38,7 @@ namespace Andy.Csv.Transformation.Row.Filtering
             int targetColumnIndex,
             string targetValue)
         {
-            var target = new InvertedSingleRowValueEvaluator(targetColumnIndex, targetValue);
+            var target = new InvertedSingleCellValueEvaluator(targetColumnIndex, targetValue);
 
             var result = target.IsMatch(row.ToArray());
 

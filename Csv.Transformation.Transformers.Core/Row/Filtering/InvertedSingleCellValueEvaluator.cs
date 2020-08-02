@@ -6,12 +6,12 @@ namespace Andy.Csv.Transformation.Row.Filtering
     /// <summary>
     /// Returns true for values that don't match a specified value
     /// </summary>
-    public class InvertedSingleRowValueEvaluator : IRowMatchEvaluator
+    public class InvertedSingleCellValueEvaluator : IRowMatchEvaluator
     {
         private readonly int targetColumnIndex;
         private readonly string targetValue;
 
-        public InvertedSingleRowValueEvaluator(
+        public InvertedSingleCellValueEvaluator(
             int targetColumnIndex,
             string targetValue)
         {

@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace Andy.Csv.Transformation.Row.Filtering
 {
-    public class InvertedSingleRowValueEvaluatorFactory
-        : IDocumentTransformerFactory<InvertedSingleRowValueEvaluator>
+    public class InvertedSingleCellValueEvaluatorFactory
+        : IDocumentTransformerFactory<InvertedSingleCellValueEvaluator>
     {
         private readonly string targetColumnName;
         private readonly string targetValue;
 
-        public InvertedSingleRowValueEvaluatorFactory(
+        public InvertedSingleCellValueEvaluatorFactory(
             string targetColumnName,
             string targetValue)
         {
@@ -18,11 +18,11 @@ namespace Andy.Csv.Transformation.Row.Filtering
             this.targetValue = targetValue;
         }
 
-        public InvertedSingleRowValueEvaluator Build(IDictionary<string, int> columnIndexes)
+        public InvertedSingleCellValueEvaluator Build(IDictionary<string, int> columnIndexes)
         {
             int targetColumnIndex = Column.GetOrThrow(columnIndexes, targetColumnName);
 
-            return new InvertedSingleRowValueEvaluator(
+            return new InvertedSingleCellValueEvaluator(
                 targetColumnIndex,
                 targetValue);
         }
