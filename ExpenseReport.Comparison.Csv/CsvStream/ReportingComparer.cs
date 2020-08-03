@@ -1,4 +1,6 @@
-﻿using Andy.Csv.IO;
+﻿using Andy.Csv;
+using Andy.Csv.IO;
+using Andy.Csv.Transformation.Row.Document;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,18 +10,33 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
 {
     public class ReportingComparer<TItem1, TItem2> : IReportingComparer
     {
-        private readonly IComparer<TItem1, TItem2> comparer;
-        private readonly IRowLengthValidatingCsvRowByteStreamReader csvStream1Reader;
-        private readonly IRowLengthValidatingCsvRowByteStreamReader csvStream2Reader;
+        private readonly ICsvDocumentByteStreamReader csvStream1Reader;
+        private readonly ICsvDocumentByteStreamReader csvStream2Reader;
+        private readonly IMultiTransformer transformer1;
+        private readonly IMultiTransformer transformer2;
+        private readonly Statement.IStatementEntryParserFactory<TItem1> item1ParserFactory;
+        private readonly Statement.IStatementEntryParserFactory<TItem2> item2ParserFactory;
+        private readonly IComparerFactory<TItem1, TItem2> comparerFactory;
+        private readonly IColumnMapBuilder columnMapBuilder;
 
         public ReportingComparer(
-            IComparer<TItem1, TItem2> comparer,
-            IRowLengthValidatingCsvRowByteStreamReader csvStream1Reader,
-            IRowLengthValidatingCsvRowByteStreamReader csvStream2Reader)
+            ICsvDocumentByteStreamReader csvStream1Reader,
+            ICsvDocumentByteStreamReader csvStream2Reader,
+            IMultiTransformer transformer1,
+            IMultiTransformer transformer2,
+            Statement.IStatementEntryParserFactory<TItem1> item1ParserFactory,
+            Statement.IStatementEntryParserFactory<TItem2> item2ParserFactory,
+            IComparerFactory<TItem1, TItem2> comparerFactory,
+            IColumnMapBuilder columnMapBuilder)
         {
-            this.comparer = comparer;
-            this.csvStream1Reader = csvStream1Reader;
-            this.csvStream2Reader = csvStream2Reader;
+            this.csvStream1Reader = csvStream1Reader ?? throw new ArgumentNullException(nameof(csvStream1Reader));
+            this.csvStream2Reader = csvStream2Reader ?? throw new ArgumentNullException(nameof(csvStream2Reader));
+            this.transformer1 = transformer1 ?? throw new ArgumentNullException(nameof(transformer1));
+            this.transformer2 = transformer2 ?? throw new ArgumentNullException(nameof(transformer2));
+            this.comparerFactory = comparerFactory ?? throw new ArgumentNullException(nameof(comparerFactory));
+            this.columnMapBuilder = columnMapBuilder ?? throw new ArgumentNullException(nameof(columnMapBuilder));
+            this.item1ParserFactory = item1ParserFactory ?? throw new ArgumentNullException(nameof(item1ParserFactory));
+            this.item2ParserFactory = item2ParserFactory ?? throw new ArgumentNullException(nameof(item2ParserFactory));
         }
 
         public Stream Compare(
@@ -27,26 +44,27 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             Stream source2,
             char reportValueDelimiter)
         {
-            IList<string[]> transactions1;
-
-            IList<string[]> transactions2;
-
-            transactions1 = Read(
+            CsvDocument transactions1 = Read(
                     csvStream1Reader,
                     1,
                     source1);
 
-            transactions2 = Read(
+            CsvDocument transactions2 = Read(
                     csvStream2Reader,
                     2,
                     source2);
+
+            var doc1 = transformer1.Transform(transactions1);
+            var doc2 = transformer2.Transform(transactions2);
+
+            var comparer = BuildComparer(doc1.HeaderCells, doc2.HeaderCells);
 
             ComparisonResult result;
             try
             {
                 result = comparer.Compare(
-                    transactions1,
-                    transactions2);
+                    doc1.ContentRows,
+                    doc2.ContentRows);
             }
             catch (InputParsingException)
             {
@@ -64,12 +82,12 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             {
                 string[] lines = ResultStringification.StringyfyyResults(
                     result,
-                    transactions1.Count,
-                    transactions2.Count,
+                    transactions1.ContentRows.Length,
+                    transactions2.ContentRows.Length,
                     reportValueDelimiter,
                     stringyfyer);
 
-                return Andy.Csv.IO.CsvFileWriter.Write(lines);
+                return CsvFileWriter.Write(lines);
             }
             catch (Exception e)
             {
@@ -77,16 +95,27 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             }
         }
 
-        private static IList<string[]> Read(
-            IRowLengthValidatingCsvRowByteStreamReader csvStreamReader,
+        private IComparer<TItem1, TItem2> BuildComparer(string[] headerCells1, string[] headerCells2)
+        {
+            var columnIndexes1 = columnMapBuilder.GetColumnIndexMap(headerCells1);
+            var item1Parser = item1ParserFactory.Build(columnIndexes1);
+
+            var columnIndexes2 = columnMapBuilder.GetColumnIndexMap(headerCells2);
+            var item2Parser = item2ParserFactory.Build(columnIndexes2);
+
+            return comparerFactory.Build(item1Parser, item2Parser);
+        }
+
+        private static CsvDocument Read(
+            ICsvDocumentByteStreamReader csvStreamReader,
             int sourceNumber,
             Stream source)
         {
             try
             {
-                return csvStreamReader.Read(source).ToArray();
+                return csvStreamReader.Read(source);
             }
-            catch (Andy.Csv.IO.RowReadingException e)
+            catch (RowReadingException e)
             {
                 throw new SourceDataReadException(e.Message, sourceNumber, e.InnerException);
             }

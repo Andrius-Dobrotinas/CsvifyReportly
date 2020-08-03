@@ -1,0 +1,77 @@
+{
+  "CsvDelimiter": ",",
+  "Profiles": {
+    "wholenineyards": [
+      {
+        "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleRowValueFilterSettings, Csv.Transformation.Transformers.Core",
+        "TargetColumnName": "Type",
+        "TargetValue": "General Credit Card Deposit"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleRowValueFilterSettings, Csv.Transformation.Transformers.Core",
+        "TargetColumnName": "Type",
+        "TargetValue": "General Credit Card Withdrawal"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.Document.ColumnReducerSettings, Csv.Transformation.Transformers.Core",
+        "TargetColumnNames": [ "Date", "Net", "Currency", "Transaction ID", "Item Title", "Item ID", "Reference Txn ID", "Invoice Number", "Note", "Funding Source" ]
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.DateRewriterSettings, Csv.Transformation.Transformers.Custom",
+        "TargetColumnName": "Date",
+        "SourceFormat": "dd/MM/yyyy",
+        "TargetFormat": "yyyy-MM-dd"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.AmountInverterSettings, Csv.Transformation.Transformers.Custom",
+        "TargetColumnName": "Net"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.Document.ColumnInserterSettings, Csv.Transformation.Transformers.Core",
+        "TargetColumnIndex": 3,
+        "TargetColumnName": "Amount GBP"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.AmountInLocalCurrencyProducerSettings, Csv.Transformation.Transformers.Custom",
+        "AmountColumnName": "Net",
+        "CurrencyColumnName": "Currency",
+        "ResultAmountColumnName": "Amount GBP",
+        "TargetCurrency": "GBP"
+      }
+    ],
+    "debug": [
+      {
+        "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleRowValueFilterSettings, Csv.Transformation.Transformers.Core",
+        "TargetColumnName": "Type",
+        "TargetValue": "General Credit Card Deposit"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleRowValueFilterSettings, Csv.Transformation.Transformers.Core",
+        "TargetColumnName": "Type",
+        "TargetValue": "General Credit Card Withdrawal"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.Document.ColumnReducerSettings, Csv.Transformation.Transformers.Core",
+        "TargetColumnNames": [ "Date", "Net", "Currency", "Type", "Transaction ID", "Item Title", "Item ID", "Reference Txn ID", "Invoice Number", "Note", "Funding Source" ]
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.DateRewriterSettings, Csv.Transformation.Transformers.Custom",
+        "TargetColumnName": "Date",
+        "SourceFormat": "dd/MM/yyyy",
+        "TargetFormat": "yyyy-MM-dd"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.Document.ColumnInserterSettings, Csv.Transformation.Transformers.Core",
+        "TargetColumnIndex": 3,
+        "TargetColumnName": "Amount GBP"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.AmountInLocalCurrencyProducerSettings, Csv.Transformation.Transformers.Custom",
+        "AmountColumnName": "Net",
+        "CurrencyColumnName": "Currency",
+        "ResultAmountColumnName": "Amount GBP",
+        "TargetCurrency": "GBP"
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Andy.ExpenseReport.Transformation.Csv</RootNamespace>
+    <AssemblyName>ExpenseReport.Transformation.Csv</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Csv.Transformation.Transformers.Core\Csv.Transformation.Transformers.Core.csproj" />
+    <ProjectReference Include="..\Csv.Transformation\Csv.Transformation.csproj" />
+  </ItemGroup>
+
+</Project>

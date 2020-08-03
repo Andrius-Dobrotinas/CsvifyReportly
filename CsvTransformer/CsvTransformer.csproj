@@ -3,16 +3,17 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Andy.ExpenseReport.Comparer.Cmd</RootNamespace>
-    <StartupObject>Andy.ExpenseReport.Verifier.Cmd.Program</StartupObject>
-    <AssemblyName>ExpenseReportComparer.Cmd</AssemblyName>
+    <RootNamespace>Andy.Csv.Transformation.Row.Document.Cmd</RootNamespace>
+    <AssemblyName>transform</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Andy.Cmd\Cmd.csproj" />
+    <ProjectReference Include="..\Csv.Transformation.Transformers.Core\Csv.Transformation.Transformers.Core.csproj" />
+    <ProjectReference Include="..\Csv.Transformation.Transformers.Custom\Csv.Transformation.Transformers.Custom.csproj" />
     <ProjectReference Include="..\Csv.Transformation.Transformers.Setup\Csv.Transformation.Transformers.Setup.csproj" />
+    <ProjectReference Include="..\Csv\Csv.csproj" />
     <ProjectReference Include="..\ExpenseReport.Comparison.Csv\ExpenseReport.Comparison.Csv.csproj" />
-    <ProjectReference Include="..\ExpenseReport.Transformation.Csv\ExpenseReport.Transformation.Csv.csproj" />
   </ItemGroup>
 
   <ItemGroup>

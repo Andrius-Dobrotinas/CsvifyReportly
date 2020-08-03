@@ -10,12 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Andy.Cmd\Cmd.csproj" />
-    <ProjectReference Include="..\Csv\Csv.csproj" />
+    <Folder Include="Properties\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <ProjectReference Include="..\Csv.Transformation.Transformers.Core\Csv.Transformation.Transformers.Core.csproj" />
+    <ProjectReference Include="..\Csv.Transformation\Csv.Transformation.csproj" />
   </ItemGroup>
 
 </Project>

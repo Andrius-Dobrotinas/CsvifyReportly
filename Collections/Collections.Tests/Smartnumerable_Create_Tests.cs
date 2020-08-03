@@ -39,8 +39,8 @@ namespace Andy.Collections
 
             yield return new TestCaseData(
                 new List<object>
-                {
-                    new char[0],
+                { 
+                    new char[0], 
                     new char[] { 'a', 'b' }
                 });
         }

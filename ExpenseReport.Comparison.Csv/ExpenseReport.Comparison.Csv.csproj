@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Csv.Transformation\Csv.Transformation.csproj" />
     <ProjectReference Include="..\Csv\Csv.csproj" />
     <ProjectReference Include="..\ExpenseReport.Comparison\ExpenseReport.Comparison.csproj" />
   </ItemGroup>
