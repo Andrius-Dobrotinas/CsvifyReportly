@@ -10,7 +10,7 @@ namespace Andy.Csv.Transformation.Row.Document
         public override IDocumentTransformerFactory BuildFactory()
         {
             return new ColumnInserterFactory(
-                nameof(ColumnInserterSettings),
+                this.GetDescription(),
                 TargetColumnIndex,
                 TargetColumnName,
                 new CellInserter<string>(

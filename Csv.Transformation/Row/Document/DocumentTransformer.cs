@@ -30,10 +30,6 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var actualTransformer = factory.Build(columnIndexes);
 
-            /* todo: maybe i should add a Name property to the transformer and have
-             * that set by each factory? because the type name would be the same in
-             * many cases. that would help identify specific configurations (each
-             * config could have a name, by the way) */
             ReportStart(factory.Name);
 
             var result = transformerRunner.Transform(document, actualTransformer);
@@ -45,7 +41,7 @@ namespace Andy.Csv.Transformation.Row.Document
 
         private void ReportStart(string transformerName)
         {
-            Console.WriteLine($"Running transformer {transformerName}");
+            Console.WriteLine(@$"Running transformer ""{transformerName}""");
         }
 
         private void ReportFinish(CsvDocument before, CsvDocument after)
