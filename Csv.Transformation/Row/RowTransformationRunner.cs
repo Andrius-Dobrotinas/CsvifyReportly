@@ -20,7 +20,7 @@ namespace Andy.Csv.Transformation.Row
 
             for (int i = 0; i < rows.Length; i++)
             {
-                string[] row = transformer.Tramsform(rows[i]);
+                string[] row = transformer.Transform(rows[i]);
 
                 if (row.Length != expectedCellCount)
                     throw new CellCountMismatchException(expectedCellCount, row.Length, i);

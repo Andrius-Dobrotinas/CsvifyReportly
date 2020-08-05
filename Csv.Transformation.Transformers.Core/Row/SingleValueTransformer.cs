@@ -21,7 +21,7 @@ namespace Andy.Csv.Transformation.Row
             this.valueTransformer = valueTransformer;
         }
 
-        public string[] Tramsform(string[] row)
+        public string[] Transform(string[] row)
         {
             row[targetColumnIndex] = valueTransformer.GetValue(row[targetColumnIndex]);
 

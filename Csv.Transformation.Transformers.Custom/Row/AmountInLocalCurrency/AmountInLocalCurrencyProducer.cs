@@ -27,7 +27,7 @@ namespace Andy.Csv.Transformation.Row
             this.valueSelector = valueSelector;
         }
 
-        public string[] Tramsform(string[] source)
+        public string[] Transform(string[] source)
         {
             int lastIndex = source.Length - 1;
 

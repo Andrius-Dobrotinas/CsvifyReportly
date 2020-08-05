@@ -40,7 +40,7 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var target = new ColumnReducer(expectedColumnIndex, cellReducer.Object);
 
-            var result = target.Tramsform(expectedRow);
+            var result = target.Transform(expectedRow);
 
             cellReducer.Verify(
                 x => x.Reduce(

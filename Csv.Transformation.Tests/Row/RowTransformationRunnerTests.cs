@@ -28,7 +28,7 @@ namespace Andy.Csv.Transformation.Row
             for (int i = 0; i < rows.Count; i++)
             {
                 transformer.Verify(
-                    x => x.Tramsform(
+                    x => x.Transform(
                         It.Is<string[]>(
                             arg => arg == rows[i])),
                     Times.Once,
@@ -70,7 +70,7 @@ namespace Andy.Csv.Transformation.Row
         private void Setup_TransformerSequence(IList<string[]> returnValueSequence)
         {
             var sequence = transformer.SetupSequence(
-                    x => x.Tramsform(
+                    x => x.Transform(
                         It.IsAny<string[]>()));
 
             foreach (var item in returnValueSequence)
@@ -82,7 +82,7 @@ namespace Andy.Csv.Transformation.Row
         private void Setup_Transformer_ToReturnTheInput()
         {
             transformer.Setup(
-                    x => x.Tramsform(
+                    x => x.Transform(
                         It.IsAny<string[]>()))
                     .Returns<string[]>(row => row);
         }
