@@ -34,29 +34,39 @@ namespace Andy.Csv.Transformation.Row.Document
              * that set by each factory? because the type name would be the same in
              * many cases. that would help identify specific configurations (each
              * config could have a name, by the way) */
-            Console.WriteLine($"Running transformer {actualTransformer.GetType()}");
+            ReportStart(actualTransformer.GetType().ToString());
 
             var result = transformerRunner.Transform(document, actualTransformer);
 
+            ReportFinish(document, result);
+
+            return result;
+        }
+
+        private void ReportStart(string transformerName)
+        {
+            Console.WriteLine($"Running transformer {transformerName}");
+        }
+
+        private void ReportFinish(CsvDocument before, CsvDocument after)
+        {
             Console.WriteLine("Transformer finished");
 
-            if (result.ContentRows.Length != document.ContentRows.Length)
+            if (after.ContentRows.Length != before.ContentRows.Length)
             {
                 Console.WriteLine("The following rows have been filtered out:");
 
-                foreach (var row in document.ContentRows.Except(result.ContentRows))
+                foreach (var row in before.ContentRows.Except(after.ContentRows))
                     Console.WriteLine(Stringicize(row));
             }
 
-            if (result.HeaderCells.Length != document.HeaderCells.Length)
+            if (after.HeaderCells.Length != before.HeaderCells.Length)
             {
                 Console.WriteLine("Columns have been added/removed. The document is now made up of these columns:");
-                Console.WriteLine(Stringicize(result.HeaderCells));
+                Console.WriteLine(Stringicize(after.HeaderCells));
 
                 // todo: even if the length hasn't change, check whether the names (or positions) have.
             }
-
-            return result;
         }
 
         private string Stringicize(string[] row)
