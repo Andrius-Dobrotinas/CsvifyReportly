@@ -11,12 +11,16 @@ namespace Andy.Csv.Transformation.Row.Filtering
         private readonly string targetValue;
 
         public InvertedSingleCellValueEvaluatorFactory(
+            string name,
             string targetColumnName,
             string targetValue)
         {
+            this.Name = name;
             this.targetColumnName = targetColumnName;
             this.targetValue = targetValue;
         }
+
+        public string Name { get; }
 
         public SingleCellValueEvaluator Build(IDictionary<string, int> columnIndexes)
         {

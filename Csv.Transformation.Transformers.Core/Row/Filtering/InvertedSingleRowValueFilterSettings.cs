@@ -10,6 +10,7 @@ namespace Andy.Csv.Transformation.Row.Filtering
         public override IDocumentTransformerFactory BuildFactory()
         {
             return new InvertedSingleCellValueEvaluatorFactory(
+                nameof(InvertedSingleRowValueFilterSettings),
                 TargetColumnName,
                 TargetValue);
         }

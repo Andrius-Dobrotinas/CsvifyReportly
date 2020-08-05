@@ -10,14 +10,18 @@ namespace Andy.Csv.Transformation.Row.Document
         private readonly ICellInserter<string> cellInserter;
 
         public ColumnInserterFactory(
+            string name,
             int targetColumnIndex,
             string targetColumnName,
             ICellInserter<string> cellInserter)
         {
+            this.Name = name;
             this.targetColumnIndex = targetColumnIndex;
             this.targetColumnName = targetColumnName;
             this.cellInserter = cellInserter;
         }
+
+        public string Name { get; }
 
         public ColumnInserter Build(IDictionary<string, int> columnIndexes)
         {

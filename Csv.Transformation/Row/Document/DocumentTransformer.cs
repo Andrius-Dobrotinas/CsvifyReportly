@@ -34,7 +34,7 @@ namespace Andy.Csv.Transformation.Row.Document
              * that set by each factory? because the type name would be the same in
              * many cases. that would help identify specific configurations (each
              * config could have a name, by the way) */
-            ReportStart(actualTransformer.GetType().ToString());
+            ReportStart(factory.Name);
 
             var result = transformerRunner.Transform(document, actualTransformer);
 

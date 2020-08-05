@@ -8,7 +8,9 @@ namespace Andy.Csv.Transformation.Row.Document
 
         public override IDocumentTransformerFactory BuildFactory()
         {
-            return new ColumnReducerFactory(TargetColumnNames);
+            return new ColumnReducerFactory(
+                nameof(ColumnReducerSettings),
+                TargetColumnNames);
         }
     }
 }

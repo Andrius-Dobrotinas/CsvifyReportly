@@ -13,6 +13,7 @@ namespace Andy.Csv.Transformation.Row
         public override IDocumentTransformerFactory BuildFactory()
         {
             return new AmountInLocalCurrencyProducerFactory(
+                nameof(AmountInLocalCurrencyProducerSettings),
                 AmountColumnName,
                 CurrencyColumnName,
                 ResultAmountColumnName,

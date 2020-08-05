@@ -9,6 +9,7 @@ namespace Andy.Csv.Transformation.Row
         public override IDocumentTransformerFactory BuildFactory()
         {
             return new SingleValueTransformerFactory(
+                nameof(AmountInverterSettings),
                 TargetColumnName,
                     new AmountInverter());
         }

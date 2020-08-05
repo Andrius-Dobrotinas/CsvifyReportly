@@ -13,16 +13,20 @@ namespace Andy.Csv.Transformation.Row
         private readonly ITargetCurrencyValueSelector valueSelector;
 
         public AmountInLocalCurrencyProducerFactory(
+            string name,
             string amountColumnName,
             string currencyColumnName,
             string targetColumnName,
             ITargetCurrencyValueSelector valueSelector)
         {
+            this.Name = name ?? throw new ArgumentNullException(nameof(name));
             this.amountColumnName = amountColumnName ?? throw new ArgumentNullException(nameof(amountColumnName));
             this.currencyColumnName = currencyColumnName ?? throw new ArgumentNullException(nameof(currencyColumnName));
             this.targetColumnName = targetColumnName ?? throw new ArgumentNullException(nameof(targetColumnName));
             this.valueSelector = valueSelector ?? throw new ArgumentNullException(nameof(valueSelector));
         }
+
+        public string Name { get; }
 
         public AmountInLocalCurrencyProducer Build(IDictionary<string, int> columnIndexes)
         {

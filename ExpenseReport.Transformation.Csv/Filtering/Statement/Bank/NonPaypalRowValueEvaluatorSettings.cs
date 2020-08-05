@@ -12,6 +12,7 @@ namespace Andy.ExpenseReport.Transformation.Csv.Filtering.Statement.Bank
         public override IDocumentTransformerFactory BuildFactory()
         {
             return new NonPaypalRowValueEvaluatorFactory(
+                            nameof(NonPaypalRowValueEvaluatorSettings),
                             TargetColumnName,
                             new PaypalTransactionSpotter());
         }

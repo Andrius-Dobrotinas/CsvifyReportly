@@ -13,6 +13,7 @@ namespace Andy.Csv.Transformation.Row
     /// <typeparam name="T">Type of transformation</typeparam>
     public interface IDocumentTransformerFactory<out T> : IDocumentTransformerFactory
     {
+        string Name { get; }
         T Build(IDictionary<string, int> columnNameIndexMap);
     }
 }
