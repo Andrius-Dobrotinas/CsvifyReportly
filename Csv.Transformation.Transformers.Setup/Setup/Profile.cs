@@ -9,6 +9,7 @@ namespace Andy.Csv.Transformation.Row.Document.Setup
             IDictionary<string, TransformerSettings[]> transformationProfiles,
             string profileName)
         {
+            var stringWriter = new ConsoleWriter();
             var rowTransformer = new RowTransformationRunner();
             var documentTransformerFactory = new DocumentTransformerFactoryBuilder(
                 new ColumnMapBuilder(),
@@ -18,8 +19,8 @@ namespace Andy.Csv.Transformation.Row.Document.Setup
                     rowTransformer),
                 new RowFilterRunner(
                     new Filtering.RowFilter()),
-                new FilteringResultReporter(),
-                new TransformationResultReporter());
+                new FilteringResultReporter(stringWriter),
+                new TransformationResultReporter(stringWriter));
 
             return TransformerChain.GetTransformerChain(
                 transformationProfiles,

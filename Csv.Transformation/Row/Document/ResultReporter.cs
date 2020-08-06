@@ -11,14 +11,21 @@ namespace Andy.Csv.Transformation.Row.Document
 
     public abstract class ResultReporter : IResultReporter
     {
+        protected readonly IStringWriter stringWriter;
+
+        public ResultReporter(IStringWriter stringWriter)
+        {
+            this.stringWriter = stringWriter ?? throw new ArgumentNullException(nameof(stringWriter));
+        }
+
         public void ReportStart(string transformerName)
         {
-            Console.WriteLine(@$"Running transformer ""{transformerName}""");
+            stringWriter.WriteLine(@$"Running transformer ""{transformerName}""");
         }
 
         public void ReportFinish(CsvDocument before, CsvDocument after)
         {
-            Console.WriteLine("Transformer finished");
+            stringWriter.WriteLine("Transformer finished");
 
             ReportDifferences(before, after);
         }

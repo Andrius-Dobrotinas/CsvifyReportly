@@ -6,12 +6,18 @@ namespace Andy.Csv.Transformation.Row.Document
 {
     public class TransformationResultReporter : ResultReporter
     {
+        public TransformationResultReporter(IStringWriter stringWriter)
+            : base(stringWriter)
+        {
+
+        }
+
         protected override void ReportDifferences(CsvDocument before, CsvDocument after)
         {            
             if (HaveHeaderCellsChanged(before.HeaderCells, after.HeaderCells))
             {
-                Console.WriteLine("Columns have been added/removed. The document is now made up of these columns:");
-                Console.WriteLine(Stringicize(after.HeaderCells));
+                stringWriter.WriteLine("Columns have been added/removed. The document is now made up of these columns:");
+                stringWriter.WriteLine(Stringicize(after.HeaderCells));
             }
         }
 
