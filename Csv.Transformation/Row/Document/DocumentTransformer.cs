@@ -56,13 +56,23 @@ namespace Andy.Csv.Transformation.Row.Document
                     Console.WriteLine(Stringicize(row));
             }
 
-            if (after.HeaderCells.Length != before.HeaderCells.Length)
+            if (HaveHeaderCellsChanged(before.HeaderCells, after.HeaderCells))
             {
                 Console.WriteLine("Columns have been added/removed. The document is now made up of these columns:");
                 Console.WriteLine(Stringicize(after.HeaderCells));
-
-                // todo: even if the length hasn't change, check whether the names (or positions) have.
             }
+        }
+
+        private bool HaveHeaderCellsChanged(string[] before, string[] after)
+        {
+            if (after.Length != before.Length)
+                return true;
+
+            for (int i = 0; i < before.Length; i++)
+                if (before[i] != after[i])
+                    return true;
+
+            return false;
         }
 
         private string Stringicize(string[] row)
