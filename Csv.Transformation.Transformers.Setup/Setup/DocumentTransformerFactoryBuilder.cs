@@ -20,17 +20,20 @@ namespace Andy.Csv.Transformation.Row.Document.Setup
         private readonly ITransformationRunner<ICellContentTransformer> cellContentTransformerRunner;
         private readonly ITransformationRunner<IStructureTransformer> structureTransformerRunner;
         private readonly ITransformationRunner<Filtering.IRowMatchEvaluator> rowFilterRunner;
+        private readonly IResultReporter reporter;
 
         public DocumentTransformerFactoryBuilder(
             IColumnMapBuilder columnMapBuilder,
             ITransformationRunner<ICellContentTransformer> cellContentTransformerRunner,
             ITransformationRunner<IStructureTransformer> structureTransformerRunner,
-            ITransformationRunner<Filtering.IRowMatchEvaluator> rowFilterRunner)
+            ITransformationRunner<Filtering.IRowMatchEvaluator> rowFilterRunner,
+            IResultReporter reporter)
         {
             this.columnMapBuilder = columnMapBuilder;
             this.cellContentTransformerRunner = cellContentTransformerRunner;
             this.structureTransformerRunner = structureTransformerRunner;
             this.rowFilterRunner = rowFilterRunner;
+            this.reporter = reporter;
         }
 
         public RowTransformer<ICellContentTransformer> BuildCellContentTransformerFactory(IRowTransformerFactory<ICellContentTransformer> transformerFactory)
@@ -38,7 +41,8 @@ namespace Andy.Csv.Transformation.Row.Document.Setup
             return new RowTransformer<ICellContentTransformer>(
                 columnMapBuilder,
                 transformerFactory,
-                cellContentTransformerRunner);
+                cellContentTransformerRunner,
+                reporter);
         }
 
         public RowTransformer<IStructureTransformer> BuildStructureTransformerFactory(IRowTransformerFactory<IStructureTransformer> transformerFactory)
@@ -46,7 +50,8 @@ namespace Andy.Csv.Transformation.Row.Document.Setup
             return new RowTransformer<IStructureTransformer>(
                 columnMapBuilder,
                 transformerFactory,
-                structureTransformerRunner);
+                structureTransformerRunner,
+                reporter);
         }
 
         public RowFilterer BuildRowFiltererFactory(IDocumentTransformerFactory<Filtering.IRowMatchEvaluator> transformerFactory)
@@ -54,7 +59,8 @@ namespace Andy.Csv.Transformation.Row.Document.Setup
             return new RowFilterer(
                 columnMapBuilder,
                 transformerFactory,
-                rowFilterRunner);
+                rowFilterRunner,
+                reporter);
         }
     }
 }

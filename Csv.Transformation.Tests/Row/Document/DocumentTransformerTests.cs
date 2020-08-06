@@ -12,6 +12,7 @@ namespace Andy.Csv.Transformation.Row.Document
         Mock<IColumnMapBuilder> columnMapBuilder;
         Mock<IRowTransformerFactory<IRowTransformer>> factory;
         Mock<ITransformationRunner<IRowTransformer>> transformerRunner;
+        Mock<IResultReporter> repoter;
 
         [SetUp]
         public void Setup()
@@ -19,11 +20,13 @@ namespace Andy.Csv.Transformation.Row.Document
             columnMapBuilder = new Mock<IColumnMapBuilder>();
             factory = new Mock<IRowTransformerFactory<IRowTransformer>>();
             transformerRunner = new Mock<ITransformationRunner<IRowTransformer>>();
+            repoter = new Mock<IResultReporter>();
 
             target = new RowTransformer<IRowTransformer>(
                 columnMapBuilder.Object,
                 factory.Object,
-                transformerRunner.Object);
+                transformerRunner.Object,
+                repoter.Object);
         }
 
         [TestCaseSource(nameof(Get_ColumnSequences))]

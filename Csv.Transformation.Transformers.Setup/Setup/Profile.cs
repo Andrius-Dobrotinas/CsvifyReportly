@@ -17,7 +17,8 @@ namespace Andy.Csv.Transformation.Row.Document.Setup
                 new StructureTransformationRunner(
                     rowTransformer),
                 new RowFilterRunner(
-                    new Filtering.RowFilter()));
+                    new Filtering.RowFilter()),
+                new ResultReporter());
 
             return TransformerChain.GetTransformerChain(
                 transformationProfiles,
