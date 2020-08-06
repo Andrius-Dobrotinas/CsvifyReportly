@@ -18,7 +18,8 @@ namespace Andy.Csv.Transformation.Row.Document.Setup
                     rowTransformer),
                 new RowFilterRunner(
                     new Filtering.RowFilter()),
-                new ResultReporter());
+                new FilteringResultReporter(),
+                new TransformationResultReporter());
 
             return TransformerChain.GetTransformerChain(
                 transformationProfiles,
