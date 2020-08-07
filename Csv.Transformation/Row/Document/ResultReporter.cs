@@ -25,8 +25,6 @@ namespace Andy.Csv.Transformation.Row.Document
 
         public void ReportFinish(CsvDocument before, CsvDocument after)
         {
-            stringWriter.WriteLine("Transformer finished");
-
             ReportDifferences(before, after);
 
             stringWriter.WriteLine("------------------");
