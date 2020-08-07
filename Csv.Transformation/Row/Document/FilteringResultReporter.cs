@@ -24,6 +24,10 @@ namespace Andy.Csv.Transformation.Row.Document
                 foreach (var row in before.ContentRows.Except(after.ContentRows))
                     stringWriter.WriteLine(Stringicize(row));
             }
+            else
+            {
+                stringWriter.WriteLine("No rows have been filtered out");
+            }
         }
     }
 }
