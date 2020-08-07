@@ -28,13 +28,15 @@ namespace Andy.Csv.Transformation.Row.Document
             stringWriter.WriteLine("Transformer finished");
 
             ReportDifferences(before, after);
+
+            stringWriter.WriteLine("------------------");
         }
 
         protected abstract void ReportDifferences(CsvDocument before, CsvDocument after);
 
         protected string Stringicize(string[] row)
         {
-            return string.Join('|', row);
+            return string.Join(" | ", row);
         }
     }
 }

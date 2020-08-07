@@ -22,7 +22,7 @@ namespace Andy.Csv.Transformation.Row.Document
                  * rows or their content have not been altered in anyway, and that
                  * means that is safe to perform the referential equality */
                 foreach (var row in before.ContentRows.Except(after.ContentRows))
-                    stringWriter.WriteLine(Stringicize(row));
+                    stringWriter.WriteLine($"* {Stringicize(row)}");
             }
             else
             {

@@ -17,7 +17,7 @@ namespace Andy.Csv.Transformation.Row.Document
             if (HaveHeaderCellsChanged(before.HeaderCells, after.HeaderCells))
             {
                 stringWriter.WriteLine("Columns have been added/removed. The document is now made up of these columns:");
-                stringWriter.WriteLine(Stringicize(after.HeaderCells));
+                stringWriter.WriteLine($"* {Stringicize(after.HeaderCells)}");
             }
         }
 
