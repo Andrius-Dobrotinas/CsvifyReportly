@@ -5,6 +5,6 @@ namespace Andy.Csv.Transformation.Row
 {
     public interface IRowTransformer
     {
-        string[] Tramsform(string[] row);
+        string[] Transform(string[] row);
     }
 }

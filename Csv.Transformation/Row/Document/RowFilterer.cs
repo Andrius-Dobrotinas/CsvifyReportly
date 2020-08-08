@@ -8,8 +8,9 @@ namespace Andy.Csv.Transformation.Row.Document
         public RowFilterer(
             IColumnMapBuilder columnMapBuilder,
             IDocumentTransformerFactory<Filtering.IRowMatchEvaluator> factory,
-            ITransformationRunner<Filtering.IRowMatchEvaluator> transformerRunner)
-            : base(columnMapBuilder, factory, transformerRunner)
+            ITransformationRunner<Filtering.IRowMatchEvaluator> transformerRunner,
+            IResultReporter reporter)
+            : base(columnMapBuilder, factory, transformerRunner, reporter)
         {
 
         }

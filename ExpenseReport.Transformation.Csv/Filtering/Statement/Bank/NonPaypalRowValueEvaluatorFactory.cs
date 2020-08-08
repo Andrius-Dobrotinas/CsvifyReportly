@@ -14,12 +14,16 @@ namespace Andy.ExpenseReport.Comparison.Filtering.Statement.Bank
         private readonly IPaypalTransactionSpotter paypalTransactionSpotter;
 
         public NonPaypalRowValueEvaluatorFactory(
+            string name,
             string targetColumnName,
             IPaypalTransactionSpotter paypalTransactionSpotter)
         {
+            this.Name = name;
             this.targetColumnName = targetColumnName;
             this.paypalTransactionSpotter = paypalTransactionSpotter;
         }
+
+        public string Name { get; }
 
         public SingleCellValueEvaluator Build(IDictionary<string, int> columnIndexes)
         {

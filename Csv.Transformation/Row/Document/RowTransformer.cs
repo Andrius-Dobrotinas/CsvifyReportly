@@ -14,8 +14,9 @@ namespace Andy.Csv.Transformation.Row.Document
         public RowTransformer(
             IColumnMapBuilder columnMapBuilder,
             IRowTransformerFactory<TRowTransformer> factory,
-            ITransformationRunner<TRowTransformer> transformerRunner)
-            : base(columnMapBuilder, factory, transformerRunner)
+            ITransformationRunner<TRowTransformer> transformerRunner,
+            IResultReporter reporter)
+            : base(columnMapBuilder, factory, transformerRunner, reporter)
         {
         }
     }

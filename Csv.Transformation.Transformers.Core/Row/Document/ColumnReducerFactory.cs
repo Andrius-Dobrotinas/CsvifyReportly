@@ -8,10 +8,13 @@ namespace Andy.Csv.Transformation.Row.Document
     {
         private readonly string[] targetColumnNames;
 
-        public ColumnReducerFactory(string[] targetColumnNames)
+        public ColumnReducerFactory(string name, string[] targetColumnNames)
         {
+            this.Name = name;
             this.targetColumnNames = targetColumnNames;
         }
+
+        public string Name { get; }
 
         public ColumnReducer Build(IDictionary<string, int> columnIndexes)
         {

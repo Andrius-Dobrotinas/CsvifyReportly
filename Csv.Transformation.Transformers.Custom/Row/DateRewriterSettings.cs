@@ -11,6 +11,7 @@ namespace Andy.Csv.Transformation.Row
         public override IDocumentTransformerFactory BuildFactory()
         {
             return new SingleValueTransformerFactory(
+                this.GetDescription(),
                 TargetColumnName,
                     new DateTransformer(SourceFormat, TargetFormat));
         }

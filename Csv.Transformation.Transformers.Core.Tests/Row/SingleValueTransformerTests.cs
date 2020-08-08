@@ -26,7 +26,7 @@ namespace Andy.Csv.Transformation.Row
 
             target = new SingleValueTransformer(targetColumnIndex, valueTransformer.Object);
 
-            target.Tramsform(cells.ToArray());
+            target.Transform(cells.ToArray());
 
             valueTransformer.Verify(
                     x => x.GetValue(
@@ -47,7 +47,7 @@ namespace Andy.Csv.Transformation.Row
 
             target = new SingleValueTransformer(targetColumnIndex, valueTransformer.Object);
 
-            var result = target.Tramsform(cells.ToArray());
+            var result = target.Transform(cells.ToArray());
 
             AssertionExtensions.SequencesAreEqual(expectedCells, result);
         }

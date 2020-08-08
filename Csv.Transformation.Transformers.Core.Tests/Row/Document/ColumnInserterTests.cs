@@ -25,7 +25,7 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var target = new ColumnInserter(cellInserter.Object, targetColumnIndex, "unique");
 
-            target.Tramsform(expectedRow);
+            target.Transform(expectedRow);
 
             Verify_AShinyBrandNewCellIsInserted(expectedRow, targetColumnIndex);
         }
@@ -39,7 +39,7 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var target = new ColumnInserter(cellInserter.Object, targetColumnIndex, "unique");
 
-            target.Tramsform(expectedRow);
+            target.Transform(expectedRow);
 
             Verify_CellInsertion(expectedRow, targetColumnIndex, null);
         }

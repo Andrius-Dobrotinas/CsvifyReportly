@@ -9,12 +9,16 @@ namespace Andy.Csv.Transformation.Row
         private readonly IValueTransformer valueTransformer;
 
         public SingleValueTransformerFactory(
+            string name,
             string targetColumnName,
             IValueTransformer valueTransformer)
         {
+            this.Name = name;
             this.targetColumnName = targetColumnName;
             this.valueTransformer = valueTransformer;
         }
+
+        public string Name { get; }
 
         public ISingleValueTransformer Build(IDictionary<string, int> columnIndexes)
         {

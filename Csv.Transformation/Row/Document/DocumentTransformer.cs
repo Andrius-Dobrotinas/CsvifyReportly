@@ -13,15 +13,18 @@ namespace Andy.Csv.Transformation.Row.Document
         private readonly IColumnMapBuilder columnMapBuilder;
         private readonly IDocumentTransformerFactory<TTransformer> factory;
         private readonly ITransformationRunner<TTransformer> transformerRunner;
+        private readonly IResultReporter reporter;
 
         public DocumentTransformer(
             IColumnMapBuilder columnMapBuilder,
             IDocumentTransformerFactory<TTransformer> factory,
-            ITransformationRunner<TTransformer> transformerRunner)
+            ITransformationRunner<TTransformer> transformerRunner,
+            IResultReporter reporter)
         {
             this.columnMapBuilder = columnMapBuilder;
             this.factory = factory;
             this.transformerRunner = transformerRunner;
+            this.reporter = reporter;
         }
 
         public CsvDocument Transform(CsvDocument document)
@@ -30,7 +33,13 @@ namespace Andy.Csv.Transformation.Row.Document
 
             var actualTransformer = factory.Build(columnIndexes);
 
-            return transformerRunner.Transform(document, actualTransformer);
+            reporter.ReportStart(factory.Name);
+
+            var result = transformerRunner.Transform(document, actualTransformer);
+
+            reporter.ReportFinish(document, result);
+
+            return result;
         }
     }
 }

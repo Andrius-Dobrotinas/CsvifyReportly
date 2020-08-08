@@ -26,7 +26,7 @@ namespace Andy.Csv.Transformation.Row.Document
             this.targetColumnName = targetColumnName;
         }
 
-        public string[] Tramsform(string[] row)
+        public string[] Transform(string[] row)
         {
             return cellInserter.Insert(row, targetColumnIndex, null);
         }

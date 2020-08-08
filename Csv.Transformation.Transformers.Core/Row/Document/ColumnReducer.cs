@@ -21,14 +21,14 @@ namespace Andy.Csv.Transformation.Row.Document
             this.cellReducer = cellReducer ?? throw new ArgumentNullException(nameof(cellReducer));
         }
 
-        public string[] Tramsform(string[] row)
+        public string[] Transform(string[] row)
         {
             return cellReducer.Reduce(row, targetColumnIndexes);
         }
 
         public string[] TransformHeader(string[] row)
         {
-            return Tramsform(row);
+            return Transform(row);
         }
     }
 }
