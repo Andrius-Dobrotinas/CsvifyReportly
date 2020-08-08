@@ -2,11 +2,11 @@
   "profiles": {
     "ExpenseReportComparer.Cmd": {
       "commandName": "Project",
-      "commandLineArgs": "exp-report --source1=\"d:\\hsbc 2020-datesfixed.csv\" --source2=\"d:\\2020 - Exp.csv\" --output=\"d:\\result.csv\""
+      "commandLineArgs": "exp-report --source1=\"d:\\hsbc 2020-datesfixed.csv\" --source2=\"d:\\2020 - Exp.csv\" --result=\"d:\\result.csv\""
     },
     "General": {
       "commandName": "Project",
-      "commandLineArgs": "generic --source1=\"C:\\soft\\march\\pp 3-2020.csv\" --source2=\"C:\\soft\\march\\report 3-2020.csv\" --output=\"d:\\result.csv\""
+      "commandLineArgs": "generic --source1=\"C:\\soft\\march\\pp 3-2020.csv\" --source2=\"C:\\soft\\march\\report 3-2020.csv\" --result=\"d:\\result.csv\""
     }
   }
 }

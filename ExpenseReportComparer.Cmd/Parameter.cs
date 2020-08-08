@@ -10,7 +10,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
         {
             public const string Source1 = "--source1";
             public const string Source2 = "--source2";
-            public const string ReportFile = "--output";
+            public const string ReportFile = "--result";
 
             internal static class Command
             {
@@ -33,7 +33,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 
             string reportFilePath;
             if (!args.TryGetValue(Keys.ReportFile, out reportFilePath))
-                throw new Exception("A comparison report file must be specified");
+                throw new Exception("A comparison report/result file must be specified");
 
             return new Parameters
             {
