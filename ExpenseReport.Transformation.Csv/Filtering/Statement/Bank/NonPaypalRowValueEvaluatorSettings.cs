@@ -1,5 +1,5 @@
 ﻿using Andy.Csv.Transformation.Row;
-using Andy.ExpenseReport.Comparison.Filtering.Statement.Bank;
+using Andy.Csv.Transformation.Row.Filtering;
 using System;
 using System.Collections.Generic;
 
@@ -11,10 +11,13 @@ namespace Andy.ExpenseReport.Transformation.Csv.Filtering.Statement.Bank
 
         public override IDocumentTransformerFactory BuildFactory()
         {
-            return new NonPaypalRowValueEvaluatorFactory(
-                            this.GetDescription(),
+            var name = this.GetDescription();
+            return new InvertedSingleCellValueEvaluatorFactory(
+                        name,
+                        new SingleCellValueEvaluatorFactory(
+                            name,
                             TargetColumnName,
-                            new PaypalTransactionSpotter());
+                            new PaypalTransactionSpotter()));
         }
     }
 }

@@ -5,31 +5,25 @@ using System.Linq;
 namespace Andy.Csv.Transformation.Row.Filtering
 {
     public class InvertedSingleCellValueEvaluatorFactory
-        : IDocumentTransformerFactory<SingleCellValueEvaluator>
+        : IDocumentTransformerFactory<ISingleCellValueEvaluator>
     {
-        private readonly string targetColumnName;
-        private readonly string targetValue;
+        private readonly SingleCellValueEvaluatorFactory singleCellValueEvaluatorFactory;
 
         public InvertedSingleCellValueEvaluatorFactory(
             string name,
-            string targetColumnName,
-            string targetValue)
+            SingleCellValueEvaluatorFactory singleCellValueEvaluatorFactory)
         {
             this.Name = name;
-            this.targetColumnName = targetColumnName;
-            this.targetValue = targetValue;
+            this.singleCellValueEvaluatorFactory = singleCellValueEvaluatorFactory;
         }
 
         public string Name { get; }
 
-        public SingleCellValueEvaluator Build(IDictionary<string, int> columnIndexes)
+        public ISingleCellValueEvaluator Build(IDictionary<string, int> columnIndexes)
         {
-            int targetColumnIndex = Column.GetOrThrow(columnIndexes, targetColumnName);
+            ISingleCellValueEvaluator instance = singleCellValueEvaluatorFactory.Build(columnIndexes);
 
-            return new SingleCellValueEvaluator(
-                targetColumnIndex,
-                new InvertedValueComparer(
-                    new StraightforwardValueComparer(targetValue)));
+            return new InvertedSingleCellValueEvaluator(instance);
         }
     }
 }

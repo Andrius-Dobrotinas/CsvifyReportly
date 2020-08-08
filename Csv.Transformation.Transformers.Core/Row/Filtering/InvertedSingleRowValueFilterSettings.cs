@@ -9,10 +9,14 @@ namespace Andy.Csv.Transformation.Row.Filtering
 
         public override IDocumentTransformerFactory BuildFactory()
         {
+            var name = this.GetDescription();
+
             return new InvertedSingleCellValueEvaluatorFactory(
-                this.GetDescription(),
-                TargetColumnName,
-                TargetValue);
+                name,
+                new SingleCellValueEvaluatorFactory(
+                    name,
+                    TargetColumnName,
+                        new StraightforwardValueComparer(TargetValue)));
         }
     }
 }
