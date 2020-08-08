@@ -25,15 +25,15 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 
             string source1File;
             if (!args.TryGetValue(Keys.Source1, out source1File))
-                throw new Exception("A source file 1 must be specified");
+                throw new Exception(@$"A source file 1 must be specified with ""{Keys.Source1}"" parameter");
 
             string source2File;
             if (!args.TryGetValue(Keys.Source2, out source2File))
-                throw new Exception("A source file 2 must be specified");
+                throw new Exception(@$"A source file 2 must be specified with ""{Keys.Source2}"" parameter");
 
             string reportFilePath;
             if (!args.TryGetValue(Keys.ReportFile, out reportFilePath))
-                throw new Exception("A comparison report/result file must be specified");
+                throw new Exception(@$"A comparison report/result file must be specified with ""{Keys.ReportFile}"" parameter");
 
             return new Parameters
             {
