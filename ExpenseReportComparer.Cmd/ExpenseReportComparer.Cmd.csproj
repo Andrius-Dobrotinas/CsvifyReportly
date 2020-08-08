@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Andy.ExpenseReport.Comparer.Cmd</RootNamespace>
     <StartupObject>Andy.ExpenseReport.Verifier.Cmd.Program</StartupObject>
-    <AssemblyName>ExpenseReportComparer.Cmd</AssemblyName>
+    <AssemblyName>expenses</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
