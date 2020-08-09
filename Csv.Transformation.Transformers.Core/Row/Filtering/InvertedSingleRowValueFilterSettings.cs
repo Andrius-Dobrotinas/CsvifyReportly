@@ -11,7 +11,7 @@ namespace Andy.Csv.Transformation.Row.Filtering
         {
             var name = this.GetDescription();
 
-            return new InvertedSingleCellValueEvaluatorFactory(
+            return new InvertedRowMatchEvaluatorFactory(
                 name,
                 new SingleCellValueEvaluatorFactory(
                     name,

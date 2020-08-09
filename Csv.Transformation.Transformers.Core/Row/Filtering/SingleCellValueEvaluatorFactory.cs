@@ -5,7 +5,7 @@ using System.Linq;
 namespace Andy.Csv.Transformation.Row.Filtering
 {
     public class SingleCellValueEvaluatorFactory
-        : IDocumentTransformerFactory<SingleCellValueEvaluator>
+        : IDocumentTransformerFactory<IRowMatchEvaluator>
     {
         private readonly string targetColumnName;
         private readonly IValueComparer valueComparer;
@@ -22,11 +22,11 @@ namespace Andy.Csv.Transformation.Row.Filtering
 
         public string Name { get; }
 
-        public SingleCellValueEvaluator Build(IDictionary<string, int> columnIndexes)
+        public IRowMatchEvaluator Build(IDictionary<string, int> columnIndexes)
         {
             int targetColumnIndex = Column.GetOrThrow(columnIndexes, targetColumnName);
 
-            return new SingleCellValueEvaluator(
+            return new RowSingleCellValueEvaluator(
                 targetColumnIndex,
                 valueComparer);
         }

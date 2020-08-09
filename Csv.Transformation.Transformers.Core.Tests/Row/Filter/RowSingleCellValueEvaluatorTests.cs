@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Andy.Csv.Transformation.Row.Filtering
 {
-    public class SingleCellValueEvaluatorTests
+    public class RowSingleCellValueEvaluatorTests
     {
         Mock<IValueComparer> valueComparer;
 
@@ -52,11 +52,11 @@ namespace Andy.Csv.Transformation.Row.Filtering
             Assert.IsTrue(result);
         }
 
-        public SingleCellValueEvaluator CreateTarget(int targetColumnIndex)
+        public RowSingleCellValueEvaluator CreateTarget(int targetColumnIndex)
         {
             valueComparer = new Mock<IValueComparer>();
 
-            return new SingleCellValueEvaluator(targetColumnIndex, valueComparer.Object);
+            return new RowSingleCellValueEvaluator(targetColumnIndex, valueComparer.Object);
         }
 
         private void Setup_ValueComparer(bool returnValue)

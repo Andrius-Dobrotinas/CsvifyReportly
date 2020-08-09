@@ -3,20 +3,15 @@ using System.Collections.Generic;
 
 namespace Andy.Csv.Transformation.Row.Filtering
 {
-    public interface ISingleCellValueEvaluator : IRowMatchEvaluator
-    {
-
-    }
-
     /// <summary>
     /// Returns true for values that match a specified value
     /// </summary>
-    public class SingleCellValueEvaluator : ISingleCellValueEvaluator
+    public class RowSingleCellValueEvaluator : IRowMatchEvaluator
     {
         private readonly int targetColumnIndex;
         private readonly IValueComparer valueComparer;
 
-        public SingleCellValueEvaluator(
+        public RowSingleCellValueEvaluator(
             int targetColumnIndex,
             IValueComparer valueComparer)
         {
