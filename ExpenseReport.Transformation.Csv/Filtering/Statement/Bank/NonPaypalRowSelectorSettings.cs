@@ -5,7 +5,10 @@ using System.Collections.Generic;
 
 namespace Andy.ExpenseReport.Transformation.Csv.Filtering.Statement.Bank
 {
-    public class NonPaypalRowValueEvaluatorSettings : TransformerSettings
+    /// <summary>
+    /// Selects Non-PayPal rows
+    /// </summary>
+    public class NonPaypalRowSelectorSettings : TransformerSettings
     {
         public string TargetColumnName { get; set; }
 
