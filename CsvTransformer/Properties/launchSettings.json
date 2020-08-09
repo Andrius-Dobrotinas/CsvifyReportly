@@ -6,7 +6,7 @@
     },
     "RealFile": {
       "commandName": "Project",
-      "commandLineArgs": "--source=\"C:\\soft\\pp 4-2020.csv\" --output=\"C:\\soft\\result.csv\" --profile=\"wholenineyards\""
+      "commandLineArgs": "--source=\"d:\\2020 - Exp6.csv\" --output=\"D:\\result1.csv\" --profile=\"paypal-stmt\""
     }
   }
 }

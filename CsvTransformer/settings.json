@@ -1,7 +1,7 @@
 {
   "CsvDelimiter": ",",
   "Profiles": {
-    "wholenineyards": [
+    "paypal-stmt": [
       {
         "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleCellValueRowFilterSettings, Csv.Transformation.Transformers.Core",
         "TargetColumnName": "Type",
@@ -39,6 +39,14 @@
         "CurrencyColumnName": "Currency",
         "ResultAmountColumnName": "Amount GBP",
         "TargetCurrency": "GBP"
+      }
+    ],
+    "exp-report-paypal-only": [
+      {
+        "$type": "Andy.Csv.Transformation.Row.Filtering.SingleCellValueRowFilterSettings, Csv.Transformation.Transformers.Core",
+        "TargetColumnName": "IsPayPal",
+        "TargetValue": "TRUE",
+        "_Description": "Select Paypal rows"
       }
     ],
     "debug": [
