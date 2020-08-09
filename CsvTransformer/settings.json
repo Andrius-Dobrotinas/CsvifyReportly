@@ -3,13 +3,13 @@
   "Profiles": {
     "wholenineyards": [
       {
-        "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleRowValueFilterSettings, Csv.Transformation.Transformers.Core",
+        "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleCellValueRowFilterSettings, Csv.Transformation.Transformers.Core",
         "TargetColumnName": "Type",
         "TargetValue": "General Credit Card Deposit",
         "_Description": "Remove CC Deposit"
       },
       {
-        "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleRowValueFilterSettings, Csv.Transformation.Transformers.Core",
+        "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleCellValueRowFilterSettings, Csv.Transformation.Transformers.Core",
         "TargetColumnName": "Type",
         "TargetValue": "General Credit Card Withdrawal",
         "_Description": "Remove CC Withdrawal"
@@ -43,13 +43,13 @@
     ],
     "debug": [
       {
-        "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleRowValueFilterSettings, Csv.Transformation.Transformers.Core",
+        "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleCellValueRowFilterSettings, Csv.Transformation.Transformers.Core",
         "TargetColumnName": "Type",
         "TargetValue": "General Credit Card Deposit",
         "_Description": "Remove CC Deposit"
       },
       {
-        "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleRowValueFilterSettings, Csv.Transformation.Transformers.Core",
+        "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleCellValueRowFilterSettings, Csv.Transformation.Transformers.Core",
         "TargetColumnName": "Type",
         "TargetValue": "General Credit Card Withdrawal",
         "_Description": "Remove CC Withdrawal"

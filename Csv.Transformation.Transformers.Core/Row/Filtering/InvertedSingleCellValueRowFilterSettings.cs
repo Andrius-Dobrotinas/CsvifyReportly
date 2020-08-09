@@ -2,7 +2,7 @@
 
 namespace Andy.Csv.Transformation.Row.Filtering
 {
-    public class InvertedSingleRowValueFilterSettings : TransformerSettings
+    public class InvertedSingleCellValueRowFilterSettings : TransformerSettings
     {
         public string TargetColumnName { get; set; }
         public string TargetValue { get; set; }
