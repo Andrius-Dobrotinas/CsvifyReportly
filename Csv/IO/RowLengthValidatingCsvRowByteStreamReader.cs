@@ -34,15 +34,25 @@ namespace Andy.Csv.IO
 
             var columnCount = rows.First().Length;
 
-            return rows.Select(
-                row => GetRowOrThrowIfBadLength(row, columnCount));
+            return GetRows(rows, columnCount);
         }
 
-        private static string[] GetRowOrThrowIfBadLength(string[] cells, int expectedLength)
+        private IEnumerable<string[]> GetRows(IEnumerable<string[]> rows, int columnCount)
+        {
+            int count = 0;
+
+            foreach (var row in rows)
+            {
+                count++;
+                yield return GetRowOrThrowIfBadLength(row, columnCount, count);
+            }
+        }
+
+        private static string[] GetRowOrThrowIfBadLength(string[] cells, int expectedLength, int rowNumber)
         {
             return cells.Length == expectedLength 
                 ? cells
-                : throw new StructureException($"All rows in a CSV file must have an equal number of cells. Expected number of cells (based on the first row): {expectedLength}");
+                : throw new StructureException($"All rows in a CSV file must have an equal number of cells. Expected number of cells (based on the first row): {expectedLength}, row is {rowNumber} has {cells.Length} cells.");
         }
     }
 }
