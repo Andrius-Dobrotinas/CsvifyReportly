@@ -6,15 +6,19 @@ namespace Andy.Csv.Transformation.Row.Filtering
     public class StraightforwardValueComparer : IValueComparer
     {
         private readonly string targetValue;
+        private readonly StringComparison stringComparisonType;
 
-        public StraightforwardValueComparer(string targetValue)
+        public StraightforwardValueComparer(string targetValue, bool isCaseInsensitive)
         {
             this.targetValue = targetValue;
+            this.stringComparisonType = isCaseInsensitive ?
+                StringComparison.CurrentCultureIgnoreCase :
+                StringComparison.CurrentCulture;
         }
 
         public bool IsMatch(string value)
         {
-            return value != targetValue;
+            return targetValue.Equals(value, stringComparisonType);
         }
     }
 }

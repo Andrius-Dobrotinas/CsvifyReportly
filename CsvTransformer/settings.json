@@ -45,7 +45,8 @@
       {
         "$type": "Andy.Csv.Transformation.Row.Filtering.SingleCellValueRowFilterSettings, Csv.Transformation.Transformers.Core",
         "TargetColumnName": "IsPayPal",
-        "TargetValue": "TRUE",
+        "TargetValue": "True",
+        "IsCaseInsensitive": true,
         "_Description": "Select Paypal rows"
       }
     ],
