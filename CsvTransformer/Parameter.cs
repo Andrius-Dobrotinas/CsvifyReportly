@@ -17,11 +17,11 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
         {
             string sourceFile;
             if (!args.TryGetValue(Keys.Source, out sourceFile))
-                throw new Exception("A source file must be specified");
+                throw new Exception(@$"A source file must be specified with ""{Keys.OutputFile}"" parameter");
 
             string reportFilePath;
             if (!args.TryGetValue(Keys.OutputFile, out reportFilePath))
-                throw new Exception("An output file must be specified");
+                throw new Exception(@$"An output file must be specified with ""{Keys.OutputFile}"" parameter");
 
             string profileName;
             args.TryGetValue(Keys.ProfileName, out profileName);
