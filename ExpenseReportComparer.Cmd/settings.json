@@ -57,6 +57,13 @@
         "_Description": "Filter out Paypal transactions"
       },
       {
+        "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleCellValueRowFilterSettings, Csv.Transformation.Transformers.Core",
+        "TargetColumnName": "Details",
+        "TargetValue": "PAYMENT - THANK YOU",
+        "IsCaseInsensitive": true,
+        "_Description": "Filter out Credit repayment transactions"
+      },
+      {
         "$type": "Andy.Csv.Transformation.Row.DateRewriterSettings, Csv.Transformation.Transformers.Custom",
         "TargetColumnName": "Date",
         "SourceFormat": "dd/MM/yyyy",
