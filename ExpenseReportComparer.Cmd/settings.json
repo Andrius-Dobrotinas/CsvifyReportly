@@ -8,7 +8,7 @@
       },
       "Delimiter": ",",
       "DateFormat": "yyyy-MM-dd",
-      "TransformationProfileName": "noPayPal"
+      "TransformationProfileName": "Bank-Statement"
     },
     "ExpenseReportFile": {
       "ColumnNames": {
@@ -50,10 +50,18 @@
   },
   "OutputCsvDelimiter": ",",
   "TransformationProfiles": {
-    "noPayPal": [
+    "Bank-Statement": [
       {
         "$type": "Andy.ExpenseReport.Transformation.Csv.Filtering.Statement.Bank.NonPaypalRowSelectorSettings, ExpenseReport.Transformation.Csv",
-        "TargetColumnName": "Details"
+        "TargetColumnName": "Details",
+        "_Description": "Filter out Paypal transactions"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.DateRewriterSettings, Csv.Transformation.Transformers.Custom",
+        "TargetColumnName": "Date",
+        "SourceFormat": "dd/MM/yyyy",
+        "TargetFormat": "yyyy-MM-dd",
+        "_Description": "Change date format to yyyy-MM-dd"
       }
     ],
     "no": []
