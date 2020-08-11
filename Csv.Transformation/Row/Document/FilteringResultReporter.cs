@@ -16,7 +16,8 @@ namespace Andy.Csv.Transformation.Row.Document
         {
             if (after.ContentRows.Length != before.ContentRows.Length)
             {
-                stringWriter.WriteLine("The following rows have been filtered out:");
+                var lineCount = before.ContentRows.Length - after.ContentRows.Length;
+                stringWriter.WriteLine($"{lineCount} row(s) have been filtered out:");
 
                 /* since it's clear this was a filter operation, it means that
                  * rows or their content have not been altered in anyway, and that
