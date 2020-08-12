@@ -7,7 +7,7 @@ namespace Andy.Csv.Transformation.Row.Filtering
     {
         public string TargetColumnName { get; set; }
         public string TargetValue { get; set; }
-        public bool IsCaseInsensitive { get; set; }
+        public bool IsCaseSensitive { get; set; }
         public ValueComparisonMethod Method { get; set; }
 
         public override IDocumentTransformerFactory BuildFactory()
@@ -21,7 +21,7 @@ namespace Andy.Csv.Transformation.Row.Filtering
 
             var comparer = StraightforwardValueComparerFactory.Build(
                             TargetValue,
-                            IsCaseInsensitive,
+                            !IsCaseSensitive,
                             Method);
 
             return new SingleCellValueEvaluatorFactory(
