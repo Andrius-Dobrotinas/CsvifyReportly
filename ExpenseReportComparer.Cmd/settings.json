@@ -64,6 +64,14 @@
         "_Description": "Filter out Credit repayment transactions"
       },
       {
+        "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleCellValueRowFilterSettings, Csv.Transformation.Transformers.Core",
+        "TargetColumnName": "Details",
+        "TargetValue": "REVOLUT",
+        "IsCaseInsensitive": true,
+        "Method": 1,
+        "_Description": "Filter out Revolut transactions"
+      },
+      {
         "$type": "Andy.Csv.Transformation.Row.DateRewriterSettings, Csv.Transformation.Transformers.Custom",
         "TargetColumnName": "Date",
         "SourceFormat": "dd/MM/yyyy",
