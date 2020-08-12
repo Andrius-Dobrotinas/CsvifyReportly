@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Andy.Csv.Transformation.Comparison.String;
+using System;
 
 namespace Andy.Csv.Transformation.Row.Filtering
 {
@@ -7,17 +8,23 @@ namespace Andy.Csv.Transformation.Row.Filtering
         public string TargetColumnName { get; set; }
         public string TargetValue { get; set; }
         public bool IsCaseInsensitive { get; set; }
+        public ValueComparisonMethod Method { get; set; }
 
         public override IDocumentTransformerFactory BuildFactory()
         {
             var name = this.GetDescription();
+
+            var comparer = StraightforwardValueComparerFactory.Build(
+                            TargetValue,
+                            IsCaseInsensitive,
+                            Method);
 
             return new InvertedRowMatchEvaluatorFactory(
                 name,
                 new SingleCellValueEvaluatorFactory(
                     name,
                     TargetColumnName,
-                        new StraightforwardValueComparer(TargetValue, IsCaseInsensitive)));
+                    comparer));
         }
     }
 }

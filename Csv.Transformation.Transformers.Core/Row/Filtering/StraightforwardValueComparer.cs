@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Andy.Csv.Transformation.Comparison.String;
+using System;
 using System.Collections.Generic;
 
 namespace Andy.Csv.Transformation.Row.Filtering
@@ -6,19 +7,23 @@ namespace Andy.Csv.Transformation.Row.Filtering
     public class StraightforwardValueComparer : IValueComparer
     {
         private readonly string targetValue;
-        private readonly StringComparison stringComparisonType;
+        private readonly IStringComparer comparer;
 
-        public StraightforwardValueComparer(string targetValue, bool isCaseInsensitive)
+        public StraightforwardValueComparer(string targetValue, IStringComparer comparer)
         {
             this.targetValue = targetValue;
-            this.stringComparisonType = isCaseInsensitive ?
-                StringComparison.CurrentCultureIgnoreCase :
-                StringComparison.CurrentCulture;
+            this.comparer = comparer;
         }
 
         public bool IsMatch(string value)
         {
-            return targetValue.Equals(value, stringComparisonType);
+            if (value == null)
+                return targetValue == null;
+
+            if (targetValue == null)
+                return false;
+
+            return comparer.IsMatch(targetValue, value);
         }
     }
 }
