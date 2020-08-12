@@ -12,6 +12,11 @@ namespace Andy.Csv.Transformation.Row.Filtering
 
         public override IDocumentTransformerFactory BuildFactory()
         {
+            return BuildSingleCellValueEvaluatorFactory();
+        }
+
+        protected SingleCellValueEvaluatorFactory BuildSingleCellValueEvaluatorFactory()
+        {
             var name = this.GetDescription();
 
             var comparer = StraightforwardValueComparerFactory.Build(
