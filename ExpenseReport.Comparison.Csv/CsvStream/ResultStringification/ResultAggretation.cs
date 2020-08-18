@@ -8,18 +8,18 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
     {
         public static IEnumerable<string[]> GetDataRows(
             IEnumerable<Tuple<string[], string[]>> matches,
-            IEnumerable<string[]> unmatchedStatementEntries,
-            IEnumerable<string[]> unmatchedTransactions,
+            IEnumerable<string[]> unmatchedTransactions1,
+            IEnumerable<string[]> unmatchedTransactions2,
             string[] separatorColumns,
-            string[] blankStatementColumns,
-            string[] blankTransactionColumns)
+            string[] source1DummyRow,
+            string[] source2DummyRow)
         {
             var allRowPairs = GetDataRowPairs(
                 matches,
-                unmatchedStatementEntries,
-                unmatchedTransactions,
-                blankStatementColumns,
-                blankTransactionColumns);
+                unmatchedTransactions1,
+                unmatchedTransactions2,
+                source1DummyRow,
+                source2DummyRow);
 
             return allRowPairs
                 .Select(pair => JoinTwoRows(pair, separatorColumns))
@@ -28,41 +28,41 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
 
         private static IEnumerable<Tuple<string[], string[]>> GetDataRowPairs(
             IEnumerable<Tuple<string[], string[]>> matches,
-            IEnumerable<string[]> unmatchedStatementEntries,
-            IEnumerable<string[]> unmatchedTransactions,
-            string[] blankStatementColumns,
-            string[] blankTransactionColumns)
+            IEnumerable<string[]> unmatchedTransactions1,
+            IEnumerable<string[]> unmatchedTransactions2,
+            string[] source1DummyRow,
+            string[] source2DummyRow)
         {
-            var unmatchedStatementRows = GetUnmatchedStatementRowPairs(
-                unmatchedStatementEntries,
-                blankTransactionColumns);
+            var unmatchedRows1 = GetUnmatchedSource1RowPairs(
+                unmatchedTransactions1,
+                source2DummyRow);
 
-            var unmatchedTransactionRows = GetUnmatchedTransactionRowPairs(
-                unmatchedTransactions,
-                blankStatementColumns);
+            var unmatchedRows2 = GetUnmatchedSource2RowPairs(
+                unmatchedTransactions2,
+                source1DummyRow);
 
             return matches
-                .Concat(unmatchedStatementRows)
-                .Concat(unmatchedTransactionRows);
+                .Concat(unmatchedRows1)
+                .Concat(unmatchedRows2);
         }
 
-        private static IEnumerable<Tuple<string[], string[]>> GetUnmatchedStatementRowPairs(
+        private static IEnumerable<Tuple<string[], string[]>> GetUnmatchedSource1RowPairs(
             IEnumerable<string[]> unmatchedStatementEntries,
-            string[] blankTransactionColumns)
+            string[] blankSource2Row)
         {            
             return unmatchedStatementEntries.Select(
                 row => new Tuple<string[], string[]>(
                     row,
-                    blankTransactionColumns));
+                    blankSource2Row));
         }
 
-        private static IEnumerable<Tuple<string[], string[]>> GetUnmatchedTransactionRowPairs(
+        private static IEnumerable<Tuple<string[], string[]>> GetUnmatchedSource2RowPairs(
             IEnumerable<string[]> unmatchedTransactions,
-            string[] blankStatementColumns)
+            string[] blankSource1Row)
         {
             return unmatchedTransactions.Select(
                 row => new Tuple<string[], string[]>(
-                    blankStatementColumns,
+                    blankSource1Row,
                     row));
         }
 

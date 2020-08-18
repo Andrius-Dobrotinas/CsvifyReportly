@@ -6,7 +6,7 @@ namespace Andy.ExpenseReport.Comparison.Csv
 {
     public interface IComparer<TItem1, TItem2>
     {
-        public ComparisonResult Compare(
+        ComparisonResult Compare(
             IList<string[]> transactionRows1,
             IList<string[]> transactionRows2);
     }
@@ -56,12 +56,14 @@ namespace Andy.ExpenseReport.Comparison.Csv
             return new ComparisonResult
             {
                 Matches = matchRows,
-                UnmatchedStatementEntries = unmatchedTransactions1,
-                UnmatchedTransactions = unmatchedTransactions2
+                UnmatchedTransactions1 = unmatchedTransactions1,
+                UnmatchedTransactions2 = unmatchedTransactions2
             };
         }
 
-        private static TTransaction[] ParseRows<TTransaction>(IList<string[]> transactionRows, ICsvRowParser<TTransaction> rowParser)
+        private static TTransaction[] ParseRows<TTransaction>(
+            IList<string[]> transactionRows,
+            ICsvRowParser<TTransaction> rowParser)
         {
             var transactions1 = new TTransaction[transactionRows.Count];
 
