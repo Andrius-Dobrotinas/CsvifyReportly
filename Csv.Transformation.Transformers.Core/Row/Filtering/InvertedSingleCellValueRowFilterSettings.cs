@@ -2,22 +2,16 @@
 
 namespace Andy.Csv.Transformation.Row.Filtering
 {
-    public class InvertedSingleCellValueRowFilterSettings : TransformerSettings
+    public class InvertedSingleCellValueRowFilterSettings : SingleCellValueRowFilterSettings
     {
-        public string TargetColumnName { get; set; }
-        public string TargetValue { get; set; }
-        public bool IsCaseInsensitive { get; set; }
-
         public override IDocumentTransformerFactory BuildFactory()
         {
             var name = this.GetDescription();
+            var factory = this.BuildSingleCellValueEvaluatorFactory();
 
             return new InvertedRowMatchEvaluatorFactory(
                 name,
-                new SingleCellValueEvaluatorFactory(
-                    name,
-                    TargetColumnName,
-                        new StraightforwardValueComparer(TargetValue, IsCaseInsensitive)));
+                factory);
         }
     }
 }

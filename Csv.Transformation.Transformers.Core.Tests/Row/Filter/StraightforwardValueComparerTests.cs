@@ -1,3 +1,5 @@
+using Andy.Csv.Transformation.Comparison.String;
+using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,40 +8,63 @@ namespace Andy.Csv.Transformation.Row.Filtering
 {
     public class StraightforwardValueComparerTests
     {
-        [TestCase("one", "one")]
-        [TestCase("Okay, partner, let's keep on rolling", "Okay, partner, let's keep on rolling")]
-        [TestCase("", "")]
-        [TestCase(null, null)]
-        public void Should_Return_False_ForValuesThatDontMatchTheTargetValue(string targetValue, string value)
+        Mock<IStringComparer> comparer;
+
+        [SetUp]
+        public void Setup()
         {
-            var target = new StraightforwardValueComparer(targetValue);
+            comparer = new Mock<IStringComparer>();
+        }
+
+        [TestCase(null, "two")]
+        [TestCase(null, "")]
+        public void When_OneOfValuesIsNull_TargetValueIsNull_ButTheOtherOneIsNot_ValuesAreNotEqual(string targetValue, string value)
+        {
+            var target = new StraightforwardValueComparer(targetValue, comparer.Object);
 
             var result = target.IsMatch(value);
 
             Assert.IsFalse(result);
         }
 
-        [TestCase("one", "One")]
-        [TestCase("one", "")]
         [TestCase("one", null)]
-        public void Should_Return_True_ForValuesThatDoMatchTheTargetValue(string targetValue, string value)
+        [TestCase("", null)]
+        public void When_OneOfValuesIsNull_TargetValueIsNotNull_ButTheOtherOneIs_ValuesAreNotEqual(string targetValue, string value)
         {
-            var target = new StraightforwardValueComparer(targetValue);
+            var target = new StraightforwardValueComparer(targetValue, comparer.Object);
 
             var result = target.IsMatch(value);
+
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void When_OneOfValuesIsNull_BothTargetAndOtherValuesAreNull_ValuesAreEqual()
+        {
+            var target = new StraightforwardValueComparer(null, comparer.Object);
+
+            var result = target.IsMatch(null);
 
             Assert.IsTrue(result);
         }
 
-        [TestCase("", null)]
-        [TestCase(null, "")]
-        public void Should_Treat_NullsAndEmptyStrings_AsDifferentThings(string targetValue, string value)
+        [TestCase("one", "two")]
+        [TestCase("", "two")]
+        [TestCase("one", "")]
+        [TestCase("", "")]
+        public void When_ValuesAreNotNull_MustUseTheProvidedComparer(string targetValue, string value)
         {
-            var target = new StraightforwardValueComparer(targetValue);
+            var target = new StraightforwardValueComparer(targetValue, comparer.Object);
 
             var result = target.IsMatch(value);
 
-            Assert.IsTrue(result);
+            comparer.Verify(
+                x => x.IsMatch(
+                    It.Is<string>(
+                        arg => arg == targetValue),
+                    It.Is<string>(
+                        arg => arg == value)),
+                Times.Once);
         }
     }
 }
