@@ -8,14 +8,14 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
     {
         public static string[] StringyfyyResults(
             ComparisonResult result,
-            int source1ColumnCount,
-            int source2ColumnCount,
+            string[] source1HeaderCells,
+            string[] source2HeaderCells,
             char csvDelimiter,
             Andy.Csv.Serialization.IRowStringifier stringyfier)
         {
             var sourceSeparatorColumns = new string[] { "" };
-            var blankSource1Row = new string[source1ColumnCount];
-            var blankSource2Row = new string[source2ColumnCount];
+            var blankSource1Row = new string[source1HeaderCells.Length];
+            var blankSource2Row = new string[source2HeaderCells.Length];
 
             var allRows = ResultAggretation.GetDataRows(
                 result.Matches,
@@ -23,7 +23,9 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
                 result.UnmatchedTransactions2,
                 sourceSeparatorColumns,
                 blankSource1Row,
-                blankSource2Row);
+                blankSource2Row,
+                source1HeaderCells,
+                source2HeaderCells);
 
             return allRows
                 .Select(row => stringyfier.Stringifififiify(row, csvDelimiter))

@@ -82,8 +82,8 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             {
                 string[] lines = ResultStringification.StringyfyyResults(
                     result,
-                    transactions1.ContentRows.Length,
-                    transactions2.ContentRows.Length,
+                    transactions1.HeaderCells,
+                    transactions2.HeaderCells,
                     reportValueDelimiter,
                     stringyfyer);
 

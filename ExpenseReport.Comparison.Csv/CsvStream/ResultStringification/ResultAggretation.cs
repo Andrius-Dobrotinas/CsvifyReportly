@@ -12,18 +12,33 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             IEnumerable<string[]> unmatchedTransactions2,
             string[] separatorColumns,
             string[] source1DummyRow,
-            string[] source2DummyRow)
+            string[] source2DummyRow,
+            string[] source1Colums,
+            string[] source2Colums)
         {
-            var allRowPairs = GetDataRowPairs(
+            var contentRowPairs = GetDataRowPairs(
                 matches,
                 unmatchedTransactions1,
                 unmatchedTransactions2,
                 source1DummyRow,
                 source2DummyRow);
 
+            var headerRowPair = new Tuple<string[], string[]>(source1Colums, source2Colums);
+
+            var allRowPairs = CombineHeaderAndContent(headerRowPair, contentRowPairs);
+
             return allRowPairs
                 .Select(pair => JoinTwoRows(pair, separatorColumns))
                 .ToArray();
+        }
+
+        private static IEnumerable<Tuple<string[], string[]>> CombineHeaderAndContent(
+            Tuple<string[], string[]> headerRowPair,
+            IEnumerable<Tuple<string[], string[]>> contentRowPairs)
+        {
+            yield return headerRowPair;
+            foreach (var pair in contentRowPairs)
+                yield return pair;
         }
 
         private static IEnumerable<Tuple<string[], string[]>> GetDataRowPairs(
