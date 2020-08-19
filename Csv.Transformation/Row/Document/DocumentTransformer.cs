@@ -29,6 +29,18 @@ namespace Andy.Csv.Transformation.Row.Document
 
         public CsvDocument Transform(CsvDocument document)
         {
+            try
+            {
+                return TransformActual(document);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(@$"Transformation failed: ""{factory.Name}"". See inner message for more deets", e);
+            }
+        }
+
+        private CsvDocument TransformActual(CsvDocument document)
+        {
             var columnIndexes = columnMapBuilder.GetColumnIndexMap(document.HeaderCells);
 
             var actualTransformer = factory.Build(columnIndexes);
