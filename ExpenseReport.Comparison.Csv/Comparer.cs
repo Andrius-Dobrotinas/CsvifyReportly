@@ -33,8 +33,8 @@ namespace Andy.ExpenseReport.Comparison.Csv
             IList<string[]> transactionRows1,
             IList<string[]> transactionRows2)
         {
-            var transactions1 = ParseRows(transactionRows1, item1Parser);
-            var transactions2 = ParseRows(transactionRows2, item2Parser);
+            var transactions1 = ParseRows(transactionRows1, item1Parser, 1);
+            var transactions2 = ParseRows(transactionRows2, item2Parser, 2);
 
             var result = comparer.Compare(transactions1, transactions2);
 
@@ -63,23 +63,24 @@ namespace Andy.ExpenseReport.Comparison.Csv
 
         private static TTransaction[] ParseRows<TTransaction>(
             IList<string[]> transactionRows,
-            ICsvRowParser<TTransaction> rowParser)
+            ICsvRowParser<TTransaction> rowParser,
+            int sourceNumber)
         {
-            var transactions1 = new TTransaction[transactionRows.Count];
+            var transactions = new TTransaction[transactionRows.Count];
 
             for (int i = 0; i < transactionRows.Count; i++)
             {
                 try
                 {
-                    transactions1[i] = rowParser.Parse(transactionRows[i]);
+                    transactions[i] = rowParser.Parse(transactionRows[i]);
                 }
                 catch (Statement.CellValueParsingException e)
                 {
-                    throw new InputParsingException(i + 1, 1, e);
+                    throw new InputParsingException(i + 1, sourceNumber, e);
                 }
             }
 
-            return transactions1;
+            return transactions;
         }
     }
 }
