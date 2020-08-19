@@ -17,7 +17,7 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             var blankSource1Row = new string[source1HeaderCells.Length];
             var blankSource2Row = new string[source2HeaderCells.Length];
 
-            var allRows = ResultAggretation.GetDataRows(
+            var allRows = ResultAggregation.GetDataRows(
                 result.Matches,
                 result.UnmatchedTransactions1,
                 result.UnmatchedTransactions2,

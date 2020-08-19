@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
 {
-    public static class ResultAggretation
+    public static class ResultAggregation
     {
         public static IEnumerable<string[]> GetDataRows(
             IEnumerable<Tuple<string[], string[]>> matches,
