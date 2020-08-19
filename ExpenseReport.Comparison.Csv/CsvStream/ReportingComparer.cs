@@ -44,18 +44,18 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             Stream source2,
             char reportValueDelimiter)
         {
-            CsvDocument transactions1 = Read(
+            CsvDocument doc1 = Read(
                     csvStream1Reader,
                     1,
                     source1);
 
-            CsvDocument transactions2 = Read(
+            CsvDocument doc2 = Read(
                     csvStream2Reader,
                     2,
                     source2);
 
-            var doc1 = transformer1.Transform(transactions1);
-            var doc2 = transformer2.Transform(transactions2);
+            doc1 = TransformWithErrorHandling(doc1, transformer1, 1);
+            doc2 = TransformWithErrorHandling(doc2, transformer2, 2);
 
             var comparer = BuildComparer(doc1.HeaderCells, doc2.HeaderCells);
 
@@ -82,8 +82,8 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             {
                 string[] lines = ResultStringification.StringyfyyResults(
                     result,
-                    transactions1.HeaderCells,
-                    transactions2.HeaderCells,
+                    doc1.HeaderCells,
+                    doc2.HeaderCells,
                     reportValueDelimiter,
                     stringyfyer);
 
@@ -122,6 +122,18 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             catch (Exception e)
             {
                 throw new SourceDataReadException(sourceNumber, e);
+            }
+        }
+
+        private static CsvDocument TransformWithErrorHandling(CsvDocument source, IMultiTransformer transformer, int sourceFileNumber)
+        {
+            try
+            {
+                return transformer.Transform(source);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"An error occurred while transforming source file {sourceFileNumber}", e);
             }
         }
     }
