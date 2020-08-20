@@ -14,12 +14,12 @@
       "ColumnNames": {
         "Date": "Date",
         "Amount": "Amount",
-        "IsPayPal": "IsPayPal",
+        "IsPayPal": "PayPal",
         "Merchant": "Merchant"
       },
       "Delimiter": ",",
       "DateFormat": "yyyy-MM-dd",
-      "TransformationProfileName": "no"
+      "TransformationProfileName": "Expense-Report"
     },
     "MerchantNameMap": {
       "Amazon": [ "Amazon", "AMZNMKTPLACE", "AMZ*" ]
@@ -75,6 +75,14 @@
         "SourceFormat": "dd/MM/yyyy",
         "TargetFormat": "yyyy-MM-dd",
         "_Description": "Change date format to yyyy-MM-dd"
+      }
+    ],
+    "Expense-Report": [
+      {
+        "$type": "Andy.Csv.Transformation.Row.Filtering.SingleCellValueRowFilterSettings, Csv.Transformation.Transformers.Core",
+        "TargetColumnName": "Card",
+        "TargetValue": "HSBC CC",
+        "_Description": "Take only HSBC CC transactions"
       }
     ],
     "no": []
