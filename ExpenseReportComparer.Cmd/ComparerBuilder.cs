@@ -10,15 +10,15 @@ namespace Andy.ExpenseReport.Verifier.Cmd
         private static (Comparison.Csv.ComparerFactory<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
                 Comparison.Csv.Statement.Bank.ExpenseReportEntryWithSourceData> comparerFactory,
-            Comparison.Csv.Statement.StatementEntryParserFactory item1ParserFactory,
-            Comparison.Csv.Statement.Bank.ExpenseReportEntryParserFactory item2ParserFactory)
+            Comparison.Csv.Statement.StatementEntryParserFactory entry1ParserFactory,
+            Comparison.Csv.Statement.Bank.ExpenseReportEntryParserFactory entry2ParserFactory)
             BuildBankStatementComparer(Settings settings)
         {
-            var item1ParserFactory = new Comparison.Csv.Statement.StatementEntryParserFactory(
+            var entry1ParserFactory = new Comparison.Csv.Statement.StatementEntryParserFactory(
                 settings.ExpenseReport.StatementFile.ColumnNames,
                 settings.ExpenseReport.StatementFile.DateFormat);
 
-            var item2ParserFactory = new Comparison.Csv.Statement.Bank.ExpenseReportEntryParserFactory(
+            var entry2ParserFactory = new Comparison.Csv.Statement.Bank.ExpenseReportEntryParserFactory(
                 settings.ExpenseReport.ExpenseReportFile.ColumnNames,
                 settings.ExpenseReport.ExpenseReportFile.DateFormat);
 
@@ -45,21 +45,21 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 Comparison.Csv.Statement.Bank.ExpenseReportEntryWithSourceData>(
                     orderedCollectionComparer);
 
-            return (comparerFactory, item1ParserFactory, item2ParserFactory);
+            return (comparerFactory, entry1ParserFactory, entry2ParserFactory);
         }
 
         private static (Comparison.Csv.ComparerFactory<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
                 Comparison.Csv.Statement.StatementEntryWithSourceData> comparerFactory,
-            Comparison.Csv.Statement.StatementEntryParserFactory item1ParserFactory,
-            Comparison.Csv.Statement.StatementEntryParserFactory item2ParserFactory)
+            Comparison.Csv.Statement.StatementEntryParserFactory entry1ParserFactory,
+            Comparison.Csv.Statement.StatementEntryParserFactory entry2ParserFactory)
             BuildGenericStatementComparer(Settings settings)
         {
-            var item1ParserFactory = new Comparison.Csv.Statement.StatementEntryParserFactory(
+            var entry1ParserFactory = new Comparison.Csv.Statement.StatementEntryParserFactory(
                 settings.Generic.StatementFile1.ColumnNames,
                 settings.Generic.StatementFile1.DateFormat);
 
-            var item2ParserFactory = new Comparison.Csv.Statement.StatementEntryParserFactory(
+            var entry2ParserFactory = new Comparison.Csv.Statement.StatementEntryParserFactory(
                 settings.Generic.StatementFile2.ColumnNames,
                 settings.Generic.StatementFile2.DateFormat);
 
@@ -80,26 +80,26 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 Comparison.Csv.Statement.StatementEntryWithSourceData>(
                     orderedCollectionComparer);
 
-            return (comparerFactory, item1ParserFactory, item2ParserFactory);
+            return (comparerFactory, entry1ParserFactory, entry2ParserFactory);
         }
 
-        private static ReportingFileComparer BuildFileComparer<TItem1, TItem2>(
-            Comparison.Csv.IComparerFactory<TItem1, TItem2> comparerFactory,
-            Comparison.Csv.Statement.IStatementEntryParserFactory<TItem1> item1ParserFactory,
-            Comparison.Csv.Statement.IStatementEntryParserFactory<TItem2> item2ParserFactory,
+        private static ReportingFileComparer BuildFileComparer<TEntry1, TEntry2>(
+            Comparison.Csv.IComparerFactory<TEntry1, TEntry2> comparerFactory,
+            Comparison.Csv.Statement.IStatementEntryParserFactory<TEntry1> entry1ParserFactory,
+            Comparison.Csv.Statement.IStatementEntryParserFactory<TEntry2> entry2ParserFactory,
             IEnumerable<Csv.Transformation.Row.Document.IDocumentTransformer> doc1Transformers,
             IEnumerable<Csv.Transformation.Row.Document.IDocumentTransformer> doc2Transformers,
             char source1CsvDelimiter,
             char source2CsvDelimiter)
         {
             return new ReportingFileComparer(
-                    new ReportingComparer<TItem1, TItem2>(
+                    new ReportingComparer<TEntry1, TEntry2>(
                             Build_CsvStreamReader(source1CsvDelimiter),
                             Build_CsvStreamReader(source2CsvDelimiter),
                             new Csv.Transformation.Row.Document.MultiTransformer(doc1Transformers),
                             new Csv.Transformation.Row.Document.MultiTransformer(doc2Transformers),
-                            item1ParserFactory,
-                            item2ParserFactory,
+                            entry1ParserFactory,
+                            entry2ParserFactory,
                             comparerFactory,
                             new Csv.Transformation.Row.Document.ColumnMapBuilder()));
         }
@@ -128,15 +128,15 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             {
                 case Command.ExpenseReport:
                     {
-                        var (comparerFactory, item1ParserFactory, item2ParserFactory) = BuildBankStatementComparer(settings);
+                        var (comparerFactory, entry1ParserFactory, entry2ParserFactory) = BuildBankStatementComparer(settings);
 
                         var multiTransformers1 = GetTransformerChain(settings, settings.ExpenseReport.StatementFile.TransformationProfileName);
                         var multiTransformers2 = GetTransformerChain(settings, settings.ExpenseReport.ExpenseReportFile.TransformationProfileName);
 
                         return BuildFileComparer(
                             comparerFactory,
-                            item1ParserFactory,
-                            item2ParserFactory,
+                            entry1ParserFactory,
+                            entry2ParserFactory,
                             multiTransformers1,
                             multiTransformers2,
                             csvDelimiters.Item1,
@@ -144,15 +144,15 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                     }
                 case Command.Generic:
                     {
-                        var (comparerFactory, item1ParserFactory, item2ParserFactory) = BuildGenericStatementComparer(settings);
+                        var (comparerFactory, entry1ParserFactory, entry2ParserFactory) = BuildGenericStatementComparer(settings);
 
                         var multiTransformers1 = GetTransformerChain(settings, settings.Generic.StatementFile1.TransformationProfileName);
                         var multiTransformers2 = GetTransformerChain(settings, settings.Generic.StatementFile2.TransformationProfileName);
 
                         return BuildFileComparer(
                             comparerFactory,
-                            item1ParserFactory,
-                            item2ParserFactory,
+                            entry1ParserFactory,
+                            entry2ParserFactory,
                             multiTransformers1,
                             multiTransformers2,
                             csvDelimiters.Item1,

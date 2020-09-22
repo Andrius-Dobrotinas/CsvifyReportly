@@ -6,8 +6,8 @@ namespace Andy.ExpenseReport.Comparison.Csv
     public interface IComparerFactory<TTransaction1, TTransaction2>
     {
         IComparer<TTransaction1, TTransaction2> Build(
-            ICsvRowParser<TTransaction1> item1Parser,
-            ICsvRowParser<TTransaction2> item2Parser);
+            ICsvRowParser<TTransaction1> entry1Parser,
+            ICsvRowParser<TTransaction2> entry2Parser);
     }
 
     public class ComparerFactory<TTransaction1, TTransaction2> : IComparerFactory<TTransaction1, TTransaction2>
@@ -23,10 +23,10 @@ namespace Andy.ExpenseReport.Comparison.Csv
         }
 
         public IComparer<TTransaction1, TTransaction2> Build(
-            ICsvRowParser<TTransaction1> item1Parser,
-            ICsvRowParser<TTransaction2> item2Parser)
+            ICsvRowParser<TTransaction1> entry1Parser,
+            ICsvRowParser<TTransaction2> entry2Parser)
         {
-            return new Comparer<TTransaction1, TTransaction2>(comparer, item1Parser, item2Parser);
+            return new Comparer<TTransaction1, TTransaction2>(comparer, entry1Parser, entry2Parser);
         }
     }
 }

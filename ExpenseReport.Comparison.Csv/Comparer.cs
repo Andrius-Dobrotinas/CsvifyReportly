@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Andy.ExpenseReport.Comparison.Csv
 {
-    public interface IComparer<TItem1, TItem2>
+    public interface IComparer<TEntry1, TEntry2>
     {
         ComparisonResult Compare(
             IList<string[]> transactionRows1,
@@ -16,25 +16,25 @@ namespace Andy.ExpenseReport.Comparison.Csv
         where TTransaction2: IHaveSourceData
     {
         private readonly ICollectionComparer<TTransaction1, TTransaction2> comparer;
-        private readonly ICsvRowParser<TTransaction1> item1Parser;
-        private readonly ICsvRowParser<TTransaction2> item2Parser;
+        private readonly ICsvRowParser<TTransaction1> entry1Parser;
+        private readonly ICsvRowParser<TTransaction2> entry2Parser;
 
         public Comparer(
             ICollectionComparer<TTransaction1, TTransaction2> comparer,
-            ICsvRowParser<TTransaction1> item1Parser,
-            ICsvRowParser<TTransaction2> item2Parser)
+            ICsvRowParser<TTransaction1> entry1Parser,
+            ICsvRowParser<TTransaction2> entry2Parser)
         {
             this.comparer = comparer;
-            this.item1Parser = item1Parser;
-            this.item2Parser = item2Parser;
+            this.entry1Parser = entry1Parser;
+            this.entry2Parser = entry2Parser;
         }
 
         public ComparisonResult Compare(
             IList<string[]> transactionRows1,
             IList<string[]> transactionRows2)
         {
-            var transactions1 = ParseRows(transactionRows1, item1Parser, 1);
-            var transactions2 = ParseRows(transactionRows2, item2Parser, 2);
+            var transactions1 = ParseRows(transactionRows1, entry1Parser, 1);
+            var transactions2 = ParseRows(transactionRows2, entry2Parser, 2);
 
             var result = comparer.Compare(transactions1, transactions2);
 

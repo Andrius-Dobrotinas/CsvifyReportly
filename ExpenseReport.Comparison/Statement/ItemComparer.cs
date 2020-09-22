@@ -11,9 +11,9 @@ namespace Andy.ExpenseReport.Comparison.Statement
                 && AreOrderNumbersEqual(transaction, statementEntry);
         }
 
-        private static bool AreAmountsEqual(StatementEntry item1, StatementEntry item2)
+        private static bool AreAmountsEqual(StatementEntry entry1, StatementEntry entry2)
         {
-            return item1.Amount == item2.Amount;
+            return entry1.Amount == entry2.Amount;
         }
 
         private bool AreOrderNumbersEqual(StatementEntry transcation, StatementEntry statement)
