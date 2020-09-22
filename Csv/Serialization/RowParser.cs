@@ -10,6 +10,7 @@ namespace Andy.Csv.Serialization
 
         public RowParser(char delimiter)
         {
+            if (delimiter == '\t') throw new NotSupportedException("Tab separator. The algorithm needs a few adjustments to make this work");
             this.delimiter = delimiter;
         }
 
