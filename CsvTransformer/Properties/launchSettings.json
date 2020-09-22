@@ -2,11 +2,11 @@
   "profiles": {
     "SampleFile": {
       "commandName": "Project",
-      "commandLineArgs": "--source=\"..\\..\\..\\..\\TestData\\rewrite.csv\" --output=\"result.csv\" --profile=\"debug\""
+      "commandLineArgs": "--source=\"..\\..\\..\\..\\TestData\\rewrite.csv\" --result=\"result.csv\" --profile=\"debug\""
     },
     "RealFile": {
       "commandName": "Project",
-      "commandLineArgs": "--source=\"d:\\2020 - Exp6.csv\" --output=\"D:\\result1.csv\" --profile=\"paypal-stmt\""
+      "commandLineArgs": "--source=\"d:\\2020 - Exp6.csv\" --result=\"D:\\result1.csv\" --profile=\"paypal-stmt\""
     }
   }
 }

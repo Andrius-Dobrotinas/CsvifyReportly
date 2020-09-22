@@ -9,7 +9,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
         private static class Keys
         {
             public const string Source = "--source";
-            public const string OutputFile = "--output";
+            public const string OutputFile = "--result";
             public const string ProfileName = "--profile";
         }
 
