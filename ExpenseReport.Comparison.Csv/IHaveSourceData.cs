@@ -2,7 +2,7 @@
 
 namespace Andy.ExpenseReport.Comparison.Csv
 {
-    public interface IComparisonItemWithSourceData
+    public interface IHaveSourceData
     {
         string[] SourceData { get; }
     }

@@ -12,8 +12,8 @@ namespace Andy.ExpenseReport.Comparison.Csv
     }
 
     public class Comparer<TTransaction1, TTransaction2> : IComparer<TTransaction1, TTransaction2>
-        where TTransaction1: IComparisonItemWithSourceData
-        where TTransaction2: IComparisonItemWithSourceData
+        where TTransaction1: IHaveSourceData
+        where TTransaction2: IHaveSourceData
     {
         private readonly ICollectionComparer<TTransaction1, TTransaction2> comparer;
         private readonly ICsvRowParser<TTransaction1> item1Parser;

@@ -11,8 +11,8 @@ namespace Andy.ExpenseReport.Comparison.Csv
     }
 
     public class ComparerFactory<TTransaction1, TTransaction2> : IComparerFactory<TTransaction1, TTransaction2>
-        where TTransaction1 : IComparisonItemWithSourceData
-        where TTransaction2 : IComparisonItemWithSourceData
+        where TTransaction1 : IHaveSourceData
+        where TTransaction2 : IHaveSourceData
     {
         private readonly ICollectionComparer<TTransaction1, TTransaction2> comparer;
 

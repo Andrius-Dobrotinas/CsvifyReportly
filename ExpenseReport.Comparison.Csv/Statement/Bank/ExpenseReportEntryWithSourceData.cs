@@ -5,7 +5,7 @@ namespace Andy.ExpenseReport.Comparison.Csv.Statement.Bank
 {
     public class ExpenseReportEntryWithSourceData :
         ExpenseReportEntry,
-        IComparisonItemWithSourceData,
+        IHaveSourceData,
         IHaveDate
     {
         public string[] SourceData { get; set; }
