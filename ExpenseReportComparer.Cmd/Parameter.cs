@@ -51,8 +51,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             if (args.ContainsKey(Keys.Command.Generic))
                 return Command.Generic;
 
-            throw new Exception(
-                $"No suitable command has been specified. It must be one of: {Keys.Command.ExpenseReport}, {Keys.Command.Generic}");
+            return Command.Generic;
         }
     }
 }

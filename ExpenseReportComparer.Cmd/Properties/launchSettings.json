@@ -6,7 +6,7 @@
     },
     "General": {
       "commandName": "Project",
-      "commandLineArgs": "generic --source1=\"C:\\soft\\march\\pp 3-2020.csv\" --source2=\"C:\\soft\\march\\report 3-2020.csv\" --result=\"d:\\result.csv\""
+      "commandLineArgs": "--source1=\"C:\\soft\\march\\pp 3-2020.csv\" --source2=\"C:\\soft\\march\\report 3-2020.csv\" --result=\"d:\\result.csv\""
     }
   }
 }
