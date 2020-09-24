@@ -3,18 +3,20 @@ using Andy.ExpenseReport.Comparison.Csv.Statement.Bank;
 using System;
 using System.Collections.Generic;
 
-namespace Andy.ExpenseReport.Verifier.Cmd
+namespace Andy.ExpenseReport.Verifier.Custom.Cmd
 {
     public class Settings
     {
-        public SourceSettings Source { get; set; }
+        public ExpenseReportComparisonSettings Source { get; set; }
         public char OutputCsvDelimiter { get; set; }
         public IDictionary<string, Csv.Transformation.Row.TransformerSettings[]> TransformationProfiles { get; set; }
-        
-        public class SourceSettings
+
+        public class ExpenseReportComparisonSettings
         {
-            public CsvFileSettings<StatementEntryColumnNames> StatementFile1 { get; set; }
-            public CsvFileSettings<StatementEntryColumnNames> StatementFile2 { get; set; }
+            public CsvFileSettings<StatementEntryColumnNames> StatementFile { get; set; }
+            public CsvFileSettings<ExpenseReportEntryColumnNames> ExpenseReportFile { get; set; }
+            public IDictionary<string, string[]> MerchantNameMap { get; set; }
+            public int DateTolerance { get; set; }
         }
 
         public class CsvFileSettings<TColumnNameMap>

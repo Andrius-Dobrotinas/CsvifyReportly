@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Andy.ExpenseReport.Custom.Cmd</RootNamespace>
+    <StartupObject>Andy.ExpenseReport.Verifier.Custom.Cmd.Program</StartupObject>
+    <AssemblyName>expenses</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Andy.Cmd\Cmd.csproj" />
+    <ProjectReference Include="..\Csv.Transformation.Transformers.Custom\Csv.Transformation.Transformers.Custom.csproj" />
+    <ProjectReference Include="..\Csv.Transformation.Transformers.Setup\Csv.Transformation.Transformers.Setup.csproj" />
+    <ProjectReference Include="..\ExpenseReport.Comparison.Csv\ExpenseReport.Comparison.Csv.csproj" />
+    <ProjectReference Include="..\ExpenseReport.Transformation.Csv\ExpenseReport.Transformation.Csv.csproj" />
+    <ProjectReference Include="..\ExpenseReportComparer.Cmd\ExpenseReportComparer.Cmd.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

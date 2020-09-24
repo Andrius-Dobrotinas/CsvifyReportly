@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ExpenseReportComparer.Cmd": {
+      "commandName": "Project",
+      "commandLineArgs": "--source1=\"d:\\hsbc 2020-datesfixed.csv\" --source2=\"d:\\2020 - Exp.csv\" --result=\"d:\\result.csv\""
+    }
+  }
+}
