@@ -5,21 +5,21 @@ namespace Andy.ExpenseReport.Comparison.Statement
 {
     public class ItemComparer : IItemComparer<StatementEntry, StatementEntry>
     {
-        public bool AreEqual(StatementEntry transaction, StatementEntry statementEntry)
+        public bool AreEqual(StatementEntry transaction1, StatementEntry transaction2)
         {
-            return AreAmountsEqual(transaction, statementEntry)
-                && AreOrderNumbersEqual(transaction, statementEntry);
+            return AreAmountsEqual(transaction1, transaction2)
+                && AreDetailsEqual(transaction1, transaction2);
         }
 
-        private static bool AreAmountsEqual(StatementEntry entry1, StatementEntry entry2)
+        private static bool AreAmountsEqual(StatementEntry transaction1, StatementEntry transaction2)
         {
-            return entry1.Amount == entry2.Amount;
+            return transaction1.Amount == transaction2.Amount;
         }
 
-        private bool AreOrderNumbersEqual(StatementEntry transcation, StatementEntry statement)
+        private bool AreDetailsEqual(StatementEntry transaction1, StatementEntry transaction2)
         {
             // TODO: make it case-insensitive
-            return transcation.Details == statement.Details;
+            return transaction1.Details == transaction2.Details;
         }
     }
 }
