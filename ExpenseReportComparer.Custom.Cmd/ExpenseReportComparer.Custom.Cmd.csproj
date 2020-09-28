@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Andy.ExpenseReport.Custom.Cmd</RootNamespace>
     <StartupObject>Andy.ExpenseReport.Verifier.Custom.Cmd.Program</StartupObject>
-    <AssemblyName>expenses</AssemblyName>
+    <AssemblyName>my-exp</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +21,10 @@
     <None Update="settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>
