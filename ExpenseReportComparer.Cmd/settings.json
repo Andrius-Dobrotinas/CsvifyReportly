@@ -7,8 +7,8 @@
         "Details": "Details"
       },
       "Delimiter": ",",
-      "DateFormat": "dd/MM/yyyy",
-      "TransformationProfileName": "no"
+      "DateFormat": "yyyy-MM-dd",
+      "TransformationProfileName": "Expense-Report"
     },
     "StatementFile2": {
       "ColumnNames": {
@@ -18,16 +18,18 @@
       },
       "Delimiter": ",",
       "DateFormat": "yyyy-MM-dd",
-      "TransformationProfileName": "no"
+      "TransformationProfileName": "Bank-Statement"
     }
   },
   "OutputCsvDelimiter": ",",
   "TransformationProfiles": {
     "Bank-Statement": [
       {
-        "$type": "Andy.ExpenseReport.Transformation.Csv.Filtering.Statement.Bank.NonPaypalRowSelectorSettings, ExpenseReport.Transformation.Csv",
+        "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleCellValueRowFilterSettings, Csv.Transformation.Transformers.Core",
         "TargetColumnName": "Details",
-        "_Description": "Filter out Paypal transactions"
+        "TargetValue": "PAYPAL *",
+        "Method": 1,
+        "_Description": "Filter out PayPal transactions"
       },
       {
         "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleCellValueRowFilterSettings, Csv.Transformation.Transformers.Core",
@@ -48,6 +50,18 @@
         "SourceFormat": "dd/MM/yyyy",
         "TargetFormat": "yyyy-MM-dd",
         "_Description": "Change date format to yyyy-MM-dd"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.AmountInverterSettings, Csv.Transformation.Transformers.Custom",
+        "TargetColumnName": "Amount"
+      }
+    ],
+    "Expense-Report": [
+      {
+        "$type": "Andy.Csv.Transformation.Row.Filtering.SingleCellValueRowFilterSettings, Csv.Transformation.Transformers.Core",
+        "TargetColumnName": "Card",
+        "TargetValue": "HSBC CC",
+        "_Description": "Take only HSBC CC transactions"
       }
     ],
     "no": []
