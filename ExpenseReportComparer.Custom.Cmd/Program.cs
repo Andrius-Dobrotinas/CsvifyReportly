@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Andy.ExpenseReport.Verifier.Cmd
+namespace Andy.ExpenseReport.Verifier.Custom.Cmd
 {
     class Program
     {
@@ -12,11 +12,11 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 
         static int Main(string[] args)
         {
-            Parameters parameters;
+            Verifier.Cmd.Parameters parameters;
             try
             {
                 var arguments = Andy.Cmd.ArgumentParser.ParseArguments(args);
-                parameters = Parameter.GetParametersOrThrow(arguments);
+                parameters = Verifier.Cmd.Parameter.GetParametersOrThrow(arguments);
             }
             catch (Exception e)
             {
@@ -42,7 +42,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             {
                 var delimiters = GetDelimiters(settings);
 
-                ReportingFileComparer fileComparer = ComparerBuilder.BuildFileComparer(settings, delimiters);
+                Verifier.Cmd.ReportingFileComparer fileComparer = ComparerBuilder.BuildFileComparer(settings, delimiters);
 
                 fileComparer.CompareAndWriteReport(
                     parameters.Source1File,
@@ -94,8 +94,8 @@ namespace Andy.ExpenseReport.Verifier.Cmd
         private static Tuple<char, char> GetDelimiters(Settings settings)
         {
             return new Tuple<char, char>(
-                settings.Source.StatementFile1.Delimiter,
-                settings.Source.StatementFile2.Delimiter);
+                settings.Source.StatementFile.Delimiter,
+                settings.Source.ExpenseReportFile.Delimiter);
         }
     }
 }
