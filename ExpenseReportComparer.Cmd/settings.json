@@ -1,10 +1,10 @@
-{  
+{
   "Source": {
     "StatementFile1": {
       "ColumnNames": {
         "Date": "Date",
         "Amount": "Amount",
-        "Details": "Details"
+        "Details": "Merchant"
       },
       "Delimiter": ",",
       "DateFormat": "yyyy-MM-dd",
@@ -19,6 +19,9 @@
       "Delimiter": ",",
       "DateFormat": "yyyy-MM-dd",
       "TransformationProfileName": "Bank-Statement"
+    },
+    "MerchantNameMap": {
+      "Amazon": [ "Amazon", "AMZNMKTPLACE", "AMZ*" ]
     }
   },
   "OutputCsvDelimiter": ",",
@@ -50,10 +53,6 @@
         "SourceFormat": "dd/MM/yyyy",
         "TargetFormat": "yyyy-MM-dd",
         "_Description": "Change date format to yyyy-MM-dd"
-      },
-      {
-        "$type": "Andy.Csv.Transformation.Row.AmountInverterSettings, Csv.Transformation.Transformers.Custom",
-        "TargetColumnName": "Amount"
       }
     ],
     "Expense-Report": [

@@ -15,6 +15,8 @@ namespace Andy.ExpenseReport.Verifier.Cmd
         {
             public CsvFileSettings<StatementEntryColumnNames> StatementFile1 { get; set; }
             public CsvFileSettings<StatementEntryColumnNames> StatementFile2 { get; set; }
+
+            public IDictionary<string, string[]> MerchantNameMap { get; set; }
         }
 
         public class CsvFileSettings<TColumnNameMap>
