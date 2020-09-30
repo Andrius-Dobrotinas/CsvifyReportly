@@ -33,7 +33,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             }
             catch (Exception e)
             {
-                Console.Error.WriteLine("There's a problem with a settings file:");
+                Console.Error.WriteLine("There's a problem with the settings file:");
                 Console.Error.WriteLine(e.Message);
                 return -50;
             }

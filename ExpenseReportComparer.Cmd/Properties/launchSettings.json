@@ -2,7 +2,7 @@
   "profiles": {
     "ExpenseReportComparer.Cmd": {
       "commandName": "Project",
-      "commandLineArgs": "--source1=\"d:\\2020 - Exp8.csv\" --source2=\"d:\\2020 August CC.csv\" --result=\"d:\\result8-2.csv\""
+      "commandLineArgs": "--source1=\"d:\\2020 - Exp8.csv\" --source2=\"d:\\2020 August CC.csv\" --result=\"d:\\result8.csv\""
     }
   }
 }

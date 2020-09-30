@@ -10,13 +10,11 @@ namespace Andy.ExpenseReport.Verifier.Cmd
         public SourceSettings Source { get; set; }
         public char OutputCsvDelimiter { get; set; }
         public IDictionary<string, Csv.Transformation.Row.TransformerSettings[]> TransformationProfiles { get; set; }
-        
         public class SourceSettings
         {
             public CsvFileSettings<StatementEntryColumnNames> StatementFile1 { get; set; }
             public CsvFileSettings<StatementEntryColumnNames> StatementFile2 { get; set; }
-
-            public IDictionary<string, string[]> MerchantNameMap { get; set; }
+            public ComparerSettings Comparer { get; set; }
         }
 
         public class CsvFileSettings<TColumnNameMap>

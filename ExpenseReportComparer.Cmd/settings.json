@@ -20,8 +20,13 @@
       "DateFormat": "yyyy-MM-dd",
       "TransformationProfileName": "Bank-Statement"
     },
-    "MerchantNameMap": {
-      "Amazon": [ "Amazon", "AMZNMKTPLACE", "AMZ*" ]
+    "Comparer": {
+      "$type": "Andy.ExpenseReport.Verifier.Cmd.MyCustomComparerSettings, expenses",
+      "MerchantNameMap": {
+        "Amazon": [ "Amazon", "AMZNMKTPLACE", "AMZ*" ]
+      },
+      "DateTolerance": 5,
+      "_Description": "My custom expense report entry comparer"
     }
   },
   "OutputCsvDelimiter": ",",

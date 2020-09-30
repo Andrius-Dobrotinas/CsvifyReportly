@@ -21,7 +21,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 sourceSettings.StatementFile2.ColumnNames,
                 sourceSettings.StatementFile2.DateFormat);
 
-            var itemComparer = BuildItemComparer< Comparison.Csv.Statement.StatementEntryWithSourceData>(sourceSettings);
+            var itemComparer = sourceSettings.Comparer.BuildComparer();
 
             var collectionComparer = new Comparison.CollectionComparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
@@ -67,17 +67,19 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 csvDelimiters.Item2);
         }
 
-        private static Comparison.IItemComparer<TStatementEntry, TStatementEntry> BuildItemComparer<TStatementEntry>(Settings.SourceSettings sourceSettings)
-            where TStatementEntry : Comparison.Statement.StatementEntry
-        {
-            return new Comparison.Statement.ItemComparer(
-                            // TODO: read settings and take either this or the straight-forward one
-                            new Comparison.Statement.MerchantNameComparer(
-                                new Comparison.Statement.Bank.MerchanNameVariationComparer(sourceSettings.MerchantNameMap),
-                                new Comparison.Statement.StraighforwardDetailsComparer()),
-                            new Comparison.Statement.Bank.InvertedAmountComparer(),
-                            new Comparison.Statement.Bank.TolerantDateComparer(5) // TODO: get the value from the settings
-                            );
-        }
+        //private static Comparison.IItemComparer<TStatementEntry, TStatementEntry> BuildItemComparer<TStatementEntry>(Settings.SourceSettings sourceSettings)
+        //    where TStatementEntry : Comparison.Statement.StatementEntry
+        //{
+        //    return ComparerSettings
+
+        //    return new Comparison.Statement.ItemComparer(
+        //                    // TODO: read settings and take either this or the straight-forward one
+        //                    new Comparison.Statement.MerchantNameComparer(
+        //                        new Comparison.Statement.Bank.MerchanNameVariationComparer(sourceSettings.MerchantNameMap),
+        //                        new Comparison.Statement.StraighforwardDetailsComparer()),
+        //                    new Comparison.Statement.Bank.InvertedAmountComparer(),
+        //                    new Comparison.Statement.Bank.TolerantDateComparer(5) // TODO: get the value from the settings
+        //                    );
+        //}
     }
 }
