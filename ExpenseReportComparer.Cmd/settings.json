@@ -27,7 +27,11 @@
       },
       "DateTolerance": 5,
       "_Description": "My custom expense report entry comparer"
-    }
+    },
+    //"Comparer": {
+    //  "$type": "Andy.ExpenseReport.Verifier.Cmd.StraighforwardDetailsComparer, expenses",
+    //  "_Description": "Standard statement entry comparer"
+    //}
   },
   "OutputCsvDelimiter": ",",
   "TransformationProfiles": {
