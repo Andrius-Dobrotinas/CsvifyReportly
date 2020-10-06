@@ -38,7 +38,7 @@ namespace Andy.ExpenseReport.Comparison.Statement
 
         private bool AreDatesEqual(StatementEntry transaction1, StatementEntry transaction2)
         {
-            return dateComparer.AreDatesEqual(transaction1.Date, transaction2.Date);
+            return dateComparer.AreDatesEqual(transaction2.Date, transaction1.Date);
         }
     }
 }
