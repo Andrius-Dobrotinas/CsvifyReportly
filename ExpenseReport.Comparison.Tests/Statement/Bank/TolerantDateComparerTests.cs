@@ -15,7 +15,7 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
         }
 
         [TestCaseSource(nameof(Get_EqualDates))]
-        public void When_NoVariationIsAllowed_And_Dates_AreExactlyTheSame__Should_Return_True(
+        public void When_No_VariationIsAllowed_And_Dates_AreExactlyTheSame__Should_Return_True(
             DateTime date1,
             DateTime date2)
         {
@@ -38,7 +38,31 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
             Assert.IsTrue(result);
         }
 
-        [TestCaseSource(nameof(Get_EqualNonDates))]
+        [TestCaseSource(nameof(Get_EqualDates))]
+        public void When_VariationIsAllowed_Down_And_Dates_AreExactlyTheSame__Should_Return_True(
+            DateTime date1,
+            DateTime date2)
+        {
+            CreateTarget(5, DateComparisonDirection.Down);
+
+            var result = target.AreDatesEqual(date1, date2);
+
+            Assert.IsTrue(result);
+        }
+
+        [TestCaseSource(nameof(Get_EqualDates))]
+        public void When_VariationIsAllowed_EitherWay_And_Dates_AreExactlyTheSame__Should_Return_True(
+            DateTime date1,
+            DateTime date2)
+        {
+            CreateTarget(5, DateComparisonDirection.Both);
+
+            var result = target.AreDatesEqual(date1, date2);
+
+            Assert.IsTrue(result);
+        }
+
+        [TestCaseSource(nameof(Get_UnequalDates))]
         public void When_VariationIsNotAllowed_And_DatesAreNotEqual__Should_Return_False(
             DateTime date1,
             DateTime date2)
@@ -63,7 +87,46 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
             Assert.IsTrue(result);
         }
 
-        [TestCaseSource(nameof(Get_NonEqualDatesWithTolerance))]
+        [TestCaseSource(nameof(Get_EqualDatesWithTolerance))]
+        public void When_VariationIsAllowed_Down_And_TheFirstDateIsGreaterByUpToASpecifiedToleranceAmount__Should_Return_True(
+            DateTime date1,
+            DateTime date2,
+            int tolerance)
+        {
+            CreateTarget(tolerance, DateComparisonDirection.Down);
+
+            var result = target.AreDatesEqual(date2, date1);
+
+            Assert.IsTrue(result);
+        }
+
+        [TestCaseSource(nameof(Get_EqualDatesWithTolerance))]
+        public void When_VariationIsAllowed_EitherWay_And_TheSecondDateIsGreaterByUpToASpecifiedToleranceAmount__Should_Return_True(
+            DateTime date1,
+            DateTime date2,
+            int tolerance)
+        {
+            CreateTarget(tolerance, DateComparisonDirection.Both);
+
+            var result = target.AreDatesEqual(date1, date2);
+
+            Assert.IsTrue(result);
+        }
+
+        [TestCaseSource(nameof(Get_EqualDatesWithTolerance))]
+        public void When_VariationIsAllowed_EitherWay_And_TheFirstDateIsGreaterByUpToASpecifiedToleranceAmount__Should_Return_True(
+            DateTime date1,
+            DateTime date2,
+            int tolerance)
+        {
+            CreateTarget(tolerance, DateComparisonDirection.Both);
+
+            var result = target.AreDatesEqual(date2, date1);
+
+            Assert.IsTrue(result);
+        }
+
+        [TestCaseSource(nameof(Get_UnequalDatesWithTolerance))]
         public void When_VariationIsAllowed_Up_But_TheSecondDateIsGreaterByMoreThanASpecifiedToleranceAmount__Should_Return_False(
             DateTime date1,
             DateTime date2,
@@ -72,6 +135,45 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
             CreateTarget(tolerance, DateComparisonDirection.Up);
 
             var result = target.AreDatesEqual(date1, date2);
+
+            Assert.IsFalse(result);
+        }
+
+        [TestCaseSource(nameof(Get_UnequalDatesWithTolerance))]
+        public void When_VariationIsAllowed_Down_But_TheFirstDateIsGreaterByMoreThanASpecifiedToleranceAmount__Should_Return_False(
+            DateTime date1,
+            DateTime date2,
+            int tolerance)
+        {
+            CreateTarget(tolerance, DateComparisonDirection.Down);
+
+            var result = target.AreDatesEqual(date2, date1);
+
+            Assert.IsFalse(result);
+        }
+
+        [TestCaseSource(nameof(Get_UnequalDatesWithTolerance))]
+        public void When_VariationIsAllowed_EitherWay_But_TheSecondDateIsGreaterByMoreThanASpecifiedToleranceAmount__Should_Return_False(
+            DateTime date1,
+            DateTime date2,
+            int tolerance)
+        {
+            CreateTarget(tolerance, DateComparisonDirection.Both);
+
+            var result = target.AreDatesEqual(date1, date2);
+
+            Assert.IsFalse(result);
+        }
+
+        [TestCaseSource(nameof(Get_UnequalDatesWithTolerance))]
+        public void When_VariationIsAllowed_EitherWay_But_TheFirstDateIsGreaterByMoreThanASpecifiedToleranceAmount__Should_Return_False(
+            DateTime date1,
+            DateTime date2,
+            int tolerance)
+        {
+            CreateTarget(tolerance, DateComparisonDirection.Both);
+
+            var result = target.AreDatesEqual(date2, date1);
 
             Assert.IsFalse(result);
         }
@@ -85,6 +187,45 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
             CreateTarget(tolerance, DateComparisonDirection.Up);
 
             var result = target.AreDatesEqual(date1, date2);
+
+            Assert.IsFalse(result);
+        }
+
+        [TestCaseSource(nameof(Get_SecondDateLower))]
+        public void When_VariationIsAllowed_Down_But_TheFirstDateIsLowerByAnyAmount__Should_Return_False(
+            DateTime date1,
+            DateTime date2,
+            int tolerance)
+        {
+            CreateTarget(tolerance, DateComparisonDirection.Down);
+
+            var result = target.AreDatesEqual(date2, date1);
+
+            Assert.IsFalse(result);
+        }
+
+        [TestCaseSource(nameof(Get_SecondDateLower))]
+        public void When_VariationIsAllowed_EitherWay_But_TheSecondDateIsLowerByAnyAmount__Should_Return_False(
+            DateTime date1,
+            DateTime date2,
+            int tolerance)
+        {
+            CreateTarget(tolerance, DateComparisonDirection.Both);
+
+            var result = target.AreDatesEqual(date1, date2);
+
+            Assert.IsFalse(result);
+        }
+
+        [TestCaseSource(nameof(Get_SecondDateLower))]
+        public void When_VariationIsAllowed_EitherWay_But_TheFirstDateIsLowerByAnyAmount__Should_Return_False(
+            DateTime date1,
+            DateTime date2,
+            int tolerance)
+        {
+            CreateTarget(tolerance, DateComparisonDirection.Both);
+
+            var result = target.AreDatesEqual(date2, date1);
 
             Assert.IsFalse(result);
         }
@@ -123,7 +264,7 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
                 3);
         }
 
-        private static IEnumerable<TestCaseData> Get_NonEqualDatesWithTolerance()
+        private static IEnumerable<TestCaseData> Get_UnequalDatesWithTolerance()
         {
             yield return new TestCaseData(
                 new DateTime(2020, 01, 20),
@@ -136,7 +277,7 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
                 2);
         }
 
-        private static IEnumerable<TestCaseData> Get_EqualNonDates()
+        private static IEnumerable<TestCaseData> Get_UnequalDates()
         {
             yield return new TestCaseData(
                 new DateTime(2020, 01, 20),

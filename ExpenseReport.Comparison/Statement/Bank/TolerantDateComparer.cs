@@ -29,7 +29,8 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
                 case DateComparisonDirection.Down:
                     return CompareDown(targetDate, date2, tolerance);
                 default:
-                    return false;
+                    return CompareUp(targetDate, date2, tolerance)
+                        || CompareDown(targetDate, date2, tolerance);
             }
         }
 
