@@ -34,7 +34,8 @@ namespace Andy.ExpenseReport.Verifier.Custom.Cmd
                                 sourceSettings.MerchantNameMap)),
                         new Comparison.Statement.Bank.InvertedAmountComparer(),
                         new Comparison.Statement.Bank.TolerantDateComparer(
-                            sourceSettings.DateTolerance))));
+                            sourceSettings.DateTolerance,
+                            sourceSettings.Direction))));
 
             var orderedCollectionComparer = new Comparison.Csv.Statement.OrderedCollectionComparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,

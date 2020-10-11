@@ -26,6 +26,7 @@
         "Amazon": [ "Amazon", "AMZNMKTPLACE", "AMZ*" ]
       },
       "DateTolerance": 5,
+      "Direction": 1,
       "_Description": "My custom expense report entry comparer"
     },
     //"Comparer": {

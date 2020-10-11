@@ -9,6 +9,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
     {
         public IDictionary<string, string[]> MerchantNameMap { get; set; }
         public int DateTolerance { get; set; }
+        public ExpenseReport.Comparison.Statement.Bank.DateComparisonDirection Direction { get; set; }
 
         public override IItemComparer<
             StatementEntryWithSourceData,
@@ -20,7 +21,9 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                         new Comparison.Statement.Bank.MerchanNameVariationComparer(this.MerchantNameMap),
                         new Comparison.Statement.StraighforwardDetailsComparer()),
                     new Comparison.Statement.Bank.InvertedAmountComparer(),
-                    new Comparison.Statement.Bank.TolerantDateComparer(this.DateTolerance));
+                    new Comparison.Statement.Bank.TolerantDateComparer(
+                        this.DateTolerance,
+                        this.Direction));
         }
     }
 }

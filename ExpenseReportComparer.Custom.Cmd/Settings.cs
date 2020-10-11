@@ -17,6 +17,7 @@ namespace Andy.ExpenseReport.Verifier.Custom.Cmd
             public CsvFileSettings<ExpenseReportEntryColumnNames> ExpenseReportFile { get; set; }
             public IDictionary<string, string[]> MerchantNameMap { get; set; }
             public int DateTolerance { get; set; }
+            public Comparison.Statement.Bank.DateComparisonDirection Direction { get; set; }
         }
 
         public class CsvFileSettings<TColumnNameMap>
