@@ -52,7 +52,7 @@ namespace Andy.Csv.IO
         {
             return cells.Length == expectedLength 
                 ? cells
-                : throw new StructureException($"All rows in a CSV file must have an equal number of cells. Expected number of cells (based on the first row): {expectedLength}, row is {rowNumber} has {cells.Length} cells.");
+                : throw new StructureException($"All rows in a CSV file must have an equal number of cells. Expected number of cells (based on the first row): {expectedLength}, row {rowNumber} has {cells.Length} cells.");
         }
     }
 }
