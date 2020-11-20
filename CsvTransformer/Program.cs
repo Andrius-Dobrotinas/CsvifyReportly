@@ -67,6 +67,9 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                 Console.Error.WriteLine("Unexpected error:");
                 Console.Error.WriteLine(e.Message);
 
+                if (e.InnerException != null)
+                    Console.Error.WriteLine(e.InnerException.Message);
+
                 return -1;
             }
         }

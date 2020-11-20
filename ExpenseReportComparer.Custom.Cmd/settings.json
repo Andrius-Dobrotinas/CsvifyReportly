@@ -1,16 +1,6 @@
 {
   "Source": {
-    "StatementFile1": {
-      "ColumnNames": {
-        "Date": "Date",
-        "Amount": "Amount",
-        "Details": "Merchant"
-      },
-      "Delimiter": ",",
-      "DateFormat": "yyyy-MM-dd",
-      "TransformationProfileName": "Expense-Report"
-    },
-    "StatementFile2": {
+    "StatementFile": {
       "ColumnNames": {
         "Date": "Date",
         "Amount": "Amount",
@@ -20,29 +10,29 @@
       "DateFormat": "yyyy-MM-dd",
       "TransformationProfileName": "Bank-Statement"
     },
-    "Comparer": {
-      "$type": "Andy.ExpenseReport.Verifier.Cmd.MyCustomComparerSettings, expenses",
-      "MerchantNameMap": {
-        "Amazon": [ "Amazon", "AMZNMKTPLACE", "AMZ*" ]
+    "ExpenseReportFile": {
+      "ColumnNames": {
+        "Date": "Date",
+        "Amount": "Amount",
+        "IsPayPal": "PayPal",
+        "Merchant": "Merchant"
       },
-      "DateTolerance": 5,
-      "Direction": 1,
-      "_Description": "My custom expense report entry comparer"
+      "Delimiter": ",",
+      "DateFormat": "yyyy-MM-dd",
+      "TransformationProfileName": "Expense-Report"
     },
-    //"Comparer": {
-    //  "$type": "Andy.ExpenseReport.Verifier.Cmd.StraighforwardDetailsComparer, expenses",
-    //  "_Description": "Standard statement entry comparer"
-    //}
-  },
+    "MerchantNameMap": {
+      "Amazon": [ "Amazon", "AMZNMKTPLACE", "AMZ*" ]
+    },
+    "DateTolerance": 4
+  },  
   "OutputCsvDelimiter": ",",
   "TransformationProfiles": {
     "Bank-Statement": [
       {
-        "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleCellValueRowFilterSettings, Csv.Transformation.Transformers.Core",
+        "$type": "Andy.ExpenseReport.Transformation.Csv.Filtering.Statement.Bank.NonPaypalRowSelectorSettings, ExpenseReport.Transformation.Csv",
         "TargetColumnName": "Details",
-        "TargetValue": "PAYPAL *",
-        "Method": 1,
-        "_Description": "Filter out PayPal transactions"
+        "_Description": "Filter out Paypal transactions"
       },
       {
         "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleCellValueRowFilterSettings, Csv.Transformation.Transformers.Core",

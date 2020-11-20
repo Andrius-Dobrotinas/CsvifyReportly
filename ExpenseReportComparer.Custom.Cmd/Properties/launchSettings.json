@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ExpenseReportComparer.Custom.Cmd": {
+      "commandName": "Project",
+      "commandLineArgs": "--source1=\"d:\\2020 August cc.csv\" --source2=\"d:\\2020 - Exp8.csv\" --result=\"d:\\result8.txt\""
+    }
+  }
+}

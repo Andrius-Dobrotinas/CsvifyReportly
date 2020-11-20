@@ -5,21 +5,40 @@ namespace Andy.ExpenseReport.Comparison.Statement
 {
     public class ItemComparer : IItemComparer<StatementEntry, StatementEntry>
     {
-        public bool AreEqual(StatementEntry transaction, StatementEntry statementEntry)
+        private readonly IDetailsComparer detailsComparer;
+        private readonly IAmountComparer amountComparer;
+        private readonly IDateComparer dateComparer;
+
+        public ItemComparer(
+            IDetailsComparer detailsComparer,
+            IAmountComparer amountComparer,
+            IDateComparer dateComparer)
         {
-            return AreAmountsEqual(transaction, statementEntry)
-                && AreOrderNumbersEqual(transaction, statementEntry);
+            this.detailsComparer = detailsComparer;
+            this.amountComparer = amountComparer;
+            this.dateComparer = dateComparer;
         }
 
-        private static bool AreAmountsEqual(StatementEntry entry1, StatementEntry entry2)
+        public bool AreEqual(StatementEntry transaction1, StatementEntry transaction2)
         {
-            return entry1.Amount == entry2.Amount;
+            return AreAmountsEqual(transaction1, transaction2)
+                && AreDetailsEqual(transaction1, transaction2)
+                && AreDatesEqual(transaction1, transaction2);
         }
 
-        private bool AreOrderNumbersEqual(StatementEntry transcation, StatementEntry statement)
+        private bool AreAmountsEqual(StatementEntry transaction1, StatementEntry transaction2)
         {
-            // TODO: make it case-insensitive
-            return transcation.Details == statement.Details;
+            return amountComparer.AreEqual(transaction1.Amount, transaction2.Amount);
+        }
+
+        private bool AreDetailsEqual(StatementEntry transaction1, StatementEntry transaction2)
+        {
+            return detailsComparer.AreEqual(transaction1.Details, transaction2.Details);
+        }
+
+        private bool AreDatesEqual(StatementEntry transaction1, StatementEntry transaction2)
+        {
+            return dateComparer.AreDatesEqual(transaction2.Date, transaction1.Date);
         }
     }
 }
