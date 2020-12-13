@@ -16,12 +16,20 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             try
             {
                 var arguments = Andy.Cmd.ArgumentParser.ParseArguments(args);
+
+                if (arguments.ContainsKey(Parameter.Keys.Help))
+                {
+                    Parameter.PrintInstructions(Console.WriteLine);
+                    return 0;
+                }
+
                 parameters = Parameter.GetParametersOrThrow(arguments);
             }
             catch (Exception e)
             {
                 Console.Error.WriteLine("There's a problem with command parameters:");
                 Console.Error.WriteLine(e.Message);
+                Parameter.PrintInstructions(Console.Error.WriteLine);
                 return -2;
             }
 
