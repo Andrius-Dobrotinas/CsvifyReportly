@@ -21,7 +21,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
 
             string reportFilePath;
             if (!args.TryGetValue(Keys.OutputFile, out reportFilePath))
-                throw new Exception(@$"An output file must be specified with ""{Keys.OutputFile}"" parameter");
+                throw new Exception(@$"An output file must be specified with ""{Keys.Source}"" parameter");
 
             string profileName;
             args.TryGetValue(Keys.ProfileName, out profileName);
