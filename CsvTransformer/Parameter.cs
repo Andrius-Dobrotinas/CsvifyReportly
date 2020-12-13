@@ -6,11 +6,12 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
 {
     public static class Parameter
     {
-        private static class Keys
+        public static class Keys
         {
             public const string Source = "--source";
             public const string OutputFile = "--result";
             public const string ProfileName = "--profile";
+            public const string Help = "--help";
         }
 
         public static Parameters GetParametersOrThrow(IDictionary<string, string> args)
@@ -32,6 +33,16 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
                 ResultFile = new FileInfo(reportFilePath),
                 ProfileName = profileName
             };
+        }
+
+        public static void PrintInstructions(Action<string> writeLine)
+        {
+            writeLine("$Parameters:");
+            writeLine($"{Keys.ProfileName}=.. to specify a transformation profile");
+            writeLine($"{Keys.Source}=.. to specify a source file");
+            writeLine($"{Keys.OutputFile}=.. to specify an output file");
+            writeLine($"For example:");
+            writeLine($@"transform {Keys.ProfileName}=profile1 {Keys.Source}=expense-report.csv {Keys.OutputFile}=""c:\\result.csv""");
         }
     }
 }
