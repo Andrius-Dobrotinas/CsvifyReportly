@@ -75,9 +75,8 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             catch (Exception e)
             {
                 Console.Error.WriteLine("Unexpected error:");
-                Console.Error.WriteLine(e.Message);
-                if (e.InnerException != null)
-                    Console.Error.WriteLine(e.InnerException.Message);
+
+                Andy.Cmd.ConsoleUtils.PrintErrorDetails(e);
 
                 return -1;
             }
