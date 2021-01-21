@@ -38,7 +38,7 @@ namespace Andy.Csv.Transformation.Row.Document.Cmd
         public static void PrintInstructions(Action<string> writeLine)
         {
             writeLine("$Parameters:");
-            writeLine($"{Keys.ProfileName}=.. to specify a transformation profile. If none specified, the first profile in the list is used");
+            writeLine($"{Keys.ProfileName}=.. to specify a transformation profile. If none specified, the first profile on the list is used");
             writeLine($"{Keys.Source}=.. to specify a source file");
             writeLine($"{Keys.OutputFile}=.. to specify an output file");
             writeLine($"For example:");
