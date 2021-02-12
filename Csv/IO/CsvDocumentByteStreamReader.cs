@@ -30,8 +30,9 @@ namespace Andy.Csv.IO
             if (rows.Any() == false) return null;
 
             var headerCells = rows.First();
-            if (arrayValueUniquenessChecker.HasDuplicates(headerCells))
-                throw new StructureException("Column names are not unique");
+            string[] nonUnique;
+            if (arrayValueUniquenessChecker.HasDuplicates(headerCells, out nonUnique))
+                throw new StructureException($"Column names are not unique: {string.Join(';', nonUnique)}");
 
             return new CsvDocument
             {

@@ -13,7 +13,7 @@ namespace Andy.Csv
         [Test]
         public void When_InputIsEmpty__Must_Return_False()
         {
-            var result = target.HasDuplicates(new string[0]);
+            var result = target.HasDuplicates(new string[0], out _);
 
             Assert.IsFalse(result);
         }
@@ -22,7 +22,7 @@ namespace Andy.Csv
         public void Must_Return_False_WhenAllItemsInTheCollectionAreUnique_CaseSensitive(
             IList<string> items)
         {
-            var result = target.HasDuplicates(items);
+            var result = target.HasDuplicates(items, out _);
 
             Assert.IsFalse(result);
         }
@@ -31,7 +31,7 @@ namespace Andy.Csv
         public void Must_Return_True_WhenThereIsAtLeastOneDuplicate_CaseSensitive(
             IList<string> items)
         {
-            var result = target.HasDuplicates(items);
+            var result = target.HasDuplicates(items, out _);
 
             Assert.IsTrue(result);
         }

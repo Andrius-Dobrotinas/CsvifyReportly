@@ -9,6 +9,8 @@ namespace Andy.Csv.IO
 {
     public class CsvDocumentByteStreamReaderTests
     {
+        delegate void HasDuplicatesDelegate(IEnumerable<string> input, out string[] output);
+
         CsvDocumentByteStreamReader target;
         Mock<IRowLengthValidatingCsvRowByteStreamReader> streamParser;
         Mock<IArrayValueUniquenessChecker> arrayValueUniquenessChecker;
@@ -65,7 +67,8 @@ namespace Andy.Csv.IO
             arrayValueUniquenessChecker.Verify(
                 x => x.HasDuplicates(
                     It.Is<string[]>(
-                        arg => arg.SequenceEqual(headerCells))));
+                        arg => arg.SequenceEqual(headerCells)),
+                    out It.Ref<string[]>.IsAny));
         }
 
         [Test]
@@ -78,7 +81,7 @@ namespace Andy.Csv.IO
 
             var stream = new Mock<Stream>();
 
-            Setup_ColumnsHaveNonUniqueNames(true);
+            Setup_ColumnsHaveNonUniqueNames(true, new string[] { "" });
 
             Assert.Throws<StructureException>(
                 () => target.Read(stream.Object));
@@ -138,11 +141,19 @@ namespace Andy.Csv.IO
                 .Returns(returnValue);
         }
 
-        private void Setup_ColumnsHaveNonUniqueNames(bool returnValue)
+        private void Setup_ColumnsHaveNonUniqueNames(bool returnValue, string[] nonUniqueColumnNamesReturnValue)
         {
+            var callbackAction = new HasDuplicatesDelegate(
+                (IEnumerable<string> input, out string[] output) =>
+                {
+                    output = nonUniqueColumnNamesReturnValue;
+                });
+
             arrayValueUniquenessChecker.Setup(
                 x => x.HasDuplicates(
-                    It.IsAny<IEnumerable<string>>()))
+                    It.IsAny<IEnumerable<string>>(),
+                    out It.Ref<string[]>.IsAny))
+                .Callback(callbackAction)
                 .Returns(returnValue);
         }
 
