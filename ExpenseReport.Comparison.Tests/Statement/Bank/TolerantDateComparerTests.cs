@@ -300,17 +300,17 @@ namespace Andy.ExpenseReport.Comparison.Statement.Bank
         {
             yield return new TestCaseData(
                 new DateTime(2020, 01, 20),
-                new DateTime(2020, 01, 19, 23, 23, 59),
+                new DateTime(2020, 01, 18, 23, 23, 59),
                 1);
 
             yield return new TestCaseData(
                 new DateTime(2020, 01, 20),
-                new DateTime(2020, 01, 19),
+                new DateTime(2020, 01, 16),
                 2);
 
             yield return new TestCaseData(
                 new DateTime(2020, 01, 20),
-                new DateTime(2020, 01, 18),
+                new DateTime(2020, 01, 08),
                 10);
         }
     }
