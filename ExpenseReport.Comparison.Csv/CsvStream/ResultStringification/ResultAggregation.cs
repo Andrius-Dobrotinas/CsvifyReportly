@@ -8,45 +8,14 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
     {
         public static IEnumerable<string[]> GetDataRows(
             IEnumerable<Tuple<string[], string[]>> matches,
+            IEnumerable<Tuple<string[], string[]>> matchesSecondary,
             IEnumerable<string[]> unmatchedTransactions1,
             IEnumerable<string[]> unmatchedTransactions2,
-            string[] separatorColumns,
+            int separatorColumnCount,
             string[] source1DummyRow,
             string[] source2DummyRow,
             string[] source1Colums,
             string[] source2Colums)
-        {
-            var contentRowPairs = GetDataRowPairs(
-                matches,
-                unmatchedTransactions1,
-                unmatchedTransactions2,
-                source1DummyRow,
-                source2DummyRow);
-
-            var headerRowPair = new Tuple<string[], string[]>(source1Colums, source2Colums);
-
-            var allRowPairs = CombineHeaderAndContent(headerRowPair, contentRowPairs);
-
-            return allRowPairs
-                .Select(pair => JoinTwoRows(pair, separatorColumns))
-                .ToArray();
-        }
-
-        private static IEnumerable<Tuple<string[], string[]>> CombineHeaderAndContent(
-            Tuple<string[], string[]> headerRowPair,
-            IEnumerable<Tuple<string[], string[]>> contentRowPairs)
-        {
-            yield return headerRowPair;
-            foreach (var pair in contentRowPairs)
-                yield return pair;
-        }
-
-        private static IEnumerable<Tuple<string[], string[]>> GetDataRowPairs(
-            IEnumerable<Tuple<string[], string[]>> matches,
-            IEnumerable<string[]> unmatchedTransactions1,
-            IEnumerable<string[]> unmatchedTransactions2,
-            string[] source1DummyRow,
-            string[] source2DummyRow)
         {
             var unmatchedRows1 = GetUnmatchedSource1RowPairs(
                 unmatchedTransactions1,
@@ -56,9 +25,32 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
                 unmatchedTransactions2,
                 source1DummyRow);
 
-            return matches
-                .Concat(unmatchedRows1)
-                .Concat(unmatchedRows2);
+            var separatorColumns = new string[separatorColumnCount];
+
+            var separatorColumns2 = new string[separatorColumnCount];
+            if (separatorColumns2.Any())
+                separatorColumns2[0] = "Match L2 (Partial)";
+
+            var headerRowsFinal = JoinTwoRows(source1Colums, source2Colums, separatorColumns);
+
+            var matchesFinal = matches
+                .Select(pair => JoinTwoRows(pair, separatorColumns));
+
+            var matches2Final = matchesSecondary
+                .Select(pair => JoinTwoRows(pair, separatorColumns2));
+
+            var unmatchedRows1Final = unmatchedRows1
+                .Select(pair => JoinTwoRows(pair, separatorColumns));
+
+            var unmatchedRows2Final = unmatchedRows2
+                .Select(pair => JoinTwoRows(pair, separatorColumns));
+
+            return new string[][] { headerRowsFinal }
+                .Concat(matchesFinal)
+                .Concat(matches2Final)
+                .Concat(unmatchedRows1Final)
+                .Concat(unmatchedRows2Final)
+                .ToArray();
         }
 
         private static IEnumerable<Tuple<string[], string[]>> GetUnmatchedSource1RowPairs(
@@ -86,6 +78,14 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             return rowPair.Item1
                 .Concat(separatorColumns)
                 .Concat(rowPair.Item2)
+                .ToArray();
+        }
+
+        private static string[] JoinTwoRows(string[] rowLeft, string[] rowRight, string[] separatorColumns)
+        {
+            return rowLeft
+                .Concat(separatorColumns)
+                .Concat(rowRight)
                 .ToArray();
         }
     }

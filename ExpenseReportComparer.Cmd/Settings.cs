@@ -15,6 +15,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             public CsvFileSettings<StatementEntryColumnNames> StatementFile1 { get; set; }
             public CsvFileSettings<StatementEntryColumnNames> StatementFile2 { get; set; }
             public ComparerSettings Comparer { get; set; }
+            public ComparerSettings ComparerSecondary { get; set; }
         }
 
         public class CsvFileSettings<TColumnNameMap>

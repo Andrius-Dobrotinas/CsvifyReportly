@@ -6,6 +6,8 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
 {
     public static class ResultStringification
     {
+        const int separatorColumnCount = 1;
+
         public static string[] StringyfyyResults(
             ComparisonResult result,
             string[] source1HeaderCells,
@@ -13,15 +15,15 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             char csvDelimiter,
             Andy.Csv.Serialization.IRowStringifier stringyfier)
         {
-            var sourceSeparatorColumns = new string[] { "" };
             var blankSource1Row = new string[source1HeaderCells.Length];
             var blankSource2Row = new string[source2HeaderCells.Length];
 
             var allRows = ResultAggregation.GetDataRows(
                 result.Matches,
+                result.MatchesSecondary,
                 result.UnmatchedTransactions1,
                 result.UnmatchedTransactions2,
-                sourceSeparatorColumns,
+                separatorColumnCount,
                 blankSource1Row,
                 blankSource2Row,
                 source1HeaderCells,

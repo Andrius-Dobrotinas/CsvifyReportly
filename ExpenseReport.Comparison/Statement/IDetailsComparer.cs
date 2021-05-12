@@ -6,7 +6,7 @@ namespace Andy.ExpenseReport.Comparison.Statement
     public interface IDetailsComparer
     {
         bool AreEqual(
-            string details1,
-            string details2);
+            string statementDetailsString,
+            string name);
     }
 }

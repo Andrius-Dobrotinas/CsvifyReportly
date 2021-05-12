@@ -17,12 +17,12 @@ namespace Andy.ExpenseReport.Comparison.Statement
             this.detailsComparer = detailsComparer;
         }
 
-        public bool AreEqual(string statementDetails, string merchantIdentifier)
+        public bool AreEqual(string statementDetailsString, string merchantIdentifier)
         {
-            if (nameMapComparer.IsMatch(merchantIdentifier, statementDetails))
+            if (nameMapComparer.IsMatch(merchantIdentifier, statementDetailsString))
                 return true;
             else
-                return detailsComparer.AreEqual(statementDetails, merchantIdentifier);
+                return detailsComparer.AreEqual(statementDetailsString, merchantIdentifier);
         }
     }
 }

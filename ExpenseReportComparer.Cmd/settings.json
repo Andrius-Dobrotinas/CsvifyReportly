@@ -33,6 +33,12 @@
     //  "$type": "Andy.ExpenseReport.Verifier.Cmd.StraighforwardDetailsComparer, expenses",
     //  "_Description": "Standard statement entry comparer"
     //}
+    "ComparerSecondary": {
+      "$type": "Andy.ExpenseReport.Verifier.Cmd.MyCustomComparer2Settings, expenses",
+      "DateTolerance": 5,
+      "Direction": 1,
+      "_Description": "My custom expense report entry comparer that checks whether Details start with a given merchant name, case-insensitive"
+    }
   },
   "OutputCsvDelimiter": ",",
   "TransformationProfiles": {

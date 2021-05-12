@@ -17,7 +17,14 @@ namespace Andy.ExpenseReport.Comparison
         public void Setup()
         {
             matcher = new Mock<IMatchFinder<StatementEntry, TransactionDetails>>();
-            target = new CollectionComparer<StatementEntry, TransactionDetails>(matcher.Object);
+            var matcher2 = new Mock<IMatchFinder<StatementEntry, TransactionDetails>>();
+            target = new CollectionComparer<StatementEntry, TransactionDetails>(matcher.Object, matcher2.Object);
+
+            matcher2.Setup(
+                x => x.GetMatches(
+                    It.IsAny<IList<StatementEntry>>(),
+                    It.IsAny<IList<TransactionDetails>>()))
+                .Returns(new Tuple<StatementEntry, TransactionDetails>[0]);
         }
 
         void Setup_ItemMatcherToReturn(IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches)

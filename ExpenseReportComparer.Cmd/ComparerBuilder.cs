@@ -22,6 +22,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 sourceSettings.StatementFile2.DateFormat);
 
             var itemComparer = sourceSettings.Comparer.BuildComparer();
+            var itemComparer2 = sourceSettings.ComparerSecondary.BuildComparer();
 
             var collectionComparer = new Comparison.CollectionComparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
@@ -29,7 +30,11 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 new Comparison.MatchFinder<
                     Comparison.Csv.Statement.StatementEntryWithSourceData,
                     Comparison.Csv.Statement.StatementEntryWithSourceData>(
-                        itemComparer));
+                        itemComparer),
+                new Comparison.MatchFinder<
+                    Comparison.Csv.Statement.StatementEntryWithSourceData,
+                    Comparison.Csv.Statement.StatementEntryWithSourceData>(
+                        itemComparer2));
 
             var orderedCollectionComparer = new Comparison.Csv.Statement.OrderedCollectionComparer<
                 Comparison.Csv.Statement.StatementEntryWithSourceData,
