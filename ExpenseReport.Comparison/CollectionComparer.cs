@@ -13,18 +13,41 @@ namespace Andy.ExpenseReport.Comparison
 
     public class CollectionComparer<TTransaction1, TTransaction2> : ICollectionComparer<TTransaction1, TTransaction2>
     {
-        private readonly IMatchFinder<TTransaction1, TTransaction2> matcher;
-        private readonly IMatchFinder<TTransaction1, TTransaction2> matcherSecondary;
+        private readonly IList<IMatchFinder<TTransaction1, TTransaction2>> matchers;
 
-        public CollectionComparer(
-            IMatchFinder<TTransaction1, TTransaction2> matcher,
-            IMatchFinder<TTransaction1, TTransaction2> matcherSecondary)
+        public CollectionComparer(IList<IMatchFinder<TTransaction1, TTransaction2>> matchers)
         {
-            this.matcher = matcher;
-            this.matcherSecondary = matcherSecondary;
+            this.matchers = matchers;
         }
 
         public ComparisonResult<TTransaction1, TTransaction2> Compare(
+            IList<TTransaction1> transactions1,
+            IList<TTransaction2> transactions2)
+        {
+            var matchGroups = new List<IList<Tuple<TTransaction1, TTransaction2>>>(2);
+
+            foreach (var matcher in matchers)
+            {
+                var (matches, unmatchedTransactions1, unmatchedTransactions2) = GetMatches(matcher, transactions1, transactions2);
+                
+                matchGroups.Add(matches);
+                transactions1 = unmatchedTransactions1;
+                transactions2 = unmatchedTransactions2;
+            }
+
+            return new ComparisonResult<TTransaction1, TTransaction2>
+            {
+                MatchGroups = matchGroups,
+                UnmatchedTransactions1 = transactions1,
+                UnmatchedTransactions2 = transactions2
+            };
+        }
+
+        private (
+            IList<Tuple<TTransaction1, TTransaction2>> matches, 
+            TTransaction1[] unmatchedTransactions1, 
+            TTransaction2[] unmatchedTransactions2) GetMatches(
+            IMatchFinder<TTransaction1, TTransaction2> matcher,
             IList<TTransaction1> transactions1,
             IList<TTransaction2> transactions2)
         {
@@ -40,25 +63,7 @@ namespace Andy.ExpenseReport.Comparison
                     matches.Select(x => x.Item2))
                 .ToArray();
 
-            var secondaryMatches = matcherSecondary.GetMatches(unmatchedTransactions1, unmatchedTransactions2);
-
-            unmatchedTransactions1 = unmatchedTransactions1
-                .Except(
-                    secondaryMatches.Select(x => x.Item1))
-                .ToArray();
-
-            unmatchedTransactions2 = unmatchedTransactions2
-                .Except(
-                    secondaryMatches.Select(x => x.Item2))
-                .ToArray();
-
-            return new ComparisonResult<TTransaction1, TTransaction2>
-            {
-                Matches = matches,
-                MatchesSecondary = secondaryMatches,
-                UnmatchedTransactions1 = unmatchedTransactions1,
-                UnmatchedTransactions2 = unmatchedTransactions2
-            };
+            return (matches, unmatchedTransactions1, unmatchedTransactions2);
         }
     }
 }

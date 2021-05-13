@@ -20,7 +20,6 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
 
             var allRows = ResultAggregation.GetDataRows(
                 result.Matches,
-                result.MatchesSecondary,
                 result.UnmatchedTransactions1,
                 result.UnmatchedTransactions2,
                 separatorColumnCount,

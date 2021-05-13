@@ -38,8 +38,9 @@ namespace Andy.ExpenseReport.Comparison.Csv
 
             var result = comparer.Compare(transactions1, transactions2);
 
-            var matchRows = GetTupleArray(result.Matches);
-            var match2Rows = GetTupleArray(result.MatchesSecondary);
+            var matchRows = result.MatchGroups
+                .Select(CombineMatchedRowsIntoTuples)
+                .ToList();
                 
             var unmatchedTransactions1 = result.UnmatchedTransactions1
                 .Select(x => x.SourceData)
@@ -52,13 +53,12 @@ namespace Andy.ExpenseReport.Comparison.Csv
             return new ComparisonResult
             {
                 Matches = matchRows,
-                MatchesSecondary = match2Rows,
                 UnmatchedTransactions1 = unmatchedTransactions1,
                 UnmatchedTransactions2 = unmatchedTransactions2
             };
         }
 
-        private Tuple<string[], string[]>[] GetTupleArray(IEnumerable<Tuple<TTransaction1, TTransaction2>> matches)
+        private IList<Tuple<string[], string[]>> CombineMatchedRowsIntoTuples(IEnumerable<Tuple<TTransaction1, TTransaction2>> matches)
         {
             return matches
                 .Select(

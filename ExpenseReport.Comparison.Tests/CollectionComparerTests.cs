@@ -7,27 +7,29 @@ using System.Linq;
 
 namespace Andy.ExpenseReport.Comparison
 {
-    public class CollectionComparerTests
+    public partial class CollectionComparerTests
     {
         // TODO: use made up types
         CollectionComparer<StatementEntry, TransactionDetails> target;
-        Mock<IMatchFinder<StatementEntry, TransactionDetails>> matcher;
+        Mock<IMatchFinder<StatementEntry, TransactionDetails>> primaryMatcher;
+        List<IMatchFinder<StatementEntry, TransactionDetails>> matchers;
 
         [SetUp]
         public void Setup()
         {
-            matcher = new Mock<IMatchFinder<StatementEntry, TransactionDetails>>();
-            var matcher2 = new Mock<IMatchFinder<StatementEntry, TransactionDetails>>();
-            target = new CollectionComparer<StatementEntry, TransactionDetails>(matcher.Object, matcher2.Object);
-
-            matcher2.Setup(
-                x => x.GetMatches(
-                    It.IsAny<IList<StatementEntry>>(),
-                    It.IsAny<IList<TransactionDetails>>()))
-                .Returns(new Tuple<StatementEntry, TransactionDetails>[0]);
+            primaryMatcher = new Mock<IMatchFinder<StatementEntry, TransactionDetails>>();
+            matchers = new List<IMatchFinder<StatementEntry, TransactionDetails>>() { primaryMatcher.Object };
+            target = new CollectionComparer<StatementEntry, TransactionDetails>(matchers);
         }
 
-        void Setup_ItemMatcherToReturn(IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches)
+        void Setup_PrimaryItemMatcher_ToReturn(IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches)
+        {
+            Setup_ItemMatcher_ToReturn(primaryMatcher, expectedMatches);
+        }
+
+        void Setup_ItemMatcher_ToReturn(
+            Mock<IMatchFinder<StatementEntry, TransactionDetails>> matcher,
+            IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches)
         {
             matcher.Setup(
                 x => x.GetMatches(
@@ -40,15 +42,14 @@ namespace Andy.ExpenseReport.Comparison
         public void Must_ReturnWhateverMatchesTheMatcherReturns(
             IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches)
         {
-            Setup_ItemMatcherToReturn(expectedMatches);
+            Setup_PrimaryItemMatcher_ToReturn(expectedMatches);
 
             var statementEntries = new StatementEntry[] { new StatementEntry() };
             var transactions = new TransactionDetails[] { new TransactionDetails() };
 
-            var matches = target.Compare(statementEntries, transactions)
-                .Matches;
+            var matchGroups = target.Compare(statementEntries, transactions).MatchGroups;
 
-            Assert.AreSame(expectedMatches, matches);
+            Assert.AreSame(expectedMatches, matchGroups.First());
         }
 
         [TestCaseSource(nameof(GetNonMatchingTransactions))]
@@ -58,8 +59,19 @@ namespace Andy.ExpenseReport.Comparison
             IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches,
             IList<TransactionDetails> expectedUnmatchedTransactions)
         {
-            Setup_ItemMatcherToReturn(expectedMatches);
+            Setup_PrimaryItemMatcher_ToReturn(expectedMatches);
 
+            Run__Must_ReturnUnmatchedTransactions_InASeparateCollection_InNoParticularOrder(
+                statementEntries,
+                transactions,
+                expectedUnmatchedTransactions);
+        }
+
+        private void Run__Must_ReturnUnmatchedTransactions_InASeparateCollection_InNoParticularOrder(
+            IList<StatementEntry> statementEntries,
+            IList<TransactionDetails> transactions,
+            IList<TransactionDetails> expectedUnmatchedTransactions)
+        {
             var actualUnmatchedTransactions = target.Compare(statementEntries, transactions)
                 .UnmatchedTransactions2;
 
@@ -80,8 +92,19 @@ namespace Andy.ExpenseReport.Comparison
             IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches,
             IList<StatementEntry> expectedUnmatchedStatementEntries)
         {
-            Setup_ItemMatcherToReturn(expectedMatches);
+            Setup_PrimaryItemMatcher_ToReturn(expectedMatches);
 
+            Run__Must_ReturnUnmatchedStatementEntries_InASeparateCollection_InNoParticularOrder(
+                statementEntries,
+                transactions,
+                expectedUnmatchedStatementEntries);
+        }
+
+        private void Run__Must_ReturnUnmatchedStatementEntries_InASeparateCollection_InNoParticularOrder(
+            IList<StatementEntry> statementEntries,
+            IList<TransactionDetails> transactions,
+            IList<StatementEntry> expectedUnmatchedStatementEntries)
+        {
             var actualUnmatchedStatementEntries = target.Compare(statementEntries, transactions)
                 .UnmatchedTransactions1;
 
@@ -101,7 +124,7 @@ namespace Andy.ExpenseReport.Comparison
             IList<TransactionDetails> transactions,
             IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches)
         {
-            Setup_ItemMatcherToReturn(expectedMatches);
+            Setup_PrimaryItemMatcher_ToReturn(expectedMatches);
 
             var actualUnmatchedStatementEntries = target.Compare(statementEntries, transactions)
                 .UnmatchedTransactions1;
@@ -115,7 +138,7 @@ namespace Andy.ExpenseReport.Comparison
             IList<TransactionDetails> transactions,
             IList<Tuple<StatementEntry, TransactionDetails>> expectedMatches)
         {
-            Setup_ItemMatcherToReturn(expectedMatches);
+            Setup_PrimaryItemMatcher_ToReturn(expectedMatches);
 
             var actualUnmatchedTransactionEntries = target.Compare(statementEntries, transactions)
                 .UnmatchedTransactions2;
@@ -125,7 +148,7 @@ namespace Andy.ExpenseReport.Comparison
 
         static IEnumerable<TestCaseData> GetMatches()
         {
-            // simple case with one unmatched item
+            // a simple case with one unmatched item
             yield return new TestCaseData(
                 new List<Tuple<StatementEntry, TransactionDetails>>
                 {

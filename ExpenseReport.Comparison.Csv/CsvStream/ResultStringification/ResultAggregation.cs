@@ -7,8 +7,7 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
     public static class ResultAggregation
     {
         public static IEnumerable<string[]> GetDataRows(
-            IEnumerable<Tuple<string[], string[]>> matches,
-            IEnumerable<Tuple<string[], string[]>> matchesSecondary,
+            IList<IList<Tuple<string[], string[]>>> matchGroups,
             IEnumerable<string[]> unmatchedTransactions1,
             IEnumerable<string[]> unmatchedTransactions2,
             int separatorColumnCount,
@@ -25,29 +24,31 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
                 unmatchedTransactions2,
                 source1DummyRow);
 
-            var separatorColumns = new string[separatorColumnCount];
+            var separatorColumnsVanilla = new string[separatorColumnCount];
+            var headerRowsFinal = JoinTwoRows(source1Colums, source2Colums, separatorColumnsVanilla);
 
-            var separatorColumns2 = new string[separatorColumnCount];
-            if (separatorColumns2.Any())
-                separatorColumns2[0] = "Match L2 (Partial)";
+            var matchGroupCount = matchGroups.Count;
+            var matchGroupsFinal = new IEnumerable<string[]>[matchGroupCount];
 
-            var headerRowsFinal = JoinTwoRows(source1Colums, source2Colums, separatorColumns);
+            for (int i = 0; i < matchGroupCount; i++) {
+                var separatorColumns = new string[separatorColumnCount];
+                if (separatorColumns.Any())
+                    separatorColumns[0] = $"Match L{i + 1}";
 
-            var matchesFinal = matches
-                .Select(pair => JoinTwoRows(pair, separatorColumns));
+                var matches = matchGroups[i];
 
-            var matches2Final = matchesSecondary
-                .Select(pair => JoinTwoRows(pair, separatorColumns2));
+                var final = matches.Select(pair => JoinTwoRows(pair, separatorColumns));
+                matchGroupsFinal[i] = final;
+            }
 
             var unmatchedRows1Final = unmatchedRows1
-                .Select(pair => JoinTwoRows(pair, separatorColumns));
+                .Select(pair => JoinTwoRows(pair, separatorColumnsVanilla));
 
             var unmatchedRows2Final = unmatchedRows2
-                .Select(pair => JoinTwoRows(pair, separatorColumns));
+                .Select(pair => JoinTwoRows(pair, separatorColumnsVanilla));
 
             return new string[][] { headerRowsFinal }
-                .Concat(matchesFinal)
-                .Concat(matches2Final)
+                .Concat(matchGroupsFinal.SelectMany(group => group)) // group.SelectMany(matches => matches)
                 .Concat(unmatchedRows1Final)
                 .Concat(unmatchedRows2Final)
                 .ToArray();
