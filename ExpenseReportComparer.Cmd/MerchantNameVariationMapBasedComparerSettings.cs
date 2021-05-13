@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Andy.ExpenseReport.Verifier.Cmd
 {
-    public class MyCustomComparerSettings : ComparerSettings
+    public class MerchantNameVariationMapBasedComparerSettings : ComparerSettings
     {
         public IDictionary<string, string[]> MerchantNameMap { get; set; }
         public int DateTolerance { get; set; }

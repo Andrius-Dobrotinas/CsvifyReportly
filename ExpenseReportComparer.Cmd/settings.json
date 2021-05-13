@@ -22,23 +22,23 @@
     },
     "Comparers": [
       {
-        "$type": "Andy.ExpenseReport.Verifier.Cmd.MyCustomComparerSettings, expenses",
+        "$type": "Andy.ExpenseReport.Verifier.Cmd.MerchantNameVariationMapBasedComparerSettings, expenses",
         "MerchantNameMap": {
           "Amazon": [ "Amazon", "AMZNMKTPLACE", "AMZ*" ]
         },
         "DateTolerance": 5,
         "Direction": 1,
-        "_Description": "My custom expense report entry comparer"
+        "_Description": "Uses merchant name variation map for name search in transaction details comparer"
       },
       //{
       //  "$type": "Andy.ExpenseReport.Verifier.Cmd.StraighforwardDetailsComparer, expenses",
       //  "_Description": "Standard statement entry comparer"
       //}
       {
-        "$type": "Andy.ExpenseReport.Verifier.Cmd.MyCustomComparer2Settings, expenses",
+        "$type": "Andy.ExpenseReport.Verifier.Cmd.DetailsStartWithComparerSettings, expenses",
         "DateTolerance": 5,
         "Direction": 1,
-        "_Description": "My custom expense report entry comparer that checks whether Details start with a given merchant name, case-insensitive"
+        "_Description": "Checks whether Details start with a given merchant name, case-insensitive"
       }
     ]
   },

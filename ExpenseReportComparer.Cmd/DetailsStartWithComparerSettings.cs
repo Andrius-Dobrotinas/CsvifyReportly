@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Andy.ExpenseReport.Verifier.Cmd
 {
-    public class MyCustomComparer2Settings : ComparerSettings
+    public class DetailsStartWithComparerSettings : ComparerSettings
     {
         public int DateTolerance { get; set; }
         public ExpenseReport.Comparison.Statement.Bank.DateComparisonDirection Direction { get; set; }
