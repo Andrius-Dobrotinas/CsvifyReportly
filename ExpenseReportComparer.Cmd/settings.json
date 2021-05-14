@@ -39,6 +39,18 @@
         "DateTolerance": 5,
         "Direction": 1,
         "_Description": "Checks whether Details start with a given merchant name, case-insensitive"
+      },
+      {
+        "$type": "Andy.ExpenseReport.Verifier.Cmd.DetailsSkippedComparerSettings, expenses",
+        "DateTolerance": 0,
+        "Direction": 0,
+        "_Description": "Omits transaction details from comparison -- at this point, it was unable to find matches based on the transaction details string. Transaction have to happen on the same date."
+      },
+      {
+        "$type": "Andy.ExpenseReport.Verifier.Cmd.DetailsSkippedComparerSettings, expenses",
+        "DateTolerance": 5,
+        "Direction": 1,
+        "_Description": "Omits transaction details from comparison -- at this point, it was unable to find matches based on the transaction details string"
       }
     ]
   },
