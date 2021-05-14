@@ -51,6 +51,12 @@
         "DateTolerance": 5,
         "Direction": 1,
         "_Description": "Omits transaction details from comparison -- at this point, it was unable to find matches based on the transaction details string"
+      },
+      {
+        "$type": "Andy.ExpenseReport.Verifier.Cmd.DetailsSkippedComparerSettings, expenses",
+        "DateTolerance": 14,
+        "Direction": 0,
+        "_Description": "Omits transaction details from comparison. Go crazy with dates"
       }
     ]
   },
