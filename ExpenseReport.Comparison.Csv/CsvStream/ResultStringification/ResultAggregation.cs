@@ -33,7 +33,7 @@ namespace Andy.ExpenseReport.Comparison.Csv.CsvStream
             for (int i = 0; i < matchGroupCount; i++) {
                 var separatorColumns = new string[separatorColumnCount];
                 if (separatorColumns.Any())
-                    separatorColumns[0] = $"Match L{i + 1}";
+                    separatorColumns[0] = i.ToString(); // Match level
 
                 var matches = matchGroups[i];
 
