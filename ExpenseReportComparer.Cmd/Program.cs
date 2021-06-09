@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace Andy.ExpenseReport.Verifier.Cmd
 {
-    class Program
+    public static class Program
     {
         private const string settingsFileName = "settings.json";
 
-        static int Main(string[] args)
+        public static int Main(string[] args)
         {
             Parameters parameters;
             try
