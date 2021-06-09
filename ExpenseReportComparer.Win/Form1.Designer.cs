@@ -192,6 +192,7 @@ namespace ExpenseReportComparer.Win
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_FileOutput.Location = new System.Drawing.Point(6, 21);
             this.txt_FileOutput.Name = "txt_FileOutput";
+            this.txt_FileOutput.ReadOnly = true;
             this.txt_FileOutput.Size = new System.Drawing.Size(285, 23);
             this.txt_FileOutput.TabIndex = 2;
             // 
