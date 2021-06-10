@@ -16,10 +16,14 @@ namespace ExpenseReportComparer.Win
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
 
-        public Form1()
+        readonly System.IO.FileInfo stateFile;
+
+        public Form1(System.IO.FileInfo stateFile)
         {
             InitializeComponent();
             AllocConsole();
+
+            this.stateFile = stateFile;
         }
 
         private void button_Select1_Click(object sender, EventArgs e)
@@ -55,6 +59,16 @@ namespace ExpenseReportComparer.Win
                     $"--source2={txt_File1.Text}",
                     "--result=c:\\d\\zhaha.txt"
                 });
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            LoadState();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveState();
         }
 
         private string ShowFileSelectDialog(string file)
@@ -101,6 +115,27 @@ namespace ExpenseReportComparer.Win
             if (result != DialogResult.Cancel)
                 return saveFileDialog1.FileName;
             return null;
+        }
+
+        private void SaveState()
+        {
+            JsonFileUtil.SaveState(
+                new State
+                {
+                    Source1 = txt_File1.Text,
+                    Source2 = txt_File2.Text,
+                    Output = txt_FileOutput.Text
+                },
+                stateFile);
+        }
+
+        private void LoadState()
+        {
+            var state = JsonFileUtil.ReadState(stateFile);
+
+            txt_File1.Text = state.Source1;
+            txt_File2.Text = state.Source2;
+            //txt_FileOutput.Text = state.Output; // don't load that because of the overwrite prompt
         }
     }
 }
