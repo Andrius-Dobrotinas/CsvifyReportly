@@ -57,7 +57,7 @@ namespace ExpenseReportComparer.Win
                 {
                     $"--source1={txt_File1.Text}",
                     $"--source2={txt_File1.Text}",
-                    "--result=c:\\d\\zhaha.txt"
+                    $"--result={txt_FileOutput.Text}"
                 });
         }
 
