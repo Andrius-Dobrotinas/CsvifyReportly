@@ -55,9 +55,9 @@ namespace ExpenseReportComparer.Win
             Andy.ExpenseReport.Verifier.Cmd.Program.Main(
                 new[]
                 {
-                    $"--source1={txt_File1.Text}",
-                    $"--source2={txt_File1.Text}",
-                    $"--result={txt_FileOutput.Text}"
+                    $"{Andy.ExpenseReport.Verifier.Cmd.Parameter.Keys.Source1}={txt_File1.Text}",
+                    $"{Andy.ExpenseReport.Verifier.Cmd.Parameter.Keys.Source2}={txt_File1.Text}",
+                    $"{Andy.ExpenseReport.Verifier.Cmd.Parameter.Keys.ReportFile}={txt_FileOutput.Text}"
                 });
         }
 
