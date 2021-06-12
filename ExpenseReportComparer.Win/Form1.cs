@@ -85,6 +85,19 @@ namespace ExpenseReportComparer.Win
             SaveState();
         }
 
+        private void button_OpenSettingsFile_Click(object sender, EventArgs e)
+        {
+            if (System.IO.File.Exists(txt_FileSettings.Text))
+                System.Diagnostics.Process.Start(
+                    new System.Diagnostics.ProcessStartInfo
+                    {
+                        FileName = txt_FileSettings.Text,
+                        UseShellExecute = true
+                    });
+            else
+                MessageBox.Show("The file does not exist");
+        }
+
         private string ShowFileSelectDialog(string file)
         {
             if (!string.IsNullOrWhiteSpace(file))
