@@ -11,6 +11,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             public const string Source1 = "--source1";
             public const string Source2 = "--source2";
             public const string ReportFile = "--result";
+            public const string SettingsFile = "--settings";
             public const string Help = "--help";
         }
 
@@ -34,6 +35,15 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 Source2File = new FileInfo(source2File),
                 ComparisonReportFile = new FileInfo(reportFilePath)
             };
+        }
+
+        public static string GetSettingsFile(IDictionary<string, string> args)
+        {
+            string settingsFilePath;
+            if (args.TryGetValue(Keys.SettingsFile, out settingsFilePath))
+                return settingsFilePath;
+            else
+                return null;
         }
 
         public static void PrintInstructions(Action<string> writeLine)

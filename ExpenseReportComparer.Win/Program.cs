@@ -15,11 +15,12 @@ namespace ExpenseReportComparer.Win
         static void Main()
         {
             var stateFile = new System.IO.FileInfo("state");
+            var defaultSettingsFile = new System.IO.FileInfo(Andy.ExpenseReport.Verifier.Cmd.Program.DefaultSettingsFileName);
 
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1(stateFile));
+            Application.Run(new Form1(stateFile, defaultSettingsFile));
         }
     }
 }

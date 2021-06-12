@@ -8,11 +8,12 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 {
     public static class Program
     {
-        private const string settingsFileName = "settings.json";
+        public const string DefaultSettingsFileName = "settings.json";
 
         public static int Main(string[] args)
         {
             Parameters parameters;
+            string settingsFileName;
             try
             {
                 var arguments = Andy.Cmd.ArgumentParser.ParseArguments(args);
@@ -24,6 +25,7 @@ namespace Andy.ExpenseReport.Verifier.Cmd
                 }
 
                 parameters = Parameter.GetParametersOrThrow(arguments);
+                settingsFileName = Parameter.GetSettingsFile(arguments);
             }
             catch (Exception e)
             {
@@ -36,8 +38,12 @@ namespace Andy.ExpenseReport.Verifier.Cmd
             Settings settings;
             try
             {
+                var settingsFile = string.IsNullOrEmpty(settingsFileName) == false
+                    ? settingsFileName
+                    : DefaultSettingsFileName;
+
                 settings = Andy.Cmd.JasonFileParser.ParseContents<Settings>(
-                    new FileInfo(settingsFileName));
+                    new FileInfo(settingsFile));
             }
             catch (Exception e)
             {

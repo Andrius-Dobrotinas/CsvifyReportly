@@ -17,13 +17,15 @@ namespace ExpenseReportComparer.Win
         static extern bool AllocConsole();
 
         readonly System.IO.FileInfo stateFile;
+        readonly System.IO.FileInfo defaultSettingsFile;
 
-        public Form1(System.IO.FileInfo stateFile)
+        public Form1(System.IO.FileInfo stateFile, System.IO.FileInfo defaultSettingsFile)
         {
             InitializeComponent();
             AllocConsole();
 
             this.stateFile = stateFile;
+            this.defaultSettingsFile = defaultSettingsFile;
         }
 
         private void button_Select1_Click(object sender, EventArgs e)
@@ -50,6 +52,14 @@ namespace ExpenseReportComparer.Win
                 txt_FileOutput.Text = file;
         }
 
+        private void button_SelectSettings_Click(object sender, EventArgs e)
+        {
+            var file = ShowFileSelectDialog(txt_FileSettings.Text);
+
+            if (file != null)
+                txt_FileSettings.Text = file;
+        }
+
         private void button_Go_Click(object sender, EventArgs e)
         {
             Andy.ExpenseReport.Verifier.Cmd.Program.Main(
@@ -57,13 +67,17 @@ namespace ExpenseReportComparer.Win
                 {
                     $"{Andy.ExpenseReport.Verifier.Cmd.Parameter.Keys.Source1}={txt_File1.Text}",
                     $"{Andy.ExpenseReport.Verifier.Cmd.Parameter.Keys.Source2}={txt_File1.Text}",
-                    $"{Andy.ExpenseReport.Verifier.Cmd.Parameter.Keys.ReportFile}={txt_FileOutput.Text}"
+                    $"{Andy.ExpenseReport.Verifier.Cmd.Parameter.Keys.ReportFile}={txt_FileOutput.Text}",
+                    $"{Andy.ExpenseReport.Verifier.Cmd.Parameter.Keys.SettingsFile}={txt_FileSettings.Text}"
                 });
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            LoadState();
+            if (stateFile.Exists)
+                LoadState(stateFile);
+            else
+                this.txt_FileSettings.Text = defaultSettingsFile.FullName;
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -124,18 +138,22 @@ namespace ExpenseReportComparer.Win
                 {
                     Source1 = txt_File1.Text,
                     Source2 = txt_File2.Text,
-                    Output = txt_FileOutput.Text
+                    Output = txt_FileOutput.Text,
+                    SettingsFile = txt_FileSettings.Text
                 },
                 stateFile);
         }
 
-        private void LoadState()
+        private void LoadState(System.IO.FileInfo file)
         {
-            var state = JsonFileUtil.ReadState(stateFile);
+            var state = JsonFileUtil.ReadState(file);
 
             txt_File1.Text = state.Source1;
             txt_File2.Text = state.Source2;
             //txt_FileOutput.Text = state.Output; // don't load that because of the overwrite prompt
+
+            txt_FileSettings.Text = state.SettingsFile;
+            txt_FileSettings.Text = defaultSettingsFile.FullName;
         }
     }
 }
