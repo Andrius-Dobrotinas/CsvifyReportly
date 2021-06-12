@@ -5,7 +5,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ExpenseReportComparer.Win
@@ -34,6 +33,8 @@ namespace ExpenseReportComparer.Win
 
             if (file != null)
                 txt_File1.Text = file;
+
+            RefreshReadiness();
         }
 
         private void button_Select2_Click(object sender, EventArgs e)
@@ -42,6 +43,8 @@ namespace ExpenseReportComparer.Win
 
             if (file != null)
                 txt_File2.Text = file;
+
+            RefreshReadiness();
         }
 
         private void button_SelectOutput_Click(object sender, EventArgs e)
@@ -50,6 +53,8 @@ namespace ExpenseReportComparer.Win
 
             if (file != null)
                 txt_FileOutput.Text = file;
+
+            RefreshReadiness();
         }
 
         private void button_SelectSettings_Click(object sender, EventArgs e)
@@ -58,6 +63,8 @@ namespace ExpenseReportComparer.Win
 
             if (file != null)
                 txt_FileSettings.Text = file;
+
+            RefreshReadiness();
         }
 
         private void button_Go_Click(object sender, EventArgs e)
@@ -78,6 +85,8 @@ namespace ExpenseReportComparer.Win
                 LoadState(stateFile);
             else
                 this.txt_FileSettings.Text = defaultSettingsFile.FullName;
+
+            RefreshReadiness();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -167,6 +176,16 @@ namespace ExpenseReportComparer.Win
 
             txt_FileSettings.Text = state.SettingsFile;
             txt_FileSettings.Text = defaultSettingsFile.FullName;
+        }
+
+        private void RefreshReadiness()
+        {
+            bool isReady = !string.IsNullOrWhiteSpace(txt_FileSettings.Text) &&
+                !string.IsNullOrWhiteSpace(txt_File1.Text) &&
+                !string.IsNullOrWhiteSpace(txt_File2.Text) &&
+                !string.IsNullOrWhiteSpace(txt_FileOutput.Text);
+
+            button_Go.Enabled = isReady;
         }
     }
 }
