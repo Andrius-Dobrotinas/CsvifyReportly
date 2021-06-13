@@ -61,6 +61,8 @@ namespace ExpenseReportComparer.Win
             // 
             // button_Go
             // 
+            this.button_Go.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button_Go.Location = new System.Drawing.Point(12, 272);
             this.button_Go.Name = "button_Go";
             this.button_Go.Size = new System.Drawing.Size(438, 28);
