@@ -223,7 +223,7 @@ namespace ExpenseReportComparer.Win
             this.Controls.Add(this.groupBox_Source1);
             this.Controls.Add(this.button_Go);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Report Verifier";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox_Source1.ResumeLayout(false);
