@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <AssemblyName>expenses.win</AssemblyName>
+    <RootNamespace>Andy.ExpenseReport.Comparer.Win</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

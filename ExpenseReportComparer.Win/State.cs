@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ExpenseReportComparer.Win
+namespace Andy.ExpenseReport.Comparer.Win
 {
     public class State
     {

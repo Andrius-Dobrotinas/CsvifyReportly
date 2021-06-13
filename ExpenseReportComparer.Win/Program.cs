@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ExpenseReportComparer.Win
+namespace Andy.ExpenseReport.Comparer.Win
 {
     static class Program
     {
@@ -15,7 +15,7 @@ namespace ExpenseReportComparer.Win
         static void Main()
         {
             var stateFile = new System.IO.FileInfo("state");
-            var defaultSettingsFile = new System.IO.FileInfo(Andy.ExpenseReport.Verifier.Cmd.Program.DefaultSettingsFileName);
+            var defaultSettingsFile = new System.IO.FileInfo(Verifier.Cmd.Program.DefaultSettingsFileName);
 
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();

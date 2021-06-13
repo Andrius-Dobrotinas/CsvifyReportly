@@ -7,7 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace ExpenseReportComparer.Win
+namespace Andy.ExpenseReport.Comparer.Win
 {
     public partial class Form1 : Form
     {
@@ -69,13 +69,13 @@ namespace ExpenseReportComparer.Win
 
         private void button_Go_Click(object sender, EventArgs e)
         {
-            Andy.ExpenseReport.Verifier.Cmd.Program.Main(
+            Verifier.Cmd.Program.Main(
                 new[]
                 {
-                    $"{Andy.ExpenseReport.Verifier.Cmd.Parameter.Keys.Source1}={txt_File1.Text}",
-                    $"{Andy.ExpenseReport.Verifier.Cmd.Parameter.Keys.Source2}={txt_File1.Text}",
-                    $"{Andy.ExpenseReport.Verifier.Cmd.Parameter.Keys.ReportFile}={txt_FileResult.Text}",
-                    $"{Andy.ExpenseReport.Verifier.Cmd.Parameter.Keys.SettingsFile}={txt_FileSettings.Text}"
+                    $"{Verifier.Cmd.Parameter.Keys.Source1}={txt_File1.Text}",
+                    $"{Verifier.Cmd.Parameter.Keys.Source2}={txt_File1.Text}",
+                    $"{Verifier.Cmd.Parameter.Keys.ReportFile}={txt_FileResult.Text}",
+                    $"{Verifier.Cmd.Parameter.Keys.SettingsFile}={txt_FileSettings.Text}"
                 });
         }
 

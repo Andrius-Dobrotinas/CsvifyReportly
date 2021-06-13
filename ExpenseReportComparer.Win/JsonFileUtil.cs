@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace ExpenseReportComparer.Win
+namespace Andy.ExpenseReport.Comparer.Win
 {
     public static class JsonFileUtil
     {

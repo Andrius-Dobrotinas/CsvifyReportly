@@ -1,5 +1,5 @@
 ﻿
-namespace ExpenseReportComparer.Win
+namespace Andy.ExpenseReport.Comparer.Win
 {
     partial class Form1
     {
