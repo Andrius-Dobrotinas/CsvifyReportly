@@ -63,7 +63,7 @@ namespace ExpenseReportComparer.Win
             // 
             this.button_Go.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Go.Location = new System.Drawing.Point(12, 272);
+            this.button_Go.Location = new System.Drawing.Point(7, 272);
             this.button_Go.Name = "button_Go";
             this.button_Go.Size = new System.Drawing.Size(438, 28);
             this.button_Go.TabIndex = 2;
@@ -77,7 +77,7 @@ namespace ExpenseReportComparer.Win
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.button_Select1);
             this.groupBox1.Controls.Add(this.txt_File1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 102);
+            this.groupBox1.Location = new System.Drawing.Point(7, 102);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(437, 52);
             this.groupBox1.TabIndex = 3;
@@ -111,7 +111,7 @@ namespace ExpenseReportComparer.Win
             this.groupBox2.Controls.Add(this.button_Select2);
             this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Controls.Add(this.txt_File2);
-            this.groupBox2.Location = new System.Drawing.Point(12, 158);
+            this.groupBox2.Location = new System.Drawing.Point(7, 158);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(437, 52);
             this.groupBox2.TabIndex = 4;
@@ -156,7 +156,7 @@ namespace ExpenseReportComparer.Win
             this.groupBox3.Controls.Add(this.button4);
             this.groupBox3.Controls.Add(this.button5);
             this.groupBox3.Controls.Add(this.txt_FileOutput);
-            this.groupBox3.Location = new System.Drawing.Point(12, 214);
+            this.groupBox3.Location = new System.Drawing.Point(7, 214);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(437, 52);
             this.groupBox3.TabIndex = 5;
@@ -212,7 +212,7 @@ namespace ExpenseReportComparer.Win
             this.groupSettings.Controls.Add(this.button_SelectSettings);
             this.groupSettings.Controls.Add(this.button1);
             this.groupSettings.Controls.Add(this.txt_FileSettings);
-            this.groupSettings.Location = new System.Drawing.Point(12, 12);
+            this.groupSettings.Location = new System.Drawing.Point(7, 12);
             this.groupSettings.Name = "groupSettings";
             this.groupSettings.Size = new System.Drawing.Size(437, 84);
             this.groupSettings.TabIndex = 6;
@@ -264,7 +264,7 @@ namespace ExpenseReportComparer.Win
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(456, 338);
+            this.ClientSize = new System.Drawing.Size(456, 309);
             this.Controls.Add(this.groupSettings);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
