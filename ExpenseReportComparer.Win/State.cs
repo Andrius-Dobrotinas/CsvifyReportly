@@ -7,7 +7,7 @@ namespace ExpenseReportComparer.Win
     {
         public string Source1 { get; set; }
         public string Source2 { get; set; }
-        public string Output { get; set; }
+        public string Result { get; set; }
         public string SettingsFile { get; set; }
     }
 }

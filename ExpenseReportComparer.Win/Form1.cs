@@ -47,12 +47,12 @@ namespace ExpenseReportComparer.Win
             RefreshReadiness();
         }
 
-        private void button_SelectOutput_Click(object sender, EventArgs e)
+        private void button_SelectResult_Click(object sender, EventArgs e)
         {
-            var file = ShowFileSaveDialog(txt_FileOutput.Text);
+            var file = ShowFileSaveDialog(txt_FileResult.Text);
 
             if (file != null)
-                txt_FileOutput.Text = file;
+                txt_FileResult.Text = file;
 
             RefreshReadiness();
         }
@@ -74,7 +74,7 @@ namespace ExpenseReportComparer.Win
                 {
                     $"{Andy.ExpenseReport.Verifier.Cmd.Parameter.Keys.Source1}={txt_File1.Text}",
                     $"{Andy.ExpenseReport.Verifier.Cmd.Parameter.Keys.Source2}={txt_File1.Text}",
-                    $"{Andy.ExpenseReport.Verifier.Cmd.Parameter.Keys.ReportFile}={txt_FileOutput.Text}",
+                    $"{Andy.ExpenseReport.Verifier.Cmd.Parameter.Keys.ReportFile}={txt_FileResult.Text}",
                     $"{Andy.ExpenseReport.Verifier.Cmd.Parameter.Keys.SettingsFile}={txt_FileSettings.Text}"
                 });
         }
@@ -160,7 +160,7 @@ namespace ExpenseReportComparer.Win
                 {
                     Source1 = txt_File1.Text,
                     Source2 = txt_File2.Text,
-                    Output = txt_FileOutput.Text,
+                    Result = txt_FileResult.Text,
                     SettingsFile = txt_FileSettings.Text
                 },
                 stateFile);
@@ -172,7 +172,7 @@ namespace ExpenseReportComparer.Win
 
             txt_File1.Text = state.Source1;
             txt_File2.Text = state.Source2;
-            //txt_FileOutput.Text = state.Output; // don't load that because of the overwrite prompt
+            //txt_FileResult.Text = state.Result; // don't load that because of the overwrite prompt
 
             txt_FileSettings.Text = state.SettingsFile;
             txt_FileSettings.Text = defaultSettingsFile.FullName;
@@ -183,7 +183,7 @@ namespace ExpenseReportComparer.Win
             bool isReady = !string.IsNullOrWhiteSpace(txt_FileSettings.Text) &&
                 !string.IsNullOrWhiteSpace(txt_File1.Text) &&
                 !string.IsNullOrWhiteSpace(txt_File2.Text) &&
-                !string.IsNullOrWhiteSpace(txt_FileOutput.Text);
+                !string.IsNullOrWhiteSpace(txt_FileResult.Text);
 
             button_Go.Enabled = isReady;
         }

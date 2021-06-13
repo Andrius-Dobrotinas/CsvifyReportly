@@ -37,9 +37,9 @@ namespace ExpenseReportComparer.Win
             this.groupBox_Source2 = new System.Windows.Forms.GroupBox();
             this.button_Select2 = new System.Windows.Forms.Button();
             this.txt_File2 = new System.Windows.Forms.TextBox();
-            this.groupBox_Output = new System.Windows.Forms.GroupBox();
-            this.button_SelectOutput = new System.Windows.Forms.Button();
-            this.txt_FileOutput = new System.Windows.Forms.TextBox();
+            this.groupBox_Result = new System.Windows.Forms.GroupBox();
+            this.button_SelectResult = new System.Windows.Forms.Button();
+            this.txt_FileResult = new System.Windows.Forms.TextBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.groupBox_Settings = new System.Windows.Forms.GroupBox();
             this.button_OpenSettingsFile = new System.Windows.Forms.Button();
@@ -47,7 +47,7 @@ namespace ExpenseReportComparer.Win
             this.txt_FileSettings = new System.Windows.Forms.TextBox();
             this.groupBox_Source1.SuspendLayout();
             this.groupBox_Source2.SuspendLayout();
-            this.groupBox_Output.SuspendLayout();
+            this.groupBox_Result.SuspendLayout();
             this.groupBox_Settings.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -133,39 +133,39 @@ namespace ExpenseReportComparer.Win
             this.txt_File2.Size = new System.Drawing.Size(344, 23);
             this.txt_File2.TabIndex = 1;
             // 
-            // groupBox_Output
+            // groupBox_Result
             // 
-            this.groupBox_Output.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox_Result.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox_Output.Controls.Add(this.button_SelectOutput);
-            this.groupBox_Output.Controls.Add(this.txt_FileOutput);
-            this.groupBox_Output.Location = new System.Drawing.Point(7, 214);
-            this.groupBox_Output.Name = "groupBox_Output";
-            this.groupBox_Output.Size = new System.Drawing.Size(437, 52);
-            this.groupBox_Output.TabIndex = 4;
-            this.groupBox_Output.TabStop = false;
-            this.groupBox_Output.Text = "Output";
+            this.groupBox_Result.Controls.Add(this.button_SelectResult);
+            this.groupBox_Result.Controls.Add(this.txt_FileResult);
+            this.groupBox_Result.Location = new System.Drawing.Point(7, 214);
+            this.groupBox_Result.Name = "groupBox_Result";
+            this.groupBox_Result.Size = new System.Drawing.Size(437, 52);
+            this.groupBox_Result.TabIndex = 4;
+            this.groupBox_Result.TabStop = false;
+            this.groupBox_Result.Text = "Result";
             // 
-            // button_SelectOutput
+            // button_SelectResult
             // 
-            this.button_SelectOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_SelectOutput.Location = new System.Drawing.Point(355, 20);
-            this.button_SelectOutput.Name = "button_SelectOutput";
-            this.button_SelectOutput.Size = new System.Drawing.Size(75, 23);
-            this.button_SelectOutput.TabIndex = 2;
-            this.button_SelectOutput.Text = "Select...";
-            this.button_SelectOutput.UseVisualStyleBackColor = true;
-            this.button_SelectOutput.Click += new System.EventHandler(this.button_SelectOutput_Click);
+            this.button_SelectResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_SelectResult.Location = new System.Drawing.Point(355, 20);
+            this.button_SelectResult.Name = "button_SelectResult";
+            this.button_SelectResult.Size = new System.Drawing.Size(75, 23);
+            this.button_SelectResult.TabIndex = 2;
+            this.button_SelectResult.Text = "Select...";
+            this.button_SelectResult.UseVisualStyleBackColor = true;
+            this.button_SelectResult.Click += new System.EventHandler(this.button_SelectResult_Click);
             // 
-            // txt_FileOutput
+            // txt_FileResult
             // 
-            this.txt_FileOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txt_FileResult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_FileOutput.Location = new System.Drawing.Point(6, 21);
-            this.txt_FileOutput.Name = "txt_FileOutput";
-            this.txt_FileOutput.ReadOnly = true;
-            this.txt_FileOutput.Size = new System.Drawing.Size(344, 23);
-            this.txt_FileOutput.TabIndex = 1;
+            this.txt_FileResult.Location = new System.Drawing.Point(6, 21);
+            this.txt_FileResult.Name = "txt_FileResult";
+            this.txt_FileResult.ReadOnly = true;
+            this.txt_FileResult.Size = new System.Drawing.Size(344, 23);
+            this.txt_FileResult.TabIndex = 1;
             // 
             // groupBox_Settings
             // 
@@ -218,7 +218,7 @@ namespace ExpenseReportComparer.Win
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(456, 309);
             this.Controls.Add(this.groupBox_Settings);
-            this.Controls.Add(this.groupBox_Output);
+            this.Controls.Add(this.groupBox_Result);
             this.Controls.Add(this.groupBox_Source2);
             this.Controls.Add(this.groupBox_Source1);
             this.Controls.Add(this.button_Go);
@@ -230,8 +230,8 @@ namespace ExpenseReportComparer.Win
             this.groupBox_Source1.PerformLayout();
             this.groupBox_Source2.ResumeLayout(false);
             this.groupBox_Source2.PerformLayout();
-            this.groupBox_Output.ResumeLayout(false);
-            this.groupBox_Output.PerformLayout();
+            this.groupBox_Result.ResumeLayout(false);
+            this.groupBox_Result.PerformLayout();
             this.groupBox_Settings.ResumeLayout(false);
             this.groupBox_Settings.PerformLayout();
             this.ResumeLayout(false);
@@ -248,9 +248,9 @@ namespace ExpenseReportComparer.Win
         private System.Windows.Forms.GroupBox groupBox_Source2;
         private System.Windows.Forms.Button button_Select2;
         private System.Windows.Forms.TextBox txt_File2;
-        private System.Windows.Forms.GroupBox groupBox_Output;
-        private System.Windows.Forms.Button button_SelectOutput;
-        private System.Windows.Forms.TextBox txt_FileOutput;
+        private System.Windows.Forms.GroupBox groupBox_Result;
+        private System.Windows.Forms.Button button_SelectResult;
+        private System.Windows.Forms.TextBox txt_FileResult;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.GroupBox groupBox_Settings;
         private System.Windows.Forms.Button button_SelectSettings;
