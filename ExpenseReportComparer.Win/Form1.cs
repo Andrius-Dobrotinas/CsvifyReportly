@@ -4,16 +4,15 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace Andy.ExpenseReport.Comparer.Win
 {
     public partial class Form1 : Form
     {
-        [DllImport("kernel32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool AllocConsole();
+        //[DllImport("kernel32.dll", SetLastError = true)]
+        //[return: MarshalAs(UnmanagedType.Bool)]
+        //static extern bool AllocConsole();
 
         readonly System.IO.FileInfo stateFile;
         readonly System.IO.FileInfo defaultSettingsFile;
@@ -21,7 +20,7 @@ namespace Andy.ExpenseReport.Comparer.Win
         public Form1(System.IO.FileInfo stateFile, System.IO.FileInfo defaultSettingsFile)
         {
             InitializeComponent();
-            AllocConsole();
+            //AllocConsole();
 
             this.stateFile = stateFile;
             this.defaultSettingsFile = defaultSettingsFile;
@@ -66,9 +65,13 @@ namespace Andy.ExpenseReport.Comparer.Win
 
             RefreshReadiness();
         }
-
+        
         private void button_Go_Click(object sender, EventArgs e)
         {
+            var textboxWriter = new TextBoxWriter(textbox_Output);
+            Console.SetError(textboxWriter);
+            Console.SetOut(textboxWriter);
+            
             Verifier.Cmd.Program.Main(
                 new[]
                 {

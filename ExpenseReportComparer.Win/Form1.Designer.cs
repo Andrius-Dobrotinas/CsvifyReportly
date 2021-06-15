@@ -45,6 +45,7 @@ namespace Andy.ExpenseReport.Comparer.Win
             this.button_OpenSettingsFile = new System.Windows.Forms.Button();
             this.button_SelectSettings = new System.Windows.Forms.Button();
             this.txt_FileSettings = new System.Windows.Forms.TextBox();
+            this.textbox_Output = new System.Windows.Forms.TextBox();
             this.groupBox_Source1.SuspendLayout();
             this.groupBox_Source2.SuspendLayout();
             this.groupBox_Result.SuspendLayout();
@@ -61,7 +62,7 @@ namespace Andy.ExpenseReport.Comparer.Win
             | System.Windows.Forms.AnchorStyles.Right)));
             this.button_Go.Location = new System.Drawing.Point(7, 272);
             this.button_Go.Name = "button_Go";
-            this.button_Go.Size = new System.Drawing.Size(438, 28);
+            this.button_Go.Size = new System.Drawing.Size(437, 28);
             this.button_Go.TabIndex = 5;
             this.button_Go.Text = "Go";
             this.button_Go.UseVisualStyleBackColor = true;
@@ -212,11 +213,24 @@ namespace Andy.ExpenseReport.Comparer.Win
             this.txt_FileSettings.Size = new System.Drawing.Size(344, 23);
             this.txt_FileSettings.TabIndex = 1;
             // 
+            // textbox_Output
+            // 
+            this.textbox_Output.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textbox_Output.Location = new System.Drawing.Point(7, 315);
+            this.textbox_Output.Multiline = true;
+            this.textbox_Output.Name = "textbox_Output";
+            this.textbox_Output.ReadOnly = true;
+            this.textbox_Output.Size = new System.Drawing.Size(437, 98);
+            this.textbox_Output.TabIndex = 6;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(456, 309);
+            this.ClientSize = new System.Drawing.Size(456, 425);
+            this.Controls.Add(this.textbox_Output);
             this.Controls.Add(this.groupBox_Settings);
             this.Controls.Add(this.groupBox_Result);
             this.Controls.Add(this.groupBox_Source2);
@@ -235,6 +249,7 @@ namespace Andy.ExpenseReport.Comparer.Win
             this.groupBox_Settings.ResumeLayout(false);
             this.groupBox_Settings.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -256,6 +271,7 @@ namespace Andy.ExpenseReport.Comparer.Win
         private System.Windows.Forms.Button button_SelectSettings;
         private System.Windows.Forms.TextBox txt_FileSettings;
         private System.Windows.Forms.Button button_OpenSettingsFile;
+        private System.Windows.Forms.TextBox textbox_Output;
     }
 }
 
