@@ -218,6 +218,9 @@ namespace Andy.ExpenseReport.Comparer.Win
             this.textbox_Output.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.textbox_Output.BackColor = System.Drawing.Color.Black;
+            this.textbox_Output.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.textbox_Output.ForeColor = System.Drawing.Color.Lime;
             this.textbox_Output.Location = new System.Drawing.Point(7, 315);
             this.textbox_Output.Multiline = true;
             this.textbox_Output.Name = "textbox_Output";
