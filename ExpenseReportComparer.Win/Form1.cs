@@ -76,7 +76,7 @@ namespace Andy.ExpenseReport.Comparer.Win
                 new[]
                 {
                     $"{Verifier.Cmd.Parameter.Keys.Source1}={txt_File1.Text}",
-                    $"{Verifier.Cmd.Parameter.Keys.Source2}={txt_File1.Text}",
+                    $"{Verifier.Cmd.Parameter.Keys.Source2}={txt_File2.Text}",
                     $"{Verifier.Cmd.Parameter.Keys.ReportFile}={txt_FileResult.Text}",
                     $"{Verifier.Cmd.Parameter.Keys.SettingsFile}={txt_FileSettings.Text}"
                 });
