@@ -16,6 +16,7 @@ namespace Andy.ExpenseReport.Comparer.Win
 
         readonly System.IO.FileInfo stateFile;
         readonly System.IO.FileInfo defaultSettingsFile;
+        string lastSelectedFile;
 
         public Form1(System.IO.FileInfo stateFile, System.IO.FileInfo defaultSettingsFile)
         {
@@ -110,15 +111,17 @@ namespace Andy.ExpenseReport.Comparer.Win
                 MessageBox.Show("The file does not exist");
         }
 
-        private string ShowFileSelectDialog(string file)
+        private string ShowFileSelectDialog(string targetPath)
         {
-            if (!string.IsNullOrWhiteSpace(file))
+            var dirPickResult = PickInitialDir(targetPath, lastSelectedFile);
+
+            if (dirPickResult != null)
             {
-                var f = new System.IO.FileInfo(file);
+                var f = new System.IO.FileInfo(dirPickResult.Value.path);
                 if (f.Directory.Exists)
                     openFileDialog1.InitialDirectory = f.Directory.FullName;
 
-                openFileDialog1.FileName = f.Name;
+                openFileDialog1.FileName = dirPickResult.Value.useFileName ? f.Name : "";
             }
             else
             {
@@ -129,7 +132,11 @@ namespace Andy.ExpenseReport.Comparer.Win
             var result = openFileDialog1.ShowDialog();
 
             if (result != DialogResult.Cancel)
+            {
+                lastSelectedFile = openFileDialog1.FileName;
                 return openFileDialog1.FileName;
+            }
+
             return null;
         }
 
@@ -189,6 +196,16 @@ namespace Andy.ExpenseReport.Comparer.Win
                 !string.IsNullOrWhiteSpace(txt_FileResult.Text);
 
             button_Go.Enabled = isReady;
+        }
+
+        private static (string path, bool useFileName)? PickInitialDir(string currentSelection, string lastSelection)
+        {
+            if (string.IsNullOrWhiteSpace(currentSelection) == false)
+                return (currentSelection, true);
+            else if (string.IsNullOrWhiteSpace(lastSelection) == false)
+                return (lastSelection, false);
+            else
+                return null;
         }
     }
 }
