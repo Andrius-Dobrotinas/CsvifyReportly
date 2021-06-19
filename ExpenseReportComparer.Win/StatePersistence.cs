@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Andy.ExpenseReport.Comparer.Win
 {
-    public static class JsonFileUtil
+    public static class StatePersistence
     {
         public static void SaveState(State state, FileInfo filePath)
         {

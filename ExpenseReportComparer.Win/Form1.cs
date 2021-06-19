@@ -165,7 +165,7 @@ namespace Andy.ExpenseReport.Comparer.Win
 
         private void SaveState()
         {
-            JsonFileUtil.SaveState(
+            StatePersistence.SaveState(
                 new State
                 {
                     Source1 = txt_File1.Text,
@@ -178,7 +178,7 @@ namespace Andy.ExpenseReport.Comparer.Win
 
         private void LoadState(System.IO.FileInfo file)
         {
-            var state = JsonFileUtil.ReadState(file);
+            var state = StatePersistence.ReadState(file);
 
             txt_File1.Text = state.Source1;
             txt_File2.Text = state.Source2;
