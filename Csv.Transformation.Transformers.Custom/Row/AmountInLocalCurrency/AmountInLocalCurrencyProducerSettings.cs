@@ -10,7 +10,7 @@ namespace Andy.Csv.Transformation.Row
         public string ResultAmountColumnName { get; set; }
         public string TargetCurrency { get; set; }
 
-        public override IDocumentTransformerFactory BuildFactory()
+        public override IDocumentTransformerFactory BuildFactory(ICultureSettings globalSettings)
         {
             return new AmountInLocalCurrencyProducerFactory(
                 this.GetDescription(),

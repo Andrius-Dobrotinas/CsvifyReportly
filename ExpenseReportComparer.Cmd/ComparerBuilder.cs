@@ -54,11 +54,13 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 
             var multiTransformers1 = FileComparerBuilder.GetTransformerChain(
                 settings.TransformationProfiles,
-                settings.Source.StatementFile1.TransformationProfileName);
+                settings.Source.StatementFile1.TransformationProfileName,
+                settings);
 
             var multiTransformers2 = FileComparerBuilder.GetTransformerChain(
                 settings.TransformationProfiles,
-                settings.Source.StatementFile2.TransformationProfileName);
+                settings.Source.StatementFile2.TransformationProfileName,
+                settings);
 
             return FileComparerBuilder.BuildFileComparer(
                 comparerFactory,

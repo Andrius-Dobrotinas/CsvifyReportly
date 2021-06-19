@@ -10,7 +10,7 @@ namespace Andy.Csv.Transformation.Row.Filtering
         public bool IsCaseSensitive { get; set; }
         public ValueComparisonMethod Method { get; set; }
 
-        public override IDocumentTransformerFactory BuildFactory()
+        public override IDocumentTransformerFactory BuildFactory(ICultureSettings globalSettings)
         {
             return BuildSingleCellValueEvaluatorFactory();
         }

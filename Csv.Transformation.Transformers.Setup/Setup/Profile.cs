@@ -7,7 +7,8 @@ namespace Andy.Csv.Transformation.Row.Document.Setup
     {
         public static IList<IDocumentTransformer> GetTransformerChain(
             IDictionary<string, TransformerSettings[]> transformationProfiles,
-            string profileName)
+            string profileName,
+            ICultureSettings cultureSettings)
         {
             var stringWriter = new ConsoleWriter();
             var rowTransformer = new RowTransformationRunner();
@@ -25,7 +26,8 @@ namespace Andy.Csv.Transformation.Row.Document.Setup
             return TransformerChain.GetTransformerChain(
                 transformationProfiles,
                 profileName,
-                documentTransformerFactory);
+                documentTransformerFactory,
+                cultureSettings);
         }
     }
 }

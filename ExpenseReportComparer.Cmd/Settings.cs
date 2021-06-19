@@ -5,8 +5,10 @@ using System.Collections.Generic;
 
 namespace Andy.ExpenseReport.Verifier.Cmd
 {
-    public class Settings
+    public class Settings : Csv.Transformation.Row.ICultureSettings
     {
+        public string NumberFormatCultureCode { get; set; }
+
         public SourceSettings Source { get; set; }
         public char OutputCsvDelimiter { get; set; }
         public IDictionary<string, Csv.Transformation.Row.TransformerSettings[]> TransformationProfiles { get; set; }

@@ -7,7 +7,7 @@ namespace Andy.Csv.Transformation.Row.Document
         public int TargetColumnIndex { get; set; }
         public string TargetColumnName { get; set; }
 
-        public override IDocumentTransformerFactory BuildFactory()
+        public override IDocumentTransformerFactory BuildFactory(ICultureSettings globalSettings)
         {
             return new ColumnInserterFactory(
                 this.GetDescription(),

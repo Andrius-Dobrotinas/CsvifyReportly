@@ -45,9 +45,10 @@ namespace Andy.ExpenseReport.Verifier.Cmd
 
         public static IEnumerable<Csv.Transformation.Row.Document.IDocumentTransformer> GetTransformerChain(
             IDictionary<string, Csv.Transformation.Row.TransformerSettings[]> transformationProfiles, 
-            string profileName)
+            string profileName,
+            Csv.Transformation.Row.ICultureSettings cultureSettings)
         {
-            return Csv.Transformation.Row.Document.Setup.Profile.GetTransformerChain(transformationProfiles, profileName);
+            return Csv.Transformation.Row.Document.Setup.Profile.GetTransformerChain(transformationProfiles, profileName, cultureSettings);
         }
     }
 }

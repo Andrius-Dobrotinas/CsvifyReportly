@@ -6,7 +6,7 @@ namespace Andy.Csv.Transformation.Row.Document
     {
         public string[] TargetColumnNames { get; set; }
 
-        public override IDocumentTransformerFactory BuildFactory()
+        public override IDocumentTransformerFactory BuildFactory(ICultureSettings globalSettings)
         {
             return new ColumnReducerFactory(
                 nameof(ColumnReducerSettings),

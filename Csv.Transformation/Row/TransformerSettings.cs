@@ -12,7 +12,7 @@ namespace Andy.Csv.Transformation.Row
         /// <summary>
         /// Builds an instance of a transformer factory using current settings
         /// </summary>
-        public abstract IDocumentTransformerFactory BuildFactory();
+        public abstract IDocumentTransformerFactory BuildFactory(ICultureSettings globalSettings);
 
         /// <summary>
         /// Returns either a user-defined description or, in case of the absence of one,

@@ -12,7 +12,7 @@ namespace Andy.ExpenseReport.Transformation.Csv.Filtering.Statement.Bank
     {
         public string TargetColumnName { get; set; }
 
-        public override IDocumentTransformerFactory BuildFactory()
+        public override IDocumentTransformerFactory BuildFactory(ICultureSettings globalSettings)
         {
             var name = this.GetDescription();
             return new InvertedRowMatchEvaluatorFactory(

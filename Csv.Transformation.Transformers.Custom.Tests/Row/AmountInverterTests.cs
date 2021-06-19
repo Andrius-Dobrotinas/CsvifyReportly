@@ -8,7 +8,13 @@ namespace Andy.Csv.Transformation.Row
 {
     public class AmountInverterTests
     {
-        AmountInverter target = new AmountInverter();
+        AmountInverter target;
+
+        [SetUp]
+        public void Setup()
+        {
+            target = new AmountInverter(System.Globalization.CultureInfo.InvariantCulture);
+        }
 
         [TestCaseSource(nameof(Get_Values))]
         public void When_ValueIsOfDecimalType__MustInvertIt(

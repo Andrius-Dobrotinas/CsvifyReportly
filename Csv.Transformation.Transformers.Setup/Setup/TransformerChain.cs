@@ -25,12 +25,13 @@ namespace Andy.Csv.Transformation.Row.Document.Setup
 
         public static IDocumentTransformer BuildTransformer(
             TransformerSettings settings,
-            IDocumentTransformerFactoryBuilder transformerFactory)
+            IDocumentTransformerFactoryBuilder transformerFactory,
+            ICultureSettings globalSettings)
         {
             if (settings == null) throw new ArgumentNullException(nameof(settings));
             if (transformerFactory == null) throw new ArgumentNullException(nameof(transformerFactory));
 
-            var factory = settings.BuildFactory();
+            var factory = settings.BuildFactory(globalSettings);
 
             if (factory is IRowTransformerFactory<ICellContentTransformer> fact)
                 return transformerFactory.BuildCellContentTransformerFactory(fact);
@@ -44,21 +45,23 @@ namespace Andy.Csv.Transformation.Row.Document.Setup
 
         public static IList<IDocumentTransformer> BuildTransformers(
             IEnumerable<TransformerSettings> settings,
-            IDocumentTransformerFactoryBuilder documentTransformerFactory)
+            IDocumentTransformerFactoryBuilder documentTransformerFactory,
+            ICultureSettings globalSettings)
         {
             return settings
-                .Select(config => BuildTransformer(config, documentTransformerFactory))
+                .Select(config => BuildTransformer(config, documentTransformerFactory, globalSettings))
                 .ToArray();
         }
 
         public static IList<IDocumentTransformer> GetTransformerChain(
             IDictionary<string, TransformerSettings[]> transformationProfiles,
             string profileName,
-            IDocumentTransformerFactoryBuilder documentTransformerFactory)
+            IDocumentTransformerFactoryBuilder documentTransformerFactory,
+            ICultureSettings globalSettings)
         {
             IEnumerable<TransformerSettings> transformerSettings = GetTransformerSettingsChain(transformationProfiles, profileName);
 
-            return BuildTransformers(transformerSettings, documentTransformerFactory);
+            return BuildTransformers(transformerSettings, documentTransformerFactory, globalSettings);
         }
     }
 }

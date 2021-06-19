@@ -1,5 +1,6 @@
 {
   "CsvDelimiter": ",",
+  "NumberFormatCultureCode": "", // Leave empty for Invariant culture
   "Profiles": {
     "paypal-stmt": [
       {
