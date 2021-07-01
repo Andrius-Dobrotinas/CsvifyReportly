@@ -69,6 +69,7 @@ namespace Andy.ExpenseReport.Comparer.Win
         
         private void button_Go_Click(object sender, EventArgs e)
         {
+            textbox_Output.Clear();
             var textboxWriter = new TextBoxWriter(textbox_Output);
             Console.SetError(textboxWriter);
             Console.SetOut(textboxWriter);
