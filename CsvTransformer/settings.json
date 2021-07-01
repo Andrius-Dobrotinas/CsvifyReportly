@@ -40,6 +40,16 @@
         "CurrencyColumnName": "Currency",
         "ResultAmountColumnName": "Amount GBP",
         "TargetCurrency": "GBP"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.Document.ColumnInserterSettings, Csv.Transformation.Transformers.Core",
+        "TargetColumnIndex": 1,
+        "TargetColumnName": "Account"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.Document.ColumnInserterSettings, Csv.Transformation.Transformers.Core",
+        "TargetColumnIndex": 5,
+        "TargetColumnName": "Category"
       }
     ],
     "exp-report-paypal-only": [
