@@ -94,12 +94,15 @@ namespace Andy.ExpenseReport.Comparer.Win
             // 
             // txt_File1
             // 
+            this.txt_File1.AllowDrop = true;
             this.txt_File1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_File1.Location = new System.Drawing.Point(6, 21);
             this.txt_File1.Name = "txt_File1";
             this.txt_File1.Size = new System.Drawing.Size(344, 23);
             this.txt_File1.TabIndex = 1;
+            this.txt_File1.DragDrop += new System.Windows.Forms.DragEventHandler(this.txt_File1_DragDrop);
+            this.txt_File1.DragEnter += new System.Windows.Forms.DragEventHandler(this.HandleDragEnter);
             // 
             // groupBox_Source2
             // 
@@ -127,12 +130,15 @@ namespace Andy.ExpenseReport.Comparer.Win
             // 
             // txt_File2
             // 
+            this.txt_File2.AllowDrop = true;
             this.txt_File2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_File2.Location = new System.Drawing.Point(6, 21);
             this.txt_File2.Name = "txt_File2";
             this.txt_File2.Size = new System.Drawing.Size(344, 23);
             this.txt_File2.TabIndex = 1;
+            this.txt_File2.DragDrop += new System.Windows.Forms.DragEventHandler(this.txt_File2_DragDrop);
+            this.txt_File2.DragEnter += new System.Windows.Forms.DragEventHandler(this.HandleDragEnter);
             // 
             // groupBox_Result
             // 
@@ -205,6 +211,7 @@ namespace Andy.ExpenseReport.Comparer.Win
             // 
             // txt_FileSettings
             // 
+            this.txt_FileSettings.AllowDrop = true;
             this.txt_FileSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_FileSettings.Location = new System.Drawing.Point(6, 21);
@@ -212,6 +219,8 @@ namespace Andy.ExpenseReport.Comparer.Win
             this.txt_FileSettings.ReadOnly = true;
             this.txt_FileSettings.Size = new System.Drawing.Size(344, 23);
             this.txt_FileSettings.TabIndex = 1;
+            this.txt_FileSettings.DragDrop += new System.Windows.Forms.DragEventHandler(this.txt_FileSettings_DragDrop);
+            this.txt_FileSettings.DragEnter += new System.Windows.Forms.DragEventHandler(this.HandleDragEnter);
             // 
             // textbox_Output
             // 
@@ -230,6 +239,7 @@ namespace Andy.ExpenseReport.Comparer.Win
             // 
             // Form1
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(456, 425);

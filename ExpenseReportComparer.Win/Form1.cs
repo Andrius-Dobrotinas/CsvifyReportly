@@ -207,5 +207,32 @@ namespace Andy.ExpenseReport.Comparer.Win
             else
                 return null;
         }
+
+        private void SetFileFromDragNDrop(DragEventArgs @event, TextBox target)
+        {
+            var file = @event.Data.GetData(DataFormats.FileDrop) as string[];
+            target.Text = file.First();
+            RefreshReadiness();
+        }
+
+        private void HandleDragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Link;
+        }
+
+        private void txt_File1_DragDrop(object sender, DragEventArgs e)
+        {
+            SetFileFromDragNDrop(e, txt_File1);
+        }
+
+        private void txt_File2_DragDrop(object sender, DragEventArgs e)
+        {
+            SetFileFromDragNDrop(e, txt_File2);
+        }
+
+        private void txt_FileSettings_DragDrop(object sender, DragEventArgs e)
+        {
+            SetFileFromDragNDrop(e, txt_FileSettings);
+        }
     }
 }
