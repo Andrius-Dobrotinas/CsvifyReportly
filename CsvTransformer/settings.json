@@ -16,18 +16,26 @@
         "_Description": "Remove CC Withdrawal"
       },
       {
+        "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleCellValueRowFilterSettings, Csv.Transformation.Transformers.Core",
+        "TargetColumnName": "Type",
+        "TargetValue": "Account Hold for Open Authorisation",
+        "_Description": "Remove Money reservation for payment 1"
+      },
+      {
+        "$type": "Andy.Csv.Transformation.Row.Filtering.InvertedSingleCellValueRowFilterSettings, Csv.Transformation.Transformers.Core",
+        "TargetColumnName": "Type",
+        "TargetValue": "Reversal of General Account Hold",
+        "_Description": "Remove Money reservation for payment 2"
+      },
+      {
         "$type": "Andy.Csv.Transformation.Row.Document.ColumnReducerSettings, Csv.Transformation.Transformers.Core",
-        "TargetColumnNames": [ "Date", "Net", "Currency", "Transaction ID", "Item Title", "Item ID", "Reference Txn ID", "Invoice Number", "Note", "Funding Source" ]
+        "TargetColumnNames": [ "Date", "Net", "Currency", "Name", "Type", "Transaction ID", "Item Title", "Item ID", "Reference Txn ID", "Invoice Number", "Note", "Funding Source" ]
       },
       {
         "$type": "Andy.Csv.Transformation.Row.DateRewriterSettings, Csv.Transformation.Transformers.Custom",
         "TargetColumnName": "Date",
         "SourceFormat": "dd/MM/yyyy",
         "TargetFormat": "yyyy-MM-dd"
-      },
-      {
-        "$type": "Andy.Csv.Transformation.Row.AmountInverterSettings, Csv.Transformation.Transformers.Custom",
-        "TargetColumnName": "Net"
       },
       {
         "$type": "Andy.Csv.Transformation.Row.Document.ColumnInserterSettings, Csv.Transformation.Transformers.Core",
